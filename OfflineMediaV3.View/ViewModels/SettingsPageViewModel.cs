@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -9,11 +7,12 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Enums.View;
+using OfflineMediaV3.Business.Enums.Settings;
 using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Repositories;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.Configuration;
+using OfflineMediaV3.Common.Enums.View;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.View.ViewModels
 {
@@ -83,8 +82,12 @@ namespace OfflineMediaV3.View.ViewModels
 
         public async void Initialize()
         {
-            _allSettings = await _settingsRepository.GetAllSettings();
-            _sourceConfiguration = await _settingsRepository.GetSourceConfigurations();
+            using(var unitOfWork= new UnitOfWork(true))
+            {
+                _allSettings = await _settingsRepository.GetAllSettings(await unitOfWork.GetDataService());
+                _sourceConfiguration = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
+            }
+
             SortOutSettings();
         }
 
@@ -125,7 +128,7 @@ namespace OfflineMediaV3.View.ViewModels
         }
 
         private bool _propHasBeenChanged;
-        private void SomePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void SomePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!_propHasBeenChanged)
             {
@@ -135,7 +138,7 @@ namespace OfflineMediaV3.View.ViewModels
         }
 
         private bool _criticalChangeHasHappened;
-        private void CriticalPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void CriticalPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!_propHasBeenChanged)
             {

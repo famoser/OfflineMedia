@@ -18,6 +18,7 @@ using Microsoft.Practices.ServiceLocation;
 using OfflineMediaV3.Business.Framework;
 using OfflineMediaV3.Business.Framework.Repositories;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
+using OfflineMediaV3.Data;
 using OfflineMediaV3.View.ViewModels.Global;
 
 namespace OfflineMediaV3.View.ViewModels
@@ -34,10 +35,10 @@ namespace OfflineMediaV3.View.ViewModels
         public BaseViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            SimpleIoc.Default.Register<IDataService, SqliteDataService>();
 
             SimpleIoc.Default.Register<IArticleRepository, ArticleRepository>();
             SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
+            SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
             SimpleIoc.Default.Register<IApiRepository, ApiRepository>();
 
             if (ViewModelBase.IsInDesignModeStatic)

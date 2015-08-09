@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfflineMediaV3.Business.Framework;
+﻿using OfflineMediaV3.Common.Framework;
 
 namespace OfflineMediaV3.Business.Models.NewsModel
 {

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
-using GalaSoft.MvvmLight.Ioc;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Logs;
+using OfflineMediaV3.Business.Enums.Models;
 using OfflineMediaV3.Business.Models.NewsModel;
-using OfflineMediaV3.Services;
+using OfflineMediaV3.Common.Framework.Logs;
 
 namespace OfflineMediaV3.DisplayHelper.DependencyObjects
 {

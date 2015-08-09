@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{518680BC-9186-4710-B944-5F596137D47C}</ProjectGuid>
@@ -96,52 +96,36 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|AnyCPU'">
+    <OutputPath>bin\Neutral\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|x86'">
+    <OutputPath>bin\x86\Neutral\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|ARM'">
+    <OutputPath>bin\ARM\Neutral\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Entities\ArticleEntity.cs" />
-    <Compile Include="Entities\ContentEntity.cs" />
-    <Compile Include="Entities\EntityBase.cs" />
-    <Compile Include="Entities\GalleryEntity.cs" />
-    <Compile Include="Entities\ImageEntity.cs" />
-    <Compile Include="Entities\RelatedArticleRelations.cs" />
-    <Compile Include="Entities\RelatedThemeRelations.cs" />
-    <Compile Include="Entities\GuidSettingEntity.cs" />
-    <Compile Include="Entities\SettingEntity.cs" />
-    <Compile Include="Entities\ThemeEntity.cs" />
-    <Compile Include="Entities\ThemeArticleRelations.cs" />
-    <Compile Include="Enums\Generic\EntityMappingProcedure.cs" />
-    <Compile Include="Enums\View\IndeterminateProgressKey.cs" />
     <Compile Include="Enums\Models\ArticleState.cs" />
     <Compile Include="Enums\Models\ContentType.cs" />
-    <Compile Include="Enums\FileKeys.cs" />
     <Compile Include="Enums\Messages.cs" />
     <Compile Include="Enums\PageKeys.cs" />
     <Compile Include="Enums\Settings\SettingKeys.cs" />
     <Compile Include="Enums\SourceEnum.cs" />
     <Compile Include="Enums\Settings\ValueTypeEnum.cs" />
-    <Compile Include="Framework\Attributes.cs" />
     <Compile Include="Framework\Communication\ServerResponse.cs" />
-    <Compile Include="Framework\Converters\DummyConverter.cs" />
-    <Compile Include="Framework\Converters\EnumConverter.cs" />
-    <Compile Include="Framework\Converters\IEntityValueConverter.cs" />
-    <Compile Include="Framework\Converters\StringGuidConverter.cs" />
-    <Compile Include="Framework\Converters\StringUriConverter.cs" />
     <Compile Include="Framework\Generic\EntityModelConverter.cs" />
-    <Compile Include="Framework\IDataService.cs" />
-    <Compile Include="Framework\IProgressService.cs" />
-    <Compile Include="Framework\IStorageService.cs" />
-    <Compile Include="Framework\Logs\LogHelper.cs" />
-    <Compile Include="Framework\Logs\LogModel.cs" />
-    <Compile Include="Framework\Logs\LogLevel.cs" />
-    <Compile Include="Framework\Repositories\ApiRepository.cs" />
-    <Compile Include="Framework\Repositories\ArticleRepository.cs" />
-    <Compile Include="Framework\Repositories\GenericRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IApiRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IArticleRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\ISettingsRepository.cs" />
+    <Compile Include="Framework\Repositories\ApiRepository.cs" />
+    <Compile Include="Framework\Repositories\ArticleRepository.cs" />
+    <Compile Include="Framework\Repositories\GenericRepository.cs" />
+    <Compile Include="Framework\Repositories\Interfaces\IThemeRepository.cs" />
     <Compile Include="Framework\Repositories\SettingsRepository.cs" />
-    <Compile Include="Framework\Singleton\SingletonBase.cs" />
-    <Compile Include="Framework\Singleton\SingletonManager.cs" />
+    <Compile Include="Framework\Repositories\ThemeRepository.cs" />
     <Compile Include="Framework\SqliteDataService.cs" />
+    <Compile Include="Framework\UnitOfWork.cs" />
     <Compile Include="Helpers\ArticleHelper.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Helpers\Download.cs" />
@@ -152,7 +136,7 @@
     <Compile Include="Helpers\Statistics.cs" />
     <Compile Include="Helpers\Upload.cs" />
     <Compile Include="Models\Configuration\FeedConfigurationModel.cs" />
-    <Compile Include="Models\Configuration\GuidSettingModel.cs" />
+    <Compile Include="Models\Configuration\SimpleSettingModel.cs" />
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\NewsModel\ContentModel.cs" />
@@ -160,9 +144,12 @@
     <Compile Include="Models\NewsModel\GalleryModel.cs" />
     <Compile Include="Models\NewsModel\ImageModel.cs" />
     <Compile Include="Framework\Communication\ServerRequestObject.cs" />
+    <Compile Include="Models\NewsModel\NMModels\RelatedArticleRelationModel.cs" />
+    <Compile Include="Models\NewsModel\NMModels\RelatedThemeRelationModel.cs" />
     <Compile Include="Models\NewsModel\SourceModel.cs" />
     <Compile Include="Models\Configuration\SettingModel.cs" />
     <Compile Include="Models\Configuration\SourceConfigurationModel.cs" />
+    <Compile Include="Models\NewsModel\NMModels\ThemeArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\ThemeModel.cs" />
     <Compile Include="Models\SpritzWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,7 +213,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OfflineMediaV3.Common\OfflineMediaV3.Common.csproj">
+      <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
+      <Name>OfflineMediaV3.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.Data\OfflineMediaV3.Data.csproj">
+      <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
+      <Name>OfflineMediaV3.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

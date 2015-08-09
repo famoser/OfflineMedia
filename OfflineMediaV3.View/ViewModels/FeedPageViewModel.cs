@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework.Repositories;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.NewsModel;
 
@@ -31,14 +28,14 @@ namespace OfflineMediaV3.View.ViewModels
         {
             if (obj == Feed.FeedConfiguration.Guid)
             {
-                Feed.ArticleList = await _articleRepository.GetArticleByFeed(obj);
+                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj);
             }
         }
 
         private async void EvaluateSelect(FeedModel obj)
         {
             Feed = obj;
-            Feed.ArticleList = await _articleRepository.GetArticleByFeed(obj.FeedConfiguration.Guid);
+            Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid);
         }
 
         private FeedModel _feed;

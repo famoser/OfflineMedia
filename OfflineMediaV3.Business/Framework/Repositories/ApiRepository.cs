@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OfflineMediaV3.Business.Enums;
+using OfflineMediaV3.Business.Enums.Settings;
 using OfflineMediaV3.Business.Framework.Communication;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Helpers;
@@ -20,25 +17,28 @@ namespace OfflineMediaV3.Business.Framework.Repositories
 
         public async Task UploadStats()
         {
-            var config = await _settingsRepository.GetSourceConfigurations();
-
-            //Contact Server for Stats
-            var postData = new ServerRequest();
-            postData.InstallationId = (await _settingsRepository.GetSettingByKey(SettingKeys.UniqueDeviceId)).Value;
-            postData.Entries = new List<ServerRequestEntry>();
-            foreach (var item in config)
+            using (var unitOfWork = new UnitOfWork(true))
             {
-                postData.Entries.Add(new ServerRequestEntry() { Guid = item.Guid.ToString(), Value = item.IsEnabled });
-                foreach (var feedModel in item.Feeds)
+                var config = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
+
+                //Contact Server for Stats
+                var postData = new ServerRequest();
+                postData.InstallationId = (await _settingsRepository.GetSettingByKey(SettingKeys.UniqueDeviceId, await unitOfWork.GetDataService())).Value;
+                postData.Entries = new List<ServerRequestEntry>();
+                foreach (var item in config)
                 {
-                    postData.Entries.Add(new ServerRequestEntry()
+                    postData.Entries.Add(new ServerRequestEntry() {Guid = item.Guid.ToString(), Value = item.BoolValue});
+                    foreach (var feedModel in item.Feeds)
                     {
-                        Guid = feedModel.Guid.ToString(),
-                        Value = feedModel.IsEnabled
-                    });
+                        postData.Entries.Add(new ServerRequestEntry()
+                        {
+                            Guid = feedModel.Guid.ToString(),
+                            Value = feedModel.BoolValue
+                        });
+                    }
                 }
+                await Statistics.UploadStats(postData);
             }
-            await Statistics.UploadStats(postData);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 
 namespace OfflineMediaV3.DisplayHelper.DependencyObjects
@@ -31,15 +32,15 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
             List<RowAdjustment> adjustments = new List<RowAdjustment>();
             foreach (var item in this.Children.OfType<TextBlock>())
             {
-                int column = Grid.GetColumn(item);
-                int row = Grid.GetRow(item);
-                int colSpan = Grid.GetColumnSpan(item);
-                int rowSpan = Grid.GetRowSpan(item);
+                int column = GetColumn(item);
+                int row = GetRow(item);
+                int colSpan = GetColumnSpan(item);
+                int rowSpan = GetRowSpan(item);
 
                 if (adjustments.Count > 0)
                     column += adjustments.Sum(a => a.Row == row && a.StartAt <= column ? a.AdjAmt : 0);
 
-                bool isBold = item.FontWeight.Equals(Windows.UI.Text.FontWeights.Bold);
+                bool isBold = item.FontWeight.Equals(FontWeights.Bold);
                 sb.Append(string.Format("<TextBlock TextTrimming=\"WordEllipsis\" TextWrapping=\"Wrap\"{0}", tbAttr));
                 if (column > 0)
                     sb.Append(string.Format(" Grid.Column=\"{0}\" Margin=\"4,0,0,0\"", column));

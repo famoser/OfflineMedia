@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using OfflineMediaV3.Business.Models;
-using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Common.Framework.Logs;
 
 namespace OfflineMediaV3.Business.Helpers
 {
@@ -104,6 +103,7 @@ namespace OfflineMediaV3.Business.Helpers
             }
             catch (Exception ex)
             {
+                LogHelper.Instance.Log(LogLevel.FatalError, "SpritzHelper", "GenerateList failed", ex);
                 return null;
             }
            

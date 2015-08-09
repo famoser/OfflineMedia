@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
-using OfflineMediaV3.Business.Enums.View;
-using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Common.Enums.View;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.View.ViewModels.Global;
 
 namespace OfflineMediaV3.Services

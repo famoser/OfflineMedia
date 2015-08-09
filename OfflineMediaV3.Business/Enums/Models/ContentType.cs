@@ -1,4 +1,4 @@
-﻿namespace OfflineMediaV3.Business.Enums
+﻿namespace OfflineMediaV3.Business.Enums.Models
 {
     public enum ContentType
     {

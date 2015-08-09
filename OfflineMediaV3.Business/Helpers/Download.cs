@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using OfflineMediaV3.Business.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Logs;
 
 namespace OfflineMediaV3.Business.Helpers
 {

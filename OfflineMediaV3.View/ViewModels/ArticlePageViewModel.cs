@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -10,13 +9,14 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Enums.Settings;
+using OfflineMediaV3.Business.Framework;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Helpers;
 using OfflineMediaV3.Business.Models;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
-using OfflineMediaV3.Business.Sources.Tamedia.Models;
-using SpritzState = OfflineMediaV3.View.Enums.SpritzState;
+using OfflineMediaV3.View.Enums;
 
 namespace OfflineMediaV3.View.ViewModels
 {
@@ -36,7 +36,7 @@ namespace OfflineMediaV3.View.ViewModels
             {
                 _article = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0].ArticleList[0];
 
-                IsSpritzActive = true;
+                IsSpritzActive = false;
                 _fontSize = new SettingModel()
                 {
                     Description = "Font Size",
@@ -73,12 +73,13 @@ namespace OfflineMediaV3.View.ViewModels
 
         private async void EvaluateMessage(ArticleModel obj)
         {
-            Article = obj;
-            if (Article.State != ArticleState.Loaded)
+            Article = await _articleRepository.GetCompleteArticle(obj.Id);
+            if (Article.State == ArticleState.New)
             {
                 Article = await _articleRepository.ActualizeArticle(Article);
+                await _articleRepository.UpdateArticle(Article);
             }
-            else
+            else if (Article.State == ArticleState.Loaded)
             {
                 Article.State = ArticleState.Read;
                 await _articleRepository.UpdateArticle(Article);
@@ -88,8 +89,11 @@ namespace OfflineMediaV3.View.ViewModels
 
         private async void Initialize()
         {
-            _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize);
-            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute);
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize, await unitOfWork.GetDataService());
+                _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute, await unitOfWork.GetDataService());
+            }
 
             RaisePropertyChanged(() => FontSize);
             RaisePropertyChanged(() => ReadingSpeed);
@@ -123,7 +127,7 @@ namespace OfflineMediaV3.View.ViewModels
             get { return true; }
         }
 
-        private async void MakeFontBigger()
+        private void MakeFontBigger()
         {
             _fontSize.IntValue += 2;
             RaisePropertyChanged(() => FontSize);
@@ -142,7 +146,7 @@ namespace OfflineMediaV3.View.ViewModels
             get { return true; }
         }
 
-        private async void MakeFontSmaller()
+        private void MakeFontSmaller()
         {
             _fontSize.IntValue -= 2;
             RaisePropertyChanged(() => FontSize);

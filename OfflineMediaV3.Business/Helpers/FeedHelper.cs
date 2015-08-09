@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
 using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Singleton;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Blick;
 using OfflineMediaV3.Business.Sources.Nzz;
 using OfflineMediaV3.Business.Sources.Postillon;
 using OfflineMediaV3.Business.Sources.Tamedia;
 using OfflineMediaV3.Business.Sources.ZwanzigMin;
+using OfflineMediaV3.Common.Framework.Singleton;
 
 namespace OfflineMediaV3.Business.Helpers
 {

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
 {
@@ -14,16 +12,16 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
 
         ArticleModel GetInfoArticle();
 
-        Task<bool> UpdateArticle(ArticleModel article);
+        Task UpdateArticle(ArticleModel article);
 
         Task<ObservableCollection<SourceModel>> GetSources();
 
-        Task<ObservableCollection<ArticleModel>> GetArticleByFeed(Guid feedId, int max = 0);
+        Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0);
 
         Task ActualizeArticles(IProgressService progressService);
 
         Task<ArticleModel> ActualizeArticle(ArticleModel model);
 
-        Task<ArticleModel> GetCompleteArticle(int articleId, bool automaticallyActualize = false);
+        Task<ArticleModel> GetCompleteArticle(int articleId);
     }
 }

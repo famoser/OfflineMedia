@@ -92,12 +92,12 @@
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <ToggleSwitch Grid.Row="0" OnContent="{Binding SourceNameLong}" OffContent="{Binding SourceNameLong}" IsOn="{Binding IsEnabled, Mode=TwoWay}" />
-                                            <ItemsControl Grid.Row="1" Visibility="{Binding IsEnabled, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="40,5,0,20" ItemsSource="{Binding Feeds}">
+                                            <ToggleSwitch Grid.Row="0" OnContent="{Binding SourceNameLong}" OffContent="{Binding SourceNameLong}" IsOn="{Binding BoolValue, Mode=TwoWay}" />
+                                            <ItemsControl Grid.Row="1" Visibility="{Binding BoolValue, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="40,5,0,20" ItemsSource="{Binding Feeds}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid Background="{ThemeResource BackgroundThemeBrush}">
-                                                            <ToggleSwitch Foreground="{ThemeResource ForegroundThemeBrush}" OnContent="{Binding Name}" OffContent="{Binding Name}" Margin="0,-10" Padding="0" IsOn="{Binding IsEnabled, Mode=TwoWay}" />
+                                                            <ToggleSwitch Foreground="{ThemeResource ForegroundThemeBrush}" OnContent="{Binding Name}" OffContent="{Binding Name}" Margin="0,-10" Padding="0" IsOn="{Binding BoolValue, Mode=TwoWay}" />
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>

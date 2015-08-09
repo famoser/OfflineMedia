@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Logs;
-using OfflineMediaV3.Business.Framework.Singleton;
-using OfflineMediaV3.Business.Helpers;
-using OfflineMediaV3.Business.Models;
+using OfflineMediaV3.Business.Enums.Models;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Nzz.Models;
+using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Singleton;
 
 namespace OfflineMediaV3.Business.Sources.Nzz
 {
@@ -100,7 +98,7 @@ namespace OfflineMediaV3.Business.Sources.Nzz
                             na.body[i].style = "h1";
                         string starttag = "<" + na.body[i].style + ">";
                         string endtag = "</" + na.body[i].style + ">";
-                        a.Content.Add(new ContentModel() { Type = Enums.ContentType.Html, Html = starttag + na.body[i].text + endtag });
+                        a.Content.Add(new ContentModel() { Type = ContentType.Html, Html = starttag + na.body[i].text + endtag });
                     }
 
                     // TODO: RelatedArticles, Author

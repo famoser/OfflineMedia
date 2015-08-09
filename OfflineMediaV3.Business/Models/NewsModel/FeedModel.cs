@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Models.Configuration;
 
 namespace OfflineMediaV3.Business.Models.NewsModel

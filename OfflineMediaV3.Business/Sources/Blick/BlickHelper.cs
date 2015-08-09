@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Logs;
-using OfflineMediaV3.Business.Framework.Singleton;
-using OfflineMediaV3.Business.Helpers;
-using OfflineMediaV3.Business.Models;
+using OfflineMediaV3.Business.Enums.Models;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Blick.Models;
+using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Singleton;
 
 namespace OfflineMediaV3.Business.Sources.Blick
 {

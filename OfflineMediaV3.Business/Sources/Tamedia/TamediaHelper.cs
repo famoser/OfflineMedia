@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Enums.Models;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Logs;
-using OfflineMediaV3.Business.Framework.Singleton;
-using OfflineMediaV3.Business.Models;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Tamedia.Models;
+using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Singleton;
 
 namespace OfflineMediaV3.Business.Sources.Tamedia
 {
@@ -146,10 +143,10 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             try
             {
                 var a = new ArticleModel();
-                throw new NotImplementedException();
-
-
                 return a;
+                //throw new NotImplementedException();
+
+
             }
             catch (Exception ex)
             {

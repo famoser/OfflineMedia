@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 using HtmlAgilityPack;
 
@@ -80,7 +82,7 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
         private static string CleanHtml(string html)
         {
             //clean from html comments
-            var temp = System.Text.RegularExpressions.Regex.Replace(html, "<!--*-->", "");
+            var temp = Regex.Replace(html, "<!--*-->", "");
 
             return temp;
         }
@@ -259,7 +261,7 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
                 var currentColumn = 0;
                 foreach (var headerCell in row.Descendants("th"))
                 {
-                    var cell = new TextBlock { FontWeight = Windows.UI.Text.FontWeights.Bold };
+                    var cell = new TextBlock { FontWeight = FontWeights.Bold };
                     colMax = SetCellAttributes(currentRow, currentColumn, headerCell, cell);
                     if (colMax > maxColumns)
                         maxColumns = colMax;

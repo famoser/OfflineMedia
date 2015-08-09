@@ -174,6 +174,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BadgeLogo.scale-240.png" />
     <Content Include="Assets\Configuration\Settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -193,6 +194,14 @@
     <ProjectReference Include="..\OfflineMediaV3.Business\OfflineMediaV3.Business.csproj">
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>OfflineMediaV3.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.Common\OfflineMediaV3.Common.csproj">
+      <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
+      <Name>OfflineMediaV3.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.Data\OfflineMediaV3.Data.csproj">
+      <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
+      <Name>OfflineMediaV3.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\OfflineMediaV3.View\OfflineMediaV3.View.csproj">
       <Project>{cccb6bc7-83b4-4342-a5ad-c8f23cb4d0b0}</Project>
@@ -283,6 +292,15 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|AnyCPU'">
+    <OutputPath>bin\Neutral\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|ARM'">
+    <OutputPath>bin\ARM\Neutral\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Neutral|x86'">
+    <OutputPath>bin\x86\Neutral\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

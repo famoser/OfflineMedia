@@ -1,5 +1,4 @@
 ﻿using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;

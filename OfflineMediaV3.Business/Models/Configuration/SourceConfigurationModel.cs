@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GalaSoft.MvvmLight;
 using OfflineMediaV3.Business.Enums;
 
 namespace OfflineMediaV3.Business.Models.Configuration
 {
-    public class SourceConfigurationModel : GuidSettingModel
+    public class SourceConfigurationModel : SimpleSettingModel
     {
         public string SourceNameLong { get; set; }
         public string SourceNameShort { get; set; }

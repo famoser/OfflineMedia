@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Enums.Generic;
 using OfflineMediaV3.Business.Enums.Models;
-using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Common.Framework;
 
 namespace OfflineMediaV3.Business.Models.NewsModel
 {
     public class ContentModel : BaseModel
     {
+        [EntityMap]
+        public int ArticleId { get; set; }
+
         [EntityMap]
         [EntityConversion(typeof(int), typeof(ContentType))]
         public ContentType Type { get; set; }

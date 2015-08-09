@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Enums.Models;
-using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Business.Models.Configuration;
+using OfflineMediaV3.Common.Framework;
 
 namespace OfflineMediaV3.Business.Models.NewsModel
 {
@@ -116,6 +116,8 @@ namespace OfflineMediaV3.Business.Models.NewsModel
 
         public FeedModel Feed { get; set; }
 
+        public SourceConfigurationModel SourceConfiguration { get; set; }
+
         public ArticleModel LeftArticle { get; set; }
 
         public ArticleModel RightArticle { get; set; }
@@ -125,6 +127,11 @@ namespace OfflineMediaV3.Business.Models.NewsModel
         {
             if (LeadImage != null)
                 LeadImageId = LeadImage.Id;
+            if (Feed != null)
+            {
+                FeedId = Feed.FeedConfiguration.Guid;
+                SourceId = Feed.FeedConfiguration.SourceGuid;
+            }
         }
     }
 }

@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Enums.View;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Communication;
-using OfflineMediaV3.Business.Framework.Logs;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
-using OfflineMediaV3.Business.Helpers;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Common.Enums.View;
+using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using OfflineMediaV3.Data;
 
 namespace OfflineMediaV3.View.ViewModels
 {
@@ -25,18 +21,16 @@ namespace OfflineMediaV3.View.ViewModels
         private IArticleRepository _articleRepository;
         private ISettingsRepository _settingsRepository;
         private IApiRepository _apiRepository;
-        private IDataService _dataService;
         private IDialogService _dialogService;
 
         private INavigationService _navigationService;
 
-        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, INavigationService navigationService, IApiRepository apiRepository, IDataService dataService, IDialogService dialogService)
+        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, INavigationService navigationService, IApiRepository apiRepository, IDialogService dialogService)
         {
             _progressService = progressService;
             _articleRepository = articleRepository;
             _settingsRepository = settingsRepository;
             _navigationService = navigationService;
-            _dataService = dataService;
             _dialogService = dialogService;
             _apiRepository = apiRepository;
 
@@ -59,7 +53,7 @@ namespace OfflineMediaV3.View.ViewModels
                 foreach (var feed in sourceModel.FeedList)
                 {
                     if (feed.FeedConfiguration.Guid == obj)
-                        feed.ShortArticleList = await _articleRepository.GetArticleByFeed(obj, 5);
+                        feed.ShortArticleList = await _articleRepository.GetArticlesByFeed(obj, 5);
                 }
             }
         }
@@ -115,7 +109,7 @@ namespace OfflineMediaV3.View.ViewModels
             get { return !_isActualizing; }
         }
 
-        private async void Refresh()
+        private void Refresh()
         {
             ActualizeArticles();
         }
@@ -125,7 +119,6 @@ namespace OfflineMediaV3.View.ViewModels
         public async void Initialize()
         {
             _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
-            await _dataService.Init();
             Sources = await _articleRepository.GetSources();
             _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
             ActualizeArticles();

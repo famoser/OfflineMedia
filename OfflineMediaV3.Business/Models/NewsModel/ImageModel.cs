@@ -1,6 +1,5 @@
 ﻿using System;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Common.Framework;
 
 namespace OfflineMediaV3.Business.Models.NewsModel
 {

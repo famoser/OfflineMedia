@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
-using OfflineMediaV3.Business.Framework.Logs;
+using OfflineMediaV3.Common.Enums;
+using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.Services
 {
@@ -26,7 +22,7 @@ namespace OfflineMediaV3.Services
             }
             catch (Exception ex)
             {
-                return null;
+                LogHelper.Instance.Log(LogLevel.Error, this, "GetTextOfFileByKey failed", ex);
             }
             return null;
         }
@@ -41,8 +37,9 @@ namespace OfflineMediaV3.Services
             }
             catch (Exception ex)
             {
-                return false;
+                LogHelper.Instance.Log(LogLevel.Error, this, "SaveFileByKey failed", ex);
             }
+            return false;
         }
 
         private async Task<string> GetContentsOfAssetFile(string fileName)
@@ -54,8 +51,9 @@ namespace OfflineMediaV3.Services
             }
             catch (Exception ex)
             {
-                return null;
+                LogHelper.Instance.Log(LogLevel.Error, this, "GetContentsOfAssetFile failed", ex);
             }
+            return null;
         }
 
         public Task<string> GetSettingsJson()
@@ -72,7 +70,7 @@ namespace OfflineMediaV3.Services
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileKey + "2", CreationCollisionOption.OpenIfExists);
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileKey.ToString(), CreationCollisionOption.OpenIfExists);
                 return file.Path;
             }
             catch (Exception ex)

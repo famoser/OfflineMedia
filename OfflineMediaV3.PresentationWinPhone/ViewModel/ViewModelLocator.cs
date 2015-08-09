@@ -17,7 +17,7 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.Pages;
 using OfflineMediaV3.Services;
 using OfflineMediaV3.View.ViewModels;
