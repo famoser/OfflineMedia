@@ -1,0 +1,597 @@
+﻿[
+    {
+        "Guid": "02b529d6-0186-4112-b8f0-24f6500b6587",
+        "SourceNameLong": "Neue Zürcher Zeitung",
+        "SourceNameShort": "NZZ",
+        "Source": 1,
+        "LogicBaseUrl": "http://headlines.nzz.ch/",
+        "PublicBaseUrl": "http://nzz.ch/",
+        "Feeds": [
+            {
+                "Guid": "ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d",
+                "Name": "Topthemen der Startseite",
+                "Url": "http://headlines.nzz.ch/api/departments/startseite"
+            },
+            {
+                "Guid": "5aae7274-aa91-4992-8203-94419e850e8e",
+                "Name": "International",
+                "Url": "http://headlines.nzz.ch/api/departments/international/"
+            },
+            {
+                "Guid": "58c811ff-ea0e-45b3-a36d-d07c3bea0c85",
+                "Name": "Wirtschaft",
+                "Url": "http://headlines.nzz.ch/api/departments/wirtschaft/"
+            },
+            {
+                "Guid": "66d566d5-6dd1-4638-88e5-681373b3fce5",
+                "Name": "Finanzen",
+                "Url": "http://headlines.nzz.ch/api/departments/finanzen/"
+            },
+            {
+                "Guid": "b11c2d4c-e09b-4380-931d-1cd3e5e9f908",
+                "Name": "Schweiz",
+                "Url": "http://headlines.nzz.ch/api/departments/schweiz/"
+            },
+            {
+                "Guid": "e843b7eb-d728-45fe-ad66-fcfd2a8892a8",
+                "Name": "Zürich",
+                "Url": "http://headlines.nzz.ch/api/departments/zuerich/"
+            },
+            {
+                "Guid": "d18c160e-a46a-4519-b265-5e8cedbee73d",
+                "Name": "Meinung",
+                "Url": "http://headlines.nzz.ch/api/departments/meinung/"
+            },
+            {
+                "Guid": "3422af04-c9c4-46b7-9025-e2940d25de97",
+                "Name": "Sport",
+                "Url": "http://headlines.nzz.ch/api/departments/sport/"
+            },
+            {
+                "Guid": "97253f3b-1a8d-4113-9b8f-27a9a588ac91",
+                "Name": "Feuilleton",
+                "Url": "http://headlines.nzz.ch/api/departments/feuilleton/"
+            },
+            {
+                "Guid": "c366bdb7-31c8-416b-a90b-f1173a3c90da",
+                "Name": "Wissenschaft",
+                "Url": "http://headlines.nzz.ch/api/departments/wissenschaft/"
+            },
+            {
+                "Guid": "07458c0f-6cd9-4d26-a8b7-e47a972e19b2",
+                "Name": "Panorama",
+                "Url": "http://headlines.nzz.ch/api/departments/panorama/"
+            },
+            {
+                "Guid": "56df41fc-cd46-4761-8558-cb0443d8e328",
+                "Name": "Lebensart",
+                "Url": "http://headlines.nzz.ch/api/departments/lebensart/"
+            },
+            {
+                "Guid": "033f78fa-fe92-4d29-b58e-c8677cdfd7f4",
+                "Name": "Digital",
+                "Url": "http://headlines.nzz.ch/api/departments/digital/"
+            }
+        ]
+    },
+    {
+        "Guid": "7ecb9c30-35a8-4abe-b3e4-57c957ad744f",
+        "SourceNameLong": "20 Minuten",
+        "SourceNameShort": "20Min",
+        "Source": 2,
+        "LogicBaseUrl": "http://feeds.20min-tv.ch/",
+        "PublicBaseUrl": "http://20min.ch/",
+        "Feeds": [
+            {
+                "Guid": "f91bf083-86ed-451c-8275-a011479e6a54",
+                "Name": "Frontfeed",
+                "Url": "http://feeds.20min-tv.ch/mobile/frontfeed_gzip.xml"
+            },
+            {
+                "Guid": "4890bc7b-47c1-4126-abb7-40c226baa514",
+                "Name": "Schweiz",
+                "Url": "http://feeds.20min-tv.ch/mobile/Schweiz_gzip.xml"
+            },
+            {
+                "Guid": "78810dae-994a-478a-9123-ced616a3a1e2",
+                "Name": "Ausland",
+                "Url": "http://feeds.20min-tv.ch/mobile/Ausland_gzip.xml"
+            },
+            {
+                "Guid": "126ed59e-ac7b-454f-bdc9-fcead5222937",
+                "Name": "Panorama",
+                "Url": "http://feeds.20min-tv.ch/mobile/Panorama_gzip.xml"
+            },
+            {
+                "Guid": "33c08ce1-018c-4c10-83b5-c121509b1be3",
+                "Name": "Wirtschaft",
+                "Url": "http://feeds.20min-tv.ch/mobile/Wirtschaft_gzip.xml"
+            },
+            {
+                "Guid": "e7b0c543-3cf7-46e4-843f-ee5dd7f433ac",
+                "Name": "Sport",
+                "Url": "http://feeds.20min-tv.ch/mobile/Sport_gzip.xml"
+            },
+            {
+                "Guid": "2aafffce-c322-4048-ae3e-c1aff89c4ee2",
+                "Name": "People",
+                "Url": "http://feeds.20min-tv.ch/mobile/People_gzip.xml"
+            },
+            {
+                "Guid": "05be44f8-c674-465e-8af2-7bc5cd2e50d7",
+                "Name": "Entertainment",
+                "Url": "http://feeds.20min-tv.ch/mobile/Entertainment_gzip.xml"
+            },
+            {
+                "Guid": "09cec34a-874f-41ba-ad53-170912d9bf48",
+                "Name": "Digital",
+                "Url": "http://feeds.20min-tv.ch/mobile/Digital_gzip.xml"
+            },
+            {
+                "Guid": "4adcee2e-ca29-43de-80cb-b25d7f422b15",
+                "Name": "Wissen",
+                "Url": "http://feeds.20min-tv.ch/mobile/Wissen_gzip.xml"
+            },
+            {
+                "Guid": "33b3dcb8-aa85-450e-ba70-7c7461d942df",
+                "Name": "Basel",
+                "Url": "http://feeds.20min-tv.ch/mobile/Basel_gzip.xml"
+            },
+            {
+                "Guid": "64a223e5-680c-4883-9762-44da536690e4",
+                "Name": "Zürich",
+                "Url": "http://feeds.20min-tv.ch/mobile/Zuerich_gzip.xml"
+            },
+            {
+                "Guid": "55125737-b49f-44ac-a7f9-f119b8fd99ab",
+                "Name": "Bern",
+                "Url": "http://feeds.20min-tv.ch/mobile/Bern_gzip.xml"
+            },
+            {
+                "Guid": "42510516-8d32-49bf-afbd-64ad84be44c3",
+                "Name": "Zentralschweiz",
+                "Url": "http://feeds.20min-tv.ch/mobile/Zentralschweiz_gzip.xml"
+            },
+            {
+                "Guid": "13728010-3ea5-4053-8a47-b34dd48eeac1",
+                "Name": "Ostschweiz",
+                "Url": "http://feeds.20min-tv.ch/mobile/Ostschweiz_gzip.xml"
+            }
+        ]
+    },
+    {
+        "Guid": "9bf5dc03-769a-475a-b7d5-c75bec9d7400",
+        "SourceNameLong": "Blick",
+        "SourceNameShort": "Blick",
+        "Source": 3,
+        "LogicBaseUrl": "http://blick.ch/",
+        "PublicBaseUrl": "http://blick.ch/",
+        "Feeds": [
+            {
+                "Guid": "abf693de-39aa-422e-9790-db2320cdba07",
+                "Name": "Home",
+                "Url": "http://www.blick.ch/news/index.json"
+            },
+            {
+                "Guid": "e385e104-38c3-4893-89fb-4b90733ea70a",
+                "Name": "Schweiz",
+                "Url": "http://www.blick.ch/news/schweiz/index.json"
+            },
+            {
+                "Guid": "f33899bd-5791-437e-8d72-97c725b4a4c2",
+                "Name": "Ausland",
+                "Url": "http://www.blick.ch/news/ausland/index.json"
+            },
+            {
+                "Guid": "7bf2fce9-8954-4147-9360-850db917a6bc",
+                "Name": "Wetter",
+                "Url": "http://www.blick.ch/news/wetter/index.json"
+            },
+            {
+                "Guid": "6b444c09-db10-46ff-9a90-bde96e2ec0df",
+                "Name": "Politik",
+                "Url": "http://www.blick.ch/news/politik/index.json"
+            },
+            {
+                "Guid": "14204f77-1646-4926-a11c-86dee8d0fd31",
+                "Name": "Wirtschaft",
+                "Url": "http://www.blick.ch/news/wirtschaft/index.json"
+            },
+            {
+                "Guid": "44020d87-c918-4407-a10c-b7a46cba8319",
+                "Name": "Sport",
+                "Url": "http://www.blick.ch/sport/index.json"
+            },
+            {
+                "Guid": "92dc0c38-5840-4e1e-8a65-9f4fe42beabe",
+                "Name": "People / TV",
+                "Url": "http://www.blick.ch/people-tv/index.json"
+            },
+            {
+                "Guid": "9df44f2e-59e1-441b-972b-c0519f1efa8a",
+                "Name": "Life",
+                "Url": "http://www.blick.ch/life/index.json"
+            },
+            {
+                "Guid": "b91007cf-b9af-4eeb-89cc-22f3773170f0",
+                "Name": "Auto",
+                "Url": "http://www.blick.ch/auto/index.json"
+            },
+            {
+                "Guid": "aa791402-40b7-48c6-be35-e2fef928ce46",
+                "Name": "Erotik",
+                "Url": "http://www.blick.ch/erotik/index.json"
+            },
+            {
+                "Guid": "dafeadfb-94fd-4c93-809d-15a4cf2e36e3",
+                "Name": "Interaktic",
+                "Url": "http://www.blick.ch/interaktiv/index.json"
+            }
+        ]
+    },
+    {
+        "Guid": "f586c49f-0cea-4624-9c38-fa282ce500d0",
+        "SourceNameLong": "Blick am Abend",
+        "SourceNameShort": "Blick am Abend",
+        "Source": 4,
+        "LogicBaseUrl": "http://blickamabend.ch/",
+        "PublicBaseUrl": "http://blickamabend.ch/",
+        "Feeds": [
+            {
+                "Guid": "4ef6fee3-4ce9-48f0-b5ed-32cff2e2971c",
+                "Name": "Home",
+                "Url": "http://www.blickamabend.ch/index.json"
+            },
+            {
+                "Guid": "17c64010-5e4c-4c0c-8267-0e20e1604680",
+                "Name": "News",
+                "Url": "http://www.blickamabend.ch/news/index.json"
+            },
+            {
+                "Guid": "564a93b3-5813-4c08-90e0-1be5cb62c1dc",
+                "Name": "People",
+                "Url": "http://www.blickamabend.ch/news/people/index.json"
+            },
+            {
+                "Guid": "c6a155ca-aa04-40c3-a2e8-37bc50ee862d",
+                "Name": "Sport",
+                "Url": "http://www.blickamabend.ch/news/sport/index.json"
+            },
+            {
+                "Guid": "47d9a700-6863-4f95-8489-f208e7d1e051",
+                "Name": "Kolumnen",
+                "Url": "http://www.blickamabend.ch/news/kolumnen/index.json"
+            }
+        ]
+    },
+    {
+        "Guid": "fb43f5c9-ae40-4fc2-938c-aa07d4fb1b10",
+        "SourceNameLong": "Basler Zeitung",
+        "SourceNameShort": "BAZ",
+        "Source": 5,
+        "LogicBaseUrl": "http://mobile2.bazonline.ch/",
+        "PublicBaseUrl": "http://bazonline.ch/",
+        "Feeds": [
+            {
+                "Guid": "8d3f5780-f3db-4f45-ab5c-8d565901c9d4",
+                "Name": "Basel",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a653aab5c37387f000efc"
+            },
+            {
+                "Guid": "62559757-08a1-427a-9810-85ebe864bdad",
+                "Name": "Schweiz",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb4"
+            },
+            {
+                "Guid": "69ee8ead-951e-40eb-a627-ad4ce522ebd6",
+                "Name": "Ausland",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb5"
+            },
+            {
+                "Guid": "585584a1-52a9-4031-a8b2-9a5039ce354d",
+                "Name": "Wirtschaft",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb6"
+            },
+            {
+                "Guid": "9c54e40b-243b-4e16-98af-b1f7f91772f6",
+                "Name": "Sport",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000ebb"
+            },
+            {
+                "Guid": "59265058-f2a5-43d6-a016-9229a044598d",
+                "Name": "Kultur",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000ebc"
+            },
+            {
+                "Guid": "3cb48f8f-08ec-440b-9697-9cf41703c25e",
+                "Name": "Panorama",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb7"
+            },
+            {
+                "Guid": "39480ff4-8deb-45b3-97ab-6d32a2abee4f",
+                "Name": "Leben",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000ebd"
+            },
+            {
+                "Guid": "ef27d892-50a6-4d54-9441-94a516bcb6d8",
+                "Name": "Digital",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb8"
+            },
+            {
+                "Guid": "49e48e47-b98e-496e-a425-159a077a4ca1",
+                "Name": "Auto",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000ebe"
+            },
+            {
+                "Guid": "595d4b68-5306-4ce1-83dd-7564d9098f1d",
+                "Name": "Wissen",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6538ab5c37387f000eb9"
+            },
+            {
+                "Guid": "877c27c6-ec21-4747-bacc-7445b284250a",
+                "Name": "Blogs",
+                "Url": "http://mobile2.bazonline.ch/api/categories/551a6568ab5c37387f00154e"
+            }
+        ]
+    },
+    {
+        "Guid": "3fb9936b-1f19-44df-8d87-d2cd8c66735b",
+        "SourceNameLong": "Berner Zeitung",
+        "SourceNameShort": "BZ",
+        "Source": 6,
+        "LogicBaseUrl": "http://mobile2.bernerzeitung.ch/",
+        "PublicBaseUrl": "http://bernerzeitung.ch/",
+        "Feeds": [
+            {
+                "Guid": "bd1b9aca-4234-4c23-96a5-3983a1c845a1",
+                "Name": "Region",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6539ab5c37387f000ec6"
+            },
+            {
+                "Guid": "8241b1be-636e-4f2c-bba6-ce05f67862fa",
+                "Name": "Schweiz",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000eb4"
+            },
+            {
+                "Guid": "b834c8c8-c39f-4410-b6ae-05085b08469c",
+                "Name": "Ausland",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/51500dcaca9ac26a8900004f"
+            },
+            {
+                "Guid": "abcf6c9e-b850-4d13-9c87-f7958d412893",
+                "Name": "Wirtschaft",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000eb6"
+            },
+            {
+                "Guid": "99392ffd-cc76-49b1-82de-37b7023d9364",
+                "Name": "Sport",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000ebb"
+            },
+            {
+                "Guid": "1e22113a-f3b6-4471-810c-d677849b9f99",
+                "Name": "Kultur",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/51500dcaca9ac26a89000056"
+            },
+            {
+                "Guid": "9b44efe3-40c5-4372-870a-9d806f5c951f",
+                "Name": "Panorama",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000eb7"
+            },
+            {
+                "Guid": "1a87fdbc-048f-47c0-953e-882392e9155e",
+                "Name": "Leben",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000ebd"
+            },
+            {
+                "Guid": "13ee5cab-ad53-4683-84a4-de5d85a72d22",
+                "Name": "Digital",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000eb8"
+            },
+            {
+                "Guid": "eb4a07bf-0d1d-48bf-aa9b-e93cecfdaeb6",
+                "Name": "Auto",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000ebe"
+            },
+            {
+                "Guid": "8af0bd53-38b8-421a-ad89-e37dd5ea2bb7",
+                "Name": "Wissen",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6538ab5c37387f000eb9"
+            },
+            {
+                "Guid": "0b474b9a-678f-40ac-a10e-b076e54fac2e",
+                "Name": "Blogs",
+                "Url": "http://mobile2.bernerzeitung.ch/api/categories/551a6568ab5c37387f00154e"
+            }
+        ]
+    },
+    {
+        "Guid": "f2a5115e-a2aa-40bd-8d5a-c6a1c6f8cdcb",
+        "SourceNameLong": "Der Bund",
+        "SourceNameShort": "Bund",
+        "Source": 7,
+        "LogicBaseUrl": "http://mobile2.derbund.ch/",
+        "PublicBaseUrl": "http://derbund.ch/",
+        "Feeds": [
+            {
+                "Guid": "a61d9364-a2ef-41ac-aaec-6b62dfb4ff50",
+                "Name": "Bern",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a653bab5c37387f000f1d"
+            },
+            {
+                "Guid": "91041982-c8b7-4dab-8e90-e9c5d1369211",
+                "Name": "Ausland",
+                "Url": "http://mobile2.derbund.ch/api/categories/51500dcaca9ac26a8900004f"
+            },
+            {
+                "Guid": "9433043b-75cb-4b45-be93-75b22ab401ef",
+                "Name": "Schweiz",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000eb4"
+            },
+            {
+                "Guid": "540933e8-62e0-4dd9-8a4b-86e1d253b214",
+                "Name": "Wirtschaft",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000eb6"
+            },
+            {
+                "Guid": "06d752f0-3896-46df-b998-5702c6ff691a",
+                "Name": "Sport",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000ebb"
+            },
+            {
+                "Guid": "96257086-9d19-4e6b-8ac2-08e752c22ad8",
+                "Name": "Kultur",
+                "Url": "http://mobile2.derbund.ch/api/categories/51500dcaca9ac26a89000056"
+            },
+            {
+                "Guid": "af7ad073-1f3c-4630-8ea4-e2b28d1bab8e",
+                "Name": "Panorama",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000eb7"
+            },
+            {
+                "Guid": "cb2b9c43-2393-407d-8feb-73ed7bf45426",
+                "Name": "Leben",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000ebd"
+            },
+            {
+                "Guid": "9e2f07e9-68f9-4b37-955b-4bb48785ba58",
+                "Name": "Digital",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000eb8"
+            },
+            {
+                "Guid": "b1b1a90b-dc9f-4f12-bf9e-c26af6fcf21e",
+                "Name": "Auto",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000ebe"
+            },
+            {
+                "Guid": "d9b4b2a1-973a-4cf3-aa44-ce9b7d6cbc40",
+                "Name": "Wissen",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6538ab5c37387f000eb9"
+            },
+            {
+                "Guid": "6e0da368-17ed-4f62-8093-3fe90c797e30",
+                "Name": "Blogs",
+                "Url": "http://mobile2.derbund.ch/api/categories/551a6568ab5c37387f00154e"
+            }
+        ]
+    },
+    {
+        "Guid": "dd029e37-f403-4ba9-9b7f-d93a28af997f",
+        "SourceNameLong": "Tagesanzeiger",
+        "SourceNameShort": "Tagi",
+        "Source": 8,
+        "LogicBaseUrl": "http://mobile2.tagesanzeiger.ch/",
+        "PublicBaseUrl": "http://tagesanzeiger.ch/",
+        "Feeds": [
+            {
+                "Guid": "fcd461bb-15bf-4b59-ac72-1a5fb7dd1777",
+                "Name": "Schweiz",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000eb3"
+            },
+            {
+                "Guid": "9c737a61-acd1-44e8-a810-b30dac8ffa6d",
+                "Name": "Zürich",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/51500dcaca9ac26a8900004d"
+            },
+            {
+                "Guid": "4291ca43-98fb-427e-9914-bb608db377a3",
+                "Name": "Ausland",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/51500dcaca9ac26a8900004f"
+            },
+            {
+                "Guid": "4f0a012a-bb05-471e-b7fa-d3374a0453f7",
+                "Name": "Wirtschaft",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000eb6"
+            },
+            {
+                "Guid": "e4bce5b8-ffad-4778-9a6b-b8b376ebcd3c",
+                "Name": "Sport",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000ebb"
+            },
+            {
+                "Guid": "a2c05140-d501-4b63-8a00-d439ae11c19e",
+                "Name": "Kultur",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/51500dcaca9ac26a89000056"
+            },
+            {
+                "Guid": "7f721848-e5e1-40e1-8559-8ef60ba85a46",
+                "Name": "Panorama",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000eb7"
+            },
+            {
+                "Guid": "eab89e76-62b6-40d9-8c4b-337b95ca753a",
+                "Name": "Leben",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000ebd"
+            },
+            {
+                "Guid": "303c2f75-5966-435e-a45a-e37742b7c54b",
+                "Name": "Digital",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000eb8"
+            },
+            {
+                "Guid": "126cb0d1-04d0-4070-a850-e1aecebb3bad",
+                "Name": "Auto",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000ebe"
+            },
+            {
+                "Guid": "61a2d83d-92d4-47af-b399-ad994bd183b1",
+                "Name": "Wissen",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6538ab5c37387f000eb9"
+            },
+            {
+                "Guid": "3bc583fd-e1bd-4afd-b0a3-7dfeed27eec7",
+                "Name": "Blogs",
+                "Url": "http://mobile2.tagesanzeiger.ch/api/categories/551a6568ab5c37387f00154e"
+            }
+        ]
+    },
+    {
+        "Guid": "16f8ffaa-96dd-4d58-a7b1-687198a77495",
+        "SourceNameLong": "Der Postillon [Satire]",
+        "SourceNameShort": "Postillon",
+        "Source": 9,
+        "LogicBaseUrl": "http://www.der-postillon.com/",
+        "PublicBaseUrl": "http://www.der-postillon.com/",
+        "Feeds": [
+            {
+                "Guid": "13085e17-a2a4-456a-ae5e-417e691bac9d",
+                "Name": "Front",
+                "Url": "http://www.der-postillon.com/"
+            },
+            {
+                "Guid": "eb99904f-81ff-4354-82a3-211b5550372e",
+                "Name": "Politik",
+                "Url": "http://www.der-postillon.com/search/label/Politik"
+            },
+            {
+                "Guid": "0310e00a-7d9c-4b06-afa8-c9918a743eae",
+                "Name": "Wirtschaft",
+                "Url": "http://www.der-postillon.com/search/label/Wirtschaft"
+            },
+            {
+                "Guid": "d4a35ef7-6139-4195-ab0b-804693315d8d",
+                "Name": "Sport",
+                "Url": "http://www.der-postillon.com/search/label/Sport"
+            },
+            {
+                "Guid": "b96ceee8-0124-4694-a7a8-f87888be7e83",
+                "Name": "Leute",
+                "Url": "http://www.der-postillon.com/search/label/Leute"
+            },
+            {
+                "Guid": "befbe4e5-f172-4d74-a769-a2fed50f6baf",
+                "Name": "Medien",
+                "Url": "http://www.der-postillon.com/search/label/Medien"
+            },
+            {
+                "Guid": "2370c5df-8b5b-48be-9fcd-71a17df6fc6a",
+                "Name": "Wissenschaft",
+                "Url": "http://www.der-postillon.com/search/label/Wissenschaft"
+            },
+            {
+                "Guid": "e9d5926d-30cd-45e0-996b-a6a750b0dd87",
+                "Name": "Panorama",
+                "Url": "http://www.der-postillon.com/search/label/Panorama"
+            }
+        ]
+    }
+]
