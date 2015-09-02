@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Common.Framework;
 
 namespace OfflineMediaV3.Business.Models.Configuration
@@ -24,22 +25,30 @@ namespace OfflineMediaV3.Business.Models.Configuration
         private bool _boolValue;
         public bool BoolValue
         {
-            get { return Convert.ToBoolean(Value); }
+            get
+            {
+                _boolValue = Convert.ToBoolean(Value);
+                return _boolValue;
+            }
             set
             {
-                if (Set(ref _boolValue, value))
-                    Value = value.ToString();
+                Value = value.ToString();
+                Set(ref _boolValue, value);
             }
         }
 
         private int _intValue;
         public int IntValue
         {
-            get { return Convert.ToInt32(Value); }
+            get
+            {
+                _intValue =Convert.ToInt32(Value);
+                return _intValue;
+            }
             set
             {
-                if (Set(ref _intValue, value))
-                    Value = value.ToString();
+                Value = value.ToString();
+                Set(ref _intValue, value);
             }
         }
     }

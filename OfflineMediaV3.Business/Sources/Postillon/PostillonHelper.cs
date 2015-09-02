@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Singleton;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Sources.Postillon
 {
     public class PostillonHelper : SingletonBase<PostillonHelper>, IMediaSourceHelper
     {
-        public List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scm)
+        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -47,31 +51,6 @@ namespace OfflineMediaV3.Business.Sources.Postillon
             return articlelist;
         }
 
-        public ArticleModel EvaluateArticle(string article, SourceConfigurationModel scm)
-        {
-            if (article == null) return null;
-
-            try
-            {
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(article);
-
-                HtmlNode articlenode = doc.DocumentNode
-                    .DescendantsAndSelf("div").FirstOrDefault(o => o.GetAttributeValue("class", null) != null &&
-                                                                   o.GetAttributeValue("class", null).Contains("post-body"));
-
-                if (articlenode != null)
-                {
-                    return ArticleToArticleModel(articlenode, scm);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.EvaluateArticle failed", ex);
-            }
-            return null;
-        }
-
         public ArticleModel FeedToArticleModel(HtmlNode hn, SourceConfigurationModel scm)
         {
             if (hn == null) return null;
@@ -95,7 +74,7 @@ namespace OfflineMediaV3.Business.Sources.Postillon
                 else
                 {
                     //newsticker
-                    a.State =ArticleState.Loaded;
+                    a.State = ArticleState.Loaded;
                     return null;
                 }
 
@@ -112,15 +91,68 @@ namespace OfflineMediaV3.Business.Sources.Postillon
             }
         }
 
-        public ArticleModel ArticleToArticleModel(HtmlNode na, SourceConfigurationModel scm)
+        public bool NeedsToEvaluateArticle()
         {
-            if (na == null) return null;
+            return true;
+        }
+        
+        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        {
+            if (article == null) return new Tuple<bool, ArticleModel>(false, am);
 
             try
             {
-                var a = new ArticleModel();
-                string html  = na.InnerHtml;
-                
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(article);
+
+                HtmlNode articlenode = doc.DocumentNode
+                    .DescendantsAndSelf("div").FirstOrDefault(o => o.GetAttributeValue("class", null) != null &&
+                                                                   o.GetAttributeValue("class", null).Contains("post-body"));
+
+                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
+                am.Themes = new List<ThemeModel>()
+                {
+                    await repo.GetThemeModelFor(am.FeedConfiguration.Name),
+                    await repo.GetThemeModelFor("Satire"),
+                };
+
+                if (articlenode != null)
+                {
+                    if (WriteProperties(ref am, articlenode))
+                        return new Tuple<bool, ArticleModel>(true, am);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.EvaluateArticle failed", ex);
+            }
+            return new Tuple<bool, ArticleModel>(false, am);
+        }
+
+        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        {
+            original.Content = evaluatedArticle.Content;
+            original.Themes = evaluatedArticle.Themes;
+            original.Author = evaluatedArticle.Author;
+            return true;
+        }
+
+        public List<string> GetKeywords(ArticleModel articleModel)
+        {
+            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+
+            return TextHelper.Instance.FusionLists(part1, part2);
+        }
+
+        public bool WriteProperties(ref ArticleModel am, HtmlNode na)
+        {
+            if (na == null) return false;
+
+            try
+            {
+                string html = na.InnerHtml;
+
                 if (html.Contains("<table"))
                     html = html.Substring(0, html.IndexOf("<table")) + html.Substring(html.IndexOf("</table>") + ("</table>").Length);
 
@@ -132,14 +164,14 @@ namespace OfflineMediaV3.Business.Sources.Postillon
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(html);
 
-                a.Content = new List<ContentModel> { new ContentModel() { Html = doc.DocumentNode.InnerText, Type = ContentType.Html } };
+                am.Content = new List<ContentModel> { new ContentModel() { Html = doc.DocumentNode.InnerText, ContentType = ContentType.Html } };
 
-                return a;
+                return true;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.ArticleToArticleModel failed", ex);
-                return null;
+                return false;
             }
         }
     }

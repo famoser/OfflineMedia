@@ -40,10 +40,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Pivot Grid.Row="1" Margin="0,-31,0,0" ItemsSource="{Binding Sources}" Background="{ThemeResource BackgroundThemeBrush}">
+        <Pivot Style="{ThemeResource Pivot}" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }" Template="{StaticResource PivotControlTemplate1}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <ContentControl Style="{StaticResource PivotHeader}" Content="{Binding Configuration.SourceNameShort}" />
+                    <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
@@ -57,7 +57,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Height="26" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
-            <ProgressBar IsIndeterminate="{Binding ProgressViewModel.IsIndeterminateProgress, Source={StaticResource Locator}}" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="26" />
+            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="26" />
             <TextBlock Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
         </Grid>
     </Grid>

@@ -12,5 +12,6 @@
         public string Author { get; set; }
 
         public byte[] Image { get; set; }
+        public bool IsLoaded { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
+using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Common.Enums;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
@@ -21,7 +22,8 @@ namespace OfflineMediaV3.Business.Framework
     {
         private IStorageService _storageService;
         private ISQLitePlatform _sqLitePlatform;
-        private SQLiteAsyncConnection _connection;
+        private SQLiteAsyncConnection _asyncConnection;
+        private SQLiteConnection _connection;
 
         private static SqliteDataService _instance;
 
@@ -45,22 +47,41 @@ namespace OfflineMediaV3.Business.Framework
         {
             try
             {
+                if (_asyncConnection == null)
+                {
+                    string databaseFile = await _storageService.GetFilePathByKey(FileKeys.Database);
+                    _asyncConnection = new SQLiteAsyncConnection(() => new SQLiteConnectionWithLock(_sqLitePlatform, new SQLiteConnectionString(databaseFile, false)));
+                    await _asyncConnection.CreateTableAsync<ArticleEntity>();
+                    await _asyncConnection.CreateTableAsync<ContentEntity>();
+                    await _asyncConnection.CreateTableAsync<GalleryEntity>();
+                    await _asyncConnection.CreateTableAsync<ImageEntity>();
+                    await _asyncConnection.CreateTableAsync<RelatedArticleRelations>();
+                    await _asyncConnection.CreateTableAsync<RelatedThemeRelations>();
+                    await _asyncConnection.CreateTableAsync<ThemeArticleRelations>();
+                    await _asyncConnection.CreateTableAsync<ThemeEntity>();
+
+                    await _asyncConnection.CreateTableAsync<SettingEntity>();
+
+                    await _asyncConnection.ExecuteAsync("PRAGMA synchronous = OFF");
+
+                    return true;
+                }
                 if (_connection == null)
                 {
                     string databaseFile = await _storageService.GetFilePathByKey(FileKeys.Database);
-                    _connection = new SQLiteAsyncConnection(() => new SQLiteConnectionWithLock(_sqLitePlatform, new SQLiteConnectionString(databaseFile, false)));
-                    await _connection.CreateTableAsync<ArticleEntity>();
-                    await _connection.CreateTableAsync<ContentEntity>();
-                    await _connection.CreateTableAsync<GalleryEntity>();
-                    await _connection.CreateTableAsync<ImageEntity>();
-                    await _connection.CreateTableAsync<RelatedArticleRelations>();
-                    await _connection.CreateTableAsync<RelatedThemeRelations>();
-                    await _connection.CreateTableAsync<ThemeArticleRelations>();
-                    await _connection.CreateTableAsync<ThemeEntity>();
+                    _connection = new SQLiteConnection(_sqLitePlatform, databaseFile);
+                    _connection.CreateTable<ArticleEntity>();
+                    _connection.CreateTable<ContentEntity>();
+                    _connection.CreateTable<GalleryEntity>();
+                    _connection.CreateTable<ImageEntity>();
+                    _connection.CreateTable<RelatedArticleRelations>();
+                    _connection.CreateTable<RelatedThemeRelations>();
+                    _connection.CreateTable<ThemeArticleRelations>();
+                    _connection.CreateTable<ThemeEntity>();
 
-                    await _connection.CreateTableAsync<SettingEntity>();
+                    _connection.CreateTable<SettingEntity>();
 
-                    await _connection.ExecuteAsync("PRAGMA synchronous = OFF");
+                    //_connection.ExecuteAsync("PRAGMA synchronous = OFF");
 
                     return true;
                 }
@@ -119,7 +140,7 @@ namespace OfflineMediaV3.Business.Framework
         {
             try
             {
-                return await _connection.GetAsync<T>(id);
+                return await _asyncConnection.GetAsync<T>(id);
             }
             catch (InvalidOperationException ex)
             {
@@ -140,11 +161,63 @@ namespace OfflineMediaV3.Business.Framework
             return null;
         }
 
-        public async Task<bool> AddOrUpdate<T>(T obj) where T : class, new()
+        public async Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new()
         {
             try
             {
-                await _connection.InsertOrReplaceAsync(obj);
+            
+                await _asyncConnection.RunInTransactionAsync(conn =>
+                {
+                    foreach (var id in ids)
+                    {
+                        conn.Delete<T>(id);
+                    }
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteAllById failed for " + typeof(T).Name, ex);
+            }
+            return false;
+        }
+
+        public async Task<int> Add<T>(T obj) where T : EntityIdBase, new()
+        {
+            try
+            {
+                await _asyncConnection.InsertAsync(obj);
+                return obj.Id;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+            }
+            return -1;
+        }
+
+        public async Task<List<int>> AddAll<T>(List<T> obj) where T : EntityIdBase, new()
+        {
+            try
+            {
+                await _asyncConnection.RunInTransactionAsync(conn =>
+                {
+                    conn.InsertAll(obj);
+                });
+                return obj.Select(d => d.Id).ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+            }
+            return new List<int>();
+        }
+
+        public async Task<bool> Update<T>(T obj) where T : EntityIdBase, new()
+        {
+            try
+            {
+                await _asyncConnection.UpdateAsync(obj);
                 return true;
             }
             catch (Exception ex)
@@ -154,15 +227,35 @@ namespace OfflineMediaV3.Business.Framework
             return false;
         }
 
-        public async Task<int> GetHighestId<T>() where T : EntityBase, new()
+        public async Task<bool> UpdateAll<T>(List<T> obj) where T : EntityIdBase, new()
         {
             try
             {
-                var  s = await _connection.Table<T>().OrderByDescending(c => c.Id).FirstAsync();
+                await _asyncConnection.RunInTransactionAsync(conn =>
+                {
+                    conn.UpdateAll(obj);
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+            }
+            return false;
+        }
+
+        public async Task<int> GetHighestId<T>() where T : EntityIdBase, new()
+        {
+            try
+            {
+                var s = await _asyncConnection.Table<T>().OrderByDescending(c => c.Id).FirstAsync();
                 return s.Id;
             }
             catch (Exception ex)
             {
+                if (ex.Message == "Sequence contains no elements")
+                    return 0;
+
                 LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof(T).Name, ex);
             }
             return -1;
@@ -172,7 +265,7 @@ namespace OfflineMediaV3.Business.Framework
         {
             try
             {
-                await _connection.DeleteAsync<T>(id);
+                await _asyncConnection.DeleteAsync<T>(id);
                 return true;
             }
             catch (Exception ex)
@@ -191,16 +284,16 @@ namespace OfflineMediaV3.Business.Framework
                     if (descending)
                     {
                         if (limit > 0)
-                            return await _connection.Table<T>().Where(func).OrderByDescending(orderByProperty).Take(limit).ToListAsync();
-                        return await _connection.Table<T>().Where(func).OrderByDescending(orderByProperty).ToListAsync();
+                            return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Take(limit).ToListAsync();
+                        return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).ToListAsync();
                     }
                     if (limit > 0)
-                        return await _connection.Table<T>().Where(func).OrderBy(orderByProperty).Take(limit).ToListAsync();
-                    return await _connection.Table<T>().Where(func).OrderBy(orderByProperty).ToListAsync();
+                        return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Take(limit).ToListAsync();
+                    return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).ToListAsync();
                 }
                 if (limit > 0)
-                    return await _connection.Table<T>().Where(func).Take(limit).ToListAsync();
-                return await _connection.Table<T>().Where(func).ToListAsync();
+                    return await _asyncConnection.Table<T>().Where(func).Take(limit).ToListAsync();
+                return await _asyncConnection.Table<T>().Where(func).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -213,13 +306,55 @@ namespace OfflineMediaV3.Business.Framework
         {
             try
             {
-                return await _connection.Table<T>().Where(func).CountAsync();
+                return await _asyncConnection.Table<T>().Where(func).CountAsync();
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "CountByCondition failed for " + typeof(T).Name, ex);
             }
             return 0;
+        }
+
+        public async Task<List<int>> GetByKeyword(string keyword)
+        {
+            try
+            {
+                return (await _asyncConnection.Table<ArticleEntity>().Where(
+                    a => a.WordDump.Contains(keyword)).ToListAsync()).Select(d => d.Id).ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "GetByKeyword failed for " + keyword, ex);
+            }
+            return new List<int>();
+        }
+
+        public async Task<bool> DeleteArticlesById(IEnumerable<int> articleIds)
+        {
+            try
+            {
+                await _asyncConnection.RunInTransactionAsync(conn =>
+                {
+                    foreach (var articleId in articleIds)
+                    {
+                        conn.Delete<ArticleEntity>(articleId);
+                    }
+
+                    //clear tables from invalid values
+                    conn.Execute("DELETE FROM ContentEntity WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
+                    conn.Execute("DELETE FROM GalleryEntity WHERE Id NOT IN (SELECT GalleryId FROM ContentEntity)");
+                    conn.Execute("DELETE FROM ImageEntity WHERE GalleryId NOT IN (SELECT Id FROM GalleryEntity) AND GalleryId > 0");
+                    conn.Execute("DELETE FROM ImageEntity WHERE Id NOT IN (SELECT LeadImageId FROM ArticleEntity) AND GalleryId = 0");
+                    conn.Execute("DELETE FROM RelatedArticleRelations WHERE Article1Id NOT IN (SELECT Id FROM ArticleEntity) OR Article2Id NOT IN (SELECT Id FROM ArticleEntity)");
+                    conn.Execute("DELETE FROM ThemeArticleRelations WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+            }
+            return false;
         }
     }
 }

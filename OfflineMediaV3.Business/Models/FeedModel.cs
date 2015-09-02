@@ -12,18 +12,19 @@ namespace OfflineMediaV3.Business.Models.NewsModel
             set { Set(ref _articlelist, value); }
         }
 
-        private ObservableCollection<ArticleModel> _shortArticleList;
-        public ObservableCollection<ArticleModel> ShortArticleList
+        public void RefreshArticleList()
         {
-            get { return _shortArticleList; }
-            set { Set(ref _shortArticleList, value); }
+            RaisePropertyChanged(() => ArticleList);
         }
 
+        public string CustomTitle { get; set; }
 
         public string Titel
         {
             get
             {
+                if (CustomTitle != null)
+                    return CustomTitle;
                 if (FeedConfiguration != null)
                     return FeedConfiguration.Name;
                 return "no title";
@@ -31,7 +32,7 @@ namespace OfflineMediaV3.Business.Models.NewsModel
         }
 
         private FeedConfigurationModel _feedConfiguration;
-        public FeedConfigurationModel FeedConfiguration 
+        public FeedConfigurationModel FeedConfiguration
         {
             get { return _feedConfiguration; }
             set
@@ -40,7 +41,7 @@ namespace OfflineMediaV3.Business.Models.NewsModel
                 {
                     RaisePropertyChanged(() => Titel);
                 }
-            } 
+            }
         }
 
         public SourceModel Source { get; set; }

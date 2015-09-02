@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
+using GalaSoft.MvvmLight.Ioc;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Helpers;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.ZwanzigMin.Models;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Singleton;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Sources.ZwanzigMin
 {
     public class ZwanzigMinHelper : SingletonBase<ZwanzigMinHelper>, IMediaSourceHelper
     {
-        public List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scm)
+        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -23,8 +27,8 @@ namespace OfflineMediaV3.Business.Sources.ZwanzigMin
             try
             {
                 //removes old header of xml
-                feed = feed.Substring(feed.IndexOf(">"));
-                feed = feed.Substring(feed.IndexOf("<"));
+                feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
+                feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
                 feed = HtmlHelper.RemoveXmlLvl(feed);
                 feed = HtmlHelper.RemoveXmlLvl(feed);
                 feed = HtmlHelper.AddXmlHeaderNode(feed, "channel");
@@ -34,10 +38,19 @@ namespace OfflineMediaV3.Business.Sources.ZwanzigMin
 
                 var channel = (channel)serializer.Deserialize(reader);
                 if (channel == null)
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation");
                 else
-                    articlelist.AddRange(channel.item.Where(m => CanConvert(m)).Select(fta => FeedToArticleModel(fta)).Where(articleModel => articleModel != null));
-
+                {
+                    foreach (var item in channel.item)
+                    {
+                        if (CanConvert(item))
+                        {
+                            var model = await FeedToArticleModel(item, fcm);
+                            if (model != null)
+                                articlelist.Add(model);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -46,9 +59,9 @@ namespace OfflineMediaV3.Business.Sources.ZwanzigMin
             return articlelist;
         }
 
-        public ArticleModel EvaluateArticle(string article, SourceConfigurationModel scm)
+        public bool NeedsToEvaluateArticle()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool CanConvert(item nfa)
@@ -56,15 +69,34 @@ namespace OfflineMediaV3.Business.Sources.ZwanzigMin
             return nfa.link != null;
         }
 
-        public ArticleModel FeedToArticleModel(item nfa)
+        public Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetKeywords(ArticleModel articleModel)
+        {
+            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+
+            return TextHelper.Instance.FusionLists(part1, part2);
+        }
+
+        public async Task<ArticleModel> FeedToArticleModel(item nfa, FeedConfigurationModel fcm)
         {
             if (nfa == null) return null;
 
             try
             {
+                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
                 var a = new ArticleModel
                 {
-                    Content = new List<ContentModel> { new ContentModel() { Html = nfa.text, Type = ContentType.Html } },
+                    Content = new List<ContentModel> { new ContentModel() { Html = nfa.text, ContentType = ContentType.Html } },
                     LeadImage = new ImageModel()
                     {
                         Html = nfa.topelement_description,
@@ -75,8 +107,14 @@ namespace OfflineMediaV3.Business.Sources.ZwanzigMin
                     SubTitle = nfa.oberzeile,
                     Teaser = nfa.lead,
                     Title = nfa.title,
+                    Author = nfa.author,
+                    Themes = new List<ThemeModel>()
+                    {
+                        await repo.GetThemeModelFor(nfa.category),
+                        await repo.GetThemeModelFor(fcm.Name)
+                    }
                 };
-                //TODO: Author
+
                 return a;
             }
             catch (Exception ex)

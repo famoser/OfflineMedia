@@ -5,36 +5,35 @@
     xmlns:local="using:OfflineMediaV3.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:specificConverter="using:OfflineMediaV3.DisplayHelper.Converter.SpecificConverter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding SettingsPageViewModel, Source={StaticResource Locator}}">
 
+    <Page.Resources>
+        <specificConverter:ULongToByteConverter x:Key="ULongToByteConverter" />
+    </Page.Resources>
+    
     <Grid>
-        <Pivot Margin="0,-31,0,0">
+        <Pivot Style="{StaticResource Pivot}">
             <PivotItem>
                 <PivotItem.Header>
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="Einstellungen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" Grid.Row="0" ItemsSource="{Binding GeneralBoolSettings}">
+                    <ScrollViewer Style="{ThemeResource SettingsScrollViewer}">
+                        <StackPanel>
+                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
+                                          ItemsSource="{Binding GeneralBoolSettings}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
-                                            <ToggleSwitch Style="{ThemeResource ToggleSwitchStyle}" IsOn="{Binding IsOn, Mode=TwoWay}" OffContent="{Binding OffContent}" OnContent="{Binding OnContent}" />
+                                            <ToggleSwitch Style="{ThemeResource ToggleSwitchStyle}" IsOn="{Binding BoolValue, Mode=TwoWay}" OffContent="{Binding OffContent}" OnContent="{Binding OnContent}" />
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" Grid.Row="1" ItemsSource="{Binding GeneralIntSettings}">
+                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralIntSettings}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -48,7 +47,8 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" Grid.Row="2" ItemsSource="{Binding GeneralFreeSettings}">
+                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
+                                          ItemsSource="{Binding GeneralFreeSettings}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -58,7 +58,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" Grid.Row="3" ItemsSource="{Binding GeneralPossibleValuesSettings}">
+                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralPossibleValuesSettings}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -68,7 +68,13 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </Grid>
+                            <Border Style="{ThemeResource SpacerBorder}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Belegter Speicher: "/>
+                                <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalFileSize, Converter={StaticResource ULongToByteConverter}}"></TextBlock>
+                            </StackPanel>
+                            <Button Style="{ThemeResource Button}" Width="auto" Command="{Binding ClearSaveCommand}" Content="Anwendung zurücksetzten"></Button>
+                        </StackPanel>
                     </ScrollViewer>
                 </PivotItem.Content>
             </PivotItem>
@@ -77,14 +83,14 @@
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="Quellen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer>
+                    <ScrollViewer Style="{ThemeResource SettingsScrollViewer}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Margin="5" Style="{ThemeResource SubheaderTextBlockStyle}" Text="Aktiviere deine bevorzugte Quellen und Feeds" Grid.Row="0" />
-                            <ItemsControl Margin="5,5,5,60" Grid.Row="1" ItemsSource="{Binding SourceConfiguration}">
+                            <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Aktiviere deine bevorzugten Quellen und Feeds" Grid.Row="0" />
+                            <ItemsControl Margin="5,5,5,70" Grid.Row="1" ItemsSource="{Binding SourceConfiguration}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -93,7 +99,7 @@
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
                                             <ToggleSwitch Grid.Row="0" OnContent="{Binding SourceNameLong}" OffContent="{Binding SourceNameLong}" IsOn="{Binding BoolValue, Mode=TwoWay}" />
-                                            <ItemsControl Grid.Row="1" Visibility="{Binding BoolValue, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="40,5,0,20" ItemsSource="{Binding Feeds}">
+                                            <ItemsControl Grid.Row="1" Visibility="{Binding BoolValue, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="40,5,0,20" ItemsSource="{Binding FeedConfigurationModels}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid Background="{ThemeResource BackgroundThemeBrush}">
@@ -105,6 +111,16 @@
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
                             </ItemsControl>
                         </Grid>
                     </ScrollViewer>

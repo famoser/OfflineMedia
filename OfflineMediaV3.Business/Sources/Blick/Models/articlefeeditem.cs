@@ -12,18 +12,25 @@ namespace OfflineMediaV3.Business.Sources.Blick.Models
         public articlefeeditem[] items;
 
         private articlefeeditem _author;
+        private string _stringauthor;
         [JsonProperty("author")]
         public object author
         {
             get
             {
-                return _author;
+                if (_author != null)
+                    return _author;
+                return _stringauthor;
             }
             set
             {
                 if (value is articlefeeditem)
                 {
                     _author = (articlefeeditem)value;
+                }
+                else
+                {
+                    _stringauthor = value as string;
                 }
             }
         }

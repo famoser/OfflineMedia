@@ -5,6 +5,7 @@ namespace OfflineMediaV3.Business.Sources.Tamedia.Models
     public class Feed
     {
         public Category category { get; set; }
+        public Category list { get; set; }
     }
 
     public class Category
@@ -32,7 +33,8 @@ namespace OfflineMediaV3.Business.Sources.Tamedia.Models
         public string picture_high_url { get; set; }
 
         public int first_published_at { get; set; }
-
+        
+        public string source { get; set; }
         public string source_annotation { get; set; }
 
         public List<Author> authors { get; set; }

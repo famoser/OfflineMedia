@@ -6,5 +6,6 @@
         FeedRefresh,
         ArticleRefresh,
         ReloadGoBackPage,
+        FavoritesChanged,
     }
 }

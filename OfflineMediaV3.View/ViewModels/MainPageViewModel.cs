@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using OfflineMediaV3.Business.Enums;
+using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Enums.Settings;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
+using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Common.Enums.View;
 using OfflineMediaV3.Common.Framework.Logs;
@@ -39,11 +43,36 @@ namespace OfflineMediaV3.View.ViewModels
             _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
 
             if (IsInDesignMode)
+            {
                 Sources = _articleRepository.GetSampleArticles();
+                Sources[0].FeedList[0].ArticleList[0].State = ArticleState.New;
+                Sources[0].FeedList[0].ArticleList[1].State = ArticleState.Loading;
+                Sources[0].FeedList[0].ArticleList[2].State = ArticleState.Loaded;
+                Sources[0].FeedList[0].ArticleList[3].State = ArticleState.Read;
+            }
             else
                 Initialize();
 
-            Messenger.Default.Register<Guid>(this,Messages.FeedRefresh, FeedRefreshed);
+            Messenger.Default.Register<Guid>(this, Messages.FeedRefresh, FeedRefreshed);
+            Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, ReloadPage);
+            Messenger.Default.Register<Messages>(this, EvaluateMessages);
+        }
+
+        private async void EvaluateMessages(Messages obj)
+        {
+            if (obj == Messages.FavoritesChanged)
+            {
+                if (Sources.Any() && _favorites.BoolValue)
+                {
+                    Sources[Sources.Count - 1] = await _articleRepository.GetFavorites();
+                }
+            }
+        }
+
+        private void ReloadPage(PageKeys obj)
+        {
+            if (obj == PageKeys.Main)
+                Initialize();
         }
 
         private async void FeedRefreshed(Guid obj)
@@ -53,7 +82,7 @@ namespace OfflineMediaV3.View.ViewModels
                 foreach (var feed in sourceModel.FeedList)
                 {
                     if (feed.FeedConfiguration.Guid == obj)
-                        feed.ShortArticleList = await _articleRepository.GetArticlesByFeed(obj, 5);
+                        feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj, 5);
                 }
             }
         }
@@ -65,13 +94,11 @@ namespace OfflineMediaV3.View.ViewModels
             set { Set(ref _sources, value); }
         }
 
+
         #region open settings
 
         private RelayCommand _openSettingsCommand;
-        public ICommand OpenSettingsCommand
-        {
-            get { return _openSettingsCommand; }
-        }
+        public ICommand OpenSettingsCommand => _openSettingsCommand;
 
         private void OpenSettings()
         {
@@ -83,10 +110,7 @@ namespace OfflineMediaV3.View.ViewModels
         #region open info
 
         private RelayCommand _openInfoCommand;
-        public ICommand OpenInfoCommand
-        {
-            get { return _openInfoCommand; }
-        }
+        public ICommand OpenInfoCommand => _openInfoCommand;
 
         private void OpenInfo()
         {
@@ -99,15 +123,9 @@ namespace OfflineMediaV3.View.ViewModels
         #region refresh
 
         private RelayCommand _refreshCommand;
-        public ICommand RefreshCommand
-        {
-            get { return _refreshCommand; }
-        }
+        public ICommand RefreshCommand => _refreshCommand;
 
-        private bool CanRefresh
-        {
-            get { return !_isActualizing; }
-        }
+        private bool CanRefresh => !_isActualizing;
 
         private void Refresh()
         {
@@ -116,12 +134,26 @@ namespace OfflineMediaV3.View.ViewModels
 
         #endregion
 
+        private SettingModel _favorites;
         public async void Initialize()
         {
             _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
             Sources = await _articleRepository.GetSources();
-            _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
+            foreach (var sourceModel in Sources)
+            {
+                foreach (var feedModel in sourceModel.FeedList)
+                {
+                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
+                }
+            }
+            _favorites = await _settingsRepository.GetSettingByKey(SettingKeys.FavoritesEnabled);
+            if (_favorites != null && _favorites.BoolValue)
+            {
+                Sources.Add(await _articleRepository.GetFavorites());
+            }
+
             ActualizeArticles();
+            _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
         }
 
         private bool _isActualizing;
@@ -138,6 +170,7 @@ namespace OfflineMediaV3.View.ViewModels
                 await _articleRepository.ActualizeArticles(_progressService);
                 await _apiRepository.UploadStats();
 
+                _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)

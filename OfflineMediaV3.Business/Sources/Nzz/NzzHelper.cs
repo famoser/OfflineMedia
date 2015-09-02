@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Nzz.Models;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Singleton;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Sources.Nzz
 {
     public class NzzHelper : SingletonBase<NzzHelper>, IMediaSourceHelper
     {
-
-        public List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scm)
+        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed != null)
@@ -22,7 +25,7 @@ namespace OfflineMediaV3.Business.Sources.Nzz
                 try
                 {
                     var f = JsonConvert.DeserializeObject<NzzFeed>(feed);
-                    articlelist.AddRange(f.articles.Select(am => FeedToArticleModel(am,scm)).Where(am => am != null));
+                    articlelist.AddRange(f.articles.Select(am => FeedToArticleModel(am, scm)).Where(am => am != null));
                 }
                 catch (Exception ex)
                 {
@@ -30,24 +33,6 @@ namespace OfflineMediaV3.Business.Sources.Nzz
                 }
             }
             return articlelist;
-        }
-
-        public ArticleModel EvaluateArticle(string article, SourceConfigurationModel scm)
-        {
-            if (article == null) return null;
-
-            try
-            {
-                article = article.Replace("[[]]", "[]");
-                var a = JsonConvert.DeserializeObject<NzzArticle>(article);
-                ArticleModel am = ArticleToArticleModel(a);
-                return am;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateArticle failed", ex);
-                return null;
-            }
         }
 
         public ArticleModel FeedToArticleModel(NzzFeedArticle nfa, SourceConfigurationModel scm)
@@ -79,17 +64,52 @@ namespace OfflineMediaV3.Business.Sources.Nzz
                 return null;
             }
         }
+        
+        public bool NeedsToEvaluateArticle()
+        {
+            return true;
+        }
 
-        public ArticleModel ArticleToArticleModel(NzzArticle na)
+        public async Task<Tuple<bool,ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        {
+            if (article == null) return new Tuple<bool, ArticleModel>(false, am);
+
+            try
+            {
+                article = article.Replace("[[]]", "[]");
+                var a = JsonConvert.DeserializeObject<NzzArticle>(article);
+                return await ArticleToArticleModel(a, am);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateArticle failed", ex);
+            }
+            return new Tuple<bool, ArticleModel>(false, am);
+        }
+
+        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        {
+            original.Content = evaluatedArticle.Content;
+            original.Author = evaluatedArticle.Author;
+            original.Themes = evaluatedArticle.Themes;
+            return true;
+        }
+
+        public List<string> GetKeywords(ArticleModel articleModel)
+        {
+            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+
+            return TextHelper.Instance.FusionLists(part1, part2);
+        }
+
+        public async Task<Tuple<bool,ArticleModel>> ArticleToArticleModel(NzzArticle na, ArticleModel am)
         {
             if (na != null)
             {
                 try
                 {
-                    var a = new ArticleModel();
-
-
-                    a.Content = new List<ContentModel>();
+                    am.Content = new List<ContentModel>();
                     for (int i = 0; i < na.body.Length; i++)
                     {
                         if (na.body[i].style == "h4")
@@ -98,20 +118,39 @@ namespace OfflineMediaV3.Business.Sources.Nzz
                             na.body[i].style = "h1";
                         string starttag = "<" + na.body[i].style + ">";
                         string endtag = "</" + na.body[i].style + ">";
-                        a.Content.Add(new ContentModel() { Type = ContentType.Html, Html = starttag + na.body[i].text + endtag });
+                        am.Content.Add(new ContentModel() { ContentType = ContentType.Html, Html = starttag + na.body[i].text + endtag});
                     }
 
-                    // TODO: RelatedArticles, Author
+                    if (na.authors != null)
+                        foreach (var nzzAuthor in na.authors)
+                        {
+                            if (!string.IsNullOrEmpty(nzzAuthor.name))
+                            {
+                                am.Author = nzzAuthor.name;
+                                if (!string.IsNullOrEmpty(nzzAuthor.abbreviation))
+                                    am.Author += ", " + nzzAuthor.abbreviation;
+                            }
+                            else
+                                am.Author = nzzAuthor.abbreviation;
+                        }
 
-                    return a;
+                    if (!string.IsNullOrEmpty(na.agency))
+                        am.Author += na.agency;
+
+                    am.Teaser = na.leadText;
+
+                    var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
+                    am.Themes = await repo.GetThemeModelsFor(na.departments);
+                    am.Themes.Add(await repo.GetThemeModelFor(am.FeedConfiguration.Name));
+                    
+                    return new Tuple<bool, ArticleModel>(true, am);
                 }
                 catch (Exception ex)
                 {
                     LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.ArticleToArticleModel deserialization failed", ex);
-                    return null;
                 }
             }
-            return null;
+            return new Tuple<bool, ArticleModel>(false, am);
         }
 
         private ImageModel LeadImageToImage(NzzLeadImage li)
@@ -120,7 +159,7 @@ namespace OfflineMediaV3.Business.Sources.Nzz
             {
                 try
                 {
-                    var img = new ImageModel {Html = li.caption, Author = li.source };
+                    var img = new ImageModel { Html = li.caption, Author = li.source };
                     string uri = li.path.Replace("%width%", "640").Replace("%height%", "360").Replace("%format%", "text");
                     img.Url = new Uri(uri);
                     return img;

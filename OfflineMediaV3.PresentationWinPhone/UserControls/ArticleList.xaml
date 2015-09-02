@@ -11,24 +11,38 @@
     d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].FeedList[0], Source={StaticResource Locator}}">
 
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="5" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="FeedTitle" Margin="5,0,0,0" Grid.Row="0" Text="{Binding Titel, Mode=OneWay}" Foreground="{ThemeResource ForegroundThemeBrush}" Style="{ThemeResource FeedTitleTextBlock}"  />
-        <ListView IsItemClickEnabled="True" SelectionMode="None" Grid.Row="1" IsHoldingEnabled="True" 
-                                                  ItemsSource="{Binding ShortArticleList}" 
-                                                  ItemClick="ArticleList_ItemClick" 
-                                                  ItemTemplate="{StaticResource ArticleListItemTemplate}" Margin="0,0,-1,0"
-                                 >
+        <TextBlock Grid.Row="0" Text="{Binding Titel, Mode=OneWay}" Style="{ThemeResource FeedTitleTextBlock}"  />
+        <ListView x:Name="ArticleListView" 
+                  IsItemClickEnabled="True" 
+                  SelectionMode="None" 
+                  Grid.Row="2" 
+                  IsHoldingEnabled="True" 
+                  ItemsSource="{Binding ArticleList}" 
+                  ItemClick="ArticleList_ItemClick" 
+                  ItemTemplate="{StaticResource ArticleListItemTemplate}" 
+                  Margin="0,0,-1,0">
             <ListView.FooterTemplate>
                 <DataTemplate>
                     <TextBlock Height="1" />
                 </DataTemplate>
             </ListView.FooterTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
+        
     </Grid>
 </UserControl>

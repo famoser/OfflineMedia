@@ -20,7 +20,12 @@ namespace OfflineMediaV3.Business.Helpers
                                                  | DecompressionMethods.Deflate
                     }))
                 {
-
+                    if (url.ToString().Contains("api.sueddeutsche.de"))
+                    {
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Signature keyId=\"3787d63b3f872f91\",algorithm=\"hmac - sha1\",headers=\"date x - nonce\",signature=\"MmQ3N2Q1YjRhNmE4YjRmZmUyMWY3MGMyZmQwODAyMTQ5Njk0OWFlOQ==\"");
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("x-nonce", "534d0e50-fa50-4054-8947-c2e1312b0a1d;GT-N7100");
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("date", "Tue, 01 09 2015 14:09:57 GMT+1000");
+                    }
                     string s = await client.GetStringAsync(url);
                     return s;
                 }
@@ -47,7 +52,7 @@ namespace OfflineMediaV3.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed at 2 for url "+url, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed at 2 for url " + url, ex);
             }
             return null;
         }
@@ -64,7 +69,7 @@ namespace OfflineMediaV3.Business.Helpers
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStreamAsync failed for url " + url, ex);
-            } 
+            }
             return null;
         }
 

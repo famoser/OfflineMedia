@@ -10,6 +10,9 @@ namespace OfflineMediaV3.Common.Framework.Services.Interfaces
         Task<string> GetSettingsJson();
         Task<string> GetSourceJson();
 
+        Task<ulong> GetFileSizes();
+        Task<bool> ClearFiles();
+
         Task<string> GetFilePathByKey(FileKeys fileKeys);
     }
 }

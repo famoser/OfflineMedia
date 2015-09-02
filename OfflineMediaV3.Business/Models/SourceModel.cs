@@ -5,7 +5,7 @@ namespace OfflineMediaV3.Business.Models.NewsModel
 {
     public class SourceModel : BaseModel
     {
-        public SourceConfigurationModel Configuration { get; set; }
+        public SourceConfigurationModel SourceConfiguration { get; set; }
 
         private ObservableCollection<FeedModel> _feedlist;
         public ObservableCollection<FeedModel> FeedList

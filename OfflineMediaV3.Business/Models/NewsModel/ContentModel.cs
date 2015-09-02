@@ -8,10 +8,11 @@ namespace OfflineMediaV3.Business.Models.NewsModel
     {
         [EntityMap]
         public int ArticleId { get; set; }
+        public ArticleModel Article { get; set; }
 
         [EntityMap]
         [EntityConversion(typeof(int), typeof(ContentType))]
-        public ContentType Type { get; set; }
+        public ContentType ContentType { get; set; }
 
         [EntityMap]
         public int Order { get; set; }
@@ -32,6 +33,9 @@ namespace OfflineMediaV3.Business.Models.NewsModel
         [CallBeforeSave]
         public void SetIds()
         {
+            if (Article != null)
+                ArticleId = Article.Id;
+
             if (Image != null)
                 ImageId = Image.Id;
 

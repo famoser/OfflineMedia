@@ -57,27 +57,27 @@ namespace OfflineMediaV3.View.ViewModels
 
         private readonly ISettingsRepository _settingsRepository;
         private readonly IProgressService _progressService;
-        private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        private IArticleRepository _articleRepository;
-        public SettingsPageViewModel(ISettingsRepository settingsRepository, IProgressService progressService, IDialogService dialogService, INavigationService navigationService, IArticleRepository articleRepository)
+        private readonly IStorageService _storageService;
+        public SettingsPageViewModel(ISettingsRepository settingsRepository, IProgressService progressService, INavigationService navigationService, IStorageService storageService)
         {
             _settingsRepository = settingsRepository;
             _progressService = progressService;
-            _dialogService = dialogService;
             _navigationService = navigationService;
-            _articleRepository = articleRepository;
+            _storageService = storageService;
 
             if (IsInDesignMode)
             {
                 _allSettings = settingsRepository.GetSampleSettings();
                 _sourceConfiguration = settingsRepository.GetSampleSourceConfiguration();
+                _totalFileSize = 10000000;
                 SortOutSettings();
             }
             else
                 Initialize();
 
             _saveCommand = new RelayCommand(Save, () => CanSave);
+            _clearSaveCommand = new RelayCommand(ClearSave, () => CanClearSave);
         }
 
         public async void Initialize()
@@ -89,6 +89,8 @@ namespace OfflineMediaV3.View.ViewModels
             }
 
             SortOutSettings();
+
+            TotalFileSize = await _storageService.GetFileSizes();
         }
 
         private void SortOutSettings()
@@ -120,7 +122,7 @@ namespace OfflineMediaV3.View.ViewModels
             foreach (var sourceConfigurationModel in _sourceConfiguration)
             {
                 sourceConfigurationModel.PropertyChanged += CriticalPropertyChanged;
-                foreach (var feedConfigurationModel in sourceConfigurationModel.Feeds)
+                foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
                 {
                     feedConfigurationModel.PropertyChanged += CriticalPropertyChanged;
                 }
@@ -151,15 +153,9 @@ namespace OfflineMediaV3.View.ViewModels
         #region save
 
         private RelayCommand _saveCommand;
-        public ICommand SaveCommand
-        {
-            get { return _saveCommand; }
-        }
+        public ICommand SaveCommand => _saveCommand;
 
-        private bool CanSave
-        {
-            get { return _propHasBeenChanged && !_isSaving; }
-        }
+        private bool CanSave => _propHasBeenChanged && !_isSaving;
 
         private bool _isSaving;
         private async void Save()
@@ -177,8 +173,7 @@ namespace OfflineMediaV3.View.ViewModels
 
             if (_criticalChangeHasHappened)
             {
-                SimpleIoc.Default.Unregister<MainPageViewModel>();
-                SimpleIoc.Default.Register<MainPageViewModel>();
+                SimpleIoc.Default.Unregister(SimpleIoc.Default.GetInstance<MainPageViewModel>());
                 Messenger.Default.Send(PageKeys.Main, Messages.ReloadGoBackPage);
 
                 _criticalChangeHasHappened = false;
@@ -188,5 +183,38 @@ namespace OfflineMediaV3.View.ViewModels
         }
 
         #endregion
+
+        #region clear save
+
+        private bool _isClearingSave;
+        private RelayCommand _clearSaveCommand;
+        public ICommand ClearSaveCommand => _clearSaveCommand;
+
+        private bool CanClearSave => !_isClearingSave;
+        
+        private async void ClearSave()
+        {
+            _isClearingSave = true;
+            _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ClearSave);
+            _clearSaveCommand.RaiseCanExecuteChanged();
+            
+            await _storageService.ClearFiles();
+
+            _navigationService.GoBack();
+            _navigationService.GoBack();
+            _navigationService.GoBack();
+            _navigationService.GoBack();
+            
+            _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ClearSave);
+        }
+
+        #endregion
+        
+        private ulong _totalFileSize;
+        public ulong TotalFileSize
+        {
+            get { return _totalFileSize; }
+            set { Set(ref _totalFileSize, value); }
+        }
     }
 }

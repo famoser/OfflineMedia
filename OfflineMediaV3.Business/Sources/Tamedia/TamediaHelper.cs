@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Framework;
+using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Tamedia.Models;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Singleton;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Sources.Tamedia
 {
     public class TamediaHelper : SingletonBase<TamediaHelper>, IMediaSourceHelper
     {
-        public List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scm)
+        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel feeedConfigModel)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -21,10 +26,26 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             try
             {
                 Feed f = JsonConvert.DeserializeObject<Feed>(feed);
-                foreach (var page in f.category.page_elements)
-                {
-                    articlelist.AddRange(page.articles.Select(ar => FeedToArticleModel(ar, scm)).Where(am => am != null));
-                }
+                if (f.category?.page_elements != null)
+                    foreach (var page in f.category.page_elements)
+                    {
+                        foreach (var article in page.articles)
+                        {
+                            var am = await FeedToArticleModel(article, scm, feeedConfigModel);
+                            if (am != null)
+                                articlelist.Add(am);
+                        }
+                    }
+                if (f.list?.page_elements != null)
+                    foreach (var page in f.list.page_elements)
+                    {
+                        foreach (var article in page.articles)
+                        {
+                            var am = await FeedToArticleModel(article, scm, feeedConfigModel);
+                            if (am != null)
+                                articlelist.Add(am);
+                        }
+                    }
             }
             catch (Exception ex)
             {
@@ -33,23 +54,30 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             return articlelist;
         }
 
-        public ArticleModel EvaluateArticle(string article, SourceConfigurationModel scm)
+        public bool NeedsToEvaluateArticle()
         {
-            if (article == null) return null;
-
-            try
-            {
-                ArticleModel am = ArticleToArticleModel(null);
-                return am;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "TamediaHelper.EvaluateArticle failed", ex);
-            }
-            return null;
+            return false;
         }
 
-        public ArticleModel FeedToArticleModel(Article nfa, SourceConfigurationModel scm)
+        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetKeywords(ArticleModel articleModel)
+        {
+            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            //var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+
+            return TextHelper.Instance.FusionLists(part1);
+        }
+
+        public async Task<ArticleModel> FeedToArticleModel(Article nfa, SourceConfigurationModel scm, FeedConfigurationModel feedConfigModel)
         {
             if (nfa == null) return null;
 
@@ -60,12 +88,20 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
                     PublicationTime = GetCShartTimestamp(nfa.first_published_at),
                     Title = nfa.title,
                     SubTitle = null,
-                    Teaser = nfa.lead.Replace("<p>","").Replace("</p>",""),
-                    //TODO: Themes
-                    //Themes = new Theme[1] { ConvertToEnum.ConvertToTheme("") },
+                    Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", ""),
                     LogicUri = new Uri(scm.LogicBaseUrl + "api/articles/" + nfa.id),
-                    PublicUri = new Uri(scm.PublicBaseUrl + nfa.legacy_id)
+                    PublicUri = new Uri(scm.PublicBaseUrl + nfa.legacy_id),
                 };
+
+                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
+
+
+                //TODO: How to classify?
+                a.Themes = new List<ThemeModel>
+                {
+                    await repo.GetThemeModelFor(feedConfigModel.Name)
+                };
+
 
                 if (nfa.top_element != null)
                 {
@@ -84,11 +120,27 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
                     }
                 }
 
-                a.Content = new List<ContentModel> 
-                { 
+                if (!string.IsNullOrEmpty(nfa.source_annotation))
+                {
+                    if (string.IsNullOrEmpty(a.Author))
+                        a.Author = nfa.source_annotation;
+                    else
+                        a.Author += " " + nfa.source_annotation;
+                }
+
+                if (!string.IsNullOrEmpty(nfa.source))
+                {
+                    if (string.IsNullOrEmpty(a.Author))
+                        a.Author = nfa.source;
+                    else
+                        a.Author += " " + nfa.source;
+                }
+
+                a.Content = new List<ContentModel>
+                {
                     new ContentModel() {
                         Html = nfa.text,
-                        Type = ContentType.Html
+                        ContentType = ContentType.Html
                     }
                 };
                 if (nfa.article_elements != null)
@@ -136,25 +188,6 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             }
         }
 
-        public ArticleModel ArticleToArticleModel(object na)
-        {
-            if (na == null) return null;
-
-            try
-            {
-                var a = new ArticleModel();
-                return a;
-                //throw new NotImplementedException();
-
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "TamediaHelper.ArticleToArticleModel failed", ex);
-                return null;
-            }
-        }
-
         #region Helpers
         /// <summary>
         /// Documented at https://github.com/flot/flot/blob/master/API.md (look for public static int GetJavascriptTimestamp(System.DateTime input)
@@ -168,8 +201,6 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             dt += ts;
             return dt;
         }
-
-
-#endregion
+        #endregion
     }
 }

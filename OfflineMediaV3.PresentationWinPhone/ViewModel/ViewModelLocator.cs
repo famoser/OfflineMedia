@@ -69,7 +69,7 @@ namespace OfflineMediaV3.ViewModel
 
             navigationService.Configure(PageKeys.Main.ToString(), typeof(MainPage));
             navigationService.Configure(PageKeys.Feed.ToString(), typeof(FeedPage));
-            navigationService.Configure(PageKeys.Article.ToString(), typeof(ArticlePage));
+            navigationService.Configure(PageKeys.Article.ToString(), typeof(NewArticlePage));
             navigationService.Configure(PageKeys.Settings.ToString(), typeof(SettingsPage));
 
             return navigationService;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
+using OfflineMediaV3.Business.Enums.Models;
 
 namespace OfflineMediaV3.DisplayHelper.Converter
 {
@@ -7,10 +8,10 @@ namespace OfflineMediaV3.DisplayHelper.Converter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            bool dt = (bool)value;
-            if (dt)
+            var dt = (ArticleState)value;
+            if (dt == ArticleState.Read)
                 return 0.6;
-            else
+
                 return 1;
         }
 

@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
+using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 
 namespace OfflineMediaV3.View.ViewModels
@@ -34,9 +35,19 @@ namespace OfflineMediaV3.View.ViewModels
 
         private async void EvaluateSelect(FeedModel obj)
         {
-            Feed = obj;
-            Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid);
+            if (_lastConfig != obj.FeedConfiguration)
+            {
+                _lastConfig = obj.FeedConfiguration;
+                Feed = new FeedModel
+                {
+                    FeedConfiguration = obj.FeedConfiguration,
+                    Source = obj.Source
+                };
+                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid);
+            }
         }
+
+        private FeedConfigurationModel _lastConfig;
 
         private FeedModel _feed;
         public FeedModel Feed

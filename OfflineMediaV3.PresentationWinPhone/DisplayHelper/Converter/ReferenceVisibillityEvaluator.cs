@@ -9,9 +9,17 @@ namespace OfflineMediaV3.DisplayHelper.Converter
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value != null)
+            {
+                var str = value as string;
+                if (str != null && (string.IsNullOrWhiteSpace(str) || string.IsNullOrEmpty(str)))
+                    return Visibility.Collapsed;
+
                 return Visibility.Visible;
+            }
             else
+            {
                 return Visibility.Collapsed;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -7,6 +7,10 @@
         Loaded = 2,
         Read = 3,
 
-        WrongSourceFaillure = 100
+        WrongSourceFaillure = 100,
+        RetrieveArticleFaillure = 101,
+        EvaluateArticleFaillure = 102,
+        WritePropertiesFaillure = 103,
+
     }
 }

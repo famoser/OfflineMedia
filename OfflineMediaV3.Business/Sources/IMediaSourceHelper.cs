@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 
 namespace OfflineMediaV3.Business.Sources
 {
-    interface IMediaSourceHelper
+    public interface IMediaSourceHelper
     {
-        List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scf);
+        Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm);
 
-        ArticleModel EvaluateArticle(string article, SourceConfigurationModel scf);
+        bool NeedsToEvaluateArticle();
+
+        Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am);
+
+        bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle);
+
+        List<string> GetKeywords(ArticleModel articleModel);
     }
 }

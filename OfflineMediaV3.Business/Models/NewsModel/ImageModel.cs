@@ -29,7 +29,6 @@ namespace OfflineMediaV3.Business.Models.NewsModel
 
         [EntityMap]
         public int GalleryId { get; set; }
-
         public GalleryModel Gallery { get; set; }
 
         [CallBeforeSave]

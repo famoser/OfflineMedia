@@ -4,7 +4,8 @@ namespace OfflineMediaV3.Business.Sources.Nzz.Models
 {
     public class NzzArticle
     {
-        public string path, title, subTitle, leadText, webUrl, shortWebUrl;
+        public string path, title, subTitle, leadText, webUrl, shortWebUrl, agency;
+        public string[] departments;
         public DateTime publicationDateTime;
         public bool isBreakingNews;
         public NzzBody[] body;

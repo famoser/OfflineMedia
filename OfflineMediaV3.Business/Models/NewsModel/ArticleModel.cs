@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Helpers;
 using OfflineMediaV3.Business.Models.Configuration;
+using OfflineMediaV3.Business.Sources.Tamedia.Models;
 using OfflineMediaV3.Common.Framework;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Models.NewsModel
 {
@@ -78,6 +81,17 @@ namespace OfflineMediaV3.Business.Models.NewsModel
         [EntityMap]
         public int LeadImageId { get; set; }
 
+        [EntityMap]
+        [EntityConversion(typeof(string), typeof(Guid))]
+        public Guid FeedConfigurationId { get; set; }
+
+        [EntityMap]
+        [EntityConversion(typeof(string), typeof(Guid))]
+        public Guid SourceConfigurationId { get; set; }
+
+        [EntityMap]
+        public string WordDump { get; set; }
+
         private ImageModel _leadImage;
         public ImageModel LeadImage
         {
@@ -106,17 +120,7 @@ namespace OfflineMediaV3.Business.Models.NewsModel
             set { Set(ref _content, value); }
         }
 
-        [EntityMap]
-        [EntityConversion(typeof(string), typeof(Guid))]
-        public Guid FeedId { get; set; }
-
-        [EntityMap]
-        [EntityConversion(typeof(string), typeof(Guid))]
-        public Guid SourceId { get; set; }
-
-        public FeedModel Feed { get; set; }
-
-        public SourceConfigurationModel SourceConfiguration { get; set; }
+        public FeedConfigurationModel FeedConfiguration { get; set; }
 
         public ArticleModel LeftArticle { get; set; }
 
@@ -127,11 +131,22 @@ namespace OfflineMediaV3.Business.Models.NewsModel
         {
             if (LeadImage != null)
                 LeadImageId = LeadImage.Id;
-            if (Feed != null)
+            if (FeedConfiguration != null)
             {
-                FeedId = Feed.FeedConfiguration.Guid;
-                SourceId = Feed.FeedConfiguration.SourceGuid;
+                FeedConfigurationId = FeedConfiguration.Guid;
+                SourceConfigurationId = FeedConfiguration.SourceConfiguration.Guid;
             }
         }
+
+        public void PrepareForSave()
+        {
+            if (Content != null)
+                foreach (var contentModel in Content)
+                {
+                    contentModel.Article = this;
+                }
+        }
+
+        public bool IsStatic { get; set; }
     }
 }

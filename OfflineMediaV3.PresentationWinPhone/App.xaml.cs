@@ -55,6 +55,8 @@ namespace OfflineMediaV3
                 if (_burnNextGoBack != PageKeys.Undefined)
                 {
                     var nav = SimpleIoc.Default.GetInstance<INavigationService>();
+                    nav.GoBack();
+                    nav.GoBack();
                     nav.NavigateTo(_burnNextGoBack.ToString());
 
                     _burnNextGoBack = PageKeys.Undefined;
@@ -72,6 +74,10 @@ namespace OfflineMediaV3
                     }
                 }
                 e.Handled = true;
+            }
+            else
+            {
+                Current.Exit();
             }
         }
 

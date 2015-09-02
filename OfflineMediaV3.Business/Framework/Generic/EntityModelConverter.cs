@@ -98,7 +98,7 @@ namespace OfflineMediaV3.Business.Framework.Generic
         /// <param name="takeCareOfDateTime">if this is set to true, the ChangeDate of the entity (If it exists) is set to the current time</param>
         /// <param name="entityIsToBeCreated">if this is set and true, the CreateDate of the entity is set to the current time</param>
         /// <returns>the Entity object (same instance as passed)</returns>
-        public TE ConvertToEntity<TE, TB>(TB business, TE entity, bool takeCareOfDateTime = false, bool? entityIsToBeCreated = null)
+        public TE ConvertToEntity<TE, TB>(TB business, TE entity, bool takeCareOfDateTime = false)
             where TE : class
             where TB : class
         {
@@ -147,8 +147,11 @@ namespace OfflineMediaV3.Business.Framework.Generic
                                 {
                                     if (prop.Name == "ChangeDate")
                                         prop.SetValue(entity, DateTime.Now);
-                                    if (entityIsToBeCreated != null && entityIsToBeCreated.Value && prop.Name == "CreateDate")
+                                    if (prop.Name == "CreateDate")
+                                    {
+                                        if ((DateTime)GetValue(propertyInfo, true, propertyInfo.GetValue(business)) == DateTime.MinValue)
                                         prop.SetValue(entity, DateTime.Now);
+                                    }
                                 }
                             }
                             else

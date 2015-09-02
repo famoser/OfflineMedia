@@ -7,6 +7,6 @@ namespace OfflineMediaV3.Business.Models.Configuration
         public string Name { get; set; }
         public string Url { get; set; }
 
-        public Guid SourceGuid { get; set; }
+        public SourceConfigurationModel SourceConfiguration { get; set; }
     }
 }

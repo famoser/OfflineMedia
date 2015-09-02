@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Business.Models.NewsModel.NMModels;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.Data;
 
@@ -12,6 +13,10 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
     public interface IThemeRepository
     {
         Task<bool> SetThemesByArticle(int articleId, List<int> themeIds, IDataService dataService);
+        Task<Tuple<List<ThemeArticleRelationModel>, List<ThemeArticleRelationModel>>> SetChangesByArticle(int articleId, List<int> themeIds, IDataService dataService);
+
         Task<List<ThemeModel>> GetThemesByArticleId(int articleId, IDataService dataService);
+        Task<ThemeModel> GetThemeModelFor(string theme);
+        Task<List<ThemeModel>> GetThemeModelsFor(string[] theme);
     }
 }

@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMediaV3.Business.Enums.Models;
+using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
 using OfflineMediaV3.Business.Models.Configuration;
 using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources.Blick.Models;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Singleton;
+using OfflineMediaV3.Common.Helpers;
 
 namespace OfflineMediaV3.Business.Sources.Blick
 {
     public class BlickHelper : SingletonBase<BlickHelper>, IMediaSourceHelper
     {
-        public List<ArticleModel> EvaluateFeed(string feed, SourceConfigurationModel scm)
+        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
-            
+
             try
             {
                 var f = JsonConvert.DeserializeObject<feed[]>(feed);
@@ -25,7 +30,7 @@ namespace OfflineMediaV3.Business.Sources.Blick
                 if (articlefeed != null)
                 {
                     articlelist.AddRange(articlefeed.items.Where(i => i.type == "teaser")
-                        .Select(am => FeedModelToArticleModel(am, scm))
+                        .Select(FeedModelToArticleModel)
                         .Where(am => am != null));
                 }
             }
@@ -36,25 +41,7 @@ namespace OfflineMediaV3.Business.Sources.Blick
             return articlelist;
         }
 
-        public ArticleModel EvaluateArticle(string article, SourceConfigurationModel scm)
-        {
-            if (article == null) return null;
-
-            try
-            {
-                var a = JsonConvert.DeserializeObject<articlefeeditem[]>(article);
-
-                ArticleModel am = ArticleToArticleModel(a, scm);
-                return am;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.EvaluateArticle failed", ex);
-            }
-            return null;
-        }
-
-        private ArticleModel FeedModelToArticleModel(feeditem item, SourceConfigurationModel scm)
+        private ArticleModel FeedModelToArticleModel(feeditem item)
         {
             try
             {
@@ -77,18 +64,66 @@ namespace OfflineMediaV3.Business.Sources.Blick
             }
         }
 
-        public ArticleModel ArticleToArticleModel(articlefeeditem[] na, SourceConfigurationModel scm)
+        public bool NeedsToEvaluateArticle()
         {
-            if (na == null) return null;
+            return true;
+        }
+
+        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        {
+            if (article == null) return new Tuple<bool, ArticleModel>(false, am);
 
             try
             {
-                var am = new ArticleModel();
+                var a = JsonConvert.DeserializeObject<articlefeeditem[]>(article);
 
+                return await WriteProperties(a, am);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.EvaluateArticle failed", ex);
+            }
+            return new Tuple<bool, ArticleModel>(false, am);
+        }
+
+        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        {
+            original.Content = evaluatedArticle.Content;
+            original.Author = evaluatedArticle.Author;
+            original.Themes = evaluatedArticle.Themes;
+
+            return true;
+        }
+
+        public List<string> GetKeywords(ArticleModel articleModel)
+        {
+            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+
+            return TextHelper.Instance.FusionLists(part1, part2);
+        }
+
+        public async Task<Tuple<bool, ArticleModel>> WriteProperties(articlefeeditem[] na, ArticleModel am)
+        {
+            if (na == null) return new Tuple<bool, ArticleModel>(false, am);
+
+            try
+            {
                 articlefeeditem category = na.FirstOrDefault(a => a.type == "metadata");
-                //if (category != null)
+                if (category != null)
+                {
+                    var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
 
+                    am.Themes = new List<ThemeModel>
+                    {
+                        await repo.GetThemeModelFor(category.section),
+                        await repo.GetThemeModelFor(am.FeedConfiguration.Name)
+                    };
 
+                    var auth = category.author as string;
+                    if (auth != null)
+                        am.Author = auth;
+                }
 
                 articlefeeditem body = na.FirstOrDefault(a => a.type == "body");
                 if (body != null)
@@ -98,27 +133,25 @@ namespace OfflineMediaV3.Business.Sources.Blick
 
                     for (int i = 0; i < htmlbody.Count(); i++)
                     {
-                        am.Content.Add(new ContentModel() { Html = htmlbody[i].txt, Type = ContentType.Html });
+                        am.Content.Add(new ContentModel() { Html = htmlbody[i].txt, ContentType = ContentType.Html });
                     }
                 }
-
-                //TODO: RelatedArticles
-                am.RelatedArticles = new List<ArticleModel>();
 
                 articlefeeditem headline = na.FirstOrDefault(a => a.type == "headline");
                 if (headline != null && headline.author != null && headline.author.GetType() == typeof(articlefeeditem))
                 {
                     articlefeeditem author = headline.author as articlefeeditem;
-                    am.Author = author.firstName;
+                    if (author != null)
+                        am.Author = author.firstName;
                 }
 
-                return am;
+                return new Tuple<bool, ArticleModel>(true, am);
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.ArticleToArticleModel failed", ex);
-                return null;
             }
+            return new Tuple<bool, ArticleModel>(false, am);
         }
     }
 }

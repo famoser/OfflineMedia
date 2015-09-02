@@ -22,9 +22,11 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
 
 
         Task<SettingModel> GetSettingByKey(SettingKeys key, IDataService dataService);
+        Task<SettingModel> GetSettingByKey(SettingKeys key);
 
         Task<bool> SaveSettings();
+        Task<bool> SaveSetting(SimpleSettingModel ssm);
 
-        Task<SourceConfigurationModel> GetSourceConfigurationFor(Guid guid, IDataService dataService);
+        Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid, IDataService dataService);
     }
 }

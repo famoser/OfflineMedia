@@ -6,13 +6,18 @@ namespace OfflineMediaV3.Common.Framework.Converters
     {
         public object Convert(object val)
         {
-            return new Uri((string)val);
+            var str = val as string;
+            if (val != null)
+                return new Uri(str);
+            return null;
         }
 
         public object ConvertBack(object val)
         {
-            var uri = (Uri)val;
-            return uri.ToString();
+            var uri = val as Uri;
+            if (uri != null)
+                return uri.ToString();
+            return null;
         }
     }
 }

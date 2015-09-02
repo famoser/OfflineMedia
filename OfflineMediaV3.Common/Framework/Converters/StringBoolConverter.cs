@@ -11,7 +11,9 @@ namespace OfflineMediaV3.Common.Framework.Converters
         public object Convert(object val)
         {
             var str = val as string;
-            return System.Convert.ToBoolean(str);
+            if (str != null)
+                return System.Convert.ToBoolean(str);
+            return false;
         }
 
         public object ConvertBack(object val)

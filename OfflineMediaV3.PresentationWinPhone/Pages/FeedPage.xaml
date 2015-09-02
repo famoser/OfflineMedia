@@ -20,7 +20,7 @@
                 <ProgressBar IsIndeterminate="{Binding ProgressViewModel.IsIndeterminateProgress, Source={StaticResource Locator}}" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="26" />
                 <TextBlock Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
             </Grid>
-            <userControls:FullArticleList DataContext="{Binding Feed}" />
+            <userControls:ArticleList DataContext="{Binding Feed}" />
         </StackPanel>
     </ScrollViewer>
 </Page>

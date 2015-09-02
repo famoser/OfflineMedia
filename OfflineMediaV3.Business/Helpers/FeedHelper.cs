@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OfflineMediaV3.Business.Enums;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Business.Sources;
 using OfflineMediaV3.Business.Sources.Blick;
 using OfflineMediaV3.Business.Sources.Nzz;
 using OfflineMediaV3.Business.Sources.Postillon;
@@ -16,44 +17,21 @@ namespace OfflineMediaV3.Business.Helpers
     {
         public async Task<List<ArticleModel>>  DownloadFeed(FeedModel feed)
         {
-            List<ArticleModel> newfeed = new List<ArticleModel>();
-            string feedresult = await Download.DownloadStringAsync(new Uri(feed.FeedConfiguration.Url));
-            if (feed.Source.Configuration.Source == SourceEnum.Nzz)
-            {
-                var nzzh = new NzzHelper();
-                newfeed = nzzh.EvaluateFeed(feedresult, feed.Source.Configuration);
-            }
-            else if (feed.Source.Configuration.Source == SourceEnum.ZwanzigMin)
-            {
-                var zwanzigMinH = new ZwanzigMinHelper();
-                newfeed = zwanzigMinH.EvaluateFeed(feedresult, feed.Source.Configuration);
-            }
-            else if (feed.Source.Configuration.Source == SourceEnum.Blick || feed.Source.Configuration.Source == SourceEnum.BlickAmAbend)
-            {
-                var blickh = new BlickHelper();
-                newfeed = blickh.EvaluateFeed(feedresult, feed.Source.Configuration);
-            }
-            else if (feed.Source.Configuration.Source == SourceEnum.BaslerZeitung
-                || feed.Source.Configuration.Source == SourceEnum.BernerZeitung
-                || feed.Source.Configuration.Source == SourceEnum.DerBund
-                || feed.Source.Configuration.Source == SourceEnum.Tagesanzeiger)
-            {
-                var tamediah = new TamediaHelper();
-                newfeed = tamediah.EvaluateFeed(feedresult, feed.Source.Configuration);
-            }
-            else if (feed.Source.Configuration.Source == SourceEnum.Postillon)
-            {
-                var postillonh = new PostillonHelper();
-                newfeed = postillonh.EvaluateFeed(feedresult, feed.Source.Configuration);
-            }
+            IMediaSourceHelper mediaSourceHelper =ArticleHelper.Instance.GetMediaSource(feed.Source.SourceConfiguration.Source);
 
-            foreach (var article in newfeed)
+            if (mediaSourceHelper != null)
             {
-                article.Feed = feed;
-            }
-            
+                string feedresult = await Download.DownloadStringAsync(new Uri(feed.FeedConfiguration.Url));
+                var newfeed = await mediaSourceHelper.EvaluateFeed(feedresult, feed.Source.SourceConfiguration, feed.FeedConfiguration);
 
-            return newfeed;
+                foreach (var article in newfeed)
+                {
+                    article.FeedConfiguration = feed.FeedConfiguration;
+                }
+
+                return newfeed;
+            }
+            return null;
         }
     }
 }

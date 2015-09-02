@@ -9,6 +9,7 @@
         public string oberzeile;
         public string title;
         public string lead;
+        public string author; 
 
         public string text;
 

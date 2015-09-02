@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using OfflineMediaV3.Common.Enums;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
@@ -66,10 +69,79 @@ namespace OfflineMediaV3.Services
             return GetContentsOfAssetFile("Source");
         }
 
+        public async Task<ulong> GetFileSizes()
+        {
+            ulong totalsize = 0;
+            foreach (var fil in await ApplicationData.Current.LocalFolder.GetFilesAsync())
+            {
+                var props = await fil.GetBasicPropertiesAsync();
+                totalsize += props.Size;
+            }
+            return totalsize;
+        }
+
+        public async Task<bool> ClearFiles()
+        {
+            try
+            {
+                //Message Box.
+                MessageDialog msg = new MessageDialog("Die Anwendung wird zurückgesetzt und geschlossen. Alle Einstellungen gehen verloren.", "Anwendung zurücksetzten");
+
+                //Commands
+                msg.Commands.Add(new UICommand("abbrechen", CommandHandlers));
+                msg.Commands.Add(new UICommand("zurücksetzten", CommandHandlers));
+
+                await msg.ShowAsync();
+                //end.
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async void CommandHandlers(IUICommand commandLabel)
+        {
+            var actions = commandLabel.Label;
+            switch (actions)
+            {
+                //Okay Button.
+                case "abbrechen":
+                    break;
+                //Quit Button.
+                case "zurücksetzten":
+                    await ApplicationData.Current.LocalFolder.CreateFileAsync("DELETEALL");
+                    Application.Current.Exit();
+                    break;
+                    //end.
+            }
+        }
+
+        private async Task<bool> DeleteAll()
+        {
+            try
+            {
+                await ApplicationData.Current.LocalFolder.GetFileAsync("DELETEALL");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<string> GetFilePathByKey(FileKeys fileKey)
         {
             try
             {
+                var deleteall = await DeleteAll();
+                if (deleteall)
+                    foreach (var fil in await ApplicationData.Current.LocalFolder.GetFilesAsync())
+                    {
+                        await fil.DeleteAsync();
+                    }
+
                 var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileKey.ToString(), CreationCollisionOption.OpenIfExists);
                 return file.Path;
             }

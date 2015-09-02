@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight;
 using OfflineMediaV3.Common.Framework;
 
-namespace OfflineMediaV3.Business.Models
+namespace OfflineMediaV3.Business.Models.NewsModel
 {
     public class BaseModel: ObservableObject
     {

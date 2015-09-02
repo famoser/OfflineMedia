@@ -8,7 +8,7 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
 {
     public class CustomGrid : Grid
     {
-        public string GetXaml(Dictionary<string, string> TextBlockAttributes)
+        public string GetXaml(Dictionary<string, string> textBlockAttributes)
         {
             StringBuilder sb = new StringBuilder();
             // The viewbox is completely necessary as most tables tend to be rather big and letting the 
@@ -26,8 +26,8 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
             sb.Append("</Grid.RowDefinitions>");
 
             string tbAttr = string.Empty;
-            if (TextBlockAttributes.Count > 0)
-                tbAttr = string.Join(string.Empty, TextBlockAttributes.Select(tb => string.Format(" {0}=\"{1}\"", tb.Key, tb.Value)).ToArray());
+            if (textBlockAttributes.Count > 0)
+                tbAttr = string.Join(string.Empty, textBlockAttributes.Select(tb => string.Format(" {0}=\"{1}\"", tb.Key, tb.Value)).ToArray());
 
             List<RowAdjustment> adjustments = new List<RowAdjustment>();
             foreach (var item in this.Children.OfType<TextBlock>())

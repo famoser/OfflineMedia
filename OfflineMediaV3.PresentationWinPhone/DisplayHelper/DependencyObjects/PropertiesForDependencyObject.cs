@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Windows.UI.Xaml;
@@ -35,19 +36,19 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
     public class Properties : DependencyObject
     {
         public static readonly DependencyProperty HtmlProperty =
-            DependencyProperty.RegisterAttached("Html", typeof(ContentModel[]), typeof(Properties), new PropertyMetadata(null, HtmlChanged));
+            DependencyProperty.RegisterAttached("Html", typeof(List<ContentModel>), typeof(Properties), new PropertyMetadata(null, HtmlChanged));
 
         public static readonly DependencyProperty FontSizeProperty =
             DependencyProperty.RegisterAttached("FontSize", typeof(int), typeof(Properties), new PropertyMetadata(null, HtmlChanged));
 
-        public static void SetHtml(DependencyObject obj, ContentModel[] value)
+        public static void SetHtml(DependencyObject obj, List<ContentModel> value)
         {
             obj.SetValue(HtmlProperty, value);
         }
 
-        public static ContentModel[] GetHtml(DependencyObject obj)
+        public static List<ContentModel> GetHtml(DependencyObject obj)
         {
-            return (ContentModel[])obj.GetValue(HtmlProperty);
+            return (List<ContentModel>)obj.GetValue(HtmlProperty);
         }
 
         public static void SetFontSize(DependencyObject obj, int value)
@@ -65,13 +66,13 @@ namespace OfflineMediaV3.DisplayHelper.DependencyObjects
             if (d is RichTextBlock)
             {
                 string html = "";
-                ContentModel[] contentmodels = GetHtml(d);
+                List<ContentModel> contentmodels = GetHtml(d);
                 if (contentmodels == null)
                 {
                     html = "<p>Artikel wird geladen...</p>";
                 }
                 else
-                    html = contentmodels.Where(h => h.Type == ContentType.Html).Aggregate(html, (current, item) => current + item.Html);
+                    html = contentmodels.Where(h => h.ContentType == ContentType.Html).Aggregate(html, (current, item) => current + item.Html);
 
                 int fontSize = GetFontSize(d);
                 if (fontSize == 0)

@@ -11,6 +11,7 @@ namespace OfflineMediaV3.Data.Entities
         public string Teaser { get; set; }
 
         public string LogicUri { get; set; }
+        public string PublicUri { get; set; }
 
         public string Author { get; set; }
 
@@ -21,7 +22,9 @@ namespace OfflineMediaV3.Data.Entities
 
         public int LeadImageId { get; set; }
 
-        public string FeedId { get; set; }
-        public string SourceId { get; set; }
+        public string FeedConfigurationId { get; set; }
+        public string SourceConfigurationId { get; set; }
+        
+        public string WordDump { get; set; }
     }
 }

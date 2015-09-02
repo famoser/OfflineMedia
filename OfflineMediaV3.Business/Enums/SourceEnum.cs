@@ -12,6 +12,10 @@
         DerBund = 7,
         Tagesanzeiger = 8,
         Postillon = 9,
-        Favorites = 10
+        Stern = 10,
+        LeMatin = 11,
+        VingtQuatreHeures = 12,
+        TribuneDeGeneve = 13,
+        Favorites = 100
     }
 }

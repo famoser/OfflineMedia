@@ -10,8 +10,7 @@ namespace OfflineMediaV3.DisplayHelper.Converter
             DateTime dt = (DateTime)value;
             if (dt == DateTime.MinValue)
                 return "unbekanntes Veröffentlichungsdatum";
-            else
-                return dt.ToString("dd.MM.yyyy");
+            return dt.ToString("dd.MM.yyyy");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using OfflineMediaV3.Business.Framework.Generic;
 using OfflineMediaV3.Business.Models;
+using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Common.DebugHelpers;
 using OfflineMediaV3.Common.Framework.Logs;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.Data;
@@ -105,32 +107,107 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             return 0;
         }
 
-        public async Task<int> AddOrUpdate(TBusiness business)
+        public async Task<bool> Add(TBusiness business)
         {
             try
             {
-                var id = _entityBusinessConverter.GetPrimaryKeyFromBusiness(business);
-                TEntity entity = null;
-                if (id != 0)
-                    entity = await _dataService.GetById<TEntity>(id);
-
-                if (entity != null)
+                var entity = _entityBusinessConverter.ConvertToEntity(business, new TEntity(), true);
+                int id = await _dataService.Add(entity);
+                if (id != -1)
                 {
-                    entity = _entityBusinessConverter.ConvertToEntity(business, entity, true, false);
-                    return await _dataService.AddOrUpdate(entity) ? entity.Id : -1;
+                    business.Id = id;
+                    return true;
                 }
-
-                int newId = (await _dataService.GetHighestId<TEntity>()) + 1;
-                _entityBusinessConverter.SetPrimaryKeyToBusiness(business, newId);
-                entity = _entityBusinessConverter.ConvertToEntity(business, new TEntity(), true, true);
-                return await _dataService.AddOrUpdate(entity) ? newId : -1;
             }
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
                 LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
             }
-            return -1;
+            return false;
+        }
+
+        public async Task<bool> AddAll(List<TBusiness> business)
+        {
+            try
+            {
+                List<TEntity> list = new List<TEntity>();
+                foreach (var business1 in business)
+                {
+                    list.Add(_entityBusinessConverter.ConvertToEntity(business1, new TEntity(), true));
+                }
+                var res = await _dataService.AddAll(list);
+                if (res.Count == business.Count)
+                {
+                    for (int index = 0; index < business.Count; index++)
+                    {
+                        business[index].Id = res[index];
+                    }
+                    return true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+            }
+            return false;
+        }
+
+        public async Task<bool> Update(TBusiness business)
+        {
+            try
+            {
+                var entity = _entityBusinessConverter.ConvertToEntity(business, new TEntity(), true);
+                return await _dataService.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateAll(List<TBusiness> business)
+        {
+            try
+            {
+                List<TEntity> list = new List<TEntity>();
+                foreach (var business1 in business)
+                {
+                    list.Add(_entityBusinessConverter.ConvertToEntity(business1, new TEntity(), true));
+                }
+                return await _dataService.UpdateAll(list);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+            }
+            return false;
+        }
+
+
+
+        public async Task<bool> DeleteAll(List<TBusiness> business)
+        {
+            try
+            {
+                List<int> list = new List<int>();
+                foreach (var business1 in business)
+                {
+                    list.Add(_entityBusinessConverter.GetPrimaryKeyFromBusiness(business1));
+                }
+                return await _dataService.DeleteAllById<TEntity>(list);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+            }
+            return false;
         }
     }
 }

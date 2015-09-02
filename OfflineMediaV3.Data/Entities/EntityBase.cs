@@ -3,12 +3,8 @@ using SQLite.Net.Attributes;
 
 namespace OfflineMediaV3.Data.Entities
 {
-    public class EntityBase
+    public class EntityBase : EntityIdBase
     {
-        [AutoIncrement]
-        [PrimaryKey]
-        public int Id { get; set; }
-
         public DateTime ChangeDate { get; set; }
         public DateTime CreateDate { get; set; }
     }

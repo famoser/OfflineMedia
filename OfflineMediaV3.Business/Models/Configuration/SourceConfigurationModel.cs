@@ -14,6 +14,6 @@ namespace OfflineMediaV3.Business.Models.Configuration
 
         public SourceEnum Source { get; set; }
 
-        public List<FeedConfigurationModel> Feeds { get; set; } 
+        public List<FeedConfigurationModel> FeedConfigurationModels { get; set; } 
     }
 }

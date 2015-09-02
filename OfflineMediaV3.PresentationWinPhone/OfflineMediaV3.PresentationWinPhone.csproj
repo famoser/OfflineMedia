@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{76F1466A-8B6D-4E39-A767-685A06062A39};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -87,30 +87,39 @@
     </Compile>
     <Compile Include="DisplayHelper\Behaviors\ProgressIndicatorBehavior.cs" />
     <Compile Include="DisplayHelper\Behaviors\StatusBarBehavior.cs" />
+    <Compile Include="DisplayHelper\Converter\ListToStringConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArrayToStringConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticleCountCutter.cs" />
     <Compile Include="DisplayHelper\Converter\BoolVisibilityEvaluator.cs" />
     <Compile Include="DisplayHelper\Converter\BoolVisibilityEvaluatorInverted.cs" />
     <Compile Include="DisplayHelper\Converter\DateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\FontSizeArticleListEvaluator.cs" />
     <Compile Include="DisplayHelper\Converter\HeightEvaluator.cs" />
+    <Compile Include="DisplayHelper\Converter\ShortDateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\SpecificConverter\BoolToGridLenghtConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SpecificConverter\DisplayStateVisibilityConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SpecificConverter\DisplayStateConverter.cs" />
     <Compile Include="DisplayHelper\Converter\SpecificConverter\FavoriteIconConverter.cs" />
     <Compile Include="DisplayHelper\Converter\IsReadConverter.cs" />
     <Compile Include="DisplayHelper\Converter\PercentageToWidthConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ReferenceVisibillityEvaluator.cs" />
+    <Compile Include="DisplayHelper\Converter\SpecificConverter\LeadFontSizeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\SpecificConverter\SpritzStateIconConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SpecificConverter\ThemeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SpecificConverter\ULongToByteConverter.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\CustomGrid.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\HtmlManager.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\TagDefinition.cs" />
-    <Compile Include="Pages\ArticlePage.xaml.cs">
-      <DependentUpon>ArticlePage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DisplayHelper\StateManager.cs" />
     <Compile Include="Pages\FeedPage.xaml.cs">
       <DependentUpon>FeedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewArticlePage.xaml.cs">
+      <DependentUpon>NewArticlePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -125,9 +134,7 @@
     <Compile Include="UserControls\FeedList.xaml.cs">
       <DependentUpon>FeedList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\FullArticleList.xaml.cs">
-      <DependentUpon>FullArticleList.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -142,14 +149,17 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight">
+    <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\wpa81\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras">
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\wpa81\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Platform">
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.1.1.35052, Culture=neutral, PublicKeyToken=2d6752c4fdf70b88, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\wpa81\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
@@ -209,15 +219,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Pages\ArticlePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\FeedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewArticlePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,10 +240,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FeedList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\FullArticleList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

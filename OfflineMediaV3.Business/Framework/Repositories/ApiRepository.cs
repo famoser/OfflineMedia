@@ -28,7 +28,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                 foreach (var item in config)
                 {
                     postData.Entries.Add(new ServerRequestEntry() {Guid = item.Guid.ToString(), Value = item.BoolValue});
-                    foreach (var feedModel in item.Feeds)
+                    foreach (var feedModel in item.FeedConfigurationModels)
                     {
                         postData.Entries.Add(new ServerRequestEntry()
                         {

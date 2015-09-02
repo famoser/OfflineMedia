@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OfflineMediaV3.Business.Models.NewsModel;
+using OfflineMediaV3.Business.Sources;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
@@ -15,13 +16,17 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
         Task UpdateArticle(ArticleModel article);
 
         Task<ObservableCollection<SourceModel>> GetSources();
+        Task<SourceModel> GetFavorites();
 
         Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0);
 
         Task ActualizeArticles(IProgressService progressService);
 
-        Task<ArticleModel> ActualizeArticle(ArticleModel model);
+        Task<ArticleModel> ActualizeArticle(ArticleModel model, IMediaSourceHelper msh);
 
         Task<ArticleModel> GetCompleteArticle(int articleId);
+
+        Task<ObservableCollection<ArticleModel>> GetSimilarCathegoriesArticles(ArticleModel article, int max);
+        Task<ObservableCollection<ArticleModel>> GetSimilarTitlesArticles(ArticleModel article, int max);
     }
 }
