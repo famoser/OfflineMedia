@@ -1,0 +1,2 @@
+MainPackage=A:\Sync\Programmierung\Windows Phone\Projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\bin\ARM\Release\OfflineMediaV3.PresentationWinPhone_2015.832.0.16_ARM.appx
+SymbolPackage=A:\Sync\Programmierung\Windows Phone\Projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\AppPackages\OfflineMediaV3.PresentationWinPhone_2015.832.0.16_Test\OfflineMediaV3.PresentationWinPhone_2015.832.0.16_ARM.appxsym

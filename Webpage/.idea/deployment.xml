@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="offlinemedia.florianalexandermoser.ch">
+    <serverData>
+      <paths name="offlinemedia.florianalexandermoser.ch">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/www/offlinemedia.florianalexandermoser.ch" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

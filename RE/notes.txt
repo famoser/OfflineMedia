@@ -1,0 +1,21 @@
+Sources:
+süddeutsche zeitung
+	- verwendet authentication
+
+minimal Request header:
+Authorization: Signature keyId="3787d63b3f872f91",algorithm="hmac-sha1",headers="date x-nonce",signature="MmQ3N2Q1YjRhNmE4YjRmZmUyMWY3MGMyZmQwODAyMTQ5Njk0OWFlOQ=="
+date: Tue, 01 09 2015 14:09:57 GMT+1000
+x-nonce: 534d0e50-fa50-4054-8947-c2e1312b0a1d;GT-N7100
+Host: api.sueddeutsche.de
+Connection: Keep-Alive
+Accept-Encoding: gzip
+	
+	
+faz
+	- app started nicht im bluestacks player
+	
+taz
+	- hat keine app, es wird im pdf format gelesen
+
+spiegel
+	- verwendet rss feeds & html, nicht gut geeignet

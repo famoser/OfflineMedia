@@ -1,0 +1,60 @@
+h1
+{
+	font-size: 30px;
+}
+
+p {
+	font-size: 18px;
+	line-height: 1.8em;
+}
+
+a {
+	color: #dadada;
+}
+
+a:hover, a:active, a:focus {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+header {
+	height: 100%;
+	background-image: url("../img/39256-newspaper-wallpaper-1920x1200-(www.WallpaperMotion.com).jpg");
+	background-size: cover;
+}
+
+header div.center {
+	height: 100%;
+}
+
+header div.center div {
+	margin-top: 20%;
+	color: #ffffff;
+}
+
+header h1 {
+	text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.5);
+}
+
+header p {
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+section {
+	padding: 100px 0;
+}
+
+#faq {
+	background-color: #28784d;
+	color: #dadada;
+}
+
+#about {
+	background-color: #28546c;
+	color: #dadada;
+}
+
+#author {
+	background-color: #7E935E;
+	color: #dadada;
+}
