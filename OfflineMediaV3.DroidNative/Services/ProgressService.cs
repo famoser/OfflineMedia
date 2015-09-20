@@ -1,21 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
-using Java.Lang;
 using OfflineMediaV3.Common.Enums.View;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.View.ViewModels.Global;
 
-namespace OfflineMediaV3.Android.Services
+namespace OfflineMediaV3.DroidNative.Services
 {
     public class ProgressService : IProgressService
     {

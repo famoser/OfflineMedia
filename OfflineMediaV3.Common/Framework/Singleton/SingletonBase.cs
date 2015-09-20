@@ -6,6 +6,9 @@
     public class SingletonBase<T>
         where T : class , new()
     {
-        public static T Instance => SingletonManager.Instance.Get<T>();
+        public static T Instance
+        {
+            get { return SingletonManager.Instance.Get<T>(); }
+        }
     }
 }

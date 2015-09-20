@@ -121,7 +121,10 @@ namespace OfflineMediaV3.View.ViewModels
         #region open settings
 
         private RelayCommand _openSettingsCommand;
-        public ICommand OpenSettingsCommand => _openSettingsCommand;
+        public ICommand OpenSettingsCommand
+        {
+            get { return _openSettingsCommand; }
+        }
 
         private void OpenSettings()
         {
@@ -133,7 +136,10 @@ namespace OfflineMediaV3.View.ViewModels
         #region open info
 
         private RelayCommand _openInfoCommand;
-        public ICommand OpenInfoCommand => _openInfoCommand;
+        public ICommand OpenInfoCommand
+        {
+            get { return _openInfoCommand; }
+        }
 
         private void OpenInfo()
         {
@@ -146,9 +152,15 @@ namespace OfflineMediaV3.View.ViewModels
         #region refresh
 
         private RelayCommand _refreshCommand;
-        public ICommand RefreshCommand => _refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get { return _refreshCommand; }
+        }
 
-        private bool CanRefresh => !_isActualizing;
+        private bool CanRefresh
+        {
+            get { return !_isActualizing; }
+        }
 
         private void Refresh()
         {

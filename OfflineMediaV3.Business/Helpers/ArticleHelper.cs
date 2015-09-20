@@ -83,7 +83,7 @@ namespace OfflineMediaV3.Business.Helpers
 
         public IMediaSourceHelper GetMediaSource(ArticleModel am)
         {
-            if (am?.FeedConfiguration?.SourceConfiguration != null)
+            if (am != null && am.FeedConfiguration != null && am.FeedConfiguration.SourceConfiguration != null)
                 return GetMediaSource(am.FeedConfiguration.SourceConfiguration.Source);
             return null;
         }
@@ -111,7 +111,7 @@ namespace OfflineMediaV3.Business.Helpers
 
         public void AddWordDumpFromArticle2(ref ArticleModel am)
         {
-            if (am?.Content != null)
+            if (am!= null && am.Content != null)
             {
                 IMediaSourceHelper sh = GetMediaSource(am);
                 if (sh != null)

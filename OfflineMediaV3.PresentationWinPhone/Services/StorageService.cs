@@ -97,6 +97,7 @@ namespace OfflineMediaV3.Services
             }
             catch (Exception ex)
             {
+                LogHelper.Instance.Log(LogLevel.Error, this, "ClearFiles failed", ex);
                 return false;
             }
         }
@@ -127,6 +128,7 @@ namespace OfflineMediaV3.Services
             }
             catch (Exception ex)
             {
+                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteAll failed", ex);
                 return false;
             }
         }

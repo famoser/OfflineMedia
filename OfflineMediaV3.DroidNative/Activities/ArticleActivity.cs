@@ -2,7 +2,7 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 
-namespace OfflineMediaV3.Android.Activities
+namespace OfflineMediaV3.DroidNative.Activities
 {
     [Activity(Label = "ArticleActivity")]
     public class ArticleActivity : Activity

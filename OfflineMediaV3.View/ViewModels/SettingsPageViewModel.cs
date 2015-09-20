@@ -153,9 +153,15 @@ namespace OfflineMediaV3.View.ViewModels
         #region save
 
         private RelayCommand _saveCommand;
-        public ICommand SaveCommand => _saveCommand;
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand; }
+        }
 
-        private bool CanSave => _propHasBeenChanged && !_isSaving;
+        private bool CanSave
+        {
+            get { return _propHasBeenChanged && !_isSaving; }
+        }
 
         private bool _isSaving;
         private async void Save()
@@ -188,10 +194,16 @@ namespace OfflineMediaV3.View.ViewModels
 
         private bool _isClearingSave;
         private RelayCommand _clearSaveCommand;
-        public ICommand ClearSaveCommand => _clearSaveCommand;
+        public ICommand ClearSaveCommand
+        {
+            get { return _clearSaveCommand; }
+        }
 
-        private bool CanClearSave => !_isClearingSave;
-        
+        private bool CanClearSave
+        {
+            get { return !_isClearingSave; }
+        }
+
         private async void ClearSave()
         {
             _isClearingSave = true;

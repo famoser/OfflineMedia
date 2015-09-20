@@ -93,6 +93,7 @@ namespace OfflineMediaV3.Business.Framework
             return false;
         }
 
+#pragma warning disable 1998
         public async Task BeginTransaction(bool onlyread)
         {
             /*
@@ -116,6 +117,7 @@ namespace OfflineMediaV3.Business.Framework
                 LogHelper.Instance.Log(LogLevel.Error, this, "RollbackTransaction falied", ex);
             }*/
         }
+#pragma warning restore 1998
 
         public void RollbackTransaction(bool onlyread)
         {

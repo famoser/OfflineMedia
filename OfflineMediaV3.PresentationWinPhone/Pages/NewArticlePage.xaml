@@ -87,7 +87,7 @@
                                 <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Column="3" Command="{Binding OpenInBroserCommand}" Style="{ThemeResource Button}">
+                        <Button Grid.Column="3" Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource Button}">
                             <Button.Content>
                                 <SymbolIcon Symbol="World" />
                             </Button.Content>
@@ -275,7 +275,7 @@
                                 <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Column="3"  Command="{Binding OpenInBroserCommand}" Style="{ThemeResource Button}">
+                        <Button Grid.Column="3"  Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource Button}">
                             <Button.Content>
                                 <SymbolIcon Symbol="World" />
                             </Button.Content>

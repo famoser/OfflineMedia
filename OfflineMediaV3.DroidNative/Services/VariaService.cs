@@ -1,24 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Java.Net;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
 
-namespace OfflineMediaV3.Android.Services
+namespace OfflineMediaV3.DroidNative.Services
 {
     public class VariaService : IVariaService
     {
+#pragma warning disable 1998
         public async Task<bool> OpenInBrowser(Uri url)
+#pragma warning restore 1998
         {
-            var uri = global::Android.Net.Uri.Parse(url.AbsoluteUri);
+            var uri = Android.Net.Uri.Parse(url.AbsoluteUri);
             var intent = new Intent(Intent.ActionView, uri);
             RuntimeObjects.Context.StartActivity(intent);
             return true;

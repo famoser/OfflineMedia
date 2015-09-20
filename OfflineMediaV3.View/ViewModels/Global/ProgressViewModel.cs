@@ -23,7 +23,10 @@ namespace OfflineMediaV3.View.ViewModels.Global
             _messages.Add(IndeterminateProgressKey.SavingSettings, "Einstellungen werden gespeichert");
         }
 
-        public bool IsAnyProgressActive => IsPercentageProgress || IsIndeterminateProgress || IsDecentInformation;
+        public bool IsAnyProgressActive
+        {
+            get { return IsPercentageProgress || IsIndeterminateProgress || IsDecentInformation; }
+        }
 
         private bool _isDecentInformation;
         public bool IsDecentInformation

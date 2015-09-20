@@ -175,28 +175,52 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region SetStateCommand
         private readonly RelayCommand<DisplayState> _setDisplayState;
-        public ICommand SetDisplayStateCommand => _setDisplayState;
+        public ICommand SetDisplayStateCommand
+        {
+            get { return _setDisplayState; }
+        }
 
         private void SetDisplayState(DisplayState state)
         {
             DisplayState = state;
         }
 
-        public DisplayState DisplayStateArticle => DisplayState.Article;
-        public DisplayState DisplayStateSpritz => DisplayState.Spritz;
-        public DisplayState DisplayStateInfo => DisplayState.Info;
+        public DisplayState DisplayStateArticle
+        {
+            get { return DisplayState.Article; }
+        }
+
+        public DisplayState DisplayStateSpritz
+        {
+            get { return DisplayState.Spritz; }
+        }
+
+        public DisplayState DisplayStateInfo
+        {
+            get { return DisplayState.Info; }
+        }
+
         #endregion
 
         #region Article View
         
         private SettingModel _fontSize;
-        public int FontSize => (_fontSize == null || _fontSize.IntValue == 0) ? 15 : _fontSize.IntValue;
+        public int FontSize
+        {
+            get { return (_fontSize == null || _fontSize.IntValue == 0) ? 15 : _fontSize.IntValue; }
+        }
 
         #region MakeFontBiggerCommand
         private readonly RelayCommand _makeFontBiggerCommand;
-        public ICommand MakeFontBiggerCommand => _makeFontBiggerCommand;
+        public ICommand MakeFontBiggerCommand
+        {
+            get { return _makeFontBiggerCommand; }
+        }
 
-        private bool CanMakeFontBigger => _fontSize.IntValue < 40;
+        private bool CanMakeFontBigger
+        {
+            get { return _fontSize.IntValue < 40; }
+        }
 
         private void MakeFontBigger()
         {
@@ -210,9 +234,15 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region MakeFontSmallerCommand
         private readonly RelayCommand _makeFontSmallerCommand;
-        public ICommand MakeFontSmallerCommand => _makeFontSmallerCommand;
+        public ICommand MakeFontSmallerCommand
+        {
+            get { return _makeFontSmallerCommand; }
+        }
 
-        private bool CanMakeFontSmaller => _fontSize.IntValue > 5;
+        private bool CanMakeFontSmaller
+        {
+            get { return _fontSize.IntValue > 5; }
+        }
 
         private void MakeFontSmaller()
         {
@@ -226,9 +256,15 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region FavoriteCommand
         private readonly RelayCommand _favoriteCommand;
-        public ICommand FavoriteCommand => _favoriteCommand;
+        public ICommand FavoriteCommand
+        {
+            get { return _favoriteCommand; }
+        }
 
-        private bool CanFavorite => true;
+        private bool CanFavorite
+        {
+            get { return true; }
+        }
 
         private async void Favorite()
         {
@@ -244,7 +280,10 @@ namespace OfflineMediaV3.View.ViewModels
 
         private SettingModel _spritzSpeed;
 
-        public int ReadingSpeed => _spritzSpeed.IntValue;
+        public int ReadingSpeed
+        {
+            get { return _spritzSpeed.IntValue; }
+        }
 
         private string _beforeText = "S";
         public string BeforeText
@@ -291,9 +330,15 @@ namespace OfflineMediaV3.View.ViewModels
                 }
             }
         }
-        public int ActiveWord => _spritzWords != null ? _activeIndexSave + 1 : 0;
+        public int ActiveWord
+        {
+            get { return _spritzWords != null ? _activeIndexSave + 1 : 0; }
+        }
 
-        public int TotalWords => _spritzWords?.Count ?? 0;
+        public int TotalWords
+        {
+            get { return _spritzWords != null ? _spritzWords.Count : 0; }
+        }
 
         private List<SpritzWord> _spritzWords;
         private void InitializeSpritz()
@@ -371,9 +416,15 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region Go ToStart Button
         private readonly RelayCommand _goToStartCommand;
-        public ICommand GoToStartCommand => _goToStartCommand;
+        public ICommand GoToStartCommand
+        {
+            get { return _goToStartCommand; }
+        }
 
-        private bool CanGoToStart => _activeIndex > 0 && SpritzState != SpritzState.Running;
+        private bool CanGoToStart
+        {
+            get { return _activeIndex > 0 && SpritzState != SpritzState.Running; }
+        }
 
         private void GoToStart()
         {
@@ -388,9 +439,15 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region Go Left Button
         private readonly RelayCommand _goLeftCommand;
-        public ICommand GoLeftCommand => _goLeftCommand;
+        public ICommand GoLeftCommand
+        {
+            get { return _goLeftCommand; }
+        }
 
-        private bool CanGoLeft => _activeIndex > 0 && SpritzState != SpritzState.Running;
+        private bool CanGoLeft
+        {
+            get { return _activeIndex > 0 && SpritzState != SpritzState.Running; }
+        }
 
         private void GoLeft()
         {
@@ -410,9 +467,19 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region Go Right Button
         private readonly RelayCommand _goRightCommand;
-        public ICommand GoRightCommand => _goRightCommand;
+        public ICommand GoRightCommand
+        {
+            get { return _goRightCommand; }
+        }
 
-        private bool CanGoRight => _spritzWords != null && _activeIndex < _spritzWords.Count - 1 && SpritzState != SpritzState.Running;
+        private bool CanGoRight
+        {
+            get
+            {
+                return _spritzWords != null && _activeIndex < _spritzWords.Count - 1 &&
+                       SpritzState != SpritzState.Running;
+            }
+        }
 
         private void GoRight()
         {
@@ -432,9 +499,15 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region Open In Browser Button
         private readonly RelayCommand _openInBrowserCommand;
-        public ICommand OpenInBroserCommand => _openInBrowserCommand;
+        public ICommand OpenInBrowserCommand
+        {
+            get { return _openInBrowserCommand; }
+        }
 
-        private bool CanOpenInBrowser => Article?.PublicUri != null;
+        private bool CanOpenInBrowser
+        {
+            get { return Article != null && Article.PublicUri != null; }
+        }
 
         private void OpenInBrowser()
         {
@@ -444,23 +517,38 @@ namespace OfflineMediaV3.View.ViewModels
 
         #region Increase Speed Button
         private readonly RelayCommand _increaseSpeedCommand;
-        public ICommand IncreaseSpeedCommand => _increaseSpeedCommand;
+        public ICommand IncreaseSpeedCommand
+        {
+            get { return _increaseSpeedCommand; }
+        }
 
-        private bool CanIncreaseSpeed => true;
+        private bool CanIncreaseSpeed
+        {
+            get { return ReadingSpeed < 2000; }
+        }
 
         private void IncreaseSpeed()
         {
             _spritzSpeed.IntValue += 50;
             RaisePropertyChanged(() => ReadingSpeed);
             _settingsRepository.SaveSetting(_spritzSpeed);
+
+            _decreaseSpeedCommand.RaiseCanExecuteChanged();
+            _increaseSpeedCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
         #region Decrease Speed Button
         private readonly RelayCommand _decreaseSpeedCommand;
-        public ICommand DecreaseSpeedCommand => _decreaseSpeedCommand;
+        public ICommand DecreaseSpeedCommand
+        {
+            get { return _decreaseSpeedCommand; }
+        }
 
-        private bool CanDecreaseSpeed => ReadingSpeed > 50;
+        private bool CanDecreaseSpeed
+        {
+            get { return ReadingSpeed > 50; }
+        }
 
         private void DecreaseSpeed()
         {
@@ -469,14 +557,21 @@ namespace OfflineMediaV3.View.ViewModels
             _settingsRepository.SaveSetting(_spritzSpeed);
 
             _decreaseSpeedCommand.RaiseCanExecuteChanged();
+            _increaseSpeedCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
         #region Start Button
         private readonly RelayCommand _startCommand;
-        public ICommand StartCommand => _startCommand;
+        public ICommand StartCommand
+        {
+            get { return _startCommand; }
+        }
 
-        private bool CanStart => _isSpritzReady;
+        private bool CanStart
+        {
+            get { return _isSpritzReady; }
+        }
 
         private SpritzState _spritzState;
         public SpritzState SpritzState

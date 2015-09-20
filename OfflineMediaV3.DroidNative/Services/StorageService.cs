@@ -1,24 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Content.Res;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
-using Java.IO;
 using OfflineMediaV3.Common.Enums;
 using OfflineMediaV3.Common.Framework.Services.Interfaces;
-using Environment = Android.OS.Environment;
 
-namespace OfflineMediaV3.Android.Services
+namespace OfflineMediaV3.DroidNative.Services
 {
     public class StorageService : IStorageService
     {
@@ -95,7 +83,9 @@ namespace OfflineMediaV3.Android.Services
             return res;
         }
 
+#pragma warning disable 1998
         public async Task<bool> ClearFiles()
+#pragma warning restore 1998
         {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(RuntimeObjects.Context);
@@ -126,7 +116,9 @@ namespace OfflineMediaV3.Android.Services
             });
         }
         
+#pragma warning disable 1998
         public async Task<string> GetFilePathByKey(FileKeys fileKeys)
+#pragma warning restore 1998
         {
             return RuntimeObjects.Context.GetExternalFilesDir(null).AbsolutePath + "database.db";
         }

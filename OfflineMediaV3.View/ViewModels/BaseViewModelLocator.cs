@@ -57,15 +57,35 @@ namespace OfflineMediaV3.View.ViewModels
             SimpleIoc.Default.Register<SettingsPageViewModel>();
         }
 
-        public MainPageViewModel MainPageViewModel => ServiceLocator.Current.GetInstance<MainPageViewModel>();
+        public MainPageViewModel MainPageViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<MainPageViewModel>(); }
+        }
 
-        public FeedPageViewModel FeedPageViewModel => ServiceLocator.Current.GetInstance<FeedPageViewModel>();
+        public FeedPageViewModel FeedPageViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<FeedPageViewModel>(); }
+        }
 
-        public ArticlePageViewModel ArticlePageViewModel => ServiceLocator.Current.GetInstance<ArticlePageViewModel>();
+        public ArticlePageViewModel ArticlePageViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<ArticlePageViewModel>(); }
+        }
 
-        public SettingsPageViewModel SettingsPageViewModel => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
+        public SettingsPageViewModel SettingsPageViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<SettingsPageViewModel>(); }
+		}
 
-        public ProgressViewModel ProgressViewModel => ServiceLocator.Current.GetInstance<ProgressViewModel>();
+		public ProgressViewModel ProgressViewModel
+		{
+			get { return ServiceLocator.Current.GetInstance<ProgressViewModel>(); }
+		}
+
+		public SimpleViewModel SimpleViewModel
+		{
+			get { return ServiceLocator.Current.GetInstance<SimpleViewModel>(); }
+		}
 
         public static void Cleanup()
         {

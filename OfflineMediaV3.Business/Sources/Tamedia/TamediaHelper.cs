@@ -26,7 +26,7 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             try
             {
                 Feed f = JsonConvert.DeserializeObject<Feed>(feed);
-                if (f.category?.page_elements != null)
+                if (f.category != null && f.category.page_elements != null)
                     foreach (var page in f.category.page_elements)
                     {
                         foreach (var article in page.articles)
@@ -36,7 +36,7 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
                                 articlelist.Add(am);
                         }
                     }
-                if (f.list?.page_elements != null)
+                if (f.list != null && f.list.page_elements != null)
                     foreach (var page in f.list.page_elements)
                     {
                         foreach (var article in page.articles)
@@ -59,7 +59,9 @@ namespace OfflineMediaV3.Business.Sources.Tamedia
             return false;
         }
 
+#pragma warning disable 1998
         public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+#pragma warning restore 1998
         {
             throw new NotImplementedException();
         }

@@ -16,7 +16,9 @@ namespace OfflineMediaV3.Business.Sources.Postillon
 {
     public class PostillonHelper : SingletonBase<PostillonHelper>, IMediaSourceHelper
     {
+#pragma warning disable 1998
         public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
+#pragma warning restore 1998
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;

@@ -28,7 +28,7 @@ namespace OfflineMediaV3.View.ViewModels
 
         private async void RefreshedArticle(int obj)
         {
-            if (Feed?.ArticleList != null)
+            if (Feed != null && Feed.ArticleList != null)
             {
                 for (int index = 0; index < Feed.ArticleList.Count; index++)
                 {
