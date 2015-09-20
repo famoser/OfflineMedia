@@ -16,12 +16,6 @@ namespace OfflineMediaV3.UserControls
         {
             this.InitializeComponent();
             _navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
-
-            var vm = SimpleIoc.Default.GetInstance<ArticlePageViewModel>();
-            if (vm.Article != null)
-            {
-                ArticleListView.ScrollIntoView(vm.Article);
-            }
         }
 
         private readonly INavigationService _navigationService;

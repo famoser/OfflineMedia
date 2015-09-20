@@ -1,11 +1,10 @@
 http://mobile-feed.stern.de/android/digital/
 
-
-
-
-
 geplant:
 süddeutsche zeitung
 faz
 taz
 spiegel
+
+Windows phone media viewer
+https://www.nuget.org/packages/PhoneMediaViewer/

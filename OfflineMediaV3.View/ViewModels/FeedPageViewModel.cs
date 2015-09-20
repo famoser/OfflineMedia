@@ -18,10 +18,23 @@ namespace OfflineMediaV3.View.ViewModels
 
             Messenger.Default.Register<FeedModel>(this, Messages.Select, EvaluateSelect);
             Messenger.Default.Register<Guid>(this, Messages.FeedRefresh, Refreshed);
+            Messenger.Default.Register<int>(this, Messages.FeedArticleRefresh, RefreshedArticle);
 
             if (IsInDesignMode)
             {
                 Feed = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0];
+            }
+        }
+
+        private async void RefreshedArticle(int obj)
+        {
+            if (Feed?.ArticleList != null)
+            {
+                for (int index = 0; index < Feed.ArticleList.Count; index++)
+                {
+                    if (Feed.ArticleList[index].Id == obj)
+                        Feed.ArticleList[index] = await _articleRepository.GetArticleById(obj);
+                }
             }
         }
 

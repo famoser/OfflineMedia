@@ -82,75 +82,58 @@ namespace OfflineMediaV3.View.ViewModels.Global
         private Dictionary<IndeterminateProgressKey, string> _messages;
         public void ShowIndeterminateProgress(IndeterminateProgressKey key)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            if (_messages.ContainsKey(key))
             {
-                if (_messages.ContainsKey(key))
-                {
-                    ProgressMessage = _messages[key];
+                ProgressMessage = _messages[key];
 
-                    IsIndeterminateProgress = true;
-                }
-            });
+                IsIndeterminateProgress = true;
+            }
         }
 
         public void HideIndeterminateProgress(IndeterminateProgressKey key)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            if (_messages.ContainsKey(key))
             {
-                if (_messages.ContainsKey(key))
+                if (ProgressMessage == _messages[key])
                 {
-                    if (ProgressMessage == _messages[key])
-                    {
-                        ProgressMessage = "";
-                        IsIndeterminateProgress = false;
-                    }
+                    ProgressMessage = "";
+                    IsIndeterminateProgress = false;
                 }
-            });
+            }
         }
         #endregion
 
         #region percentage Progress
         public void ShowProgress(string message, int percentageCompleted)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
-            {
-                IsPercentageProgress = true;
-                ProgressMessage = message;
-                ProgressPercentage = percentageCompleted;
-            });
+            IsPercentageProgress = true;
+            ProgressMessage = message;
+            ProgressPercentage = percentageCompleted;
         }
 
         public void HideProgress()
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
-            {
-                IsPercentageProgress = false;
-                ProgressMessage = "";
-                ProgressPercentage = 100;
-            });
+            IsPercentageProgress = false;
+            ProgressMessage = "";
+            ProgressPercentage = 100;
         }
         #endregion
 
         public async void ShowDecentInformationMessage(string message, TimeSpan timespan)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            if (!IsPercentageProgress && !IsIndeterminateProgress)
             {
-                if (!IsPercentageProgress && !IsIndeterminateProgress)
-                {
-                    IsDecentInformation = true;
-                    ProgressMessage = message;
-                }
-            });
+                IsDecentInformation = true;
+                ProgressMessage = message;
+            }
+
             await Task.Delay(timespan);
 
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            if (ProgressMessage == message)
             {
-                if (ProgressMessage == message)
-                {
-                    ProgressMessage = "";
-                    IsDecentInformation = false;
-                }
-            });
+                ProgressMessage = "";
+                IsDecentInformation = false;
+            }
         }
     }
 }

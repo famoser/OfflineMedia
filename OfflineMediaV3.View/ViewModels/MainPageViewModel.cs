@@ -54,8 +54,31 @@ namespace OfflineMediaV3.View.ViewModels
                 Initialize();
 
             Messenger.Default.Register<Guid>(this, Messages.FeedRefresh, FeedRefreshed);
+            Messenger.Default.Register<int>(this, Messages.FeedArticleRefresh, ArticleRefreshed);
             Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, ReloadPage);
             Messenger.Default.Register<Messages>(this, EvaluateMessages);
+        }
+
+        private async void ArticleRefreshed(int obj)
+        {
+            if (Sources != null)
+            {
+                foreach (var sourceModel in Sources)
+                {
+                    if (sourceModel.FeedList != null)
+                    {
+                        foreach (var feedModel in sourceModel.FeedList)
+                        {
+
+                            for (int index = 0; index < feedModel.ArticleList.Count; index++)
+                            {
+                                if (feedModel.ArticleList[index].Id == obj)
+                                    feedModel.ArticleList[index] = await _articleRepository.GetArticleById(obj);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private async void EvaluateMessages(Messages obj)
@@ -151,6 +174,8 @@ namespace OfflineMediaV3.View.ViewModels
             {
                 Sources.Add(await _articleRepository.GetFavorites());
             }
+
+            Messenger.Default.Send(Messages.MainPageInitialized);
 
             ActualizeArticles();
             _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);

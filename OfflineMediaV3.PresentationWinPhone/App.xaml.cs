@@ -147,10 +147,7 @@ namespace OfflineMediaV3
             DispatcherHelper.Initialize();
 
             var applicationView = ApplicationView.GetForCurrentView();
-            applicationView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-
-            var statusBar = StatusBar.GetForCurrentView();
-            statusBar.HideAsync();
+            applicationView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
 
             // Ensure the current window is active
             Window.Current.Activate();
@@ -177,7 +174,6 @@ namespace OfflineMediaV3
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            Current.Exit();
         }
     }
 }

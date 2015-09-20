@@ -109,7 +109,7 @@ namespace OfflineMediaV3.Business.Helpers
             }
         }
 
-        public void AddWordDumpFromArticle(ref ArticleModel am)
+        public void AddWordDumpFromArticle2(ref ArticleModel am)
         {
             if (am?.Content != null)
             {

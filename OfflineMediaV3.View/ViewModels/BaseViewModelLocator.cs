@@ -18,6 +18,7 @@ using Microsoft.Practices.ServiceLocation;
 using OfflineMediaV3.Business.Framework;
 using OfflineMediaV3.Business.Framework.Repositories;
 using OfflineMediaV3.Business.Framework.Repositories.Interfaces;
+using OfflineMediaV3.Common.Framework.Singleton;
 using OfflineMediaV3.Data;
 using OfflineMediaV3.View.ViewModels.Global;
 
@@ -27,7 +28,7 @@ namespace OfflineMediaV3.View.ViewModels
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    public class BaseViewModelLocator
+    public class BaseViewModelLocator : SingletonBase<BaseViewModelLocator>
     {
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.

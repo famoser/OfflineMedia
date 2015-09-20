@@ -12,7 +12,7 @@
         <ListView IsItemClickEnabled="True" SelectionMode="None" IsHoldingEnabled="True" ItemsSource="{Binding FeedList}" Background="{ThemeResource BackgroundThemeBrush}" ItemClick="FeedList_ItemClick">
             <ListView.FooterTemplate>
                 <DataTemplate>
-                    <TextBlock Height="35" />
+                    <TextBlock Height="25" />
                 </DataTemplate>
             </ListView.FooterTemplate>
             <ListView.ItemTemplate>

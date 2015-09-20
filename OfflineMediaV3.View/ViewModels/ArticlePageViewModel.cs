@@ -21,6 +21,7 @@ using OfflineMediaV3.Business.Models.NewsModel;
 using OfflineMediaV3.Business.Sources;
 using OfflineMediaV3.Common.Enums.View;
 using OfflineMediaV3.Common.Framework.Logs;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using OfflineMediaV3.View.Enums;
 
 namespace OfflineMediaV3.View.ViewModels
@@ -29,17 +30,19 @@ namespace OfflineMediaV3.View.ViewModels
     {
         private readonly ISettingsRepository _settingsRepository;
         private readonly IArticleRepository _articleRepository;
+        private readonly IVariaService _variaService;
 
-        public ArticlePageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository)
+        public ArticlePageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IVariaService variaService)
         {
             Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
 
             _settingsRepository = settingsRepository;
             _articleRepository = articleRepository;
+            _variaService = variaService;
 
             if (IsInDesignMode)
             {
-                _displayState = DisplayState.Article;
+                _displayState = DisplayState.Spritz;
                 _article = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0].ArticleList[0];
                 _similarCathegoriesArticles = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0];
                 _similarTitlesArticles = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0];
@@ -68,6 +71,7 @@ namespace OfflineMediaV3.View.ViewModels
             _makeFontBiggerCommand = new RelayCommand(MakeFontBigger, () => CanMakeFontBigger);
             _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
             _favoriteCommand = new RelayCommand(Favorite, () => CanFavorite);
+            _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
 
             _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
             _goLeftCommand = new RelayCommand(GoLeft, () => CanGoLeft);
@@ -101,12 +105,8 @@ namespace OfflineMediaV3.View.ViewModels
                         if (sh.NeedsToEvaluateArticle())
                             Article = await _articleRepository.ActualizeArticle(Article, sh);
                     }
-                    var article = Article;
-                    ArticleHelper.Instance.AddWordDumpFromArticle(ref article);
-                    Article.State = ArticleState.Read;
-
-                    Article = article;
                     
+                    Article.State = ArticleState.Read;
                     await _articleRepository.UpdateArticle(Article);
                 }
                 else if (Article.State == ArticleState.Loaded)
@@ -114,6 +114,8 @@ namespace OfflineMediaV3.View.ViewModels
                     Article.State = ArticleState.Read;
                     await _articleRepository.UpdateArticle(Article);
                 }
+
+                Messenger.Default.Send(Article.Id, Messages.FeedArticleRefresh);
 
                 InitializeSpritz();
 
@@ -157,7 +159,11 @@ namespace OfflineMediaV3.View.ViewModels
         public ArticleModel Article
         {
             get { return _article; }
-            set { Set(ref _article, value); }
+            set
+            {
+                if (Set(ref _article, value))
+                    _openInBrowserCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private DisplayState _displayState;
@@ -190,13 +196,15 @@ namespace OfflineMediaV3.View.ViewModels
         private readonly RelayCommand _makeFontBiggerCommand;
         public ICommand MakeFontBiggerCommand => _makeFontBiggerCommand;
 
-        private bool CanMakeFontBigger => true;
+        private bool CanMakeFontBigger => _fontSize.IntValue < 40;
 
         private void MakeFontBigger()
         {
             _fontSize.IntValue += 2;
             RaisePropertyChanged(() => FontSize);
             _settingsRepository.SaveSetting(_fontSize);
+            _makeFontBiggerCommand.RaiseCanExecuteChanged();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -204,13 +212,15 @@ namespace OfflineMediaV3.View.ViewModels
         private readonly RelayCommand _makeFontSmallerCommand;
         public ICommand MakeFontSmallerCommand => _makeFontSmallerCommand;
 
-        private bool CanMakeFontSmaller => true;
+        private bool CanMakeFontSmaller => _fontSize.IntValue > 5;
 
         private void MakeFontSmaller()
         {
             _fontSize.IntValue -= 2;
             RaisePropertyChanged(() => FontSize);
             _settingsRepository.SaveSetting(_fontSize);
+            _makeFontBiggerCommand.RaiseCanExecuteChanged();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -417,6 +427,18 @@ namespace OfflineMediaV3.View.ViewModels
                 DisplayWord(_spritzWords[_activeIndex]);
                 _goRightCommand.RaiseCanExecuteChanged();
             }
+        }
+        #endregion
+
+        #region Open In Browser Button
+        private readonly RelayCommand _openInBrowserCommand;
+        public ICommand OpenInBroserCommand => _openInBrowserCommand;
+
+        private bool CanOpenInBrowser => Article?.PublicUri != null;
+
+        private void OpenInBrowser()
+        {
+            _variaService.OpenInBrowser(Article.PublicUri);
         }
         #endregion
 

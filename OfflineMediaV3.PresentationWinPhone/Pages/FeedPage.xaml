@@ -10,17 +10,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding FeedPageViewModel, Source={StaticResource Locator}}">
 
-    <ScrollViewer>
-        <StackPanel>
-            <Grid Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid Height="26" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
-                <ProgressBar IsIndeterminate="{Binding ProgressViewModel.IsIndeterminateProgress, Source={StaticResource Locator}}" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="26" />
-                <TextBlock Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
-            </Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalAlignment="Top" Margin="0,-30,0,0" Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Height="30" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
+            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="30" />
+            <TextBlock FontSize="12" Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
+        </Grid>
+        <ScrollViewer Grid.Row="0">
             <userControls:ArticleList DataContext="{Binding Feed}" />
-        </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </Page>

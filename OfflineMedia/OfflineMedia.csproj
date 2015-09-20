@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{7EA4C412-3BE0-4EF3-A20A-9F73DA6A1F91}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>OfflineMedia</RootNamespace>
+    <AssemblyName>OfflineMedia</AssemblyName>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="OfflineMedia.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OfflineMediaV3.Business\OfflineMediaV3.Business.csproj">
+      <Project>{518680BC-9186-4710-B944-5F596137D47C}</Project>
+      <Name>OfflineMediaV3.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.Common\OfflineMediaV3.Common.csproj">
+      <Project>{C921BCB6-3453-451F-911D-99502DCF6152}</Project>
+      <Name>OfflineMediaV3.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.Data\OfflineMediaV3.Data.csproj">
+      <Project>{48AA60FF-9377-4BA5-81D7-C0488BFC529A}</Project>
+      <Name>OfflineMediaV3.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMediaV3.View\OfflineMediaV3.View.csproj">
+      <Project>{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}</Project>
+      <Name>OfflineMediaV3.View</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

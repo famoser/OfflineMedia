@@ -22,44 +22,45 @@
         <converter:ShortDateTimeConverter x:Key="ShortDateTimeConverter" />
         <specificConverter:ThemeConverter x:Key="ThemeConverter" />
         <specificConverter:LeadFontSizeConverter x:Key="LeadFontSizeConverter" />
-        <converter:ListToStringConverter x:Key="ListToStringConverter" />
     </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!-- buttons -->
-        <Grid Grid.Row="0" Margin="0,-9,0,0">
+        <Grid Grid.Row="0" Height="35">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Background="{Binding DisplayState, Converter={StaticResource DisplayStateConverter}, ConverterParameter=Article}">
-                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateArticle}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" >
+                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateArticle}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" Template="{StaticResource NonResponsiveButton}" >
                     <Button.Content>
                         <SymbolIcon Symbol="AlignLeft" />
                     </Button.Content>
                 </Button>
             </Grid>
             <Grid Grid.Column="1" Background="{Binding DisplayState, Converter={StaticResource DisplayStateConverter}, ConverterParameter=Spritz}">
-                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateSpritz}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" >
+                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateSpritz}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" Template="{StaticResource NonResponsiveButton}" >
                     <Button.Content>
                         <SymbolIcon Symbol="View" />
                     </Button.Content>
                 </Button>
             </Grid>
             <Grid Grid.Column="2" Background="{Binding DisplayState, Converter={StaticResource DisplayStateConverter}, ConverterParameter=Info}">
-                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateInfo}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" >
+                <Button Command="{Binding SetDisplayStateCommand}" CommandParameter="{Binding DisplayStateInfo}" Style="{ThemeResource Button}" Background="{ThemeResource AkzentForegroundThemeBrush}" Template="{StaticResource NonResponsiveButton}" >
                     <Button.Content>
                         <SymbolIcon Symbol="More" />
                     </Button.Content>
                 </Button>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Article}">
+        <Border Grid.Row="1" BorderBrush="{ThemeResource AkzentBackgroundThemeBrush}" BorderThickness="1"></Border>
+        <Grid Grid.Row="2" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Article}">
             <ScrollViewer>
                 <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
 
@@ -86,7 +87,7 @@
                                 <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Column="3" Click="Button_Click"  Style="{ThemeResource Button}">
+                        <Button Grid.Column="3" Command="{Binding OpenInBroserCommand}" Style="{ThemeResource Button}">
                             <Button.Content>
                                 <SymbolIcon Symbol="World" />
                             </Button.Content>
@@ -154,7 +155,7 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <Grid Grid.Row="1" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Spritz}">
+        <Grid Grid.Row="2" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Spritz}">
             <ScrollViewer>
                 <Grid Background="{ThemeResource BackgroundThemeBrush}">
                     <Grid.RowDefinitions>
@@ -205,11 +206,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="4" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="40" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Margin="-80,0,0,0" Background="White">
+                        <ProgressBar VerticalAlignment="Top" Margin="0" IsIndeterminate="False" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Value="{Binding ActiveWord}" Grid.ColumnSpan="4" Maximum="{Binding TotalWords}"></ProgressBar>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Margin="-80,0,0,0" Background="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -227,26 +230,26 @@
                             <TextBlock Grid.Row="0" Text="{Binding AfterText}" Grid.Column="2" FontFamily="Helvetica" FontSize="35" Foreground="Black" VerticalAlignment="Center" TextAlignment="Left"/>
                         </Grid>
 
-                        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="-80,0,0,0">
+                        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Margin="-80,0,0,0">
                             <Border Background="White" Grid.Row="0" Height="54" Width="80" HorizontalAlignment="Left"/>
                         </Grid>
 
-                        <Button Grid.Row="2" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource Button}" >
+                        <Button Grid.Row="3" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource Button}" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Refresh" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="2" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource Button}" >
+                        <Button Grid.Row="3" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource Button}" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Remove" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="2" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource Button}" >
+                        <Button Grid.Row="3" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource Button}" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Add" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="2" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource Button}" >
+                        <Button Grid.Row="3" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource Button}" >
                             <Button.Content>
                                 <SymbolIcon Symbol="{Binding SpritzState, Converter={StaticResource SpritzStateIconConverter}}" />
                             </Button.Content>
@@ -255,8 +258,8 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <Grid Grid.Row="1" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Info}">
-            <ScrollViewer>
+        <Grid Grid.Row="2" Visibility="{Binding DisplayState, Converter={StaticResource DisplayStateVisibilityConverter}, ConverterParameter=Info}">
+            <ScrollViewer HorizontalScrollMode="Disabled">
                 <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
 
                     <!-- buttons -->
@@ -272,7 +275,7 @@
                                 <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
                             </Button.Content>
                         </Button>
-                        <Button Grid.Column="3" Click="Button_Click"  Style="{ThemeResource Button}">
+                        <Button Grid.Column="3"  Command="{Binding OpenInBroserCommand}" Style="{ThemeResource Button}">
                             <Button.Content>
                                 <SymbolIcon Symbol="World" />
                             </Button.Content>

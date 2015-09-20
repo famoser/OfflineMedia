@@ -208,6 +208,15 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             return sourceModel;
         }
 
+        public async Task<ArticleModel> GetArticleById(int articleId)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                return await AddModels(await repo.GetById(articleId), await unitOfWork.GetDataService());
+            }
+        }
+
         public async Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0)
         {
             using (var unitOfWork = new UnitOfWork(true))
@@ -237,8 +246,8 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                     if (newfeed != null)
                     {
                         ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-                        await FeedToDatabase(newfeed);
-                        Messenger.Default.Send(feed.FeedConfiguration.Guid, Messages.FeedRefresh);
+                        if (await FeedToDatabase(newfeed))
+                            Messenger.Default.Send(feed.FeedConfiguration.Guid, Messages.FeedRefresh);
                     }
                 }
             }
@@ -281,12 +290,11 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                                 article.State = ArticleState.Loaded;
                         }
 
-                        ArticleHelper.Instance.AddWordDumpFromArticle(ref article);
-
                         await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
                         await unitOfWork.Commit();
 
                         Messenger.Default.Send(article.Id, Messages.ArticleRefresh);
+                        Messenger.Default.Send(article.Id, Messages.FeedArticleRefresh);
                     }
                 }
                 progressService.ShowProgress("Artikel werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / maxCounter));
@@ -410,6 +418,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                     ArticleHelper.Instance.OptimizeArticle(ref article);
                 }
 
+                ArticleHelper.Instance.AddWordDumpFromArticle2(ref article);
                 return article;
             }
             catch (Exception ex)
@@ -483,11 +492,9 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                 {
                     using (var unitOfWork = new UnitOfWork(false))
                     {
-                        Stoppwatch sw = new Stoppwatch();
                         var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                         var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
                         var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
-                        sw.Stop();
                         for (int index = 0; index < articles.Count; index++)
                         {
                             var articleModel = articles[index];
@@ -499,19 +506,16 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                                 index--;
                             }
                         }
-                        sw.Stop();
 
                         //delete old ones
                         await DeleteAllArticlesAndTrances(oldfeed.Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
-                        sw.Stop();
 
                         //only new ones left
                         await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
-                        sw.Stop();
-                        var res = sw.Evaluate;
+
+                        await unitOfWork.Commit();
                         if (articles.Count > 0 && oldfeed.Count > 0)
                         {
-                            await unitOfWork.Commit();
                             return true;
                         }
                     }

@@ -23,7 +23,7 @@
                                              Text="{Binding ProgressViewModel.ProgressMessage,Source={StaticResource Locator}}"
                                              IsIndeterminate="{Binding ProgressViewModel.ShowProgress,Source={StaticResource Locator}}" />
     </i:Interaction.Behaviors>-->
-    
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -37,10 +37,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Pivot Style="{ThemeResource Pivot}" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }" Template="{StaticResource PivotControlTemplate1}">
+        <Pivot Style="{ThemeResource Pivot}" Grid.Row="0" DataContext="{Binding Sources}" ItemsSource="{Binding }" Template="{StaticResource PivotControlTemplate1}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
@@ -52,16 +51,16 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
-        <Grid Grid.Row="0" VerticalAlignment="Top" Margin="0,0" Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
+        <Grid VerticalAlignment="Top" Margin="0,-30,0,0" Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Height="26" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
-            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="26" />
-            <TextBlock Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
+            <Grid Height="30" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
+            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="30" />
+            <TextBlock FontSize="12" Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
         </Grid>
     </Grid>
-    
+
     <Page.BottomAppBar>
         <CommandBar Opacity="0.6" ClosedDisplayMode="Minimal">
             <AppBarButton Label="neu laden" Icon="Refresh" Command="{Binding RefreshCommand}" />

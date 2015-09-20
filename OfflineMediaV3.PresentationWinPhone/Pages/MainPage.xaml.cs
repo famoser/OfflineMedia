@@ -19,36 +19,5 @@ namespace OfflineMediaV3.Pages
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
-
-        private ProgressViewModel _viewModel = SimpleIoc.Default.GetInstance<ProgressViewModel>();
-        private MainPageViewModel _mainPageViewModel = SimpleIoc.Default.GetInstance<MainPageViewModel>();
-
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            //State["ScrolPos"] = 12;
-            base.OnNavigatedTo(e);
-            if (_mainPageViewModel.Sources != null)
-                foreach (var sources in _mainPageViewModel.Sources)
-                {
-                    if (sources.FeedList != null)
-                        foreach (var feedModel in sources.FeedList)
-                        {
-                            if (feedModel.ArticleList != null)
-                            {
-                                feedModel.RefreshArticleList();
-                            }
-                        }
-                }
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-        }
     }
 }

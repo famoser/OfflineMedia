@@ -14,7 +14,6 @@ namespace OfflineMediaV3.UserControls
         public FeedList()
         {
             this.InitializeComponent();
-
             _navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
         }
 

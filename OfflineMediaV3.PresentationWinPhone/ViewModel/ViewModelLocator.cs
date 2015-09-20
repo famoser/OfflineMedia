@@ -43,6 +43,7 @@ namespace OfflineMediaV3.ViewModel
             // Create design time view services and models
             SimpleIoc.Default.Register<IProgressService, ProgressService>();
             SimpleIoc.Default.Register<IStorageService, StorageService>();
+            SimpleIoc.Default.Register<IVariaService, VariaService>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
 
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
