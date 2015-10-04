@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="OfflineMediaV3.UserControls.MyDayControls.ToDo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OfflineMediaV3.UserControls.MyDayControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="500"
+    Foreground="White"
+     d:DataContext="{Binding MyDayViewModel, Source={StaticResource Locator}}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="ToDoDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{Binding }" FontSize="20" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <Button Grid.Row="0" Grid.Column="1" Margin="0" Style="{ThemeResource MyDayButton}" Command="{Binding MyDayViewModel.RemoveToDoCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
+                    <Button.Content>
+                        <SymbolIcon Symbol="Remove" />
+                    </Button.Content>
+                </Button>
+                <Border Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Style="{ThemeResource WeatherBorder}" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel Background="{ThemeResource AkzentBackgroundThemeBrush}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox TabIndex="10" PlaceholderText="neuer Eintrag..." Margin="0,10,10,10" Height="36" Grid.Column="0" Text="{Binding NewToDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="1" Margin="0" Style="{ThemeResource MyDayButton}" Command="{Binding AddNewToDoCommand}">
+                <Button.Content>
+                    <SymbolIcon Symbol="Add" />
+                </Button.Content>
+            </Button>
+        </Grid>
+        <Border Style="{ThemeResource WeatherBorder}" BorderThickness="0,2,0,0" />
+        <ListView 
+            ItemsSource="{Binding ToDos}" 
+            ItemTemplate="{StaticResource ToDoDataTemplate}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+
+    </StackPanel>
+</UserControl>

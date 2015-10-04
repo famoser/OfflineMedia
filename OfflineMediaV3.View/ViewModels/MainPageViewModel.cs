@@ -164,6 +164,7 @@ namespace OfflineMediaV3.View.ViewModels
 
         private void Refresh()
         {
+             Messenger.Default.Send(Messages.RefreshWeather);
             ActualizeArticles();
         }
 
@@ -179,6 +180,8 @@ namespace OfflineMediaV3.View.ViewModels
                 foreach (var feedModel in sourceModel.FeedList)
                 {
                     feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
+                    if (!feedModel.ArticleList.Any())
+                        feedModel.ArticleList.Add(_articleRepository.GetEmptyFeedArticle());
                 }
             }
             _favorites = await _settingsRepository.GetSettingByKey(SettingKeys.FavoritesEnabled);

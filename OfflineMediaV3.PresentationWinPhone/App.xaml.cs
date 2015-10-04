@@ -48,36 +48,41 @@ namespace OfflineMediaV3
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            if (rootFrame != null && rootFrame.CanGoBack)
+            
+            if (!e.Handled)
             {
-                if (_burnNextGoBack != PageKeys.Undefined)
-                {
-                    var nav = SimpleIoc.Default.GetInstance<INavigationService>();
-                    nav.GoBack();
-                    nav.GoBack();
-                    nav.NavigateTo(_burnNextGoBack.ToString());
+                Frame rootFrame = Window.Current.Content as Frame;
 
-                    _burnNextGoBack = PageKeys.Undefined;
-                }
-                else
+                if (rootFrame != null && rootFrame.CanGoBack)
                 {
-                    rootFrame.GoBack();
                     if (_burnNextGoBack != PageKeys.Undefined)
                     {
                         var nav = SimpleIoc.Default.GetInstance<INavigationService>();
+                        nav.GoBack();
+                        nav.GoBack();
                         nav.NavigateTo(_burnNextGoBack.ToString());
-                        rootFrame.BackStack.RemoveAt(rootFrame.BackStackDepth - 1);
 
                         _burnNextGoBack = PageKeys.Undefined;
                     }
+                    else
+                    {
+                        rootFrame.GoBack();
+                        if (_burnNextGoBack != PageKeys.Undefined)
+                        {
+                            var nav = SimpleIoc.Default.GetInstance<INavigationService>();
+                            nav.NavigateTo(_burnNextGoBack.ToString());
+                            rootFrame.BackStack.RemoveAt(rootFrame.BackStackDepth - 1);
+
+                            _burnNextGoBack = PageKeys.Undefined;
+                        }
+                    }
+                    e.Handled = true;
                 }
-                e.Handled = true;
-            }
-            else
-            {
-                Current.Exit();
+                else
+                {
+                    //handled in MainPage
+                    //Current.Exit();
+                }
             }
         }
 

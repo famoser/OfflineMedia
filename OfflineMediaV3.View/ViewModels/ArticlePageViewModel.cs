@@ -105,7 +105,7 @@ namespace OfflineMediaV3.View.ViewModels
                         if (sh.NeedsToEvaluateArticle())
                             Article = await _articleRepository.ActualizeArticle(Article, sh);
                     }
-                    
+
                     Article.State = ArticleState.Read;
                     await _articleRepository.UpdateArticle(Article);
                 }
@@ -170,7 +170,26 @@ namespace OfflineMediaV3.View.ViewModels
         public DisplayState DisplayState
         {
             get { return _displayState; }
-            set { Set(ref _displayState, value); }
+            set
+            {
+                if (Set(ref _displayState, value))
+                {
+                    RaisePropertyChanged(() => DisplayStateIndex);
+                }
+            }
+        }
+
+        public int DisplayStateIndex
+        {
+            get { return (int)_displayState; }
+            set
+            {
+                var newdisplaystatae = (DisplayState)value;
+                if (Set(ref _displayState, newdisplaystatae))
+                {
+                    RaisePropertyChanged(() => DisplayState);
+                }
+            }
         }
 
         #region SetStateCommand
@@ -203,7 +222,7 @@ namespace OfflineMediaV3.View.ViewModels
         #endregion
 
         #region Article View
-        
+
         private SettingModel _fontSize;
         public int FontSize
         {
@@ -324,7 +343,7 @@ namespace OfflineMediaV3.View.ViewModels
             get { return _activeIndexSave; }
             set
             {
-                if (Set(ref _activeIndexSave,value))
+                if (Set(ref _activeIndexSave, value))
                 {
                     RaisePropertyChanged(() => ActiveWord);
                 }

@@ -15,6 +15,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
+using OfflineMedia.WindowsPhone.Services;
+using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using SQLite.Net.Interop;
+using SQLite.Net.Platform.WinRT;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -45,6 +52,16 @@ namespace OfflineMedia.WindowsPhone
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            // Create design time view services and models
+            SimpleIoc.Default.Register<IProgressService, ProgressService>();
+            SimpleIoc.Default.Register<IStorageService, StorageService>();
+            SimpleIoc.Default.Register<IVariaService, VariaService>();
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
+
+            SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
+
             Xamarin.Forms.Forms.Init(e);
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -68,6 +85,7 @@ namespace OfflineMedia.WindowsPhone
                 // Set the default language
                 rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
+                Xamarin.Forms.Forms.Init(e);
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application

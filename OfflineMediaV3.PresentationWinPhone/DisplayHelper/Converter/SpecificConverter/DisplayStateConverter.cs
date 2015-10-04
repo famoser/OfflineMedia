@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 using OfflineMediaV3.Common.Enums.View;
 
 namespace OfflineMediaV3.DisplayHelper.Converter.SpecificConverter
@@ -15,7 +17,7 @@ namespace OfflineMediaV3.DisplayHelper.Converter.SpecificConverter
         {
             DisplayState ds = (DisplayState)value;
             if (ds.ToString() == (string)parameter)
-                return Application.Current.Resources["AkzentBackgroundThemeBrush"];
+                return new SolidColorBrush(Colors.Transparent);
             return Application.Current.Resources["BackgroundThemeBrush"];
         }
 

@@ -1,7 +1,14 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.Graphics.Display;
+using Windows.Phone.UI.Input;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using OfflineMediaV3.InfoPage;
 using OfflineMediaV3.View.ViewModels;
 using OfflineMediaV3.View.ViewModels.Global;
 
@@ -16,8 +23,35 @@ namespace OfflineMediaV3.Pages
     {
         public MainPage()
         {
-            this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (!e.Handled)
+            { 
+                if (_open)
+                {
+                    Button_Tapped(null, null);
+                    e.Handled = true;
+                }
+                else
+                {
+                    Application.Current.Exit();
+                }
+            }
+        }
+
+        private bool _open = false;
+        private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (_open)
+                Close.Begin();
+            else
+                Open.Begin();
+            _open = !_open;
         }
     }
 }

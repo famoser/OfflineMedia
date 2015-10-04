@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:specificConverter="using:OfflineMediaV3.DisplayHelper.Converter.SpecificConverter"
+    xmlns:userControls="using:OfflineMediaV3.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding SettingsPageViewModel, Source={StaticResource Locator}}">
@@ -13,9 +14,23 @@
     <Page.Resources>
         <specificConverter:ULongToByteConverter x:Key="ULongToByteConverter" />
     </Page.Resources>
-    
-    <Grid>
-        <Pivot Style="{StaticResource Pivot}">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Style="{ThemeResource RootGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Pivot Grid.Row="1" Style="{StaticResource Pivot}">
             <PivotItem>
                 <PivotItem.Header>
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="Einstellungen" />

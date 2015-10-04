@@ -28,6 +28,8 @@ namespace OfflineMedia.Droid
 		{
 			global::GalaSoft.MvvmLight.Resource.String.ApplicationName = global::OfflineMedia.Droid.Resource.String.ApplicationName;
 			global::GalaSoft.MvvmLight.Resource.String.Hello = global::OfflineMedia.Droid.Resource.String.Hello;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::OfflineMedia.Droid.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::OfflineMedia.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

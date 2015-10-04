@@ -127,6 +127,32 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             };
         }
 
+        public ArticleModel GetEmptyFeedArticle()
+        {
+            return new ArticleModel()
+            {
+                Author = "Florian Moser",
+                Content = new List<ContentModel>
+                {
+                    new ContentModel()
+                    {
+                        ContentType = ContentType.Html,
+                        Html = "<h1>Dieser Feed wurde noch nicht heruntergeladen</h1>"
+                    }
+                },
+                Title = "Feed noch leer",
+                SubTitle = "Dieser Feed wurde noch nicht heruntergeladen",
+                Teaser = "Verbinden Sie sich mit dem Internet, um diesen Feed zu aktualisieren",
+                Themes = new List<ThemeModel>() { new ThemeModel() { Name = "Info" } },
+                ChangeDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                IsStatic = true,
+                PublicationTime = DateTime.Now,
+                State = ArticleState.Loaded,
+                PublicUri = new Uri("http://offlinemedia.florianalexandermoser.ch/")
+            };
+        }
+
         public async Task UpdateArticle(ArticleModel article)
         {
             using (var unitOfWork = new UnitOfWork(false))
@@ -514,7 +540,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                         await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
 
                         await unitOfWork.Commit();
-                        if (articles.Count > 0 && oldfeed.Count > 0)
+                        if (articles.Count > 0)
                         {
                             return true;
                         }

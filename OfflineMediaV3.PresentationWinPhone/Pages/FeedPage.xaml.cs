@@ -13,6 +13,7 @@ namespace OfflineMediaV3.Pages
         public FeedPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
     }
 }

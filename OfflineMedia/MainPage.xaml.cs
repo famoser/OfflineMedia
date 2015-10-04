@@ -9,12 +9,12 @@ using OfflineMediaV3.View.ViewModels;
 
 namespace OfflineMedia
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : TabbedPage
     {
         public MainPage()
         {
             InitializeComponent();
-			BindingContext = BaseViewModelLocator.Instance.SimpleViewModel;
+			BindingContext = BaseViewModelLocator.Instance.MainPageViewModel;
         }
     }
 }

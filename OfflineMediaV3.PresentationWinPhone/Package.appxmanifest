@@ -30,5 +30,15 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
+    <DeviceCapability Name="location" />
+    <m2:DeviceCapability Name="humaninterfacedevice">
+      <m2:Device Id="vidpid:0421 0716">
+        <m2:Function Type="usage:ffaa 0001" />
+        <m2:Function Type="usage:ffee 0001" />
+        <m2:Function Type="usage:ffee 0002" />
+        <m2:Function Type="usage:ffee 0003" />
+        <m2:Function Type="usage:ffee 0004" />
+      </m2:Device>
+    </m2:DeviceCapability>
   </Capabilities>
 </Package>

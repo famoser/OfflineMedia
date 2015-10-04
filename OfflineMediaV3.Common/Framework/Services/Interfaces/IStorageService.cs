@@ -9,6 +9,7 @@ namespace OfflineMediaV3.Common.Framework.Services.Interfaces
         Task<bool> SaveFileByKey(FileKeys key, string content);
         Task<string> GetSettingsJson();
         Task<string> GetSourceJson();
+        Task<string> GetWeatherFontJson();
 
         Task<ulong> GetFileSizes();
         Task<bool> ClearFiles();

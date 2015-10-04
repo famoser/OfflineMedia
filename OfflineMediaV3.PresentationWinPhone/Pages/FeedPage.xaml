@@ -10,19 +10,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding FeedPageViewModel, Source={StaticResource Locator}}">
 
-    <Grid>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Style="{ThemeResource RootGridStyle}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid VerticalAlignment="Top" Margin="0,-30,0,0" Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid Height="30" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
-            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="30" />
-            <TextBlock FontSize="12" Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
-        </Grid>
-        <ScrollViewer Grid.Row="0">
+        <userControls:ProgressBar Grid.Row="0" />
+        <ScrollViewer Grid.Row="1" Background="White">
             <userControls:ArticleList DataContext="{Binding Feed}" />
         </ScrollViewer>
     </Grid>

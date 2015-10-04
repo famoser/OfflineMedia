@@ -47,5 +47,51 @@
         "DefaultValue": "5201b6e5-7420-478a-8465-4c33dd381487",
         "IsChangeable": "false",
         "ValueType": "3"
+    },
+    {
+        "Guid": "adf428ab-f7e1-408f-bfd5-a3bdee8ca347",
+        "Key": "OverviewWindowEnabled",
+        "DefaultValue": "false",
+        "IsChangeable": "true",
+        "IsCriticalChange": "false",
+        "ValueType": "0",
+        "OnContent": "Tagesübersicht anzeigen",
+        "OffContent": "Tagesübersicht ausblenden"
+    },
+    {
+        "Guid": "c0033136-0919-4954-9f18-813ef489d852",
+        "Key": "WeatherCity1",
+        "DefaultValue": "Basel",
+        "IsChangeable": "true",
+        "ValueType": "3",
+        "Description": "Wetter für diese Stadt anzeigen (in der Tagesübersicht)"
+    },
+    {
+        "Guid": "7cb087ec-4033-4991-abe2-242e0b3ff256",
+        "Key": "WeatherCity2",
+        "DefaultValue": "Zürich",
+        "IsChangeable": "true",
+        "ValueType": "3",
+        "Description": "Wetter für diese Stadt anzeigen (in der Tagesübersicht)"
+    },
+    {
+        "Guid": "6729d5d7-df09-4465-a5f1-4badf9be4c7d",
+        "Key": "WeatherCity1Content",
+        "DefaultValue": "",
+        "IsChangeable": "false"
+    },
+    {
+        "Guid": "f62bd688-c98c-4ed7-a39f-bae68a5d2a1d",
+        "Key": "WeatherCity2Content",
+        "DefaultValue": "",
+        "IsChangeable": "false"
+    },
+    {
+        "Guid": "54d171e2-ac79-4301-b034-9d0c093e3df1",
+        "Key": "ToDoList",
+        "DefaultValue": "[]",
+        "IsChangeable": "false",
+        "ValueType": "3",
+        "Description": "Wetter für diese Stadt anzeigen (in der Tagesübersicht)"
     }
 ]

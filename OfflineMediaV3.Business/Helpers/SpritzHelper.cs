@@ -19,6 +19,7 @@ namespace OfflineMediaV3.Business.Helpers
                     if (content.Html != null)
                     {
                         string cleanstring = Regex.Replace(content.Html, "<.*?>", String.Empty);
+                        cleanstring = cleanstring.Replace("\n", "");
                         string[] splitresult = cleanstring.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                         if (splitresult != null)
                         {
@@ -53,7 +54,7 @@ namespace OfflineMediaV3.Business.Helpers
 
                                 var sw = new SpritzWord();
                                 if (wordlist[i].Length == 1)
-                                    sw.Middle = wordlist[1][0];
+                                    sw.Middle = wordlist[i][0];
                                 else if (wordlist[i].Length >= 2 && wordlist[i].Length <= 5)
                                 {
                                     sw.Before = wordlist[i][0].ToString();
@@ -62,13 +63,13 @@ namespace OfflineMediaV3.Business.Helpers
                                 }
                                 else if (wordlist[i].Length >= 6 && wordlist[i].Length <= 9)
                                 {
-                                    sw.Before = wordlist[i].Substring(0, 2).ToString();
+                                    sw.Before = wordlist[i].Substring(0, 2);
                                     sw.Middle = wordlist[i][2];
                                     sw.After = wordlist[i].Substring(3);
                                 }
                                 else //(wordlist[i].Length >= 10)
                                 {
-                                    sw.Before = wordlist[i].Substring(0, 3).ToString();
+                                    sw.Before = wordlist[i].Substring(0, 3);
                                     sw.Middle = wordlist[i][3];
                                     sw.After = wordlist[i].Substring(4);
                                 }
@@ -106,7 +107,7 @@ namespace OfflineMediaV3.Business.Helpers
                 LogHelper.Instance.Log(LogLevel.FatalError, "SpritzHelper", "GenerateList failed", ex);
                 return null;
             }
-           
+
             return words;
         }
     }

@@ -41,6 +41,7 @@ namespace OfflineMediaV3.View.ViewModels
             SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
             SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
             SimpleIoc.Default.Register<IApiRepository, ApiRepository>();
+            SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -55,6 +56,10 @@ namespace OfflineMediaV3.View.ViewModels
             SimpleIoc.Default.Register<FeedPageViewModel>();
             SimpleIoc.Default.Register<ArticlePageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
+            SimpleIoc.Default.Register<SimpleViewModel>();
+            SimpleIoc.Default.Register<MyDayViewModel>();
+
+            SimpleIoc.Default.Register<ProgressViewModel>();
         }
 
         public MainPageViewModel MainPageViewModel
@@ -80,13 +85,18 @@ namespace OfflineMediaV3.View.ViewModels
 		public ProgressViewModel ProgressViewModel
 		{
 			get { return ServiceLocator.Current.GetInstance<ProgressViewModel>(); }
-		}
+        }
 
-		public SimpleViewModel SimpleViewModel
-		{
-			get { return ServiceLocator.Current.GetInstance<SimpleViewModel>(); }
-		}
+        public SimpleViewModel SimpleViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<SimpleViewModel>(); }
+        }
 
+        public MyDayViewModel MyDayViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<MyDayViewModel>(); }
+        }
+        
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

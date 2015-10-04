@@ -26,6 +26,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
 
         Task<bool> SaveSettings();
         Task<bool> SaveSetting(SimpleSettingModel ssm);
+        Task<bool> SaveSettingByKey(SettingKeys key, string value);
 
         Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid, IDataService dataService);
     }

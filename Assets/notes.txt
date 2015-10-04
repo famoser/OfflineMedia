@@ -1,10 +1,12 @@
-http://mobile-feed.stern.de/android/digital/
-
-geplant:
-süddeutsche zeitung
-faz
-taz
-spiegel
-
-Windows phone media viewer
+Windows phone media viewer (media slider)
 https://www.nuget.org/packages/PhoneMediaViewer/
+
+WinRT XAML Toolkit (calender, data)
+http://winrtxamltoolkit.codeplex.com/
+
+
+Hyperlinks:
+http://stackoverflow.com/questions/18449031/adding-a-custom-font-to-a-windows-phone-8-app
+https://github.com/websygen/owfont/tree/master/fonts
+http://api.openweathermap.org/data/2.5/forecast?q=Basel&lang=de
+http://openweathermap.org/forecast5

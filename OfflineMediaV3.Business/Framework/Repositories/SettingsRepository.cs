@@ -180,6 +180,34 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             return false;
         }
 
+        public async Task<bool> SaveSettingByKey(SettingKeys key, string value)
+        {
+            try
+            {
+                if (_isInitialized)
+                {
+                    using (var unitOfWork = new UnitOfWork(false))
+                    {
+                        var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(await unitOfWork.GetDataService());
+
+                        var set = await GetSettingByKey(key, await unitOfWork.GetDataService());
+                        set.Value = value;
+
+                        await repo.Update(set);
+
+                        await unitOfWork.Commit();
+                        return true;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "SaveConfiguration", ex);
+            }
+            return false;
+        }
+
         public async Task<bool> SaveSettings()
         {
             try

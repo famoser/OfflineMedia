@@ -58,10 +58,6 @@ namespace OfflineMediaV3.ViewModel
                 var navigationService = CreateNavigationService();
                 SimpleIoc.Default.Register(() => navigationService);
             }
-
-
-            //create global viewmodels
-            SimpleIoc.Default.Register<ProgressViewModel>();
         }
 
         private INavigationService CreateNavigationService()

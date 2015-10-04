@@ -13,6 +13,8 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
 
         ArticleModel GetInfoArticle();
 
+        ArticleModel GetEmptyFeedArticle();
+
         Task UpdateArticle(ArticleModel article);
 
         Task<ObservableCollection<SourceModel>> GetSources();

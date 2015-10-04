@@ -1,6 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="OfflineMedia.MainPage">
-  <Label Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Center" />
-</ContentPage>
+             x:Class="OfflineMedia.MainPage"
+            Title="Source"
+            ItemsSource="{Binding Sources}">
+  <TabbedPage.ItemTemplate>
+    <DataTemplate>
+      <ContentPage Title="{Binding SourceConfiguration.SourceNameShort}" BackgroundColor="Teal">
+        <ListView ItemsSource="{Binding FeedList}" BackgroundColor="Olive">
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <StackLayout>
+                <Label Text="{Binding Titel}"/>
+                <ListView ItemsSource="{Binding ArticleList}">
+                  <ListView.ItemTemplate>
+                    <DataTemplate>
+                      <StackLayout>
+                        <Label Text="{Binding Titel}"/>
+                        </StackLayout>
+                      </DataTemplate>
+                  </ListView.ItemTemplate>
+                </ListView>
+              </StackLayout>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+      </ContentPage>
+    </DataTemplate>
+  </TabbedPage.ItemTemplate>
+
+</TabbedPage>

@@ -8,6 +8,7 @@
         ArticleRefresh,
         ReloadGoBackPage,
         FavoritesChanged,
-        MainPageInitialized
+        MainPageInitialized,
+        RefreshWeather
     }
 }

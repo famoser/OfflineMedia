@@ -69,6 +69,11 @@ namespace OfflineMediaV3.Services
             return GetContentsOfAssetFile("Source");
         }
 
+        public Task<string> GetWeatherFontJson()
+        {
+            return GetContentsOfAssetFile("WeatherFontMapping");
+        }
+
         public async Task<ulong> GetFileSizes()
         {
             ulong totalsize = 0;
