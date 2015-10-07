@@ -25,9 +25,12 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <userControls:ProgressBar Grid.Row="0" />
-        <ScrollViewer Grid.Row="1" Background="White">
+        <ScrollViewer Grid.Row="1">
             <userControls:ArticleList DataContext="{Binding Feed}" />
         </ScrollViewer>
+        <userControls:ProgressBar Grid.Row="0" />
+        <Grid.Background>
+            <ImageBrush ImageSource="../Assets/Images/skulls-background-small.png" Stretch="None" />
+        </Grid.Background>
     </Grid>
 </Page>

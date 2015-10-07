@@ -277,25 +277,26 @@ namespace OfflineMediaV3.Business.Framework
             return false;
         }
 
-        public async Task<List<T>> GetByCondition<T>(Expression<Func<T, bool>> func, Expression<Func<T, object>> orderByProperty = null, bool descending = false, int limit = 0) where T : class, new()
+        public async Task<List<T>> GetByCondition<T>(Expression<Func<T, bool>> func, Expression<Func<T, object>> orderByProperty, bool descending, int limit, int skip) where T : class, new()
         {
             try
             {
+
                 if (orderByProperty != null)
                 {
                     if (descending)
                     {
                         if (limit > 0)
-                            return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Take(limit).ToListAsync();
-                        return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).ToListAsync();
+                            return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Skip(skip).Take(limit).ToListAsync();
+                        return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Skip(skip).ToListAsync();
                     }
                     if (limit > 0)
-                        return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Take(limit).ToListAsync();
-                    return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).ToListAsync();
+                        return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Skip(skip).Take(limit).ToListAsync();
+                    return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Skip(skip).ToListAsync();
                 }
                 if (limit > 0)
-                    return await _asyncConnection.Table<T>().Where(func).Take(limit).ToListAsync();
-                return await _asyncConnection.Table<T>().Where(func).ToListAsync();
+                    return await _asyncConnection.Table<T>().Where(func).Take(limit).Skip(skip).ToListAsync();
+                return await _asyncConnection.Table<T>().Where(func).Skip(skip).ToListAsync();
             }
             catch (Exception ex)
             {

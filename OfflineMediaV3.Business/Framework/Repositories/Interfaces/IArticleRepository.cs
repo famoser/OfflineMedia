@@ -21,7 +21,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
         Task<SourceModel> GetFavorites();
 
         Task<ArticleModel> GetArticleById(int articleId);
-        Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0);
+        Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0);
 
         Task ActualizeArticles(IProgressService progressService);
 

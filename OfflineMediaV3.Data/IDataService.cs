@@ -17,7 +17,7 @@ namespace OfflineMediaV3.Data
         Task<bool> Update<T>(T entity) where T : EntityIdBase, new();
         Task<int> GetHighestId<T>() where T : EntityIdBase, new();
 
-        Task<List<T>> GetByCondition<T>(Expression<Func<T, bool>> func, Expression<Func<T, object>> orderByProperty, bool descending, int limit) where T : class, new();
+        Task<List<T>> GetByCondition<T>(Expression<Func<T, bool>> func, Expression<Func<T, object>> orderByProperty, bool descending, int limit, int skip) where T : class, new();
 
         Task<int> CountByCondition<T>(Expression<Func<T, bool>> func) where T : class, new();
 

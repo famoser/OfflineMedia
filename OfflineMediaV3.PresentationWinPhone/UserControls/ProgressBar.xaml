@@ -10,12 +10,15 @@
     d:DesignWidth="400"
     Height="30">
 
-    <Grid Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid Height="30" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
-        <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="30" />
-        <TextBlock FontSize="12" Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
+    <Grid>
+        <Border BorderThickness="15" BorderBrush="{StaticResource AkzentBackgroundThemeBrush}" />
+        <Grid Visibility="{Binding ProgressViewModel.IsAnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Height="30" Grid.Column="0" Background="{ThemeResource TextForegroundThemeBrush}" />
+            <ProgressBar IsIndeterminate="False" Value="{Binding ProgressViewModel.ProgressPercentage, Source={StaticResource Locator}, Mode=TwoWay}" Height="30" />
+            <TextBlock FontSize="12" Text="{Binding ProgressViewModel.ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />
+        </Grid>
     </Grid>
 </UserControl>

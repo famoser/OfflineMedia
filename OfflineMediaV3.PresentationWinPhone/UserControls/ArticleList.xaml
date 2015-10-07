@@ -11,14 +11,14 @@
     d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].FeedList[0], Source={StaticResource Locator}}">
 
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="5" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Titel, Mode=OneWay}" Style="{ThemeResource FeedTitleTextBlock}"  />
-        <ListView x:Name="ArticleListView" 
+        <ListView
                   IsItemClickEnabled="True" 
                   SelectionMode="None" 
                   Grid.Row="2" 

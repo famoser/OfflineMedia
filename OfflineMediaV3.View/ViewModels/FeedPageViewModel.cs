@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
@@ -56,7 +57,21 @@ namespace OfflineMediaV3.View.ViewModels
                     FeedConfiguration = obj.FeedConfiguration,
                     Source = obj.Source
                 };
-                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid);
+                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 1, 0);
+                if (Feed.ArticleList.Count == 1)
+                {
+                    //load rest of articles
+                    for (int i = 1; ; i++)
+                    {
+                        var newarticle =
+                            (await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 1, i))
+                                .FirstOrDefault();
+                        if (newarticle != null)
+                            Feed.ArticleList.Add(newarticle);
+                        else
+                            break;
+                    }
+                }
             }
         }
 

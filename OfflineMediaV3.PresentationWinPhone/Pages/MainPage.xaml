@@ -40,17 +40,20 @@
     </Page.Transitions>
 
 
-    <Grid Style="{ThemeResource RootGridStyle}" >
+    <Grid Style="{ThemeResource RootGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer Background="White" VerticalScrollMode="Enabled" Grid.RowSpan="2" Margin="0,0,108,-26" Grid.Row="0" >
+        <ScrollViewer IsTabStop="true" VerticalScrollMode="Enabled" Margin="0,0,108,-26" Grid.Row="1" >
             <userControls:MyDay  />
+            <ScrollViewer.Background>
+                <ImageBrush ImageSource="../Assets/Images/skulls-background-small-white.png" Stretch="None" />
+            </ScrollViewer.Background>
         </ScrollViewer>
 
-        <Pivot x:Name="SourcePivot" Style="{ThemeResource Pivot}" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }" Template="{StaticResource PivotControlTemplate1}">
+        <Pivot Opacity="0" Margin="0,0,0,-26" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
                 <!--<CompositeTransform TranslateX="600" />-->
@@ -140,7 +143,7 @@
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <userControls:FeedList Margin="-20,0,-19,0" DataContext="{Binding }" />
+                    <userControls:FeedList DataContext="{Binding }" />
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>

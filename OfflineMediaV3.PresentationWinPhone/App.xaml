@@ -37,9 +37,9 @@
             </ResourceDictionary.ThemeDictionaries>
             <SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />
-            
+
             <vm:ViewModelLocator x:Key="Locator" xmlns:vm="using:OfflineMediaV3.ViewModel" />
-            
+
             <converter:DateTimeConverter x:Key="DateTimeConverter" />
             <converter:IsReadConverter x:Key="IsReadConverter" />
             <converter:ArticleCountCutter x:Key="ArticleCountCutter" />
@@ -52,14 +52,14 @@
             <converter:EnumToIntConverter x:Key="EnumToIntConverter" />
             <converter:FullDateTimeConverter x:Key="FullDateTimeConverter" />
             <converter:IntToIntConverter x:Key="IntToIntConverter" />
-            
+
 
             <displayHelper:ResolutionHelper x:Key="ResolutionHelper" />
 
             <FontFamily x:Key="WeatherIconFont">/Assets/Fonts/owfont-regular.ttf#owf-regular</FontFamily>
 
             <DataTemplate x:Key="ArticleListItemTemplate">
-                <Grid Background="{ThemeResource BackgroundThemeBrush}" HorizontalAlignment="Stretch" Opacity="{Binding State, Mode=OneWay, Converter={StaticResource IsReadConverter}}" MaxHeight="150" Margin="0,2">
+                <Grid Background="{ThemeResource BackgroundThemeBrush}" Margin="0,2" HorizontalAlignment="Stretch" Opacity="{Binding State, Mode=OneWay, Converter={StaticResource IsReadConverter}}" MaxHeight="150">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
@@ -92,23 +92,76 @@
                     </Grid>
                 </Grid>
             </DataTemplate>
-            
+
             <Style x:Key="Button" TargetType="Button">
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Width" Value="40" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
-            
+
             <Style x:Key="PivotHeader" TargetType="ContentControl">
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontWeight" Value="ExtraLight" />
-                <Setter Property="Margin" Value="-10,15,5,-25" />
+                <Setter Property="Margin" Value="-10,5,0,1" />
                 <Setter Property="Opacity" Value="0.8" />
-            </Style>
-            
-            <Style x:Key="Pivot" TargetType="Pivot">
-                <Setter Property="Margin" Value="0,-10,0,-25" />
                 <Setter Property="Background" Value="{ThemeResource AkzentBackgroundThemeBrush}" />
+            </Style>
+
+            <Style TargetType="Pivot">
+                <Setter Property="Margin" Value="0,0,0,0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Pivot">
+                            <Grid x:Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="Orientation">
+                                        <VisualState x:Name="Portrait">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Landscape">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}">
+                                    <ContentControl 
+                                        x:Name="TitleContentControl" 
+                                        Style="{StaticResource PivotHeader}"
+                                        Content="{TemplateBinding Title}" ContentTemplate="{TemplateBinding TitleTemplate}" />
+                                </Grid>
+                                <ScrollViewer x:Name="ScrollViewer" Grid.Row="1" HorizontalSnapPointsType="MandatorySingle" HorizontalSnapPointsAlignment="Center" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" VerticalSnapPointsType="None" VerticalContentAlignment="Stretch" ZoomMode="Disabled" Template="{StaticResource ScrollViewerScrollBarlessTemplate}">
+                                    <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                        <PivotHeaderPanel x:Name="Header" Background="{ThemeResource AkzentBackgroundThemeBrush}">
+                                            <PivotHeaderPanel.RenderTransform>
+                                                <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0" />
+                                            </PivotHeaderPanel.RenderTransform>
+                                        </PivotHeaderPanel>
+                                        <ItemsPresenter Margin="-20,-20,-19,0" x:Name="PivotItemPresenter">
+                                            <ItemsPresenter.RenderTransform>
+                                                <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0" />
+                                            </ItemsPresenter.RenderTransform>
+                                        </ItemsPresenter>
+                                    </PivotPanel>
+                                    <ScrollViewer.Background>
+                                        <ImageBrush ImageSource="../Assets/Images/skulls-background-small.png" Stretch="None" />
+                                    </ScrollViewer.Background>
+                                </ScrollViewer>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style x:Key="FeedTitleTextBlock" TargetType="TextBlock">
@@ -117,49 +170,49 @@
                 <Setter Property="Margin" Value="5,13,0,5" />
                 <Setter Property="Foreground" Value="{ThemeResource AkzentBackgroundThemeBrush}" />
             </Style>
-            
+
             <Style x:Key="ArticleTitleTextBlock" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontWeight" Value="ExtraLight" />
                 <Setter Property="TextWrapping" Value="Wrap" />
                 <Setter Property="Margin" Value="5" />
             </Style>
-            
+
             <Style x:Key="HtmlRichTextBlock" TargetType="RichTextBlock">
                 <Setter Property="FontFamily" Value="Sergio UI" />
                 <Setter Property="Foreground" Value="{ThemeResource ForegroundThemeBrush}" />
             </Style>
-            
+
             <Style x:Key="ToggleSwitchStyle" TargetType="ToggleSwitch">
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="Foreground" Value="{ThemeResource TextForegroundThemeBrush}" />
             </Style>
-            
+
             <Style x:Key="SettingsBigDescriptionStyle" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="22" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{ThemeResource TextForegroundThemeBrush}" />
             </Style>
-            
+
             <Style x:Key="SettingsSmallDescriptionStyle" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0,0,0,-10" />
                 <Setter Property="Foreground" Value="{ThemeResource TextForegroundThemeBrush}" />
             </Style>
-            
+
             <Style x:Key="SettingsScrollViewer" TargetType="ScrollViewer">
                 <Setter Property="Background" Value="{ThemeResource BackgroundThemeBrush}" />
                 <Setter Property="Margin" Value="-19,0" />
                 <Setter Property="Padding" Value="5,0" />
             </Style>
-            
+
             <Style x:Key="OptionsSettingsTextBlock" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="22" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="5" />
             </Style>
-            
+
             <Style x:Key="SpacerBorder" TargetType="Border">
                 <Setter Property="HorizontalAlignment" Value="Left" />
                 <Setter Property="Width" Value="50" />
@@ -167,17 +220,9 @@
                 <Setter Property="BorderThickness" Value="0,0,0,1" />
                 <Setter Property="BorderBrush" Value="{ThemeResource AkzentBackgroundThemeBrush}" />
             </Style>
-            
+
             <Style TargetType="ContentPresenter" x:Key="StretchItemContainerStyle">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
-            </Style>
-            
-            <Style TargetType="PivotItem" x:Key="PivotItemStyle">
-                <Setter Property="Margin" Value="0,45,0,0" />
-            </Style>
-
-            <Style TargetType="PivotItem" x:Key="PivotItemStyle2">
-                <Setter Property="Margin" Value="0,25,0,0" />
             </Style>
 
             <Style TargetType="Button" x:Key="MyDayButton">
@@ -219,7 +264,7 @@
                 <Setter Property="Width" Value="66" />
                 <Setter Property="Margin" Value="10,0" />
             </Style>
-            
+
             <Style x:Key="WeatherSmallText" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="FontWeight" Value="Light" />
@@ -232,47 +277,7 @@
 
             <Thickness x:Key="PivotPortraitThemePadding">19,38,0,0</Thickness>
             <Thickness x:Key="PivotLandscapeThemePadding">19,25,0,0</Thickness>
-            <ControlTemplate x:Key="PivotControlTemplate1" TargetType="Pivot">
-                <Grid x:Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="Orientation">
-                            <VisualState x:Name="Portrait">
-                                <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualState>
-                            <VisualState x:Name="Landscape">
-                                <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <ContentControl x:Name="TitleContentControl" Style="{StaticResource PivotTitleContentControlStyle}" Content="{TemplateBinding Title}" ContentTemplate="{TemplateBinding TitleTemplate}" />
-                    <ScrollViewer x:Name="ScrollViewer" Margin="{TemplateBinding Padding}" Grid.Row="1" HorizontalSnapPointsType="MandatorySingle" HorizontalSnapPointsAlignment="Center" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" VerticalSnapPointsType="None" VerticalContentAlignment="Stretch" ZoomMode="Disabled" Template="{StaticResource ScrollViewerScrollBarlessTemplate}">
-                        <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
-                            <PivotHeaderPanel x:Name="Header">
-                                <PivotHeaderPanel.RenderTransform>
-                                    <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0" />
-                                </PivotHeaderPanel.RenderTransform>
-                            </PivotHeaderPanel>
-                            <ItemsPresenter x:Name="PivotItemPresenter">
-                                <ItemsPresenter.RenderTransform>
-                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0" />
-                                </ItemsPresenter.RenderTransform>
-                            </ItemsPresenter>
-                        </PivotPanel>
-                    </ScrollViewer>
-                </Grid>
-            </ControlTemplate>
+
 
         </ResourceDictionary>
     </Application.Resources>

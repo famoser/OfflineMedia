@@ -9,7 +9,7 @@
     d:DataContext="{Binding MainPageViewModel.Sources[0], Source={StaticResource Locator}}">
 
     <Grid>
-        <ListView IsItemClickEnabled="True" SelectionMode="None" IsHoldingEnabled="True" ItemsSource="{Binding FeedList}" Background="{ThemeResource BackgroundThemeBrush}" ItemClick="FeedList_ItemClick">
+        <ListView IsItemClickEnabled="True" SelectionMode="None" IsHoldingEnabled="True" ItemsSource="{Binding FeedList}" ItemClick="FeedList_ItemClick">
             <ListView.FooterTemplate>
                 <DataTemplate>
                     <TextBlock Height="25" />

@@ -243,13 +243,13 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             }
         }
 
-        public async Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0)
+        public async Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0)
         {
             using (var unitOfWork = new UnitOfWork(true))
             {
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                 var guidstring = feedId.ToString();
-                return new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.FeedConfigurationId == guidstring, o => o.PublicationTime, true, max)));
+                return new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.FeedConfigurationId == guidstring, o => o.PublicationTime, true, max, skip)));
             }
         }
 
@@ -534,7 +534,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                         }
 
                         //delete old ones
-                        await DeleteAllArticlesAndTrances(oldfeed.Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
+                        await DeleteAllArticlesAndTrances(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
 
                         //only new ones left
                         await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());

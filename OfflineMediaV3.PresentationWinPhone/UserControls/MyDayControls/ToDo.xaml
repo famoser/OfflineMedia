@@ -55,6 +55,11 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.FooterTemplate>
+                <DataTemplate>
+                    <TextBlock Height="25" />
+                </DataTemplate>
+            </ListView.FooterTemplate>
         </ListView>
 
 

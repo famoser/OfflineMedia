@@ -14,7 +14,7 @@
     DataContext="{Binding MyDayViewModel, Source={StaticResource Locator}}">
 
     <StackPanel Background="{ThemeResource AkzentBackgroundThemeBrush}">
-        <StackPanel Margin="10,30,10,26">
+        <StackPanel Margin="10,0">
             <Grid Visibility="{Binding Forecast1, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                 <myDayControls:Forecast DataContext="{Binding Forecast1}" />
                 <Border Style="{ThemeResource WeatherBorder}" />

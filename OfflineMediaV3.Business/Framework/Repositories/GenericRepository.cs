@@ -66,11 +66,11 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             return false;
         }
 
-        public async Task<List<TBusiness>> GetByCondition(Expression<Func<TEntity, bool>> func, Expression<Func<TEntity, object>> orderByProperty = null, bool descending = false, int limit = 0)
+        public async Task<List<TBusiness>> GetByCondition(Expression<Func<TEntity, bool>> func, Expression<Func<TEntity, object>> orderByProperty = null, bool descending = false, int limit = 0, int skip = 0)
         {
             try
             {
-                var entityList = await _dataService.GetByCondition(func, orderByProperty, descending, limit);
+                var entityList = await _dataService.GetByCondition(func, orderByProperty, descending, limit, skip);
 
                 if (entityList.Any())
                 {
