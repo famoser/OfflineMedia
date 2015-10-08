@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OfflineMediaV3.Business.Models.NewsModel;
 
 namespace OfflineMediaV3.Business.Models.WeatherModel
@@ -22,7 +23,7 @@ namespace OfflineMediaV3.Business.Models.WeatherModel
                 return ForecastItems[ActiveIndex];
             }
         }
-        
+
         private int _activeIndex;
         public int ActiveIndex
         {
@@ -35,5 +36,22 @@ namespace OfflineMediaV3.Business.Models.WeatherModel
         }
 
         public List<ForecastItem> ForecastItems { get; set; }
+
+        public void SetCurrentForecast()
+        {
+            ActiveIndex = GetCurrentForecast();
+        }
+
+        private int GetCurrentForecast()
+        {
+            for (int i = 0; i < ForecastItems.Count; i++)
+            {
+                if (ForecastItems[i].Date > DateTime.Now)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
     }
 }

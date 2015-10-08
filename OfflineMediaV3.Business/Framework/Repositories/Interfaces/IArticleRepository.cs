@@ -23,7 +23,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories.Interfaces
         Task<ArticleModel> GetArticleById(int articleId);
         Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0);
 
-        Task ActualizeArticles(IProgressService progressService);
+        Task ActualizeArticles();
 
         Task<ArticleModel> ActualizeArticle(ArticleModel model, IMediaSourceHelper msh);
 

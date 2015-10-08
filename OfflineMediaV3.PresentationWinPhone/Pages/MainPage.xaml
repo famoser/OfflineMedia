@@ -47,13 +47,13 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer IsTabStop="true" VerticalScrollMode="Enabled" Margin="0,0,108,-26" Grid.Row="1" >
-            <userControls:MyDay  />
+            <userControls:MyDay Margin="0,0,0,26" />
             <ScrollViewer.Background>
                 <ImageBrush ImageSource="../Assets/Images/skulls-background-small-white.png" Stretch="None" />
             </ScrollViewer.Background>
         </ScrollViewer>
 
-        <Pivot Opacity="0" Margin="0,0,0,-26" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
+        <Pivot Margin="0,0,0,-26" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
                 <!--<CompositeTransform TranslateX="600" />-->
@@ -138,7 +138,7 @@
             </Pivot.Resources>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <ContentControl Pivot.SlideInAnimationGroup="1" Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
+                    <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>

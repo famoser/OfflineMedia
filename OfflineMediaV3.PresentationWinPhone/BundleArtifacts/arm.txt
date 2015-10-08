@@ -1,2 +1,2 @@
-MainPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\bin\ARM\Release\OfflineMediaV3.PresentationWinPhone_2015.832.0.22_ARM.appx
-SymbolPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\AppPackages\OfflineMediaV3.PresentationWinPhone_2015.832.0.22_Test\OfflineMediaV3.PresentationWinPhone_2015.832.0.22_ARM.appxsym
+MainPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\bin\ARM\Release\OfflineMediaV3.PresentationWinPhone_2015.832.0.23_ARM.appx
+SymbolPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\AppPackages\OfflineMediaV3.PresentationWinPhone_2015.832.0.23_Test\OfflineMediaV3.PresentationWinPhone_2015.832.0.23_ARM.appxsym

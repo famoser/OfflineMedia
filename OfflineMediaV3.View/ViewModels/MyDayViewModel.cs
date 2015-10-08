@@ -94,6 +94,8 @@ namespace OfflineMediaV3.View.ViewModels
                 var json = JsonConvert.SerializeObject(Forecast1);
                 await _settingsRepository.SaveSettingByKey(SettingKeys.WeatherCity1Content, json);
             }
+            
+            Forecast1?.SetCurrentForecast();
 
             var city2 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity2);
             if (city2 != null && city2.Value != "")
@@ -111,6 +113,8 @@ namespace OfflineMediaV3.View.ViewModels
                 await _settingsRepository.SaveSettingByKey(SettingKeys.WeatherCity2Content, json);
             }
 
+            Forecast1?.SetCurrentForecast();
+            Forecast2?.SetCurrentForecast();
 
             var todos = await _settingsRepository.GetSettingByKey(SettingKeys.ToDoList);
             ToDos = JsonConvert.DeserializeObject<ObservableCollection<string>>(todos.Value);

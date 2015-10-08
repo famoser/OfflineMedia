@@ -31,11 +31,13 @@ namespace OfflineMediaV3.Business.Framework.Repositories
     {
         private ISettingsRepository _settingsRepository;
         private IThemeRepository _themeRepository;
+        private IProgressService _progressService;
 
-        public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository)
+        public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService)
         {
             _settingsRepository = settingsRepository;
             _themeRepository = themeRepository;
+            _progressService = progressService;
         }
 
         public ObservableCollection<SourceModel> GetSampleArticles()
@@ -253,7 +255,11 @@ namespace OfflineMediaV3.Business.Framework.Repositories
             }
         }
 
-        public async Task ActualizeArticles(IProgressService progressService)
+
+        private List<Task> _aktualizeArticleTasks = new List<Task>();
+        private int _newArticles = 0;
+        private int _articlesCompleted = 0;
+        public async Task ActualizeArticles()
         {
             //Get Total Number of feeds
             int feedcounter = _sources.SelectMany(source => source.FeedList).Count();
@@ -268,7 +274,7 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                 foreach (var feed in sourceModel.FeedList)
                 {
                     var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-                    progressService.ShowProgress("Feeds werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / feedcounter));
+                    _progressService.ShowProgress("Feeds werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / feedcounter));
                     if (newfeed != null)
                     {
                         ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
@@ -278,20 +284,37 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                 }
             }
 
-            activecounter = 0;
-            int maxCounter;
+            _articlesCompleted = 0;
             using (var unitOfWork = new UnitOfWork(true))
             {
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                maxCounter = await repo.CountByCondition(a => a.State == (int)ArticleState.New);
+                _newArticles = await repo.CountByCondition(a => a.State == (int)ArticleState.New);
             }
 
             //Actualize articles
-            while (activecounter < maxCounter)
+            if (!_aktualizeArticleTasks.Any())
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    var tsk = AktualizeArticlesTask();
+                    _aktualizeArticleTasks.Add(tsk);
+                }
+
+                foreach (var tsk in _aktualizeArticleTasks)
+                {
+                    await tsk;
+                }
+            }
+        }
+
+        private async Task AktualizeArticlesTask()
+        {
+            while (true)
             {
                 using (var unitOfWork = new UnitOfWork(false))
                 {
                     var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                    var imagerepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
                     var res = (await repo.GetByCondition(a => a.State == (int)ArticleState.New, d => d.PublicationTime, true, 1)).ToList();
                     if (res.Any())
                     {
@@ -309,21 +332,23 @@ namespace OfflineMediaV3.Business.Framework.Repositories
                             article.State = ArticleState.WrongSourceFaillure;
                         }
                         else
-                        {
-                            if (sh.NeedsToEvaluateArticle())
-                                article = await ActualizeArticle(article, sh);
-                            else
-                                article.State = ArticleState.Loaded;
-                        }
+                            article = await ActualizeArticle(article, sh);
+
 
                         await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
                         await unitOfWork.Commit();
 
+
                         Messenger.Default.Send(article.Id, Messages.ArticleRefresh);
                         Messenger.Default.Send(article.Id, Messages.FeedArticleRefresh);
+
+                        _progressService.ShowProgress("Artikel werden heruntergeladen...", Convert.ToInt32((++_articlesCompleted * 100) / _newArticles));
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
-                progressService.ShowProgress("Artikel werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / maxCounter));
             }
         }
 
@@ -417,9 +442,9 @@ namespace OfflineMediaV3.Business.Framework.Repositories
         {
             try
             {
-                string articleresult = await Download.DownloadStringAsync(article.LogicUri);
                 if (sh.NeedsToEvaluateArticle())
                 {
+                    string articleresult = await Download.DownloadStringAsync(article.LogicUri);
                     var tuple = await sh.EvaluateArticle(articleresult, article);
                     if (tuple.Item1)
                     {

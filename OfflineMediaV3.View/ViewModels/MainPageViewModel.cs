@@ -69,7 +69,6 @@ namespace OfflineMediaV3.View.ViewModels
                     {
                         foreach (var feedModel in sourceModel.FeedList)
                         {
-
                             for (int index = 0; index < feedModel.ArticleList.Count; index++)
                             {
                                 if (feedModel.ArticleList[index].Id == obj)
@@ -105,7 +104,19 @@ namespace OfflineMediaV3.View.ViewModels
                 foreach (var feed in sourceModel.FeedList)
                 {
                     if (feed.FeedConfiguration.Guid == obj)
-                        feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj, 5);
+                    {
+                        //load rest of articles
+                        for (int i = 0; i < 5; i++)
+                        {
+                            var newarticle =
+                                (await _articleRepository.GetArticlesByFeed(obj, 1, i))
+                                    .FirstOrDefault();
+                            if (newarticle != null)
+                                feed.ArticleList.Add(newarticle);
+                            else
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -164,7 +175,7 @@ namespace OfflineMediaV3.View.ViewModels
 
         private void Refresh()
         {
-             Messenger.Default.Send(Messages.RefreshWeather);
+            Messenger.Default.Send(Messages.RefreshWeather);
             ActualizeArticles();
         }
 
@@ -179,8 +190,22 @@ namespace OfflineMediaV3.View.ViewModels
             {
                 foreach (var feedModel in sourceModel.FeedList)
                 {
-                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
-                    if (!feedModel.ArticleList.Any())
+                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 1);
+                    if (feedModel.ArticleList.Count == 1)
+                    {
+                        //load rest of articles
+                        for (int i = 1; i < 5; i++)
+                        {
+                            var newarticle =
+                                (await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 1, i))
+                                    .FirstOrDefault();
+                            if (newarticle != null)
+                                feedModel.ArticleList.Add(newarticle);
+                            else
+                                break;
+                        }
+                    }
+                    else
                         feedModel.ArticleList.Add(_articleRepository.GetEmptyFeedArticle());
                 }
             }
@@ -207,7 +232,7 @@ namespace OfflineMediaV3.View.ViewModels
                 _isActualizing = true;
                 _refreshCommand.RaiseCanExecuteChanged();
 
-                await _articleRepository.ActualizeArticles(_progressService);
+                await _articleRepository.ActualizeArticles();
                 await _apiRepository.UploadStats();
 
                 _progressService.HideProgress();

@@ -50,7 +50,7 @@
 
         </Grid>
         <ScrollViewer HorizontalScrollMode="Enabled">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Width="600" Orientation="Horizontal">
                 <StackPanel Margin="0,0,10,0" Style="{StaticResource WeatherLevelGrid}">
                     <TextBlock Text="wind" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

@@ -59,19 +59,19 @@
             <FontFamily x:Key="WeatherIconFont">/Assets/Fonts/owfont-regular.ttf#owf-regular</FontFamily>
 
             <DataTemplate x:Key="ArticleListItemTemplate">
-                <Grid Background="{ThemeResource BackgroundThemeBrush}" Margin="0,2" HorizontalAlignment="Stretch" Opacity="{Binding State, Mode=OneWay, Converter={StaticResource IsReadConverter}}" MaxHeight="150">
+                <Grid Background="{ThemeResource BackgroundThemeBrush}" Margin="0,2" HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}" MaxHeight="150">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <Image Visibility="{Binding LeadImage.Url, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" Stretch="UniformToFill" Grid.RowSpan="4" Margin="0">
+                    <Image Visibility="{Binding LeadImage.Url, Converter={StaticResource ReferenceVisibillityEvaluator}}" Stretch="UniformToFill" Grid.RowSpan="4" Margin="0">
                         <Image.Source>
-                            <BitmapImage UriSource="{Binding LeadImage.Url, Mode=OneWay}" />
+                            <BitmapImage UriSource="{Binding LeadImage.Url}" />
                         </Image.Source>
                     </Image>
                     <Grid Opacity="0.8" Margin="0,0,-1,0" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{ThemeResource BackgroundThemeBrush}" Height="15">
-                        <TextBlock Grid.Column="0" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource ForegroundThemeBrush}" Margin="6,1,6,0" Text="{Binding PublicationTime, Mode=OneWay, Converter={StaticResource DateTimeConverter}}" Visibility="{Binding PublicationTime, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource ForegroundThemeBrush}" Margin="6,1,6,0" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}" Visibility="{Binding PublicationTime, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
                     </Grid>
                     <Grid Opacity="0.9" Grid.Row="0" Margin="5">
                         <Grid.RowDefinitions>
@@ -79,15 +79,15 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-                            <TextBlock TextTrimming="WordEllipsis" MaxHeight="60" FontWeight="Bold" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="{Binding LeadImage, Mode=OneWay, Converter={StaticResource FontSizeArticleListEvaluator}}" Margin="2" Text="{Binding Title, Mode=OneWay}" Visibility="{Binding Title, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
+                            <TextBlock TextTrimming="WordEllipsis" MaxHeight="60" FontWeight="Bold" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="{Binding LeadImage, Converter={StaticResource FontSizeArticleListEvaluator}}" Margin="2" Text="{Binding Title}" Visibility="{Binding Title, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
                         </Grid>
                         <Grid Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-                            <TextBlock TextTrimming="WordEllipsis" FontFamily="Segoe UI Semilight" Foreground="{ThemeResource ForegroundThemeBrush}" MaxHeight="70" FontSize="{Binding LeadImage, Mode=OneWay, Converter={StaticResource FontSizeArticleListEvaluator}}" TextWrapping="Wrap" Margin="2" Text="{Binding SubTitle, Mode=OneWay}" Visibility="{Binding SubTitle, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
+                            <TextBlock TextTrimming="WordEllipsis" FontFamily="Segoe UI Semilight" Foreground="{ThemeResource ForegroundThemeBrush}" MaxHeight="70" FontSize="{Binding LeadImage, Converter={StaticResource FontSizeArticleListEvaluator}}" TextWrapping="Wrap" Margin="2" Text="{Binding SubTitle}" Visibility="{Binding SubTitle, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
                         </Grid>
                     </Grid>
                     <Grid Opacity="0.8" Grid.Row="2" Margin="5">
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-                            <TextBlock TextTrimming="WordEllipsis" MaxLines="2" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="{Binding LeadImage, Mode=OneWay, Converter={StaticResource FontSizeArticleListEvaluator}}" Margin="2" Text="{Binding Teaser, Mode=OneWay}" Visibility="{Binding Teaser, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
+                            <TextBlock TextTrimming="WordEllipsis" MaxLines="2" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="{Binding LeadImage, Converter={StaticResource FontSizeArticleListEvaluator}}" Margin="2" Text="{Binding Teaser}" Visibility="{Binding Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -135,7 +135,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}">
+                                <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}" >
                                     <ContentControl 
                                         x:Name="TitleContentControl" 
                                         Style="{StaticResource PivotHeader}"
@@ -148,7 +148,7 @@
                                                 <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0" />
                                             </PivotHeaderPanel.RenderTransform>
                                         </PivotHeaderPanel>
-                                        <ItemsPresenter Margin="-20,-20,-19,0" x:Name="PivotItemPresenter">
+                                        <ItemsPresenter Margin="-20,-22,-19,0" x:Name="PivotItemPresenter">
                                             <ItemsPresenter.RenderTransform>
                                                 <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0" />
                                             </ItemsPresenter.RenderTransform>
@@ -203,7 +203,6 @@
 
             <Style x:Key="SettingsScrollViewer" TargetType="ScrollViewer">
                 <Setter Property="Background" Value="{ThemeResource BackgroundThemeBrush}" />
-                <Setter Property="Margin" Value="-19,0" />
                 <Setter Property="Padding" Value="5,0" />
             </Style>
 
