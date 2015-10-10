@@ -6,9 +6,9 @@ using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.ZwanzigMin;
-using OfflineMedia.UnitTestApp.SourceTests.Helpers;
+using OfflineMedia.SourceTests.Helpers;
 
-namespace OfflineMedia.UnitTestApp.SourceTests
+namespace OfflineMedia.SourceTests
 {
     [TestClass]
     public class ZwanzigMin

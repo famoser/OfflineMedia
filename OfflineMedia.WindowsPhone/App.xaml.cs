@@ -18,8 +18,8 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.WindowsPhone.Services;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 

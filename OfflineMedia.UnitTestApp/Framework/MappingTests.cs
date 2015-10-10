@@ -10,7 +10,7 @@ using OfflineMedia.Common.Enums.Generic;
 using OfflineMedia.Common.Framework;
 using OfflineMedia.Data.Entities;
 
-namespace OfflineMedia.UnitTestApp.Framework
+namespace OfflineMedia.Framework
 {
     [TestClass]
     public class MappingTests

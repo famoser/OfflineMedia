@@ -3,8 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using OfflineMediaV3.Common.Enums;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Enums;
+using OfflineMedia.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.DroidNative.Services
 {
@@ -62,6 +62,20 @@ namespace OfflineMediaV3.DroidNative.Services
             {
                 string content;
                 using (StreamReader sr = new StreamReader(RuntimeObjects.Context.Assets.Open("Source.json")))
+                {
+                    content = sr.ReadToEnd();
+                }
+                return content;
+            });
+            return res;
+        }
+
+        public async Task<string> GetWeatherFontJson()
+        {
+            var res = await Task.Run(() =>
+            {
+                string content;
+                using (StreamReader sr = new StreamReader(RuntimeObjects.Context.Assets.Open("WeatherFontMapping.json")))
                 {
                     content = sr.ReadToEnd();
                 }

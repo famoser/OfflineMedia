@@ -34,26 +34,6 @@ namespace OfflineMedia.Business.Helpers
             {
                 LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed at 1 for url " + url, ex);
             }
-
-            //Trying again cause why the heck not
-            try
-            {
-                using (var client = new HttpClient(
-                    new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.GZip
-                                                 | DecompressionMethods.Deflate
-                    }))
-                {
-
-                    string s = await client.GetStringAsync(url);
-                    return s;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed at 2 for url " + url, ex);
-            }
             return null;
         }
 

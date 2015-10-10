@@ -1,8 +1,8 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Ioc;
-using OfflineMediaV3.Common.Enums.View;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
-using OfflineMediaV3.View.ViewModels.Global;
+using OfflineMedia.Common.Enums.View;
+using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.WindowsPhone.Services
 {

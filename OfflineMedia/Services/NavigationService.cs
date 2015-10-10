@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
-using OfflineMediaV3.Business.Enums;
+using OfflineMedia.Business.Enums;
 using Xamarin.Forms;
 
 namespace OfflineMedia.Services

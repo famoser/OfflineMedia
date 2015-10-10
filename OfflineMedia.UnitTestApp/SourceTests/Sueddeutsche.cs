@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Helpers;
 
-namespace OfflineMedia.UnitTestApp.SourceTests
+namespace OfflineMedia.SourceTests
 {
     [TestClass]
     public class Sueddeutsche

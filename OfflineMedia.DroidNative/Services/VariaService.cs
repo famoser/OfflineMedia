@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Android.Content;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Services.Interfaces;
 
 namespace OfflineMediaV3.DroidNative.Services
 {

@@ -1,0 +1,165 @@
+﻿<Page
+    x:Class="OfflineMedia.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:OfflineMedia.UserControls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding MainPageViewModel, Source={StaticResource Locator}}"
+    >
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+
+    <Grid Style="{ThemeResource RootGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Visibility="Collapsed" x:Name="MyDayWrapper" IsTabStop="true" VerticalScrollMode="Enabled" Margin="0,0,108,-26" Grid.Row="1" >
+            <userControls:MyDay Margin="0,0,0,26" />
+            <ScrollViewer.Background>
+                <ImageBrush ImageSource="../Assets/Images/skulls-background-small-white.png" Stretch="None" />
+            </ScrollViewer.Background>
+        </ScrollViewer>
+        
+        <Pivot Margin="0,0,0,-26" Visibility="Visible" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
+            <Pivot.RenderTransform>
+                <CompositeTransform TranslateX="0" />
+                <!--<CompositeTransform TranslateX="600" />-->
+            </Pivot.RenderTransform>
+            <Pivot.Resources>
+                <Storyboard x:Name="Open">
+                    <DoubleAnimation
+                            Storyboard.TargetName="SourcePivot"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="{Binding WidthOfDevice, Source={StaticResource ResolutionHelper}, Converter={StaticResource HoverDivStoryboardConverter}}">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation
+                            Storyboard.TargetName="SourcePivot"
+                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                            Duration="0:0:0.2"
+                            To="0.4">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="MyDayWrapper" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Visible, Source={StaticResource StaticEnumHelper}}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <DoubleAnimation
+                            Storyboard.TargetName="BackSymbol"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="0">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation
+                            Storyboard.TargetName="ForwardSymbol"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="0">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+                <Storyboard x:Name="Close">
+                    <DoubleAnimation
+                            Storyboard.TargetName="SourcePivot"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="0">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation
+                            Storyboard.TargetName="SourcePivot"
+                            Storyboard.TargetProperty="Opacity"
+                            Duration="0:0:0.2"
+                            To="1">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.2" Storyboard.TargetName="MyDayWrapper" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Collapsed, Source={StaticResource StaticEnumHelper}}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <DoubleAnimation
+                            Storyboard.TargetName="BackSymbol"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="-88">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation
+                            Storyboard.TargetName="ForwardSymbol"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)"
+                            Duration="0:0:0.2"
+                            To="-88">
+                        <DoubleAnimation.EasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Pivot.Resources>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <userControls:FeedList DataContext="{Binding }" />
+                </DataTemplate>
+            </Pivot.ItemTemplate>
+        </Pivot>
+        <userControls:ProgressBar Grid.Row="0" />
+
+        <Button Style="{ThemeResource MyDayButton}" Width="109" Tapped="Button_Tapped" Grid.Row="1">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Back" x:Name="BackSymbol" Width="88">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform TranslateX="-88" />
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                    <SymbolIcon Symbol="Forward" x:Name="ForwardSymbol" Width="88">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform TranslateX="-88" />
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar Opacity="0.6" ClosedDisplayMode="Minimal">
+            <AppBarButton Label="neu laden" Icon="Refresh" Command="{Binding RefreshCommand}" />
+            <AppBarButton Label="einstellen" Icon="Setting" Command="{Binding OpenSettingsCommand}"/>
+            <AppBarButton Label="über" Icon="ContactInfo" Command="{Binding OpenInfoCommand}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

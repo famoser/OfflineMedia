@@ -5,19 +5,19 @@ using GalaSoft.MvvmLight.Helpers;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
-using OfflineMediaV3.Business.Enums;
-using OfflineMediaV3.Business.Models.NewsModel;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Enums;
+using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.View.ViewModels;
+using OfflineMedia.View.ViewModels.Global;
 using OfflineMediaV3.DroidNative.Services;
-using OfflineMediaV3.View.ViewModels;
-using OfflineMediaV3.View.ViewModels.Global;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.XamarinAndroid;
 using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
 
 namespace OfflineMediaV3.DroidNative.Activities
 {
-    [Activity(Label = "OfflineMediaV3.DroidNative", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "OfflineMedia.DroidNative", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : ActivityBase, AdapterView.IOnItemClickListener
     {
         private static bool _initialized;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace OfflineMedia.UnitTestApp.Stats
+namespace OfflineMedia.Stats
 {
     [TestClass]
     public class Statistics

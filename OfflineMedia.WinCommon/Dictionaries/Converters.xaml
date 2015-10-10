@@ -1,0 +1,36 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:articleListConverter="using:OfflineMedia.DisplayHelper.Converter.ArticleListConverter"
+    xmlns:articlePageConverter="using:OfflineMedia.DisplayHelper.Converter.ArticlePageConverter"
+    xmlns:genericConverter="using:OfflineMedia.DisplayHelper.Converter.GenericConverter"
+    xmlns:mainPageConverter="using:OfflineMedia.DisplayHelper.Converter.MainPageConverter"
+    xmlns:myDayConverter="using:OfflineMedia.DisplayHelper.Converter.MyDayConverter"
+    xmlns:settingsPageConverter="using:OfflineMedia.DisplayHelper.Converter.SettingsPageConverter">
+
+    <articleListConverter:DateTimeConverter x:Key="DateTimeConverter" />
+    <articleListConverter:ShortDateTimeConverter x:Key="ShortDateTimeConverter" />
+    <articleListConverter:IsReadConverter x:Key="IsReadConverter" />
+
+    <articlePageConverter:FavoriteIconConverter x:Key="FavoriteIconConverter" />
+    <articlePageConverter:LeadFontSizeConverter x:Key="LeadFontSizeConverter" />
+    <articlePageConverter:SpritzStateIconConverter x:Key="SpritzStateIconConverter" />
+    <articlePageConverter:ThemeConverter x:Key="ThemeConverter" />
+
+    <genericConverter:ArrayToStringConverter x:Key="ArrayToStringConverter" />
+    <genericConverter:BoolVisibilityEvaluator x:Key="BoolVisibilityEvaluator" />
+    <genericConverter:BoolVisibilityEvaluatorInverted x:Key="BoolVisibilityEvaluatorInverted" />
+    <genericConverter:IntToIntConverter x:Key="IntToIntConverter" />
+    <genericConverter:ListToStringConverter x:Key="ListToStringConverter" />
+    <genericConverter:ReferenceVisibillityEvaluator x:Key="ReferenceVisibillityEvaluator" />
+    <genericConverter:ReferenceVisibillityEvaluatorInverted x:Key="ReferenceVisibillityEvaluatorInverted" />
+
+    <mainPageConverter:HoverDivStoryboardConverter x:Key="HoverDivStoryboardConverter" />
+
+    <myDayConverter:FullDateTimeConverter x:Key="FullDateTimeConverter" />
+    <myDayConverter:KelvinToCelciusConverter x:Key="KelvinToCelciusConverter" />
+    <myDayConverter:EnumToIntConverter x:Key="EnumToIntConverter" />
+
+    <settingsPageConverter:ULongToByteConverter x:Key="ULongToByteConverter" />
+
+</ResourceDictionary>

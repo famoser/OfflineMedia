@@ -9,7 +9,7 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Singleton;
 
-namespace OfflineMedia.UnitTestApp.SourceTests.Helpers
+namespace OfflineMedia.SourceTests.Helpers
 {
     public class SourceTestHelper : SingletonBase<SourceTestHelper>
     {

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Helpers;
-using OfflineMedia.UnitTestApp.SourceTests.Helpers;
+using OfflineMedia.SourceTests.Helpers;
 
-namespace OfflineMedia.UnitTestApp.SourceTests
+namespace OfflineMedia.SourceTests
 {
     [TestClass]
     public class FeedTests

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.System;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
-
+using OfflineMedia.Common.Framework.Services.Interfaces;
 namespace OfflineMedia.WindowsPhone.Services
 {
     class VariaService : IVariaService

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4809f533-912f-4087-bb49-2e7f3da429c9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>OfflineMedia.WinCommon</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ShortDateTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\FavoriteIconConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\LeadFontSizeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\SpritzStateIconConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\ThemeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\EnumToIntConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\FontSizeArticleListEvaluator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\PercentageToWidthConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ArrayToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\BoolVisibilityEvaluator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\BoolVisibilityEvaluatorInverted.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\IntToIntConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ListToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ReferenceVisibillityEvaluatorInverted.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ReferenceVisibillityEvaluator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MainPageConverter\HoverDivStoryboardConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\EnumToIntConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\ResolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DesignNavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ProgressService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\StorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\VariaService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Source.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\WeatherFontMapping.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\owfont-regular.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small-white.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Dictionaries\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Dictionaries\HelperDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

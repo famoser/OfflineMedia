@@ -4,7 +4,7 @@ using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Framework.Singleton;
 
-namespace OfflineMedia.UnitTestApp.SourceTests.Helpers
+namespace OfflineMedia.SourceTests.Helpers
 {
     public class AssertHelper : SingletonBase<AssertHelper>
     {

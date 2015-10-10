@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using OfflineMediaV3.Common.Enums;
-using OfflineMediaV3.Common.Framework.Logs;
-using OfflineMediaV3.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Enums;
+using OfflineMedia.Common.Framework.Logs;
+using OfflineMedia.Common.Framework.Services.Interfaces;
 
 namespace OfflineMedia.WindowsPhone.Services
 {
@@ -66,6 +66,11 @@ namespace OfflineMedia.WindowsPhone.Services
         public Task<string> GetSourceJson()
         {
             return GetContentsOfAssetFile("Source");
+        }
+
+        public Task<string> GetWeatherFontJson()
+        {
+            return GetContentsOfAssetFile("WeatherFontMapping");
         }
 
         public async Task<ulong> GetFileSizes()
