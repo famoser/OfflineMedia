@@ -1,0 +1,105 @@
+﻿<UserControl
+    x:Class="OfflineMedia.UserControls.ArticlePageControls.Read"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dependencyObjects="using:OfflineMedia.DisplayHelper.DependencyObjects"
+    mc:Ignorable="d"
+    d:DesignHeight="1400"
+    d:DesignWidth="400"
+    DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}"
+    >
+
+    <Grid>
+        <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{ThemeResource Button}" Command="{Binding MakeFontBiggerCommand}" >
+                    <Button.Content>
+                        <SymbolIcon Symbol="FontIncrease" />
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="1" Command="{Binding MakeFontSmallerCommand}" Style="{ThemeResource Button}">
+                    <Button.Content>
+                        <SymbolIcon Symbol="FontDecrease" />
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="2" Command="{Binding FavoriteCommand}" Style="{ThemeResource Button}">
+                    <Button.Content>
+                        <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="3" Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource Button}">
+                    <Button.Content>
+                        <SymbolIcon Symbol="World" />
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+            <StackPanel>
+                <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
+                <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" ></TextBlock>
+                <Border Style="{ThemeResource SpacerBorder}" />
+            </StackPanel>
+
+
+            <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Image Stretch="UniformToFill" Grid.RowSpan="4" Margin="0" >
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding Article.LeadImage.Url, Mode=OneWay}" />
+                    </Image.Source>
+                </Image>
+                <Grid Grid.Row="2" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Opacity="0.8" Visibility="{Binding Article.LeadImage.Title, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" Grid.Row="0" Background="{ThemeResource BackgroundThemeBrush}" >
+                        <TextBlock FontWeight="Bold" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="11" Text="{Binding Article.LeadImage.Title, Mode=OneWay}" />
+                    </Grid>
+                    <Grid Opacity="0.8" Visibility="{Binding Article.LeadImage.SubTitle, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" Grid.Row="1" Background="{ThemeResource BackgroundThemeBrush}" >
+                        <TextBlock FontFamily="Segoe UI Semilight" FontSize="11" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" Text="{Binding Article.LeadImage.SubTitle, Mode=OneWay}"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Margin="10,20,10,10" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
+                <TextBlock TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
+            </Grid>
+
+            <Grid Margin="10,10,10,0">
+                <RichTextBlock IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
+            </Grid>
+
+            <Border Style="{ThemeResource SpacerBorder}" />
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <RichTextBlock FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
+                    <Paragraph>
+                        <Run Text="{Binding Article.PublicationTime, Converter={StaticResource DateTimeConverter}}" />
+                        <Run Text=" - " />
+                        <Bold >
+                            <Run Text="{Binding Article.Author}" />
+                        </Bold>
+                    </Paragraph>
+                </RichTextBlock>
+                <TextBlock FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="1" Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}"></TextBlock>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
