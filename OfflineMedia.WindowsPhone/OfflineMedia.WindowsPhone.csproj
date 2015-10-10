@@ -186,13 +186,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OfflineMediaV3.Common\OfflineMediaV3.Common.csproj">
+    <ProjectReference Include="..\OfflineMedia.Common\OfflineMedia.Common.csproj">
       <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
-      <Name>OfflineMediaV3.Common</Name>
+      <Name>OfflineMedia.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OfflineMediaV3.View\OfflineMediaV3.View.csproj">
+    <ProjectReference Include="..\OfflineMedia.View\OfflineMedia.View.csproj">
       <Project>{cccb6bc7-83b4-4342-a5ad-c8f23cb4d0b0}</Project>
-      <Name>OfflineMediaV3.View</Name>
+      <Name>OfflineMedia.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\OfflineMedia\OfflineMedia.csproj">
       <Project>{7ea4c412-3be0-4ef3-a20a-9f73da6a1f91}</Project>
