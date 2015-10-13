@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
@@ -73,6 +74,34 @@ namespace OfflineMedia.Business.Framework.Repositories
                 oc.Add(sourceModel);
             }
             return oc;
+        }
+
+        public async Task ActualizeArticle(ArticleModel article)
+        {
+            if (article.State == ArticleState.New)
+            {
+                article.State = ArticleState.Loading;
+                await UpdateArticleFlat(article);
+                Messenger.Default.Send(article, Messages.ArticleRefresh);
+
+                IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
+                if (sh == null)
+                {
+                    LogHelper.Instance.Log(LogLevel.Warning, this,
+                        "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
+                    article.State = ArticleState.WrongSourceFaillure;
+                    await UpdateArticleFlat(article);
+                }
+                else
+                {
+                    article = await ActualizeArticle(article, sh);
+                    Messenger.Default.Send(article, Messages.ArticleRefresh);
+                    using (var unitofWork = new UnitOfWork(false))
+                    {
+                        await InsertOrUpdateArticleAndTraces(article, await unitofWork.GetDataService());
+                    }
+                }
+            }
         }
 
         public ArticleModel GetInfoArticle()
@@ -149,14 +178,6 @@ namespace OfflineMedia.Business.Framework.Repositories
             };
         }
 
-        public async Task UpdateArticle(ArticleModel article)
-        {
-            using (var unitOfWork = new UnitOfWork(false))
-            {
-                await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
-            }
-        }
-
         private ObservableCollection<SourceModel> _sources;
         public async Task<ObservableCollection<SourceModel>> GetSources()
         {
@@ -230,6 +251,15 @@ namespace OfflineMedia.Business.Framework.Repositories
             return sourceModel;
         }
 
+        public async Task UpdateArticleFlat(ArticleModel am)
+        {
+            using (var unitOfWork = new UnitOfWork(false))
+            {
+                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                await repo.Update(am);
+            }
+        }
+
         public async Task<ArticleModel> GetArticleById(int articleId)
         {
             using (var unitOfWork = new UnitOfWork(true))
@@ -251,8 +281,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
 
         private List<Task> _aktualizeArticleTasks = new List<Task>();
-        private int _newArticles = 0;
-        private int _articlesCompleted = 0;
+        private int _newArticles;
+        private int _articlesCompleted;
         public async Task ActualizeArticles()
         {
             //Get Total Number of feeds
@@ -272,8 +302,9 @@ namespace OfflineMedia.Business.Framework.Repositories
                     if (newfeed != null)
                     {
                         ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-                        if (await FeedToDatabase(newfeed))
-                            Messenger.Default.Send(feed.FeedConfiguration.Guid, Messages.FeedRefresh);
+
+                        await FeedToDatabase(newfeed);
+                        Messenger.Default.Send(newfeed, Messages.FeedRefresh);
                     }
                 }
             }
@@ -308,13 +339,14 @@ namespace OfflineMedia.Business.Framework.Repositories
                 using (var unitOfWork = new UnitOfWork(false))
                 {
                     var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                    var imagerepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
                     var res = (await repo.GetByCondition(a => a.State == (int)ArticleState.New, d => d.PublicationTime, true, 1)).ToList();
                     if (res.Any())
                     {
                         var article = res[0];
                         article.State = ArticleState.Loading;
                         await repo.Update(article);
+                        article = await GetCompleteArticle(article.Id);
+                        Messenger.Default.Send(article, Messages.ArticleRefresh);
 
                         article.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(article.FeedConfigurationId, await unitOfWork.GetDataService());
 
@@ -324,17 +356,17 @@ namespace OfflineMedia.Business.Framework.Repositories
                             LogHelper.Instance.Log(LogLevel.Warning, this,
                                 "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
                             article.State = ArticleState.WrongSourceFaillure;
+                            await UpdateArticleFlat(article);
                         }
                         else
+                        {
                             article = await ActualizeArticle(article, sh);
-
-
-                        await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
+                            
+                            await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
+                        }
                         await unitOfWork.Commit();
 
-
-                        Messenger.Default.Send(article.Id, Messages.ArticleRefresh);
-                        Messenger.Default.Send(article.Id, Messages.FeedArticleRefresh);
+                        Messenger.Default.Send(article, Messages.ArticleRefresh);
 
                         _progressService.ShowProgress("Artikel werden heruntergeladen...", Convert.ToInt32((++_articlesCompleted * 100) / _newArticles));
                     }
@@ -432,12 +464,18 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        public async Task<ArticleModel> ActualizeArticle(ArticleModel article, IMediaSourceHelper sh)
+        private async Task<ArticleModel> ActualizeArticle(ArticleModel article, IMediaSourceHelper sh)
         {
             try
             {
                 if (sh.NeedsToEvaluateArticle())
                 {
+                    if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
+                    {
+                        article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
+                        article.LeadImage.IsLoaded = true;
+                    }
+
                     string articleresult = await Download.DownloadStringAsync(article.LogicUri);
                     var tuple = await sh.EvaluateArticle(articleresult, article);
                     if (tuple.Item1)
@@ -523,12 +561,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             return model;
         }
-
-        /// <summary>
-        /// returns true if successfull and any article changed
-        /// </summary>
-        /// <param name="articles"></param>
-        /// <returns></returns>
+        
         private async Task<bool> FeedToDatabase(List<ArticleModel> articles)
         {
             try
@@ -559,10 +592,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                         await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
 
                         await unitOfWork.Commit();
-                        if (articles.Count > 0)
-                        {
-                            return true;
-                        }
+
+                        return true;
                     }
                 }
             }
@@ -571,55 +602,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                 LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured", ex);
             }
             return false;
-        }
-
-        private async Task DeleteArticleAndTraces(ArticleModel article)
-        {
-            try
-            {
-                using (var unitOfWork = new UnitOfWork(false))
-                {
-                    article.PrepareForSave();
-
-                    var contentRepo = new GenericRepository<ContentModel, ContentEntity>(await unitOfWork.GetDataService());
-                    var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                    var galleryRepo = new GenericRepository<GalleryModel, GalleryEntity>(await unitOfWork.GetDataService());
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
-
-                    var contents = await contentRepo.GetByCondition(d => d.ArticleId == article.Id);
-                    foreach (var content in contents)
-                    {
-                        if (content.ContentType == ContentType.Gallery)
-                        {
-                            var gallery = (await galleryRepo.GetByCondition(d => d.Id == content.GalleryId)).FirstOrDefault();
-
-                            var images = await imageRepo.GetByCondition(d => d.GalleryId == gallery.Id);
-                            foreach (var imageModel in images)
-                            {
-                                await imageRepo.Delete(imageModel);
-                            }
-                            await galleryRepo.Delete(gallery);
-                        }
-                        else if (content.ContentType == ContentType.Image)
-                        {
-                            var image = (await imageRepo.GetByCondition(d => d.Id == content.ImageId)).FirstOrDefault();
-                            await imageRepo.Delete(image);
-                        }
-                        await contentRepo.Delete(content);
-                    }
-
-                    await _themeRepository.SetThemesByArticle(article.Id, new List<int>(), await unitOfWork.GetDataService());
-                    await SetRelatedArticlesByArticleId(article.Id, new List<int>(), await unitOfWork.GetDataService());
-
-                    await articleRepo.Delete(article);
-
-                    await unitOfWork.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be deleted", ex);
-            }
         }
 
         private async Task DeleteAllArticlesAndTrances(List<int> newarticlesId, IDataService dataService)
@@ -888,7 +870,6 @@ namespace OfflineMedia.Business.Framework.Repositories
 
 
         #region Article Samples
-
         private ArticleModel GetSampleArticle()
         {
             var avm = new ArticleModel()

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
@@ -12,6 +14,7 @@ using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
@@ -25,6 +28,7 @@ namespace OfflineMedia.View.ViewModels
         private ISettingsRepository _settingsRepository;
         private IApiRepository _apiRepository;
         private IDialogService _dialogService;
+        private const int MaxArticlesPerFeed = 5;
 
         private INavigationService _navigationService;
 
@@ -52,26 +56,40 @@ namespace OfflineMedia.View.ViewModels
             else
                 Initialize();
 
-            Messenger.Default.Register<Guid>(this, Messages.FeedRefresh, FeedRefreshed);
-            Messenger.Default.Register<int>(this, Messages.FeedArticleRefresh, ArticleRefreshed);
             Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, ReloadPage);
-            Messenger.Default.Register<Messages>(this, EvaluateMessages);
+            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, EvaluateMessages);
+            Messenger.Default.Register<List<ArticleModel>>(this, Messages.FeedRefresh, EvaluateMessages);
         }
 
-        private async void ArticleRefreshed(int obj)
+        private void EvaluateMessages(ArticleModel obj)
         {
-            if (Sources != null)
+            if (Sources != null && obj != null)
             {
+                if (_favorites != null && _favorites.BoolValue && Sources.Any() && Sources[Sources.Count -1].SourceConfiguration.Source == SourceEnum.Favorites)
+                {
+                    if (obj.IsFavorite)
+                    {
+                        if (Sources[Sources.Count - 1].FeedList[0].ArticleList.Any(a => a.Id != obj.Id))
+                            Sources[Sources.Count - 1].FeedList[0].ArticleList.Insert(0, obj);
+                    }
+                    else
+                    {
+                        var am = Sources[Sources.Count - 1].FeedList[0].ArticleList.FirstOrDefault(d => d.Id == obj.Id);
+                        if (am != null)
+                            Sources[Sources.Count - 1].FeedList[0].ArticleList.Remove(am);
+                    }
+                }
                 foreach (var sourceModel in Sources)
                 {
                     if (sourceModel.FeedList != null)
                     {
                         foreach (var feedModel in sourceModel.FeedList)
                         {
-                            for (int index = 0; index < feedModel.ArticleList.Count; index++)
+                            var oldarticle = feedModel.ArticleList.FirstOrDefault(a => a.Id == obj.Id);
+                            if (oldarticle != null)
                             {
-                                if (feedModel.ArticleList[index].Id == obj)
-                                    feedModel.ArticleList[index] = await _articleRepository.GetArticleById(obj);
+                                var index = feedModel.ArticleList.IndexOf(oldarticle);
+                                feedModel.ArticleList[index] = obj;
                             }
                         }
                     }
@@ -79,13 +97,36 @@ namespace OfflineMedia.View.ViewModels
             }
         }
 
-        private async void EvaluateMessages(Messages obj)
+        private void EvaluateMessages(List<ArticleModel> obj)
         {
-            if (obj == Messages.FavoritesChanged)
+            var first = obj?.FirstOrDefault();
+            if (Sources != null && first != null)
             {
-                if (Sources.Any() && _favorites.BoolValue)
+                foreach (var sourceModel in Sources)
                 {
-                    Sources[Sources.Count - 1] = await _articleRepository.GetFavorites();
+                    if (sourceModel.FeedList != null)
+                    {
+                        foreach (var feedModel in sourceModel.FeedList)
+                        {
+                            if (feedModel.FeedConfiguration.Guid == first.FeedConfigurationId)
+                            {
+                                for (int i = 0; i < feedModel.ArticleList.Count; i++)
+                                {
+                                    if (obj.Count > i)
+                                        feedModel.ArticleList[i] = obj[i];
+                                    else
+                                        feedModel.ArticleList.RemoveAt(i);
+                                }
+                            }
+                            if (obj.Count > feedModel.ArticleList.Count)
+                            {
+                                for (int i = feedModel.ArticleList.Count; i < obj.Count && i < MaxArticlesPerFeed; i++)
+                                {
+                                    feedModel.ArticleList.Add(obj[i]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -94,30 +135,6 @@ namespace OfflineMedia.View.ViewModels
         {
             if (obj == PageKeys.Main)
                 Initialize();
-        }
-
-        private async void FeedRefreshed(Guid obj)
-        {
-            foreach (var sourceModel in Sources)
-            {
-                foreach (var feed in sourceModel.FeedList)
-                {
-                    if (feed.FeedConfiguration.Guid == obj)
-                    {
-                        //load rest of articles
-                        for (int i = 0; i < 5; i++)
-                        {
-                            var newarticle =
-                                (await _articleRepository.GetArticlesByFeed(obj, 1, i))
-                                    .FirstOrDefault();
-                            if (newarticle != null)
-                                feed.ArticleList.Add(newarticle);
-                            else
-                                break;
-                        }
-                    }
-                }
-            }
         }
 
         private ObservableCollection<SourceModel> _sources;
@@ -193,7 +210,7 @@ namespace OfflineMedia.View.ViewModels
                     if (feedModel.ArticleList.Count == 1)
                     {
                         //load rest of articles
-                        for (int i = 1; i < 5; i++)
+                        for (int i = 1; i < MaxArticlesPerFeed; i++)
                         {
                             var newarticle =
                                 (await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 1, i))

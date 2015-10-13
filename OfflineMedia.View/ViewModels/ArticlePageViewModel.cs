@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -32,8 +33,6 @@ namespace OfflineMedia.View.ViewModels
 
         public ArticlePageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IVariaService variaService)
         {
-            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
-
             _settingsRepository = settingsRepository;
             _articleRepository = articleRepository;
             _variaService = variaService;
@@ -79,66 +78,65 @@ namespace OfflineMedia.View.ViewModels
 
             _increaseSpeedCommand = new RelayCommand(IncreaseSpeed, () => CanIncreaseSpeed);
             _decreaseSpeedCommand = new RelayCommand(DecreaseSpeed, () => CanDecreaseSpeed);
+
+            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
+            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, ArticleRefreshed);
         }
 
-        private async void EvaluateMessage(ArticleModel obj)
+        private void ArticleRefreshed(ArticleModel obj)
+        {
+            if (obj?.Id == Article?.Id)
+                SelectArticle(obj);
+        }
+
+        private void EvaluateMessage(ArticleModel obj)
+        {
+            SelectArticle(obj);
+        }
+
+        private async void SelectArticle(ArticleModel am)
         {
             SetDisplayState(DisplayState.Article);
-            if (!obj.IsStatic)
+            if (!am.IsStatic)
             {
-                Article = await _articleRepository.GetCompleteArticle(obj.Id);
+                Article = am;
                 if (Article.State == ArticleState.New)
                 {
-                    Article.State = ArticleState.Loading;
-
-                    IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(Article);
-                    if (sh == null)
-                    {
-                        LogHelper.Instance.Log(LogLevel.Warning, this,
-                            "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
-                        Article.State = ArticleState.WrongSourceFaillure;
-                    }
-                    else
-                    {
-                        if (sh.NeedsToEvaluateArticle())
-                            Article = await _articleRepository.ActualizeArticle(Article, sh);
-                    }
-
-                    Article.State = ArticleState.Read;
-                    await _articleRepository.UpdateArticle(Article);
+                    _articleRepository.ActualizeArticle(Article);
                 }
                 else if (Article.State == ArticleState.Loaded)
                 {
+                    if (!Article.IsLoadedCompletely())
+                        Article = await _articleRepository.GetCompleteArticle(am.Id);
+
                     Article.State = ArticleState.Read;
-                    await _articleRepository.UpdateArticle(Article);
+                    await _articleRepository.UpdateArticleFlat(Article);
+                    Messenger.Default.Send(Article, Messages.ArticleRefresh);
+
+                    SimilarCathegoriesArticles =
+                        new FeedModel()
+                        {
+                            CustomTitle = "Ähnliche Kategorien"
+                        };
+
+                    SimilarTitlesArticles =
+                        new FeedModel()
+                        {
+                            CustomTitle = "Ähnlicher Inhalt"
+                        };
+
+                    SimilarCathegoriesArticles.ArticleList =
+                        await _articleRepository.GetSimilarCathegoriesArticles(Article, 5);
+
+                    SimilarTitlesArticles.ArticleList = await _articleRepository.GetSimilarTitlesArticles(Article, 5);
                 }
-
-                Messenger.Default.Send(Article.Id, Messages.FeedArticleRefresh);
-
-                InitializeSpritz();
-
-                SimilarCathegoriesArticles =
-                    new FeedModel()
-                    {
-                        CustomTitle = "Ähnliche Kategorien"
-                    };
-
-                SimilarTitlesArticles =
-                    new FeedModel()
-                    {
-                        CustomTitle = "Ähnlicher Inhalt"
-                    };
-
-                SimilarCathegoriesArticles.ArticleList =
-                    await _articleRepository.GetSimilarCathegoriesArticles(Article, 5);
-
-                SimilarTitlesArticles.ArticleList = await _articleRepository.GetSimilarTitlesArticles(Article, 5);
             }
             else
             {
-                Article = obj;
-                InitializeSpritz();
+                Article = am;
             }
+
+            InitializeSpritz();
         }
 
         private async void Initialize()
@@ -286,8 +284,8 @@ namespace OfflineMedia.View.ViewModels
         private async void Favorite()
         {
             Article.IsFavorite = !Article.IsFavorite;
-            await _articleRepository.UpdateArticle(Article);
-            Messenger.Default.Send(Messages.FavoritesChanged);
+            await _articleRepository.UpdateArticleFlat(Article);
+            Messenger.Default.Send(Article, Messages.ArticleRefresh);
         }
         #endregion
 
@@ -360,50 +358,57 @@ namespace OfflineMedia.View.ViewModels
         private List<SpritzWord> _spritzWords;
         private void InitializeSpritz()
         {
-            _isSpritzReady = false;
-            _activeIndex = 0;
-            _spritzState = SpritzState.Ready;
-            _spritzWords = new List<SpritzWord>();
-
-            DisplayWord(new SpritzWord()
+            try
             {
-                After = "ding",
-                Before = "Lo",
-                Middle = 'd',
-                Lenght = 1000
-            });
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
-            {
-                _goLeftCommand.RaiseCanExecuteChanged();
-                _goRightCommand.RaiseCanExecuteChanged();
-                _goToStartCommand.RaiseCanExecuteChanged();
-                _startCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(() => TotalWords);
-            });
+                _isSpritzReady = false;
+                _activeIndex = 0;
+                _spritzState = SpritzState.Ready;
+                _spritzWords = new List<SpritzWord>();
 
-            //inititialize Wordlists
-            if (Article.Content != null && Article.Content.Any())
-            {
-                _spritzWords = SpritzHelper.GenerateList(Article.Content);
-
-                //prepare User Interface
-                if (_spritzWords != null && _spritzWords.Count > 0)
+                DisplayWord(new SpritzWord()
                 {
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                    {
-                        _goLeftCommand.RaiseCanExecuteChanged();
-                        _goRightCommand.RaiseCanExecuteChanged();
-                        RaisePropertyChanged(() => TotalWords);
-                    });
+                    After = "ding",
+                    Before = "Lo",
+                    Middle = 'a',
+                    Lenght = 1000
+                });
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    _goLeftCommand.RaiseCanExecuteChanged();
+                    _goRightCommand.RaiseCanExecuteChanged();
+                    _goToStartCommand.RaiseCanExecuteChanged();
+                    _startCommand.RaiseCanExecuteChanged();
+                    RaisePropertyChanged(() => TotalWords);
+                });
 
-                    DisplayWord(_spritzWords[0]);
+                //inititialize Wordlists
+                if (Article.Content != null && Article.Content.Any())
+                {
+                    _spritzWords = SpritzHelper.GenerateList(Article.Content);
 
-                    _isSpritzReady = true;
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    //prepare User Interface
+                    if (_spritzWords != null && _spritzWords.Count > 0)
                     {
-                        _startCommand.RaiseCanExecuteChanged();
-                    });
+                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                        {
+                            _goLeftCommand.RaiseCanExecuteChanged();
+                            _goRightCommand.RaiseCanExecuteChanged();
+                            RaisePropertyChanged(() => TotalWords);
+                        });
+
+                        DisplayWord(_spritzWords[0]);
+
+                        _isSpritzReady = true;
+                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                        {
+                            _startCommand.RaiseCanExecuteChanged();
+                        });
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.FatalError, this, "Spritz failed", ex);
             }
         }
 

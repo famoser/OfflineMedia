@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using HtmlAgilityPack;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
+namespace OfflineMedia.DisplayHelper.DependencyObjects
 {
     internal class TagDefinition
     {

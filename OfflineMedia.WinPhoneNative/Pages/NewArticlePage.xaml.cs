@@ -24,12 +24,18 @@ namespace OfflineMedia.Pages
                 if (sv.VerticalOffset > 1000)
                 {
                     if (!_upButtonVisible)
+                    {
                         ShowUpButton.Begin();
+                        _upButtonVisible = !_upButtonVisible;
+                    }
                 }
                 else
                 {
                     if (_upButtonVisible)
+                    {
                         HideUpButton.Begin();
+                        _upButtonVisible = !_upButtonVisible;
+                    }
                 }
             }
         }
@@ -37,6 +43,8 @@ namespace OfflineMedia.Pages
         private void UpButton_Click(object sender, RoutedEventArgs e)
         {
             ReadScrollViewer.ChangeView(null, 0, null);
+            HideUpButton.Begin();
+            _upButtonVisible = !_upButtonVisible;
         }
     }
 }

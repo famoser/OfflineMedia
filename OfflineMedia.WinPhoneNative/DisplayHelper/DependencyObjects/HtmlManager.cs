@@ -7,7 +7,7 @@ using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 using HtmlAgilityPack;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
+namespace OfflineMedia.DisplayHelper.DependencyObjects
 {    /// <summary>
     /// Class to convert Html text string into WinRT-compatible RichTextBlock Xaml.
     /// </summary>

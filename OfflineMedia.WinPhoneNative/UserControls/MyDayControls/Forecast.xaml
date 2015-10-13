@@ -79,7 +79,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Margin="10,0,0,0">
+                <StackPanel Margin="10,0,0,0"  Style="{StaticResource WeatherLevelGrid}">
                     <TextBlock Text="luftdruck" Style="{StaticResource WeatherSmallText}" />
                     <TextBlock Style="{StaticResource WeatherBigText}" Text="{Binding CurrentForecast.PressurehPa}" />
                 </StackPanel>

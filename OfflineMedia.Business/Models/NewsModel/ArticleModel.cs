@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Common.Framework;
@@ -141,6 +142,11 @@ namespace OfflineMedia.Business.Models.NewsModel
                 {
                     contentModel.Article = this;
                 }
+        }
+
+        public bool IsLoadedCompletely()
+        {
+            return Content != null && Content.Any();
         }
 
         public bool IsStatic { get; set; }

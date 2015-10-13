@@ -6,12 +6,14 @@
     xmlns:genericConverter="using:OfflineMedia.DisplayHelper.Converter.GenericConverter"
     xmlns:mainPageConverter="using:OfflineMedia.DisplayHelper.Converter.MainPageConverter"
     xmlns:myDayConverter="using:OfflineMedia.DisplayHelper.Converter.MyDayConverter"
-    xmlns:settingsPageConverter="using:OfflineMedia.DisplayHelper.Converter.SettingsPageConverter">
-
+    xmlns:settingsPageConverter="using:OfflineMedia.DisplayHelper.Converter.SettingsPageConverter"
+    xmlns:debugConverter="using:OfflineMedia.DisplayHelper.Converter.DebugConverters">
+    
     <articleListConverter:DateTimeConverter x:Key="DateTimeConverter" />
     <articleListConverter:ShortDateTimeConverter x:Key="ShortDateTimeConverter" />
     <articleListConverter:IsReadConverter x:Key="IsReadConverter" />
-
+    <articleListConverter:ByteToBitmapConverter x:Key="ByteToBitmapConverter" />
+    
     <articlePageConverter:FavoriteIconConverter x:Key="FavoriteIconConverter" />
     <articlePageConverter:LeadFontSizeConverter x:Key="LeadFontSizeConverter" />
     <articlePageConverter:SpritzStateIconConverter x:Key="SpritzStateIconConverter" />
@@ -32,5 +34,7 @@
     <myDayConverter:EnumToIntConverter x:Key="EnumToIntConverter" />
 
     <settingsPageConverter:ULongToByteConverter x:Key="ULongToByteConverter" />
+
+    <debugConverter:PassAll x:Key="PassAllDebugConverter" />
 
 </ResourceDictionary>

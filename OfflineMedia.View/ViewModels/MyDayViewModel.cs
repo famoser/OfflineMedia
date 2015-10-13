@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
+using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.WeatherModel;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 
@@ -44,7 +45,7 @@ namespace OfflineMedia.View.ViewModels
                         ConditionFontIcon = ((char)int.Parse("EB48", System.Globalization.NumberStyles.HexNumber)).ToString(),
                         CloudinessPercentage = 80,
                         HumidityPercentage = 16,
-                        WindDegreee = 20,
+                        WindDegreee = 310,
                         WindSpeed = 12,
                         TemperatureKelvin = 287,
                         PressurehPa = 1300,
@@ -71,14 +72,27 @@ namespace OfflineMedia.View.ViewModels
         private void EvaluateMessages(Messages obj)
         {
             if (obj == Messages.RefreshWeather)
-                Initialize();
+                RefreshWeather();
         }
 
+        private SettingModel _city1;
+        private SettingModel _city2;
         private async void Initialize()
         {
-            var city1 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity1);
-            if (city1 != null && city1.Value != "")
-                Forecast1 = await _weatherRepository.GetForecastFor(city1.Value);
+            _city1 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity1);
+            _city2 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity2);
+
+            var todos = await _settingsRepository.GetSettingByKey(SettingKeys.ToDoList);
+            ToDos = JsonConvert.DeserializeObject<ObservableCollection<string>>(todos.Value);
+
+            RefreshWeather();
+        }
+
+
+        private async void RefreshWeather()
+        {
+            if (_city1 != null && _city1.Value != "")
+                Forecast1 = await _weatherRepository.GetForecastFor(_city1.Value);
             if (Forecast1 == null)
             {
                 var citycontent1 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity1Content);
@@ -90,12 +104,11 @@ namespace OfflineMedia.View.ViewModels
                 var json = JsonConvert.SerializeObject(Forecast1);
                 await _settingsRepository.SaveSettingByKey(SettingKeys.WeatherCity1Content, json);
             }
-            
-            Forecast1?.SetCurrentForecast();
 
-            var city2 = await _settingsRepository.GetSettingByKey(SettingKeys.WeatherCity2);
-            if (city2 != null && city2.Value != "")
-                Forecast2 = await _weatherRepository.GetForecastFor(city2.Value);
+            Forecast1?.SetCurrentForecast();
+            
+            if (_city2 != null && _city2.Value != "")
+                Forecast2 = await _weatherRepository.GetForecastFor(_city2.Value);
 
             if (Forecast2 == null)
             {
@@ -108,12 +121,8 @@ namespace OfflineMedia.View.ViewModels
                 var json = JsonConvert.SerializeObject(Forecast2);
                 await _settingsRepository.SaveSettingByKey(SettingKeys.WeatherCity2Content, json);
             }
-
-            Forecast1?.SetCurrentForecast();
+            
             Forecast2?.SetCurrentForecast();
-
-            var todos = await _settingsRepository.GetSettingByKey(SettingKeys.ToDoList);
-            ToDos = JsonConvert.DeserializeObject<ObservableCollection<string>>(todos.Value);
         }
 
         private Forecast _forecast1;

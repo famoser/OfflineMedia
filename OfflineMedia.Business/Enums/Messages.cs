@@ -4,10 +4,8 @@
     {
         Select,
         FeedRefresh,
-        FeedArticleRefresh,
         ArticleRefresh,
         ReloadGoBackPage,
-        FavoritesChanged,
         MainPageInitialized,
         RefreshWeather
     }

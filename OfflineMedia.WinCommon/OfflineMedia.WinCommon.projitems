@@ -9,6 +9,7 @@
     <Import_RootNamespace>OfflineMedia.WinCommon</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ShortDateTimeConverter.cs" />
@@ -16,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\LeadFontSizeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\SpritzStateIconConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticlePageConverter\ThemeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DebugConverters\PassAll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\EnumToIntConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\FontSizeArticleListEvaluator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\DeprecatedConverters\PercentageToWidthConverter.cs" />

@@ -10,7 +10,7 @@ using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Framework.Logs;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
+namespace OfflineMedia.DisplayHelper.DependencyObjects
 {
     /// <summary>
     /// Usage: 
@@ -68,20 +68,15 @@ namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
                 string html = "";
                 List<ContentModel> contentmodels = GetHtml(d);
                 if (contentmodels == null)
-                {
                     html = "<p>Artikel wird geladen...</p>";
-                }
                 else
-                    html = contentmodels.Where(h => h.ContentType == ContentType.Html).Aggregate(html, (current, item) => current + item.Html);
+                    html = contentmodels.Where(h => h.ContentType == ContentType.Html)
+                        .Aggregate(html, (current, item) => current + item.Html);
 
                 int fontSize = GetFontSize(d);
                 if (fontSize == 0)
                     return;
 
-                // Get the target RichTextBlock
-                RichTextBlock richText = d as RichTextBlock;
-
-                richText.Blocks.Clear();
                 // Wrap the value of the Html property in a div and convert it to a new RichTextBlock
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<?xml version=\"1.0\"?>");
@@ -94,6 +89,10 @@ namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
                 {
                     RichTextBlock newRichText = (RichTextBlock)XamlReader.Load(xaml);
 
+                    // Get the target RichTextBlock
+                    RichTextBlock richText = d as RichTextBlock;
+                    richText.Blocks.Clear();
+
                     // Move the blocks in the new RichTextBlock to the target RichTextBlock
                     for (int i = newRichText.Blocks.Count - 1; i >= 0; i--)
                     {
@@ -101,6 +100,11 @@ namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
                         newRichText.Blocks.RemoveAt(i);
                         richText.Blocks.Insert(0, b);
                     }
+
+                    var count = richText.Blocks.Count;
+                    richText.InvalidateArrange();
+                    richText.InvalidateMeasure();
+                    richText.UpdateLayout();
                 }
                 catch (Exception ex)
                 {

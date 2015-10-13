@@ -54,8 +54,9 @@
             <DataTemplate x:Key="ArticleListItemTemplate" >
                 <Grid Margin="0,2" HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}">
                     <!-- with image -->
-                    <Grid Visibility="{Binding LeadImage.Url, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
-                        <Image MaxHeight="150" Stretch="UniformToFill">
+                    <Grid Visibility="{Binding LeadImage, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
+                        <!--<Image Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}"  MaxHeight="150" Stretch="UniformToFill" />-->
+                        <Image  MaxHeight="150" Stretch="UniformToFill" >
                             <Image.Source>
                                 <BitmapImage UriSource="{Binding LeadImage.Url}" />
                             </Image.Source>
@@ -69,7 +70,7 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-                             <!-- textgrid -->
+                            <!-- textgrid -->
                             <Grid Margin="0,0,-1,0" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{ThemeResource BackgroundThemeBrush}" Height="15" Visibility="{Binding PublicationTime, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                                 <TextBlock FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource ForegroundThemeBrush}" Margin="6,1,6,0" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}"  />
                             </Grid>
@@ -89,7 +90,7 @@
                     </Grid>
 
                     <!-- without image -->
-                    <Grid Visibility="{Binding LeadImage.Url, Converter={StaticResource ReferenceVisibillityEvaluatorInverted}}" >
+                    <Grid Visibility="{Binding LeadImage, Converter={StaticResource ReferenceVisibillityEvaluatorInverted}}" >
                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource ForegroundThemeBrush}" Margin="6,1,6,0" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}"  />
 
                         <StackPanel>
@@ -275,7 +276,7 @@
 
 
             <Style x:Key="WeatherLevelGrid" TargetType="StackPanel">
-                <Setter Property="Width" Value="66" />
+                <Setter Property="MinWidth" Value="66" />
                 <Setter Property="Margin" Value="10,0" />
             </Style>
 

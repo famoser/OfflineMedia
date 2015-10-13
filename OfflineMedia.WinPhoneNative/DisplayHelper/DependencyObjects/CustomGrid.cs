@@ -4,7 +4,7 @@ using System.Text;
 using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
+namespace OfflineMedia.DisplayHelper.DependencyObjects
 {
     public class CustomGrid : Grid
     {

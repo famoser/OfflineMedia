@@ -15,7 +15,7 @@ namespace OfflineMedia.Business.Framework.Repositories
     {
         private IStorageService _storageService;
         private Dictionary<string, string> _weatherFontMapping;
-        private static string _apiUrl = "http://api.openweathermap.org/data/2.5/forecast?q={city}&lang=de";
+        private static string _apiUrl = "http://api.openweathermap.org/data/2.5/forecast?appid=3b2b694b8ac5add8b400dc24e563fd50&q={city}&lang=de";
 
         public WeatherRepository(IStorageService storageService)
         {
@@ -37,7 +37,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                     _weatherFontMapping = json != null ? JsonConvert.DeserializeObject<Dictionary<string, string>>(json) : new Dictionary<string, string>();
                 }
 
-                string feedresult = await Download.DownloadStringAsync(GetApiUrl(cityName));
+                Uri url = GetApiUrl(cityName);
+                string feedresult = await Download.DownloadStringAsync(url);
                 if (feedresult != null)
                 {
                     var forecast = OpenWeatherMapHelper.Instance.EvaluateFeed(feedresult, _weatherFontMapping);
