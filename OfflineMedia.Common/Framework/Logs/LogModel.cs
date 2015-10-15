@@ -1,4 +1,6 @@
-﻿namespace OfflineMedia.Common.Framework.Logs
+﻿using System.Collections.Generic;
+
+namespace OfflineMedia.Common.Framework.Logs
 {
     public class LogModel
     {
@@ -7,6 +9,28 @@
         public string Location { get; set; }
         public string Message { get; set; }
 
-        public bool IsReported { get; set; }
+
+        public string Header
+        {
+            get { return "Log (Level: " + LogLevel + ")"; }
+        }
+
+        public string Body
+        {
+            get { return "Location: " + Location + "\nMessage: " + Message; }
+        }
+
+        public Dictionary<string, string> Values
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    {"LogLevel",LogLevel.ToString() },
+                    {"Location",Location },
+                    {"Message",Message }
+                };
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using OfflineMedia.Data;
 
 namespace OfflineMedia.Business.Framework
 {
@@ -13,12 +14,13 @@ namespace OfflineMedia.Business.Framework
             _onlyRead = onlyRead;
         }
 
-        public async Task<SqliteDataService> GetDataService()
+        public async Task<IDataService> GetDataService()
         {
             if (_dataService == null)
             {
                 _dataService = await SqliteDataService.GetInstance();
                 await _dataService.BeginTransaction(_onlyRead);
+                await _dataService.PrepareDatabase();
             }
             return _dataService;
         }

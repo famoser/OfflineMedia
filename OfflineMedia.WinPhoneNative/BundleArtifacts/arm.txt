@@ -1,2 +1,2 @@
-MainPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.27_ARM.appx
-SymbolPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\AppPackages\OfflineMedia.WinPhoneNative_2015.832.0.27_Test\OfflineMedia.WinPhoneNative_2015.832.0.27_ARM.appxsym
+MainPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.29_ARM.appx
+SymbolPackage=A:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\AppPackages\OfflineMedia.WinPhoneNative_2015.832.0.29_Test\OfflineMedia.WinPhoneNative_2015.832.0.29_ARM.appxsym

@@ -67,7 +67,7 @@ namespace OfflineMedia.View.ViewModels
 
             _makeFontBiggerCommand = new RelayCommand(MakeFontBigger, () => CanMakeFontBigger);
             _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
-            _favoriteCommand = new RelayCommand(Favorite, () => CanFavorite);
+            _favoriteCommand = new RelayCommand(Favorite);
             _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
 
             _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
@@ -144,7 +144,14 @@ namespace OfflineMedia.View.ViewModels
             using (var unitOfWork = new UnitOfWork(true))
             {
                 _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize, await unitOfWork.GetDataService());
+                RaisePropertyChanged(() => FontSize);
+                _makeFontBiggerCommand.RaiseCanExecuteChanged();
+                _makeFontSmallerCommand.RaiseCanExecuteChanged();
+
                 _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute, await unitOfWork.GetDataService());
+                RaisePropertyChanged(() => ReadingSpeed);
+                _increaseSpeedCommand.RaiseCanExecuteChanged();
+                _decreaseSpeedCommand.RaiseCanExecuteChanged();
             }
 
             RaisePropertyChanged(() => FontSize);
@@ -155,11 +162,7 @@ namespace OfflineMedia.View.ViewModels
         public ArticleModel Article
         {
             get { return _article; }
-            set
-            {
-                if (Set(ref _article, value))
-                    _openInBrowserCommand.RaiseCanExecuteChanged();
-            }
+            set { Set(ref _article, value); }
         }
 
         private DisplayState _displayState;
@@ -234,7 +237,7 @@ namespace OfflineMedia.View.ViewModels
 
         private bool CanMakeFontBigger
         {
-            get { return _fontSize.IntValue < 40; }
+            get { return FontSize < 40; }
         }
 
         private void MakeFontBigger()
@@ -256,7 +259,7 @@ namespace OfflineMedia.View.ViewModels
 
         private bool CanMakeFontSmaller
         {
-            get { return _fontSize.IntValue > 5; }
+            get { return FontSize > 5; }
         }
 
         private void MakeFontSmaller()
@@ -276,11 +279,6 @@ namespace OfflineMedia.View.ViewModels
             get { return _favoriteCommand; }
         }
 
-        private bool CanFavorite
-        {
-            get { return true; }
-        }
-
         private async void Favorite()
         {
             Article.IsFavorite = !Article.IsFavorite;
@@ -297,7 +295,7 @@ namespace OfflineMedia.View.ViewModels
 
         public int ReadingSpeed
         {
-            get { return _spritzSpeed.IntValue; }
+            get { return _spritzSpeed != null ? _spritzSpeed.IntValue : 300; }
         }
 
         private string _beforeText = "S";

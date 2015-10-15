@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\ResolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignNavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProgressService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StorageService.cs" />
@@ -54,8 +55,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\owfont-regular.ttf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small-white.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Dictionaries\Converters.xaml">

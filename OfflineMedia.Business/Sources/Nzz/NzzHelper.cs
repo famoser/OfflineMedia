@@ -66,13 +66,13 @@ namespace OfflineMedia.Business.Sources.Nzz
                 return null;
             }
         }
-        
+
         public bool NeedsToEvaluateArticle()
         {
             return true;
         }
 
-        public async Task<Tuple<bool,ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             if (article == null) return new Tuple<bool, ArticleModel>(false, am);
 
@@ -105,7 +105,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             return TextHelper.Instance.FusionLists(part1, part2);
         }
 
-        public async Task<Tuple<bool,ArticleModel>> ArticleToArticleModel(NzzArticle na, ArticleModel am)
+        public async Task<Tuple<bool, ArticleModel>> ArticleToArticleModel(NzzArticle na, ArticleModel am)
         {
             if (na != null)
             {
@@ -120,7 +120,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                             na.body[i].style = "h1";
                         string starttag = "<" + na.body[i].style + ">";
                         string endtag = "</" + na.body[i].style + ">";
-                        am.Content.Add(new ContentModel() { ContentType = ContentType.Html, Html = starttag + na.body[i].text + endtag});
+                        am.Content.Add(new ContentModel() { ContentType = ContentType.Html, Html = starttag + na.body[i].text + endtag });
                     }
 
                     if (na.authors != null)
@@ -139,12 +139,13 @@ namespace OfflineMedia.Business.Sources.Nzz
                     if (!string.IsNullOrEmpty(na.agency))
                         am.Author += na.agency;
 
-                    am.Teaser = na.leadText;
+                    if (!string.IsNullOrEmpty(na.leadText))
+                        am.Teaser = na.leadText;
 
                     var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
                     am.Themes = await repo.GetThemeModelsFor(na.departments);
                     am.Themes.Add(await repo.GetThemeModelFor(am.FeedConfiguration.Name));
-                    
+
                     return new Tuple<bool, ArticleModel>(true, am);
                 }
                 catch (Exception ex)

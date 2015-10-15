@@ -7,13 +7,13 @@ namespace OfflineMedia.Common.Framework.Logs
     public class LogHelper : SingletonBase<LogHelper>
     {
         private List<LogModel> _logs = new List<LogModel>();
+
         public void Log(LogLevel level, object from, string message, Exception ex = null)
         {
             var lm = new LogModel
             {
                 LogLevel = level,
-                Message = message,
-                IsReported = false
+                Message = message
             };
 
             if (from != null)
@@ -30,8 +30,7 @@ namespace OfflineMedia.Common.Framework.Logs
             var lm = new LogModel
             {
                 LogLevel = level,
-                Message = message,
-                IsReported = false
+                Message = message
             };
 
             if (from != null)
@@ -43,5 +42,11 @@ namespace OfflineMedia.Common.Framework.Logs
             _logs.Add(lm);
         }
 
+        public List<LogModel> GetAllLogs()
+        {
+            var templogs = new List<LogModel>(_logs);
+            _logs = new List<LogModel>();
+            return templogs;
+        }
     }
 }

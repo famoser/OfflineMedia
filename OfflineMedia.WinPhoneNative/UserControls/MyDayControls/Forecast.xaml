@@ -4,14 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:myDayControls="using:OfflineMedia.UserControls.MyDayControls"
     mc:Ignorable="d"
     d:DesignHeight="400"
     d:DesignWidth="400"
     Foreground="White"
     d:DataContext="{Binding MyDayViewModel.Forecast1, Source={StaticResource Locator}}">
 
-    <StackPanel Background="{ThemeResource AkzentBackgroundThemeBrush}">
-        <Grid>
+    <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -24,7 +33,8 @@
             </Grid>
             <TextBlock Grid.Column="1" FontSize="100" Margin="0,5,0,-20" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
         </Grid>
-        <Grid>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="20" />
@@ -48,44 +58,11 @@
             </Grid>
 
         </Grid>
-        <ScrollViewer HorizontalScrollMode="Enabled">
-            <StackPanel Width="600" Orientation="Horizontal">
-                <StackPanel Margin="0,0,10,0" Style="{StaticResource WeatherLevelGrid}">
-                    <TextBlock Text="wind" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Text="{Binding CurrentForecast.WindLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                        <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                    <TextBlock Text="richtung" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentForecast.WindDirection}" Style="{StaticResource WeatherBigText}" Margin="0" FontSize="50" />
-                </StackPanel>
-
-                <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                    <TextBlock Text="regen" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Text="{Binding CurrentForecast.RainLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                        <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                    <TextBlock Text="schnee" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Text="{Binding CurrentForecast.SnowLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                        <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Margin="10,0,0,0"  Style="{StaticResource WeatherLevelGrid}">
-                    <TextBlock Text="luftdruck" Style="{StaticResource WeatherSmallText}" />
-                    <TextBlock Style="{StaticResource WeatherBigText}" Text="{Binding CurrentForecast.PressurehPa}" />
-                </StackPanel>
-            </StackPanel>
+        
+        <ScrollViewer Grid.Row="2" HorizontalScrollMode="Enabled">
+            <myDayControls:DataSlider DataContext="{Binding }" />
         </ScrollViewer>
-        <TextBlock Margin="0,10,0,-10" Style="{StaticResource WeatherSmallText}" Text="{Binding CurrentForecast.Date, Converter={StaticResource FullDateTimeConverter}}" />
-        <Slider Value="{Binding ActiveIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding ForecastItems.Count, Converter={StaticResource IntToIntConverter}, ConverterParameter=-1}" />
-    </StackPanel>
+        <TextBlock Grid.Row="3" Margin="0,10,0,-10" Style="{StaticResource WeatherSmallText}" Text="{Binding CurrentForecast.Date, Converter={StaticResource FullDateTimeConverter}}" />
+        <Slider Grid.Row="4" Value="{Binding ActiveIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding ForecastItems.Count, Converter={StaticResource IntToIntConverter}, ConverterParameter=-1}" />
+    </Grid>
 </UserControl>

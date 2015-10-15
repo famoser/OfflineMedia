@@ -166,6 +166,7 @@
     <Compile Include="Framework\Converters\StringGuidConverter.cs" />
     <Compile Include="Framework\Converters\StringUriConverter.cs" />
     <Compile Include="Framework\EqualityComparer\IntEqualityComparer.cs" />
+    <Compile Include="Framework\Services\Interfaces\IApiService.cs" />
     <Compile Include="Framework\Services\Interfaces\IProgressService.cs" />
     <Compile Include="Framework\Services\Interfaces\IStorageService.cs" />
     <Compile Include="Framework\Logs\LogHelper.cs" />

@@ -164,7 +164,6 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-            
                 await _asyncConnection.RunInTransactionAsync(conn =>
                 {
                     foreach (var id in ids)
@@ -190,7 +189,12 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                //try again
+                int res = await Add(obj);
+                if (res == -1)
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                else
+                    return res;
             }
             return -1;
         }
@@ -207,7 +211,12 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                //try again
+                var res = await AddAll(obj);
+                if (!res.Any())
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                else
+                    return res;
             }
             return new List<int>();
         }
@@ -221,7 +230,11 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                //try again
+                if (!await Update(obj))
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                else
+                    return true;
             }
             return false;
         }
@@ -238,7 +251,11 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                //try again
+                if (!await UpdateAll(obj))
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                else
+                    return true;
             }
             return false;
         }
@@ -255,7 +272,12 @@ namespace OfflineMedia.Business.Framework
                 if (ex.Message == "Sequence contains no elements")
                     return 0;
 
-                LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof(T).Name, ex);
+                //try again
+                int res = await GetHighestId<T>();
+                if (res == -1)
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof (T).Name, ex);
+                else
+                    return res;
             }
             return -1;
         }
@@ -269,7 +291,11 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteById failed for " + typeof(T).Name + " with id " + id, ex);
+                if (!await DeleteById<T>(id))
+                    LogHelper.Instance.Log(LogLevel.Error, this,
+                        "DeleteById failed for " + typeof (T).Name + " with id " + id, ex);
+                else
+                    return true;
             }
             return false;
         }
@@ -278,7 +304,6 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-
                 if (orderByProperty != null)
                 {
                     if (descending)
@@ -353,6 +378,24 @@ namespace OfflineMedia.Business.Framework
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+            }
+            return false;
+        }
+
+        public async Task<bool> PrepareDatabase()
+        {
+            try
+            {
+                await _asyncConnection.RunInTransactionAsync(conn =>
+                {
+                    conn.Execute("UPDATE ArticleEntity SET State=0 WHERE State=1");
+                });
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "ResetLoadingEnum", ex);
             }
             return false;
         }

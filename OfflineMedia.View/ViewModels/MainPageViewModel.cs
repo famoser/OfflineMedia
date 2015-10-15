@@ -65,7 +65,7 @@ namespace OfflineMedia.View.ViewModels
         {
             if (Sources != null && obj != null)
             {
-                if (_favorites != null && _favorites.BoolValue && Sources.Any() && Sources[Sources.Count -1].SourceConfiguration.Source == SourceEnum.Favorites)
+                if (_favorites != null && _favorites.BoolValue && Sources.Any() && Sources[Sources.Count - 1].SourceConfiguration.Source == SourceEnum.Favorites)
                 {
                     if (obj.IsFavorite)
                     {
@@ -110,19 +110,24 @@ namespace OfflineMedia.View.ViewModels
                         {
                             if (feedModel.FeedConfiguration.Guid == first.FeedConfigurationId)
                             {
+                                if (obj.Count < MaxArticlesPerFeed)
+                                {
+                                    var oldcount = obj.Count;
+                                    for (int i = obj.Count; i < MaxArticlesPerFeed; i++)
+                                    {
+                                        if (feedModel.ArticleList.Count > i - oldcount)
+                                            obj.Add(feedModel.ArticleList[i - oldcount]);
+                                        else
+                                            break;
+                                    }
+                                }
+
                                 for (int i = 0; i < feedModel.ArticleList.Count; i++)
                                 {
                                     if (obj.Count > i)
                                         feedModel.ArticleList[i] = obj[i];
                                     else
                                         feedModel.ArticleList.RemoveAt(i);
-                                }
-                            }
-                            if (obj.Count > feedModel.ArticleList.Count)
-                            {
-                                for (int i = feedModel.ArticleList.Count; i < obj.Count && i < MaxArticlesPerFeed; i++)
-                                {
-                                    feedModel.ArticleList.Add(obj[i]);
                                 }
                             }
                         }

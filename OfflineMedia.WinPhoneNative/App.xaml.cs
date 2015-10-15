@@ -12,7 +12,9 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using Microsoft.ApplicationInsights;
 using OfflineMedia.Business.Enums;
+using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Pages;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -24,7 +26,7 @@ namespace OfflineMedia
     /// </summary>
     public sealed partial class App : Application
     {
-        private TransitionCollection transitions;
+        private TransitionCollection _transitions;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -32,8 +34,11 @@ namespace OfflineMedia
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += this.OnSuspending;
+            WindowsAppInitializer.InitializeAsync();
+
+            InitializeComponent();
+            Suspending += OnSuspending;
+            UnhandledException += OnUnhandledException;
 
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
@@ -48,7 +53,7 @@ namespace OfflineMedia
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            
+
             if (!e.Handled)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
@@ -97,8 +102,8 @@ namespace OfflineMedia
 #if DEBUG
             if (Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = false;
-                this.DebugSettings.IsOverdrawHeatMapEnabled = false;
+                DebugSettings.EnableFrameRateCounter = false;
+                DebugSettings.IsOverdrawHeatMapEnabled = false;
             }
 #endif
 
@@ -130,15 +135,15 @@ namespace OfflineMedia
                 // Removes the turnstile navigation for startup.
                 if (rootFrame.ContentTransitions != null)
                 {
-                    this.transitions = new TransitionCollection();
+                    _transitions = new TransitionCollection();
                     foreach (var c in rootFrame.ContentTransitions)
                     {
-                        this.transitions.Add(c);
+                        _transitions.Add(c);
                     }
                 }
 
                 rootFrame.ContentTransitions = null;
-                rootFrame.Navigated += this.RootFrame_FirstNavigated;
+                rootFrame.Navigated += RootFrame_FirstNavigated;
 
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
@@ -166,8 +171,8 @@ namespace OfflineMedia
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
-            rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            rootFrame.ContentTransitions = _transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
+            rootFrame.Navigated -= RootFrame_FirstNavigated;
         }
 
         /// <summary>
@@ -179,6 +184,18 @@ namespace OfflineMedia
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            var logs = LogHelper.Instance.GetAllLogs();
+            var client = new TelemetryClient();
+            foreach (var logModel in logs)
+            {
+                client.TrackEvent(logModel.Header, logModel.Values);
+            }
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            LogHelper.Instance.Log(LogLevel.FatalError, this, unhandledExceptionEventArgs.Message, unhandledExceptionEventArgs.Exception);
+            OnSuspending(null, null);
         }
     }
 }

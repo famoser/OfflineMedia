@@ -43,6 +43,7 @@ namespace OfflineMedia.ViewModel
             SimpleIoc.Default.Register<IStorageService, StorageService>();
             SimpleIoc.Default.Register<IVariaService, VariaService>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
+            SimpleIoc.Default.Register<IApiService, ApiService>();
 
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
 

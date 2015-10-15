@@ -287,7 +287,6 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             //Get Total Number of feeds
             int feedcounter = _sources.SelectMany(source => source.FeedList).Count();
-
             int activecounter = 0;
 
             foreach (var sourceModel in _sources)
@@ -314,6 +313,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                 _newArticles = await repo.CountByCondition(a => a.State == (int)ArticleState.New);
+
             }
 
             //Actualize articles
@@ -321,7 +321,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 for (int i = 0; i < 1; i++)
                 {
-                    var tsk = AktualizeArticlesTask();
+                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
                     _aktualizeArticleTasks.Add(tsk);
                 }
 
@@ -330,6 +330,12 @@ namespace OfflineMedia.Business.Framework.Repositories
                     await tsk;
                 }
             }
+        }
+
+        private void DeleteTaskFromList(Task obj)
+        {
+            if (_aktualizeArticleTasks.Contains(obj))
+                _aktualizeArticleTasks.Remove(obj);
         }
 
         private async Task AktualizeArticlesTask()
@@ -361,7 +367,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                         else
                         {
                             article = await ActualizeArticle(article, sh);
-                            
+
                             await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
                         }
                         await unitOfWork.Commit();
@@ -561,7 +567,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             return model;
         }
-        
+
         private async Task<bool> FeedToDatabase(List<ArticleModel> articles)
         {
             try
