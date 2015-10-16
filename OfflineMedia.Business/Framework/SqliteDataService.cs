@@ -28,11 +28,19 @@ namespace OfflineMedia.Business.Framework
         {
             if (_instance == null)
             {
-                _instance = new SqliteDataService(SimpleIoc.Default.GetInstance<IStorageService>(), SimpleIoc.Default.GetInstance<ISQLitePlatform>());
-                await _instance.Init();
+                if (_tsk == null)
+                {
+                    _initInstance = new SqliteDataService(SimpleIoc.Default.GetInstance<IStorageService>(), SimpleIoc.Default.GetInstance<ISQLitePlatform>());
+                    _tsk = _initInstance.Init();
+                }
+                await _tsk;
+                _instance = _initInstance;
             }
             return _instance;
         }
+
+        private static Task _tsk;
+        private static SqliteDataService _initInstance;
 
         private SqliteDataService(IStorageService storageService, ISQLitePlatform sqlitePlatform)
         {
