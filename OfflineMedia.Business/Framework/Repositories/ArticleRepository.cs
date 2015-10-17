@@ -22,7 +22,7 @@ using OfflineMedia.Data.Entities;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
-    public class ArticleRepository : IArticleRepository
+    public partial class ArticleRepository : IArticleRepository
     {
         private ISettingsRepository _settingsRepository;
         private IThemeRepository _themeRepository;
@@ -76,13 +76,14 @@ namespace OfflineMedia.Business.Framework.Repositories
             return oc;
         }
 
+#pragma warning disable 4014
         public async Task ActualizeArticle(ArticleModel article)
         {
             if (article.State == ArticleState.New)
             {
                 article.State = ArticleState.Loading;
-                await UpdateArticleFlat(article);
-                Messenger.Default.Send(article, Messages.ArticleRefresh);
+                _toDatabaseFlatArticles.Add(article);
+                ToDatabase();
 
                 IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
                 if (sh == null)
@@ -90,19 +91,18 @@ namespace OfflineMedia.Business.Framework.Repositories
                     LogHelper.Instance.Log(LogLevel.Warning, this,
                         "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
                     article.State = ArticleState.WrongSourceFaillure;
-                    await UpdateArticleFlat(article);
+                    _toDatabaseFlatArticles.Add(article);
+                    ToDatabase();
                 }
                 else
                 {
                     article = await ActualizeArticle(article, sh);
-                    Messenger.Default.Send(article, Messages.ArticleRefresh);
-                    using (var unitofWork = new UnitOfWork(false))
-                    {
-                        await InsertOrUpdateArticleAndTraces(article, await unitofWork.GetDataService());
-                    }
+                    _toDatabaseArticles.Add(article);
+                    ToDatabase();
                 }
             }
         }
+#pragma warning restore 4014
 
         public ArticleModel GetInfoArticle()
         {
@@ -251,13 +251,18 @@ namespace OfflineMedia.Business.Framework.Repositories
             return sourceModel;
         }
 
-        public async Task UpdateArticleFlat(ArticleModel am)
+        public void UpdateArticleFlat(ArticleModel am)
         {
-            using (var unitOfWork = new UnitOfWork(false))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                await repo.Update(am);
-            }
+            _toDatabaseFlatArticles.Add(am);
+#pragma warning disable 4014
+            ToDatabase();
+#pragma warning restore 4014
+        }
+
+        private async Task UpdateArticleFlat(ArticleModel am, IDataService dataService)
+        {
+            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
+            await repo.Update(am);
         }
 
         public async Task<ArticleModel> GetArticleById(int articleId)
@@ -276,111 +281,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                 var guidstring = feedId.ToString();
                 return new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.FeedConfigurationId == guidstring, o => o.PublicationTime, true, max, skip)));
-            }
-        }
-
-
-        private List<Task> _aktualizeArticleTasks = new List<Task>();
-        private int _newArticles;
-        private int _articlesCompleted;
-        public async Task ActualizeArticles()
-        {
-            //Get Total Number of feeds
-            int feedcounter = _sources.SelectMany(source => source.FeedList).Count();
-            int activecounter = 0;
-
-            foreach (var sourceModel in _sources)
-            {
-                if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
-                    continue;
-
-                foreach (var feed in sourceModel.FeedList)
-                {
-                    var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-                    _progressService.ShowProgress("Feeds werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / feedcounter));
-                    if (newfeed != null)
-                    {
-                        ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-
-                        await FeedToDatabase(newfeed);
-                        Messenger.Default.Send(newfeed, Messages.FeedRefresh);
-                    }
-                }
-            }
-
-            _articlesCompleted = 0;
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                _newArticles = await repo.CountByCondition(a => a.State == (int)ArticleState.New);
-
-            }
-
-            //Actualize articles
-            if (!_aktualizeArticleTasks.Any())
-            {
-                for (int i = 0; i < 1; i++)
-                {
-                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
-                    _aktualizeArticleTasks.Add(tsk);
-                }
-
-                foreach (var tsk in _aktualizeArticleTasks)
-                {
-                    await tsk;
-                }
-            }
-        }
-
-        private void DeleteTaskFromList(Task obj)
-        {
-            if (_aktualizeArticleTasks.Contains(obj))
-                _aktualizeArticleTasks.Remove(obj);
-        }
-
-        private async Task AktualizeArticlesTask()
-        {
-            while (true)
-            {
-                using (var unitOfWork = new UnitOfWork(false))
-                {
-                    var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                    var res = (await repo.GetByCondition(a => a.State == (int)ArticleState.New, d => d.PublicationTime, true, 1)).ToList();
-                    if (res.Any())
-                    {
-                        var article = res[0];
-                        article.State = ArticleState.Loading;
-                        await repo.Update(article);
-                        article = await GetCompleteArticle(article.Id);
-                        Messenger.Default.Send(article, Messages.ArticleRefresh);
-
-                        article.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(article.FeedConfigurationId, await unitOfWork.GetDataService());
-
-                        IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
-                        if (sh == null)
-                        {
-                            LogHelper.Instance.Log(LogLevel.Warning, this,
-                                "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
-                            article.State = ArticleState.WrongSourceFaillure;
-                            await UpdateArticleFlat(article);
-                        }
-                        else
-                        {
-                            article = await ActualizeArticle(article, sh);
-
-                            await InsertOrUpdateArticleAndTraces(article, await unitOfWork.GetDataService());
-                        }
-                        await unitOfWork.Commit();
-
-                        Messenger.Default.Send(article, Messages.ArticleRefresh);
-
-                        _progressService.ShowProgress("Artikel werden heruntergeladen...", Convert.ToInt32((++_articlesCompleted * 100) / _newArticles));
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
             }
         }
 
@@ -470,54 +370,6 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private async Task<ArticleModel> ActualizeArticle(ArticleModel article, IMediaSourceHelper sh)
-        {
-            try
-            {
-                if (sh.NeedsToEvaluateArticle())
-                {
-                    if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
-                    {
-                        article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
-                        article.LeadImage.IsLoaded = true;
-                    }
-
-                    string articleresult = await Download.DownloadStringAsync(article.LogicUri);
-                    var tuple = await sh.EvaluateArticle(articleresult, article);
-                    if (tuple.Item1)
-                    {
-                        if (sh.WriteProperties(ref article, tuple.Item2))
-                        {
-                            article.State = ArticleState.Loaded;
-                            ArticleHelper.Instance.OptimizeArticle(ref article);
-                        }
-                        else
-                        {
-                            article.State = ArticleState.WritePropertiesFaillure;
-                        }
-                    }
-                    else
-                    {
-                        article.State = ArticleState.EvaluateArticleFaillure;
-                    }
-                }
-                else
-                {
-                    article.State = ArticleState.Loaded;
-                    ArticleHelper.Instance.OptimizeArticle(ref article);
-                }
-
-                ArticleHelper.Instance.AddWordDumpFromArticle2(ref article);
-                return article;
-            }
-            catch (Exception ex)
-            {
-                if (article != null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed! Source: " + article.SourceConfigurationId + " URL: " + article.PublicUri, ex);
-            }
-            return article;
-        }
-
         private async Task<List<ArticleModel>> AddModels(IEnumerable<ArticleModel> models, bool deep = false)
         {
             using (var unitOfWork = new UnitOfWork(true))
@@ -555,7 +407,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                         }
                     }
 
-                    model.Themes = await _themeRepository.GetThemesByArticleId(model.Id, dataService);
+                    model.Themes = await _themeRepository.GetThemesByArticleId(model.Id);
                     model.RelatedArticles = await GetRelatedArticlesByArticleId(model.Id, dataService);
 
                     model.FeedConfiguration = await SimpleIoc.Default.GetInstance<ISettingsRepository>().GetFeedConfigurationFor(model.FeedConfigurationId, dataService);
@@ -566,160 +418,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                 LogHelper.Instance.Log(LogLevel.Error, this, "AddModels failed!", ex);
             }
             return model;
-        }
-
-        private async Task<bool> FeedToDatabase(List<ArticleModel> articles)
-        {
-            try
-            {
-                if (articles.Any())
-                {
-                    using (var unitOfWork = new UnitOfWork(false))
-                    {
-                        var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                        var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
-                        var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
-                        for (int index = 0; index < articles.Count; index++)
-                        {
-                            var articleModel = articles[index];
-                            var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articleModel.PublicUri);
-                            if (oldmodel != null)
-                            {
-                                articles.Remove(articleModel);
-                                oldfeed.Remove(oldmodel);
-                                index--;
-                            }
-                        }
-
-                        //delete old ones
-                        await DeleteAllArticlesAndTrances(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
-
-                        //only new ones left
-                        await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
-
-                        await unitOfWork.Commit();
-
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured", ex);
-            }
-            return false;
-        }
-
-        private async Task DeleteAllArticlesAndTrances(List<int> newarticlesId, IDataService dataService)
-        {
-            try
-            {
-                await dataService.DeleteArticlesById(newarticlesId);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be deleted", ex);
-            }
-        }
-
-        private async Task InsertOrUpdateArticleAndTraces(ArticleModel article, IDataService dataService)
-        {
-            try
-            {
-                using (var unitOfWork = new UnitOfWork(false))
-                {
-                    article.PrepareForSave();
-
-                    var addimages = new List<ImageModel>();
-                    var updateimages = new List<ImageModel>();
-                    //article
-
-                    var addgalleries = new List<GalleryModel>();
-                    var updategalleries = new List<GalleryModel>();
-                    var addgalleryImages = new List<ImageModel>();
-                    var updategalleryImages = new List<ImageModel>();
-                    var addcontents = new List<ContentModel>();
-                    var updatecontents = new List<ContentModel>();
-
-
-                    var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
-                    var galleryRepo = new GenericRepository<GalleryModel, GalleryEntity>(dataService);
-                    var contentRepo = new GenericRepository<ContentModel, ContentEntity>(dataService);
-
-                    if (article.LeadImage != null)
-                    {
-                        if (article.LeadImage.Id == 0)
-                            addimages.Add(article.LeadImage);
-                        else
-                            updateimages.Add(article.LeadImage);
-                    }
-                    if (article.Content != null && article.Content.Any())
-                    {
-                        foreach (var contentModel in article.Content)
-                        {
-                            if (contentModel.Id == 0)
-                                addcontents.Add(contentModel);
-                            else
-                                updatecontents.Add(contentModel);
-
-                            if (contentModel.ContentType == ContentType.Gallery && contentModel.Gallery != null)
-                            {
-                                if (contentModel.Gallery.Id == 0)
-                                    addgalleries.Add(contentModel.Gallery);
-                                else
-                                    updategalleries.Add(contentModel.Gallery);
-
-                                if (contentModel.Gallery.Images != null)
-                                {
-                                    foreach (var imageModel in contentModel.Gallery.Images)
-                                    {
-                                        if (imageModel.Id == 0)
-                                            addgalleryImages.Add(imageModel);
-                                        else
-                                            updategalleryImages.Add(imageModel);
-                                    }
-                                    addgalleryImages.AddRange(contentModel.Gallery.Images);
-                                }
-                            }
-                            else if (contentModel.ContentType == ContentType.Image && contentModel.Image != null)
-                            {
-                                if (contentModel.Image.Id == 0)
-                                    addimages.Add(contentModel.Image);
-                                else
-                                    updateimages.Add(article.LeadImage);
-                            }
-                        }
-                    }
-
-                    if (article.Themes != null)
-                        await _themeRepository.SetThemesByArticle(article.Id, article.Themes.Select(t => t.Id).ToList(), dataService);
-
-                    if (article.RelatedArticles != null)
-                        await SetRelatedArticlesByArticleId(article.Id, article.RelatedArticles.Select(t => t.Id).ToList(), dataService);
-
-                    await imageRepo.AddAll(addimages);
-                    await galleryRepo.AddAll(addgalleries);
-                    await imageRepo.AddAll(addgalleryImages);
-                    await contentRepo.AddAll(addcontents);
-
-                    if (article.Id == 0)
-                        await articleRepo.Add(article);
-                    else
-                        await articleRepo.Update(article);
-
-                    await imageRepo.UpdateAll(updateimages);
-                    await galleryRepo.UpdateAll(updategalleries);
-                    await imageRepo.UpdateAll(updategalleryImages);
-                    await contentRepo.UpdateAll(updatecontents);
-
-                    await unitOfWork.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be saved", ex);
-            }
         }
 
         private async Task InsertAllArticleAndTraces(List<ArticleModel> newarticles, IDataService dataService)
@@ -784,7 +482,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     {
                         if (articleModel.Themes != null)
                         {
-                            var relationships = await _themeRepository.SetChangesByArticle(articleModel.Id, articleModel.Themes.Select(t => t.Id).ToList(), dataService);
+                            var relationships = await _themeRepository.SetChangesByArticle(articleModel.Id, articleModel.Themes.Select(t => t.Id).ToList());
 
                             removerelationships.AddRange(relationships.Item1);
                             addrelationships.AddRange(relationships.Item2);

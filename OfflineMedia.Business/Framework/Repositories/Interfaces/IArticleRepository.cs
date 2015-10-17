@@ -19,7 +19,7 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         Task ActualizeArticles();
         Task ActualizeArticle(ArticleModel article);
 
-        Task UpdateArticleFlat(ArticleModel am);
+        void UpdateArticleFlat(ArticleModel am);
 
         Task<ArticleModel> GetArticleById(int articleId);
         Task<ArticleModel> GetCompleteArticle(int articleId);

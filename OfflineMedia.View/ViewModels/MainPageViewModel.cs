@@ -129,6 +129,11 @@ namespace OfflineMedia.View.ViewModels
                                     else
                                         feedModel.ArticleList.RemoveAt(i);
                                 }
+
+                                for (int i = feedModel.ArticleList.Count; i < MaxArticlesPerFeed && i < obj.Count; i++)
+                                {
+                                    feedModel.ArticleList.Add(obj[i]);
+                                }
                             }
                         }
                     }

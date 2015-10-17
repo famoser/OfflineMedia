@@ -13,24 +13,85 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public class ThemeRepository : IThemeRepository
     {
-        public async Task<bool> SetThemesByArticle(int articleId, List<int> themeIds, IDataService dataService)
+        private List<ThemeModel> _themes = new List<ThemeModel>();
+        private List<ThemeModel> _newthemes = new List<ThemeModel>();
+        private List<ThemeArticleRelationModel> _relations = new List<ThemeArticleRelationModel>();
+        private List<ThemeArticleRelationModel> _newRelations = new List<ThemeArticleRelationModel>();
+        private List<ThemeArticleRelationModel> _deleteRelations = new List<ThemeArticleRelationModel>();
+        public async Task<bool> SaveChanges(IDataService dataService = null)
         {
-            var res = await SetChangesByArticle(articleId, themeIds, dataService);
-            var repo = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(dataService);
-            await repo.DeleteAll(res.Item1);
-            await repo.AddAll(res.Item2);
-            
+            if (dataService == null)
+            {
+                using (var unitOfWork = new UnitOfWork(true))
+                {
+                    return await SaveChangesInternal(await unitOfWork.GetDataService());
+                }
+            }
+            return await SaveChangesInternal(dataService);
+        }
+
+        public async Task<bool> SaveChangesInternal(IDataService dataService)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                var repo1 = new GenericRepository<ThemeModel, ThemeEntity>(await unitOfWork.GetDataService());
+
+                await repo1.AddAll(_newthemes);
+                _newthemes = new List<ThemeModel>();
+
+
+                var repo2 = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(await unitOfWork.GetDataService());
+
+                await repo2.AddAll(_newRelations);
+                _newRelations = new List<ThemeArticleRelationModel>();
+
+                await repo2.DeleteAll(_deleteRelations);
+                _deleteRelations = new List<ThemeArticleRelationModel>();
+            }
             return true;
         }
 
-        public async Task<Tuple<List<ThemeArticleRelationModel>, List<ThemeArticleRelationModel>>> SetChangesByArticle(int articleId, List<int> themeIds, IDataService dataService)
+        private bool _isInitialized;
+        public async Task<bool> Initialize()
         {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                var repo1 = new GenericRepository<ThemeModel, ThemeEntity>(await unitOfWork.GetDataService());
+                _themes = await repo1.GetByCondition(d => true);
+                var repo2 = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(await unitOfWork.GetDataService());
+                _relations = await repo2.GetByCondition(d => true);
+            }
+            _isInitialized = true;
+
+            return true;
+        }
+
+        public async Task<bool> SetThemesByArticle(int articleId, List<int> themeIds)
+        {
+            var res = await SetChangesByArticle(articleId, themeIds);
+            _deleteRelations.AddRange(res.Item1);
+            _newRelations.AddRange(res.Item2);
+
+            foreach (var themeArticleRelationModel in res.Item1)
+            {
+                _relations.Remove(themeArticleRelationModel);
+            }
+            _relations.AddRange(res.Item2);
+
+            return true;
+        }
+
+        public async Task<Tuple<List<ThemeArticleRelationModel>, List<ThemeArticleRelationModel>>> SetChangesByArticle(int articleId, List<int> themeIds)
+        {
+            if (!_isInitialized)
+                await Initialize();
+
             var oldones = new List<ThemeArticleRelationModel>();
             var newones = new List<ThemeArticleRelationModel>();
 
             themeIds = themeIds.Distinct(new IntEqualityComparer()).ToList();
-            var relations = await GetRelationsByArticleId(articleId, dataService);
-            
+            var relations = _relations.Where(d => d.ArticleId == articleId);
+
             foreach (var themeArticleRelationModel in relations)
             {
                 if (themeIds.Contains(themeArticleRelationModel.ThemeId))
@@ -53,13 +114,13 @@ namespace OfflineMedia.Business.Framework.Repositories
             return new Tuple<List<ThemeArticleRelationModel>, List<ThemeArticleRelationModel>>(oldones, newones);
         }
 
-        public async Task<List<ThemeModel>> GetThemesByArticleId(int articleId, IDataService dataService)
+        public async Task<List<ThemeModel>> GetThemesByArticleId(int articleId)
         {
-            if (_themes == null)
+            if (!_isInitialized)
                 await Initialize();
 
-            var relations = await GetRelationsByArticleId(articleId, dataService);
-            
+            var relations = _relations.Where(d => d.ArticleId == articleId);
+
             var res = new List<ThemeModel>();
             foreach (var themeArticleRelationModel in relations)
             {
@@ -70,15 +131,9 @@ namespace OfflineMedia.Business.Framework.Repositories
             return res;
         }
 
-        private async Task<List<ThemeArticleRelationModel>> GetRelationsByArticleId(int articleId, IDataService dataService)
-        {
-            var repo = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(dataService);
-            return await repo.GetByCondition(d => d.ArticleId == articleId);
-        }
-
         public async Task<ThemeModel> GetThemeModelFor(string theme)
         {
-            if (_themes == null)
+            if (!_isInitialized)
                 await Initialize();
 
             var themeModel = _themes.FirstOrDefault(t => t.Name == theme);
@@ -88,11 +143,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     Name = theme
                 };
-                using (var unitOfWork = new UnitOfWork(true))
-                {
-                    var repo = new GenericRepository<ThemeModel, ThemeEntity>(await unitOfWork.GetDataService());
-                    await repo.Add(themeModel);
-                }
+                _newthemes.Add(themeModel);
                 _themes.Add(themeModel);
             }
             return themeModel;
@@ -100,7 +151,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         public async Task<List<ThemeModel>> GetThemeModelsFor(string[] theme)
         {
-            if (_themes == null)
+            if (!_isInitialized)
                 await Initialize();
 
             var list = new List<ThemeModel>();
@@ -109,28 +160,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                 list.Add(await GetThemeModelFor(s));
             }
             return list;
-        }
-
-        private List<ThemeModel> _themes; 
-        private async Task Initialize(IDataService dataService = null)
-        {
-            if (dataService == null)
-            {
-                using (var unitOfWork = new UnitOfWork(true))
-                {
-                    await InitializeIntern(await unitOfWork.GetDataService());
-                }
-            }
-            else
-            {
-                await InitializeIntern(dataService);
-            }
-        }
-
-        private async Task InitializeIntern(IDataService dataService)
-        {
-            var repo2 = new GenericRepository<ThemeModel, ThemeEntity>(dataService);
-            _themes = await repo2.GetByCondition(d => true);
         }
     }
 }

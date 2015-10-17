@@ -37,6 +37,22 @@ namespace OfflineMedia.View.ViewModels
             _articleRepository = articleRepository;
             _variaService = variaService;
 
+            _setDisplayState = new RelayCommand<DisplayState>(SetDisplayState);
+
+            _makeFontBiggerCommand = new RelayCommand(MakeFontBigger, () => CanMakeFontBigger);
+            _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
+            _favoriteCommand = new RelayCommand(Favorite);
+            _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
+
+            _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
+            _goLeftCommand = new RelayCommand(GoLeft, () => CanGoLeft);
+            _goRightCommand = new RelayCommand(GoRight, () => CanGoRight);
+
+            _startCommand = new RelayCommand(Start, () => CanStart);
+
+            _increaseSpeedCommand = new RelayCommand(IncreaseSpeed, () => CanIncreaseSpeed);
+            _decreaseSpeedCommand = new RelayCommand(DecreaseSpeed, () => CanDecreaseSpeed);
+
             if (IsInDesignMode)
             {
                 _displayState = DisplayState.Spritz;
@@ -62,23 +78,7 @@ namespace OfflineMedia.View.ViewModels
             {
                 Initialize();
             }
-
-            _setDisplayState = new RelayCommand<DisplayState>(SetDisplayState);
-
-            _makeFontBiggerCommand = new RelayCommand(MakeFontBigger, () => CanMakeFontBigger);
-            _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
-            _favoriteCommand = new RelayCommand(Favorite);
-            _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
-
-            _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
-            _goLeftCommand = new RelayCommand(GoLeft, () => CanGoLeft);
-            _goRightCommand = new RelayCommand(GoRight, () => CanGoRight);
-
-            _startCommand = new RelayCommand(Start, () => CanStart);
-
-            _increaseSpeedCommand = new RelayCommand(IncreaseSpeed, () => CanIncreaseSpeed);
-            _decreaseSpeedCommand = new RelayCommand(DecreaseSpeed, () => CanDecreaseSpeed);
-
+            
             Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
             Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, ArticleRefreshed);
         }
@@ -110,7 +110,7 @@ namespace OfflineMedia.View.ViewModels
                         Article = await _articleRepository.GetCompleteArticle(am.Id);
 
                     Article.State = ArticleState.Read;
-                    await _articleRepository.UpdateArticleFlat(Article);
+                    _articleRepository.UpdateArticleFlat(Article);
                     Messenger.Default.Send(Article, Messages.ArticleRefresh);
 
                     SimilarCathegoriesArticles =
@@ -279,10 +279,10 @@ namespace OfflineMedia.View.ViewModels
             get { return _favoriteCommand; }
         }
 
-        private async void Favorite()
+        private void Favorite()
         {
             Article.IsFavorite = !Article.IsFavorite;
-            await _articleRepository.UpdateArticleFlat(Article);
+            _articleRepository.UpdateArticleFlat(Article);
             Messenger.Default.Send(Article, Messages.ArticleRefresh);
         }
         #endregion

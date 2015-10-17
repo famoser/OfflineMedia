@@ -189,6 +189,7 @@
     <Compile Include="Enums\Settings\ValueTypeEnum.cs" />
     <Compile Include="Framework\Communication\ServerResponse.cs" />
     <Compile Include="Framework\Generic\EntityModelConverter.cs" />
+    <Compile Include="Framework\Repositories\AktualizeArticles.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IApiRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IArticleRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\ISettingsRepository.cs" />
