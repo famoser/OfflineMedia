@@ -76,34 +76,6 @@ namespace OfflineMedia.Business.Framework.Repositories
             return oc;
         }
 
-#pragma warning disable 4014
-        public async Task ActualizeArticle(ArticleModel article)
-        {
-            if (article.State == ArticleState.New)
-            {
-                article.State = ArticleState.Loading;
-                _toDatabaseFlatArticles.Add(article);
-                ToDatabase();
-
-                IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
-                if (sh == null)
-                {
-                    LogHelper.Instance.Log(LogLevel.Warning, this,
-                        "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
-                    article.State = ArticleState.WrongSourceFaillure;
-                    _toDatabaseFlatArticles.Add(article);
-                    ToDatabase();
-                }
-                else
-                {
-                    article = await ActualizeArticle(article, sh);
-                    _toDatabaseArticles.Add(article);
-                    ToDatabase();
-                }
-            }
-        }
-#pragma warning restore 4014
-
         public ArticleModel GetInfoArticle()
         {
             return new ArticleModel()

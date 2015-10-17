@@ -20,7 +20,6 @@ namespace OfflineMedia.Business.Framework
             {
                 _dataService = await SqliteDataService.GetInstance();
                 await _dataService.BeginTransaction(_onlyRead);
-                await _dataService.PrepareDatabase();
             }
             return _dataService;
         }

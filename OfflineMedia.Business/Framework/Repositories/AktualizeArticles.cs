@@ -17,11 +17,30 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository
     {
-        private List<Task> _aktualizeArticlesTasks = new List<Task>();
-        private List<ArticleModel> _newArticleModels = new List<ArticleModel>();
-        private List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
-        private List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
+        private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
+        private readonly List<ArticleModel> _newArticleModels = new List<ArticleModel>();
+        private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
+        private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
+        
+        public bool ActualizeArticle(ArticleModel article)
+        {
+            if (_newArticleModels.Contains(article))
+            {
+                _newArticleModels.Remove(article);
+                _newArticleModels.Insert(0, article);
+
+                if (!_aktualizeArticlesTasks.Any())
+                {
+                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
+                    _aktualizeArticlesTasks.Add(tsk);
+                }
+                return true;
+            }
+            return false;
+        }
+
+
         public async Task ActualizeArticles()
         {
             //Get Total Number of feeds
@@ -42,6 +61,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                         ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
 
                         var newarticles = await FeedToDatabase(newfeed);
+                        _newArticleModels.AddRange(newarticles);
                         Messenger.Default.Send(newarticles, Messages.FeedRefresh);
                     }
                 }

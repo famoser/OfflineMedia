@@ -17,7 +17,7 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         ArticleModel GetEmptyFeedArticle();
 
         Task ActualizeArticles();
-        Task ActualizeArticle(ArticleModel article);
+        bool ActualizeArticle(ArticleModel article);
 
         void UpdateArticleFlat(ArticleModel am);
 

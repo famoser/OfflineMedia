@@ -32,8 +32,14 @@ namespace OfflineMedia.Business.Framework
                 {
                     _initInstance = new SqliteDataService(SimpleIoc.Default.GetInstance<IStorageService>(), SimpleIoc.Default.GetInstance<ISQLitePlatform>());
                     _tsk = _initInstance.Init();
+                    await _tsk;
+                    await _initInstance.PrepareDatabase();
                 }
-                await _tsk;
+                else
+                {
+                    await _tsk;
+                }
+
                 _instance = _initInstance;
             }
             return _instance;
@@ -390,7 +396,7 @@ namespace OfflineMedia.Business.Framework
             return false;
         }
 
-        public async Task<bool> PrepareDatabase()
+        private async Task<bool> PrepareDatabase()
         {
             try
             {
