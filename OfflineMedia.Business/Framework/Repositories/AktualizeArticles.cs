@@ -17,12 +17,13 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository
     {
+        private const int ConcurrentThreads = 4;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
         private readonly List<ArticleModel> _newArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
-        
+
         public bool ActualizeArticle(ArticleModel article)
         {
             if (_newArticleModels.Contains(article))
@@ -84,9 +85,9 @@ namespace OfflineMedia.Business.Framework.Repositories
             _newArticles = _newArticleModels.Count;
 
             //Actualize articles
-            if (!_aktualizeArticlesTasks.Any())
+            if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < ConcurrentThreads; i++)
                 {
                     var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
                     _aktualizeArticlesTasks.Add(tsk);
@@ -95,7 +96,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
             foreach (var aktualizeArticlesTask in _aktualizeArticlesTasks)
             {
-                await aktualizeArticlesTask;
+                if (!aktualizeArticlesTask.IsCompleted)
+                    await aktualizeArticlesTask;
             }
         }
 

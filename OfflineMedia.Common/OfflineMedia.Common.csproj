@@ -150,7 +150,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Framework\Repositories\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugHelpers\Stoppwatch.cs" />
