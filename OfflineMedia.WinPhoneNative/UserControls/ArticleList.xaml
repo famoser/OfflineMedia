@@ -11,19 +11,20 @@
     d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].FeedList[0], Source={StaticResource Locator}}">
 
-    <Grid Background="White">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="{Binding Titel, Mode=OneWay}" Style="{ThemeResource FeedTitleTextBlock}"  />
-        <ListView
-                  IsItemClickEnabled="True" 
+        <Grid Background="White" Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="{Binding Titel, Mode=OneWay}" Style="{ThemeResource FeedTitleTextBlock}"  />
+        </Grid>
+        <ListView 
+                  IsItemClickEnabled="True"
                   SelectionMode="None" 
-                  Grid.Row="2" 
+                  Grid.Row="1"
                   IsHoldingEnabled="True" 
-                  ItemsSource="{Binding ArticleList}" 
+                  ItemsSource="{Binding ArticleList}"
                   ItemClick="ArticleList_ItemClick" 
                   ItemTemplate="{StaticResource ArticleListItemTemplate}" 
                   Margin="0,0,-1,0">
@@ -39,7 +40,7 @@
             </ListView.ItemContainerStyle>
             <ListView.FooterTemplate>
                 <DataTemplate>
-                    <TextBlock Height="1" />
+                    <TextBlock Height="15" />
                 </DataTemplate>
             </ListView.FooterTemplate>
             <ListView.ItemsPanel>
@@ -48,6 +49,6 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        
+
     </Grid>
 </UserControl>

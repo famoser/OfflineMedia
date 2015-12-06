@@ -73,6 +73,8 @@ namespace OfflineMedia.View.ViewModels
                     ValueType = ValueTypeEnum.Int,
                     IntValue = 350
                 };
+
+                Article = _articleRepository.GetInfoArticle();
             }
             else
             {

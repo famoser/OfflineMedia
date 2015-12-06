@@ -6,14 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dependencyObjects="using:OfflineMedia.DisplayHelper.DependencyObjects"
     mc:Ignorable="d"
-    d:DesignHeight="1400"
+    d:DesignHeight="1800"
     d:DesignWidth="400"
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}"
     >
 
     <Grid>
-        <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
-            <Grid>
+        <StackPanel>
+            <Grid Margin="0,0,0,10"  Background="{ThemeResource BackgroundThemeBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -42,12 +42,10 @@
                 </Button>
             </Grid>
 
-            <StackPanel>
+            <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
                 <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
-                <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" ></TextBlock>
-                <Border Style="{ThemeResource SpacerBorder}" />
+                <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
             </StackPanel>
-
 
             <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
                 <Grid.RowDefinitions>
@@ -60,36 +58,23 @@
                         <BitmapImage UriSource="{Binding Article.LeadImage.Url, Mode=OneWay}" />
                     </Image.Source>
                 </Image>
-                <Grid Grid.Row="2" Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid Opacity="0.8" Visibility="{Binding Article.LeadImage.Title, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" Grid.Row="0" Background="{ThemeResource BackgroundThemeBrush}" >
-                        <TextBlock FontWeight="Bold" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="11" Text="{Binding Article.LeadImage.Title, Mode=OneWay}" />
-                    </Grid>
-                    <Grid Opacity="0.8" Visibility="{Binding Article.LeadImage.SubTitle, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" Grid.Row="1" Background="{ThemeResource BackgroundThemeBrush}" >
-                        <TextBlock FontFamily="Segoe UI Semilight" FontSize="11" Foreground="{ThemeResource ForegroundThemeBrush}" TextWrapping="Wrap" Text="{Binding Article.LeadImage.SubTitle, Mode=OneWay}"/>
-                    </Grid>
-                </Grid>
             </Grid>
 
-            <Grid Margin="10,20,10,10" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
-                <TextBlock TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
+            <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
+                <TextBlock Margin="5,10" TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
             </Grid>
 
-            <Grid Margin="10,10,10,0">
-                <RichTextBlock IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
+            <Grid Background="{ThemeResource BackgroundThemeBrush}" >
+                <RichTextBlock Margin="5,10" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
             </Grid>
 
-            <Border Style="{ThemeResource SpacerBorder}" />
-            <Grid Margin="5">
+            <Grid Margin="0,4" Background="{ThemeResource BackgroundThemeBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <RichTextBlock FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
+                <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
                     <Paragraph>
                         <Run Text="{Binding Article.PublicationTime, Converter={StaticResource DateTimeConverter}}" />
                         <Run Text=" - " />

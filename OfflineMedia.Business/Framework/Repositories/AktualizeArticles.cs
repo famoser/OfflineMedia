@@ -22,6 +22,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
+
         
         public bool ActualizeArticle(ArticleModel article)
         {

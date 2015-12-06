@@ -14,13 +14,14 @@
     <StackPanel Background="{ThemeResource AkzentBackgroundThemeBrush}">
         <StackPanel Margin="10,0">
             <Grid Visibility="{Binding Forecast1.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
-                <myDayControls:Forecast DataContext="{Binding Forecast1}" />
+                <myDayControls:ForecastNew DataContext="{Binding Forecast1}" />
                 <Border Style="{ThemeResource WeatherBorder}" />
             </Grid>
             <Grid Visibility="{Binding Forecast2.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
-                <myDayControls:Forecast DataContext="{Binding Forecast2}" />
+                <myDayControls:ForecastNew DataContext="{Binding Forecast2}" />
                 <Border Style="{ThemeResource WeatherBorder}" />
             </Grid>
+            <myDayControls:Steps />
             <myDayControls:ToDo DataContext="{Binding }" />
         </StackPanel>
     </StackPanel>

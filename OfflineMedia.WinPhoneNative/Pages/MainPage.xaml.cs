@@ -28,10 +28,6 @@ namespace OfflineMedia.Pages
                     Button_Tapped(null, null);
                     e.Handled = true;
                 }
-                else
-                {
-                    Application.Current.Exit();
-                }
             }
         }
 

@@ -8,12 +8,12 @@
     xmlns:userControls="using:OfflineMedia.UserControls"
     xmlns:myDayControls="using:OfflineMedia.UserControls.MyDayControls"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
+    d:DesignHeight="1200"
+    d:DesignWidth="600"
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
-    <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
-        <Grid>
+    <StackPanel>
+        <Grid Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -32,38 +32,37 @@
             </Button>
         </Grid>
 
-        <StackPanel>
+        <StackPanel Margin="0,0,0,4" Background="{ThemeResource BackgroundThemeBrush}">
             <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
             <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" ></TextBlock>
-            <Border Style="{ThemeResource SpacerBorder}" />
         </StackPanel>
 
-        <Grid Margin="5">
+        <Grid Margin="0,0,0,4" Background="{ThemeResource BackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
+            <StackPanel Grid.Column="0" Margin="5">
                 <TextBlock Text="Veröffentlichungsdatum" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.PublicationTime, Converter={StaticResource ShortDateTimeConverter}}" />
                 <TextBlock Text="Author" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Author}" />
             </StackPanel>
-            <StackPanel Grid.Column="1">
+            <StackPanel Grid.Column="1" Margin="5">
                 <TextBlock Text="heruntergeladen am" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.CreateDate, Converter={StaticResource ShortDateTimeConverter}}" />
                 <TextBlock Text="Quelle" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}" />
             </StackPanel>
         </Grid>
-        <Border Style="{ThemeResource SpacerBorder}" />
-        <StackPanel Margin="5">
-            <TextBlock Text="Themen:" />
-            <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Themes, Converter={StaticResource ThemeConverter}}" />
-            <TextBlock Text="Stichworte:" />
-            <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" TextWrapping="Wrap" FontSize="16" Text="{Binding Article.WordDump}" />
+        <StackPanel Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
+            <StackPanel Margin="5">
+                <TextBlock Text="Themen:" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Themes, Converter={StaticResource ThemeConverter}}" />
+                <TextBlock Text="Stichworte:" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" TextWrapping="Wrap" FontSize="16" Text="{Binding Article.WordDump}" />
+            </StackPanel>
         </StackPanel>
-        <Border Style="{ThemeResource SpacerBorder}" />
         <userControls:ArticleList DataContext="{Binding SimilarCathegoriesArticles}" />
         <userControls:ArticleList DataContext="{Binding SimilarTitlesArticles}" />
     </StackPanel>

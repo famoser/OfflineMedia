@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ReferenceVisibillityEvaluator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MainPageConverter\HoverDivStoryboardConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\EnumToIntConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\DateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
