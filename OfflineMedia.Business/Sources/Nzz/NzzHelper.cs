@@ -47,8 +47,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                 {
                     PublicationTime = nfa.publicationDateTime,
                     Title = nfa.title,
-                    SubTitle = nfa.subTitle,
-                    Teaser = nfa.teaser,
+                    SubTitle = nfa.subTitle
                 };
 
 

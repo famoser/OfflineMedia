@@ -151,18 +151,17 @@ namespace OfflineMedia.Business.Framework
 
         public async Task<T> GetById<T>(int id) where T : class, new()
         {
+            await LockDatabase("GetById");
             try
             {
-                return await _asyncConnection.GetAsync<T>(id);
+                var res = await _asyncConnection.GetAsync<T>(id);
+
+                await UnlockDatabase();
+                return res;
             }
             catch (InvalidOperationException ex)
             {
-                //don't do shit 
-                if (ex.Message == "Sequence contains no elements")
-                {
-
-                }
-                else
+                if (ex.Message != "Sequence contains no elements")
                 {
                     LogHelper.Instance.Log(LogLevel.Error, this, "GetById failed for " + typeof(T).Name + " with id " + id, ex);
                 }
@@ -171,11 +170,14 @@ namespace OfflineMedia.Business.Framework
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "GetById failed for " + typeof(T).Name + " with id " + id, ex);
             }
+
+            await UnlockDatabase();
             return null;
         }
 
         public async Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new()
         {
+            await LockDatabase("DeleteAllById");
             try
             {
                 await _asyncConnection.RunInTransactionAsync(conn =>
@@ -185,191 +187,299 @@ namespace OfflineMedia.Business.Framework
                         conn.Delete<T>(id);
                     }
                 });
+
+                await UnlockDatabase();
                 return true;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "DeleteAllById failed for " + typeof(T).Name, ex);
             }
+
+            await UnlockDatabase();
             return false;
         }
 
         public async Task<int> Add<T>(T obj) where T : EntityIdBase, new()
         {
+            await LockDatabase("Add");
             try
             {
                 await _asyncConnection.InsertAsync(obj);
+
+                await UnlockDatabase();
                 return obj.Id;
             }
             catch (Exception ex)
             {
+                await UnlockDatabase();
+
                 //try again
                 int res = await Add(obj);
                 if (res == -1)
                     LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
                 else
+                {
                     return res;
+                }
             }
+            
             return -1;
         }
 
         public async Task<List<int>> AddAll<T>(List<T> obj) where T : EntityIdBase, new()
         {
+            await LockDatabase("AddAll");
             try
             {
                 await _asyncConnection.RunInTransactionAsync(conn =>
                 {
                     conn.InsertAll(obj);
                 });
+
+                await UnlockDatabase();
                 return obj.Select(d => d.Id).ToList();
             }
             catch (Exception ex)
             {
+                await UnlockDatabase();
+
                 //try again
                 var res = await AddAll(obj);
                 if (!res.Any())
                     LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
                 else
+                {
                     return res;
+                }
             }
+
             return new List<int>();
         }
 
         public async Task<bool> Update<T>(T obj) where T : EntityIdBase, new()
         {
+            await LockDatabase("Update");
             try
             {
                 await _asyncConnection.UpdateAsync(obj);
+
+                await UnlockDatabase();
                 return true;
             }
             catch (Exception ex)
             {
+                await UnlockDatabase();
+
                 //try again
                 if (!await Update(obj))
                     LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
                 else
+                {
                     return true;
+                }
             }
+            
             return false;
         }
 
         public async Task<bool> UpdateAll<T>(List<T> obj) where T : EntityIdBase, new()
         {
+            await LockDatabase("UpdateAll");
             try
             {
                 await _asyncConnection.RunInTransactionAsync(conn =>
                 {
                     conn.UpdateAll(obj);
                 });
+
+                await UnlockDatabase();
                 return true;
             }
             catch (Exception ex)
             {
+                await UnlockDatabase();
+
                 //try again
                 if (!await UpdateAll(obj))
                     LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
                 else
+                {
                     return true;
+                }
             }
+
             return false;
         }
 
         public async Task<int> GetHighestId<T>() where T : EntityIdBase, new()
         {
+            await LockDatabase("GetHighestId");
             try
             {
                 var s = await _asyncConnection.Table<T>().OrderByDescending(c => c.Id).FirstAsync();
+
+                await UnlockDatabase();
                 return s.Id;
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Sequence contains no elements")
-                    return 0;
+                await UnlockDatabase();
 
+                if (ex.Message == "Sequence contains no elements")
+                {
+                    return 0;
+                }
                 //try again
                 int res = await GetHighestId<T>();
                 if (res == -1)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof (T).Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof(T).Name, ex);
                 else
+                {
                     return res;
+                }
             }
+            
             return -1;
         }
 
         public async Task<bool> DeleteById<T>(int id) where T : class, new()
         {
+            await LockDatabase("DeleteById");
             try
             {
                 await _asyncConnection.DeleteAsync<T>(id);
+
+                await UnlockDatabase();
                 return true;
             }
             catch (Exception ex)
             {
+                await UnlockDatabase();
+
                 if (!await DeleteById<T>(id))
                     LogHelper.Instance.Log(LogLevel.Error, this,
-                        "DeleteById failed for " + typeof (T).Name + " with id " + id, ex);
+                        "DeleteById failed for " + typeof(T).Name + " with id " + id, ex);
                 else
+                {
                     return true;
+                }
             }
+            
             return false;
         }
 
         public async Task<List<T>> GetByCondition<T>(Expression<Func<T, bool>> func, Expression<Func<T, object>> orderByProperty, bool descending, int limit, int skip) where T : class, new()
         {
+            await LockDatabase("GetByCondition");
             try
             {
+                List<T> res;
                 if (orderByProperty != null)
                 {
                     if (descending)
                     {
                         if (limit > 0)
-                            return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Skip(skip).Take(limit).ToListAsync();
-                        return await _asyncConnection.Table<T>().Where(func).OrderByDescending(orderByProperty).Skip(skip).ToListAsync();
+                            res= await
+                                    _asyncConnection.Table<T>()
+                                        .Where(func)
+                                        .OrderByDescending(orderByProperty)
+                                        .Skip(skip)
+                                        .Take(limit)
+                                        .ToListAsync();
+                        else
+                            res =
+                                await
+                                    _asyncConnection.Table<T>()
+                                        .Where(func)
+                                        .OrderByDescending(orderByProperty)
+                                        .Skip(skip)
+                                        .ToListAsync();
                     }
-                    if (limit > 0)
-                        return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Skip(skip).Take(limit).ToListAsync();
-                    return await _asyncConnection.Table<T>().Where(func).OrderBy(orderByProperty).Skip(skip).ToListAsync();
+                    else
+                    {
+
+                        if (limit > 0)
+                            res =
+                                await
+                                    _asyncConnection.Table<T>()
+                                        .Where(func)
+                                        .OrderBy(orderByProperty)
+                                        .Skip(skip)
+                                        .Take(limit)
+                                        .ToListAsync();
+                        else
+                            res =
+                                await
+                                    _asyncConnection.Table<T>()
+                                        .Where(func)
+                                        .OrderBy(orderByProperty)
+                                        .Skip(skip)
+                                        .ToListAsync();
+                    }
                 }
-                if (limit > 0)
-                    return await _asyncConnection.Table<T>().Where(func).Take(limit).Skip(skip).ToListAsync();
-                return await _asyncConnection.Table<T>().Where(func).Skip(skip).ToListAsync();
+                else
+                {
+                    if (limit > 0)
+                        res = await _asyncConnection.Table<T>().Where(func).Take(limit).Skip(skip).ToListAsync();
+                    else
+                        res = await _asyncConnection.Table<T>().Where(func).Skip(skip).ToListAsync();
+                }
+
+                await UnlockDatabase();
+                return res;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "GetByCondition failed", ex);
             }
+
+            await UnlockDatabase();
             return new List<T>();
         }
 
         public async Task<int> CountByCondition<T>(Expression<Func<T, bool>> func) where T : class, new()
         {
+            await LockDatabase("CountByCondition");
             try
             {
-                return await _asyncConnection.Table<T>().Where(func).CountAsync();
+                var res = await _asyncConnection.Table<T>().Where(func).CountAsync();
+
+                await UnlockDatabase();
+                return res;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "CountByCondition failed for " + typeof(T).Name, ex);
             }
+
+            await UnlockDatabase();
             return 0;
         }
 
         public async Task<List<int>> GetByKeyword(string keyword)
         {
+            await LockDatabase("GetByKeyword");
             try
             {
-                return (await _asyncConnection.Table<ArticleEntity>().Where(
+                var res = (await _asyncConnection.Table<ArticleEntity>().Where(
                     a => a.WordDump.Contains(keyword)).ToListAsync()).Select(d => d.Id).ToList();
+
+                await UnlockDatabase();
+                return res;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "GetByKeyword failed for " + keyword, ex);
             }
+
+            await UnlockDatabase();
             return new List<int>();
         }
 
         public async Task<bool> DeleteArticlesById(IEnumerable<int> articleIds)
         {
+            await LockDatabase("DeleteArticlesById");
             try
             {
                 await _asyncConnection.RunInTransactionAsync(conn =>
@@ -387,12 +497,16 @@ namespace OfflineMedia.Business.Framework
                     conn.Execute("DELETE FROM RelatedArticleRelations WHERE Article1Id NOT IN (SELECT Id FROM ArticleEntity) OR Article2Id NOT IN (SELECT Id FROM ArticleEntity)");
                     conn.Execute("DELETE FROM ThemeArticleRelations WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
                 });
+
+                await UnlockDatabase();
                 return true;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
             }
+
+            await UnlockDatabase();
             return false;
         }
 
@@ -404,14 +518,58 @@ namespace OfflineMedia.Business.Framework
                 {
                     conn.Execute("UPDATE ArticleEntity SET State=0 WHERE State=1");
                 });
+                
                 return true;
-
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "ResetLoadingEnum", ex);
             }
+            
             return false;
+        }
+
+        private Queue<Guid> _process = new Queue<Guid>();
+        private string _activeLock;
+        private async Task LockDatabase(string activeLock)
+        {
+            var guid = Guid.NewGuid();
+            _process.Enqueue(guid);
+            while (await IsLocked(guid)) {}
+            Lock(activeLock);
+        }
+
+        private async Task UnlockDatabase()
+        {
+            UnLock();
+        }
+
+        private bool _isLocked = false;
+        private async Task<bool> IsLocked(Guid guid)
+        {
+            if (!_isLocked)
+            {
+                if (_process.Peek() == guid)
+                {
+                    _process.Dequeue();
+                    return false;
+                }
+            }
+            await Task.Delay(10);
+            return true;
+        }
+
+        private bool Lock(string activeLock)
+        {
+            _activeLock = activeLock;
+            _isLocked = true;
+            return true;
+        }
+
+        private bool UnLock()
+        {
+            _isLocked = false;
+            return true;
         }
     }
 }
