@@ -20,6 +20,7 @@ namespace OfflineMedia.View.ViewModels.Global
             _messages = new Dictionary<IndeterminateProgressKey, string>();
             _messages.Add(IndeterminateProgressKey.ReadingOutArticles, "Artikel werden ausgelesen");
             _messages.Add(IndeterminateProgressKey.SavingSettings, "Einstellungen werden gespeichert");
+            _messages.Add(IndeterminateProgressKey.FeedSaveToDatabase, "Feeds werden verarbeitet");
         }
 
         public bool IsAnyProgressActive
@@ -96,11 +97,7 @@ namespace OfflineMedia.View.ViewModels.Global
         {
             if (_messages.ContainsKey(key))
             {
-                if (ProgressMessage == _messages[key])
-                {
-                    ProgressMessage = "";
-                    IsIndeterminateProgress = false;
-                }
+                IsIndeterminateProgress = false;
             }
         }
         #endregion

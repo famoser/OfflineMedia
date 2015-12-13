@@ -10,6 +10,7 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
+using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
@@ -80,15 +81,21 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
             }
 
-            foreach (var aktualizeFeedsTask in _actualizeFeedsTasks)
+            while (_actualizeFeedsTasks.Any())
             {
-                if (!aktualizeFeedsTask.IsCompleted)
-                    await aktualizeFeedsTask;
+                try
+                {
+                    var tsk = _actualizeFeedsTasks.FirstOrDefault();
+                    if (tsk != null)
+                        await tsk;
+                }
+                //may raise exception because list is emptied in excatly that moment
+                catch (Exception)
+                {
+                    
+                }
             }
-
-            _progressService.ShowDecentInformationMessage("Feeds wurden heruntergeladen", TimeSpan.FromSeconds(2));
-
-
+            
             using (var unitOfWork = new UnitOfWork(true))
             {
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
@@ -118,12 +125,21 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
             }
 
-            foreach (var aktualizeArticlesTask in _aktualizeArticlesTasks)
+
+            while (_aktualizeArticlesTasks.Any())
             {
-                if (!aktualizeArticlesTask.IsCompleted)
-                    await aktualizeArticlesTask;
+                try
+                {
+                    var tsk = _aktualizeArticlesTasks.FirstOrDefault();
+                    if (tsk != null)
+                        await tsk;
+                }
+                //may raise exception because list is emptied in excatly that moment
+                catch (Exception)
+                {
+
+                }
             }
-            _progressService.ShowDecentInformationMessage("Artikel wurden aktualisiert", TimeSpan.FromSeconds(2));
         }
 
         private async Task AktualizeFeedsTask()
@@ -133,18 +149,27 @@ namespace OfflineMedia.Business.Framework.Repositories
                 var feed = _newFeedModels[0];
                 _newFeedModels.Remove(feed);
 
+                var percentage = Convert.ToInt32((_newFeeds - _newFeedModels.Count) * 100 / _newFeeds);
+                _progressService.ShowProgress("Feed wird heruntergeladen...", percentage);
+
                 var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-
-                var percentage = Convert.ToInt32(((_newFeeds - _newFeedModels.Count) * 100) / _newFeeds);
-                _progressService.ShowProgress("Feeds werden heruntergeladen...", percentage);
-
 
                 if (newfeed != null)
                 {
                     ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
 
+                    if (percentage == 100)
+                    {
+                        _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
+                        _progressService.HideProgress();
+                    }
                     _toDatabaseFeeds.Add(newfeed);
                     await FeedToDatabase();
+
+                    if (percentage == 100)
+                    {
+                        _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
+                    }
                 }
             }
         }
@@ -270,12 +295,12 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                             //only new ones left
                             newArticles.AddRange(articles);
-                            
+
                             _newArticleModels.AddRange(articles);
                             Messenger.Default.Send(articles, Messages.FeedRefresh);
                         }
                     }
-                    
+
                     await DeleteAllArticlesAndTrances(deleteArticles, await unitOfWork.GetDataService());
                     await InsertAllArticleAndTraces(newArticles, await unitOfWork.GetDataService());
                     await unitOfWork.Commit();

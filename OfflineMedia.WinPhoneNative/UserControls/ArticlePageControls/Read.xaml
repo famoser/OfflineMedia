@@ -77,13 +77,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Button Background="{ThemeResource BackgroundThemeBrush}" Margin="4,0,0,0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Opacity="1" Tapped="UIElement_OnTapped" Style="{ThemeResource GoToTopButton}" >
+                <Button Background="{ThemeResource BackgroundThemeBrush}" Margin="4,0,0,-10" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Opacity="1" Tapped="UIElement_OnTapped" Style="{ThemeResource GoToTopButton}" >
                     <Button.Content>
                         <SymbolIcon Symbol="Up" />
                     </Button.Content>
                 </Button>
 
-                <Grid Grid.Row="0" Grid.Column="0" Background="{ThemeResource BackgroundThemeBrush}">
+                <Grid Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Background="{ThemeResource BackgroundThemeBrush}">
                     <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
                         <Paragraph>
                             <Bold >

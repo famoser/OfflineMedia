@@ -37,12 +37,13 @@ namespace OfflineMedia.WinCommon.Controls
         public static readonly DependencyProperty RefreshCommandProperty = DependencyProperty.Register("RefreshCommand", typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
         public static readonly DependencyProperty ArrowColorProperty = DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
-#if WINDOWS_PHONE_APP
-        private double offsetTreshhold = 40;
-#endif
-#if WINDOWS_APP
-        private double offsetTreshhold = 40;
-#endif
+        //#if WINDOWS_PHONE_APP
+        //        private double offsetTreshhold = 100;
+        //#endif
+        //#if WINDOWS_APP
+        //        private double offsetTreshhold = 70;
+        //#endif
+        private double offsetTreshhold = 100;
 
         public PullToRefreshListView()
         {
