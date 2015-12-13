@@ -6,8 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:myDayControls="using:OfflineMedia.UserControls.MyDayControls"
     mc:Ignorable="d"
-    d:DesignHeight="400"
-    d:DesignWidth="400"
     Foreground="White"
     d:DataContext="{Binding MyDayViewModel.Forecast1, Source={StaticResource Locator}}">
 
@@ -20,7 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Margin="5,0" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -41,7 +39,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="5,5,5,-10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -51,18 +49,20 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding CurrentForecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="100" Margin="0,5,0,-20" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
+            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="{Binding CurrentForecast.Date, Converter={StaticResource DateToTimeConverter}}" />
+            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="0" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
 
+            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding Next1Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
+            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="1" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next1Forecast.ConditionFontIcon}" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Next1Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="100" Margin="0,5,0,-20" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next1Forecast.ConditionFontIcon}" />
+            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="2" Text="{Binding Next2Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
+            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="2" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next2Forecast.ConditionFontIcon}" />
 
-
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Next2Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock Grid.Row="1" Grid.Column="2" FontSize="100" Margin="0,5,0,-20" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next2Forecast.ConditionFontIcon}" />
+            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3" Text="{Binding Next3Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
+            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="3" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next2Forecast.ConditionFontIcon}" />
 
         </Grid>
         

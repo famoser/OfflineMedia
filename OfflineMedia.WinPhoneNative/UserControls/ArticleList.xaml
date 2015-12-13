@@ -17,7 +17,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Background="White" Grid.Row="0" Margin="0,0,0,4">
-            <TextBlock Text="{Binding Titel, Mode=OneWay}" Style="{ThemeResource FeedTitleTextBlock}"  />
+            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Tapped="UIElement_OnTapped" Style="{ThemeResource FeedTitleTextBlock}"  />
         </Grid>
         <ListView 
                   IsItemClickEnabled="True"
@@ -27,7 +27,7 @@
                   ItemsSource="{Binding ArticleList}"
                   ItemClick="ArticleList_ItemClick" 
                   ItemTemplate="{StaticResource ArticleListItemTemplate}" 
-                  Margin="0,0,-1,0">
+                  Margin="0,0,-1,-4">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>
                     <AddDeleteThemeTransition/>
@@ -40,7 +40,7 @@
             </ListView.ItemContainerStyle>
             <ListView.FooterTemplate>
                 <DataTemplate>
-                    <TextBlock Height="15" />
+                    <TextBlock Height="4" />
                 </DataTemplate>
             </ListView.FooterTemplate>
             <ListView.ItemsPanel>

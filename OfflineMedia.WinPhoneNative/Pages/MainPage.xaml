@@ -35,7 +35,7 @@
             </ScrollViewer.Background>
         </ScrollViewer>
         
-        <Pivot Margin="0,0,0,-26" Visibility="Visible" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
+        <Pivot Margin="0,0,0,-30" x:Name="SourcePivot" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
                 <!--<CompositeTransform TranslateX="600" />-->

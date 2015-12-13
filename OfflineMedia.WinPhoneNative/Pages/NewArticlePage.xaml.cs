@@ -1,5 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using GalaSoft.MvvmLight.Messaging;
+using OfflineMedia.Business.Enums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -13,38 +15,13 @@ namespace OfflineMedia.Pages
         public NewArticlePage()
         {
             this.InitializeComponent();
+            Messenger.Default.Register<Messages>(this, ScrollToTop);
         }
 
-        private bool _upButtonVisible = false;
-        private void ScrollViewer_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private void ScrollToTop(Messages msg)
         {
-            var sv = sender as ScrollViewer;
-            if (sv != null)
-            {
-                if (sv.VerticalOffset > 1000)
-                {
-                    if (!_upButtonVisible)
-                    {
-                        ShowUpButton.Begin();
-                        _upButtonVisible = !_upButtonVisible;
-                    }
-                }
-                else
-                {
-                    if (_upButtonVisible)
-                    {
-                        HideUpButton.Begin();
-                        _upButtonVisible = !_upButtonVisible;
-                    }
-                }
-            }
-        }
-
-        private void UpButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReadScrollViewer.ChangeView(null, 0, null);
-            HideUpButton.Begin();
-            _upButtonVisible = !_upButtonVisible;
+            if (msg == Messages.ScrollToTop)
+                ReadScrollViewer.ChangeView(null, 0, null);
         }
     }
 }

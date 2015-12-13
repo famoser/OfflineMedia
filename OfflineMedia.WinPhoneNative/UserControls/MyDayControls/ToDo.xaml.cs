@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using OfflineMedia.MyDayHelpers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -10,6 +12,11 @@ namespace OfflineMedia.UserControls.MyDayControls
         public ToDo()
         {
             this.InitializeComponent();
+        }
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            AddInput.Focus(FocusState.Keyboard);
         }
     }
 }

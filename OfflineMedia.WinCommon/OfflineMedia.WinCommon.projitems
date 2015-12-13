@@ -9,6 +9,7 @@
     <Import_RootNamespace>OfflineMedia.WinCommon</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PullToRefreshListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
@@ -26,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\BoolVisibilityEvaluatorInverted.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\IntToIntConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ListToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ListVisibillityEvaluator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ReferenceVisibillityEvaluatorInverted.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\GenericConverter\ReferenceVisibillityEvaluator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MainPageConverter\HoverDivStoryboardConverter.cs" />

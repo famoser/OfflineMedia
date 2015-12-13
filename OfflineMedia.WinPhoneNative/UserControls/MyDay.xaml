@@ -11,17 +11,15 @@
     Foreground="White"
     DataContext="{Binding MyDayViewModel, Source={StaticResource Locator}}">
 
-    <StackPanel Background="{ThemeResource AkzentBackgroundThemeBrush}">
-        <StackPanel Margin="10,0">
-            <Grid Visibility="{Binding Forecast1.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
+    <StackPanel>
+        <StackPanel>
+            <Grid Margin="0,0,0,4" Visibility="{Binding Forecast1.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                 <myDayControls:ForecastNew DataContext="{Binding Forecast1}" />
-                <Border Style="{ThemeResource WeatherBorder}" />
             </Grid>
-            <Grid Visibility="{Binding Forecast2.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
+            <Grid Margin="0,0,0,4" Visibility="{Binding Forecast2.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                 <myDayControls:ForecastNew DataContext="{Binding Forecast2}" />
-                <Border Style="{ThemeResource WeatherBorder}" />
             </Grid>
-            <myDayControls:Steps />
+            <!--<myDayControls:Steps Margin="0,0,0,4" />-->
             <myDayControls:ToDo DataContext="{Binding }" />
         </StackPanel>
     </StackPanel>

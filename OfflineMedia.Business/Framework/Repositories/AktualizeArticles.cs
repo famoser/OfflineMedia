@@ -7,11 +7,13 @@ using GalaSoft.MvvmLight.Messaging;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using SQLite.Net.Attributes;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -24,6 +26,10 @@ namespace OfflineMedia.Business.Framework.Repositories
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
 
+        private readonly List<Task> _actualizeFeedsTasks = new List<Task>();
+        private readonly List<List<ArticleModel>> _toDatabaseFeeds = new List<List<ArticleModel>>();
+        private int _newFeeds;
+
         public bool ActualizeArticle(ArticleModel article)
         {
             if (_newArticleModels.Contains(article))
@@ -33,7 +39,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 if (!_aktualizeArticlesTasks.Any())
                 {
-                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
+                    var tsk = AktualizeArticlesTask();
+                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
                     _aktualizeArticlesTasks.Add(tsk);
                 }
                 return true;
@@ -41,13 +48,13 @@ namespace OfflineMedia.Business.Framework.Repositories
             return false;
         }
 
-
+        private List<FeedModel> _newFeedModels;
         public async Task ActualizeArticles()
         {
             //Get Total Number of feeds
-            int feedcounter = _sources.SelectMany(source => source.FeedList).Count();
-            int activecounter = 0;
+            _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
 
+            _newFeedModels = new List<FeedModel>();
             foreach (var sourceModel in _sources)
             {
                 if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
@@ -55,18 +62,32 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 foreach (var feed in sourceModel.FeedList)
                 {
-                    var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-                    _progressService.ShowProgress("Feeds werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / feedcounter));
-                    if (newfeed != null)
-                    {
-                        ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-
-                        var newarticles = await FeedToDatabase(newfeed);
-                        _newArticleModels.AddRange(newarticles);
-                        Messenger.Default.Send(newarticles, Messages.FeedRefresh);
-                    }
+                    _newFeedModels.Add(feed);
                 }
             }
+
+
+            //Actualize feeds
+            if (_actualizeFeedsTasks.Count < ConcurrentThreads)
+            {
+                for (int i = 0; i < ConcurrentThreads; i++)
+                {
+                    var tsk = AktualizeFeedsTask();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _actualizeFeedsTasks));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    _actualizeFeedsTasks.Add(tsk);
+                }
+            }
+
+            foreach (var aktualizeFeedsTask in _actualizeFeedsTasks)
+            {
+                if (!aktualizeFeedsTask.IsCompleted)
+                    await aktualizeFeedsTask;
+            }
+
+            _progressService.ShowDecentInformationMessage("Feeds wurden heruntergeladen", TimeSpan.FromSeconds(2));
+
 
             using (var unitOfWork = new UnitOfWork(true))
             {
@@ -89,7 +110,10 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 for (int i = 0; i < ConcurrentThreads; i++)
                 {
-                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
+                    var tsk = AktualizeArticlesTask();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     _aktualizeArticlesTasks.Add(tsk);
                 }
             }
@@ -98,6 +122,30 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 if (!aktualizeArticlesTask.IsCompleted)
                     await aktualizeArticlesTask;
+            }
+            _progressService.ShowDecentInformationMessage("Artikel wurden aktualisiert", TimeSpan.FromSeconds(2));
+        }
+
+        private async Task AktualizeFeedsTask()
+        {
+            while (_newFeedModels.Any())
+            {
+                var feed = _newFeedModels[0];
+                _newFeedModels.Remove(feed);
+
+                var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
+
+                var percentage = Convert.ToInt32(((_newFeeds - _newFeedModels.Count) * 100) / _newFeeds);
+                _progressService.ShowProgress("Feeds werden heruntergeladen...", percentage);
+
+
+                if (newfeed != null)
+                {
+                    ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
+
+                    _toDatabaseFeeds.Add(newfeed);
+                    await FeedToDatabase();
+                }
             }
         }
 
@@ -176,52 +224,68 @@ namespace OfflineMedia.Business.Framework.Repositories
             _toDatabaseIsActive = false;
         }
 
-        private void DeleteTaskFromList(Task obj)
+        private void DeleteTaskFromList(Task obj, IList<Task> list)
         {
-            if (_aktualizeArticlesTasks.Contains(obj))
-                _aktualizeArticlesTasks.Remove(obj);
+            if (list.Contains(obj))
+                list.Remove(obj);
         }
 
-        private async Task<List<ArticleModel>> FeedToDatabase(List<ArticleModel> articles)
+        private bool _feedToDatabaseRunning;
+        private async Task FeedToDatabase()
         {
+            if (_feedToDatabaseRunning)
+                return;
+
+            _feedToDatabaseRunning = true;
+            var deleteArticles = new List<int>();
+            var newArticles = new List<ArticleModel>();
             try
             {
-                if (articles.Any())
+                using (var unitOfWork = new UnitOfWork(false))
                 {
-                    using (var unitOfWork = new UnitOfWork(false))
+                    while (_toDatabaseFeeds.Any())
                     {
-                        var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                        var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
-                        var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
-                        for (int index = 0; index < articles.Count; index++)
+                        var articles = _toDatabaseFeeds[0];
+                        _toDatabaseFeeds.Remove(articles);
+                        if (articles.Any())
                         {
-                            var articleModel = articles[index];
-                            var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articleModel.PublicUri);
-                            if (oldmodel != null)
+                            var repo =
+                                new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                            var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
+                            var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
+                            for (int index = 0; index < articles.Count; index++)
                             {
-                                articles.Remove(articleModel);
-                                oldfeed.Remove(oldmodel);
-                                index--;
+                                var articleModel = articles[index];
+                                var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articleModel.PublicUri);
+                                if (oldmodel != null)
+                                {
+                                    articles.Remove(articleModel);
+                                    oldfeed.Remove(oldmodel);
+                                    index--;
+                                }
                             }
+
+                            //delete old ones
+                            deleteArticles.AddRange(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
+
+                            //only new ones left
+                            newArticles.AddRange(articles);
+                            
+                            _newArticleModels.AddRange(articles);
+                            Messenger.Default.Send(articles, Messages.FeedRefresh);
                         }
-
-                        //delete old ones
-                        await DeleteAllArticlesAndTrances(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
-
-                        //only new ones left
-                        await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
-
-                        await unitOfWork.Commit();
-
-                        return articles;
                     }
+                    
+                    await DeleteAllArticlesAndTrances(deleteArticles, await unitOfWork.GetDataService());
+                    await InsertAllArticleAndTraces(newArticles, await unitOfWork.GetDataService());
+                    await unitOfWork.Commit();
                 }
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured", ex);
             }
-            return new List<ArticleModel>();
+            _feedToDatabaseRunning = false;
         }
 
         private async Task DeleteAllArticlesAndTrances(List<int> newarticlesId, IDataService dataService)

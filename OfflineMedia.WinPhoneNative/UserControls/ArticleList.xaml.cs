@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
@@ -34,6 +35,13 @@ namespace OfflineMedia.UserControls
             {
                 Messenger.Default.Send(article, Messages.Select);
             }
+        }
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var feed = DataContext as FeedModel;
+            _navigationService.NavigateTo(PageKeys.Feed.ToString());
+            Messenger.Default.Send(feed, Messages.Select);
         }
     }
 }

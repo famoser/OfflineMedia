@@ -17,10 +17,9 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*"/>
-            <RowDefinition Height="5" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="{ThemeResource BackgroundThemeBrush}">
+        <Grid Grid.Row="0" Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
@@ -42,12 +41,12 @@
             </Button>
         </Grid>
 
-        <StackPanel Margin="0,0,0,4" Grid.Row="1" Background="{ThemeResource BackgroundThemeBrush}">
-            <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
-            <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" ></TextBlock>
-
+        <StackPanel Grid.Row="1" Background="{ThemeResource BackgroundThemeBrush}">
+            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
+            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
         </StackPanel>
-        <StackPanel Margin="0,0,0,4" Grid.Row="2" Orientation="Horizontal"  Background="{ThemeResource BackgroundThemeBrush}">
+
+        <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal"  Background="{ThemeResource BackgroundThemeBrush}">
             <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource OptionsSettingsTextBlock}" />
             <TextBlock Text="/" Style="{ThemeResource OptionsSettingsTextBlock}" />
             <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource OptionsSettingsTextBlock}" />

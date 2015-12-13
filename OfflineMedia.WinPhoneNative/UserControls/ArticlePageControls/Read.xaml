@@ -43,8 +43,8 @@
             </Grid>
 
             <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
-                <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
-                <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
+                <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
+                <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
             </StackPanel>
 
             <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
@@ -61,38 +61,54 @@
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
-                <TextBlock Margin="5,15" TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
+                <TextBlock  Margin="8,10" TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" >
-                <RichTextBlock Margin="5,15" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
+                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
+            </Grid>
+            
+            <Grid Margin="0,4,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"  />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Background="{ThemeResource BackgroundThemeBrush}" Margin="4,0,0,0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Opacity="1" Tapped="UIElement_OnTapped" Style="{ThemeResource GoToTopButton}" >
+                    <Button.Content>
+                        <SymbolIcon Symbol="Up" />
+                    </Button.Content>
+                </Button>
+
+                <Grid Grid.Row="0" Grid.Column="0" Background="{ThemeResource BackgroundThemeBrush}">
+                    <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
+                        <Paragraph>
+                            <Bold >
+                                <Run Text="{Binding Article.Author}" />
+                            </Bold>
+                            <Run Text=" - " />
+                            <Run Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}" />
+                        </Paragraph>
+                    </RichTextBlock>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Background="{ThemeResource BackgroundThemeBrush}">
+                    <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
+                        <Paragraph>
+                            <Run Text="{Binding Article.PublicationTime, Converter={StaticResource DateTimeConverter}}" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding TotalWords}" />
+                            <Run Text=" " />
+                            <Run Text="Words" />
+                        </Paragraph>
+                    </RichTextBlock>
+                </Grid>
             </Grid>
 
-            <Grid Margin="0,4,0,0" Background="{ThemeResource BackgroundThemeBrush}">
-                <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
-                    <Paragraph>
-
-
-                        <Bold >
-                            <Run Text="{Binding Article.Author}" />
-                        </Bold>
-                        <Run Text=" - " />
-                        <Run Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}" />
-                    </Paragraph>
-                </RichTextBlock>
-            </Grid>
-
-            <Grid Margin="0,4,0,0" Background="{ThemeResource BackgroundThemeBrush}">
-                <RichTextBlock Margin="5,10" FontSize="13" FontFamily="Segoe UI Semilight" Grid.Column="0" Foreground="{ThemeResource ForegroundThemeBrush}">
-                    <Paragraph>
-                        <Run Text="{Binding Article.PublicationTime, Converter={StaticResource DateTimeConverter}}" />
-                        <Run Text=" - " />
-                        <Run Text="{Binding TotalWords}" />
-                        <Run Text=" " />
-                        <Run Text="Words" />
-                    </Paragraph>
-                </RichTextBlock>
-            </Grid>
+            
 
         </StackPanel>
     </Grid>

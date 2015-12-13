@@ -19,6 +19,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
+
     <Grid Style="{ThemeResource RootGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -30,59 +31,70 @@
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="Einstellungen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer Style="{ThemeResource SettingsScrollViewer}">
+                    <ScrollViewer>
                         <StackPanel>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
+                            <Grid Style="{StaticResource GridTileStyle}" Visibility="{Binding GeneralBoolSettings, Converter={StaticResource ListVisibillityEvaluator}}">
+                                <ItemsControl Style="{StaticResource SettingsItemsControlStyle}" ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
                                           ItemsSource="{Binding GeneralBoolSettings}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <ToggleSwitch Style="{ThemeResource ToggleSwitchStyle}" IsOn="{Binding BoolValue, Mode=TwoWay}" OffContent="{Binding OffContent}" OnContent="{Binding OnContent}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralIntSettings}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="3*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Style="{ThemeResource SettingsBigDescriptionStyle}" Text="{Binding Description}" Grid.Column="0" />
-                                            <TextBox InputScope="Number" Text="{Binding IntValue, Mode=TwoWay}" Grid.Column="1" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <ToggleSwitch Style="{ThemeResource ToggleSwitchStyle}" IsOn="{Binding BoolValue, Mode=TwoWay}" OffContent="{Binding OffContent}" OnContent="{Binding OnContent}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            <Grid Style="{StaticResource GridTileStyle}" Visibility="{Binding GeneralIntSettings, Converter={StaticResource ListVisibillityEvaluator}}">
+                                <ItemsControl Style="{StaticResource SettingsItemsControlStyle}" ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralIntSettings}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Style="{ThemeResource SettingsBigDescriptionStyle}" Text="{Binding Description}" Grid.Column="0" />
+                                                <TextBox InputScope="Number" Text="{Binding IntValue, Mode=TwoWay}" Grid.Column="1" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            <Grid Style="{StaticResource GridTileStyle}" Visibility="{Binding GeneralFreeSettings, Converter={StaticResource ListVisibillityEvaluator}}">
+                                <ItemsControl Style="{StaticResource SettingsItemsControlStyle}" ItemContainerStyle="{StaticResource StretchItemContainerStyle}"
                                           ItemsSource="{Binding GeneralFreeSettings}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Style="{ThemeResource SettingsSmallDescriptionStyle}" Text="{Binding Description}" />
-                                            <TextBox Text="{Binding Value, Mode=TwoWay}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <ItemsControl ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralPossibleValuesSettings}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Style="{ThemeResource SettingsSmallDescriptionStyle}" Text="{Binding Description}" />
-                                            <ComboBox ItemsSource="{Binding PossibleValues}" SelectedValue="{Binding Value, Mode=TwoWay}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <Border Style="{ThemeResource SpacerBorder}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Belegter Speicher: "/>
-                                <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalFileSize, Converter={StaticResource ULongToByteConverter}}"></TextBlock>
-                            </StackPanel>
-                            <Button Style="{ThemeResource Button}" Width="auto" Command="{Binding ClearSaveCommand}" Content="Anwendung zurücksetzten"></Button>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Style="{ThemeResource SettingsSmallDescriptionStyle}" Text="{Binding Description}" />
+                                                <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            <Grid Style="{StaticResource GridTileStyle}" Visibility="{Binding GeneralPossibleValuesSettings, Converter={StaticResource ListVisibillityEvaluator}}">
+                                <ItemsControl Style="{StaticResource SettingsItemsControlStyle}" ItemContainerStyle="{StaticResource StretchItemContainerStyle}" ItemsSource="{Binding GeneralPossibleValuesSettings}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Style="{ThemeResource SettingsSmallDescriptionStyle}" Text="{Binding Description}" />
+                                                <ComboBox ItemsSource="{Binding PossibleValues}" SelectedValue="{Binding Value, Mode=TwoWay}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            <Grid Style="{StaticResource GridTileStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Belegter Speicher: "/>
+                                    <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalFileSize, Converter={StaticResource ULongToByteConverter}}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Style="{StaticResource GridTileStyle}">
+                                <Button Style="{ThemeResource Button}" Width="auto" Command="{Binding ClearSaveCommand}" Content="Anwendung zurücksetzten"></Button>
+                            </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem.Content>
@@ -92,23 +104,25 @@
                     <ContentControl Style="{ThemeResource PivotHeader}" Content="Quellen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer Style="{ThemeResource SettingsScrollViewer}">
+                    <ScrollViewer>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Aktiviere deine bevorzugten Quellen und Feeds" Grid.Row="0" />
-                            <ItemsControl Margin="5,5,5,70" Grid.Row="1" ItemsSource="{Binding SourceConfiguration}">
+                            <Grid Grid.Row="0" Style="{StaticResource GridTileStyle}">
+                                <TextBlock Margin="5" Style="{ThemeResource BodyTextBlockStyle}" Text="Aktiviere deine bevorzugten Quellen und Feeds" Grid.Row="0" />
+                            </Grid>
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding SourceConfiguration}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
+                                        <Grid Style="{StaticResource GridTileStyle}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <ToggleSwitch Grid.Row="0" OnContent="{Binding SourceNameLong}" OffContent="{Binding SourceNameLong}" IsOn="{Binding BoolValue, Mode=TwoWay}" />
-                                            <ItemsControl Grid.Row="1" Visibility="{Binding BoolValue, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="40,5,0,20" ItemsSource="{Binding FeedConfigurationModels}">
+                                            <ToggleSwitch Margin="5" Grid.Row="0" OnContent="{Binding SourceNameLong}" OffContent="{Binding SourceNameLong}" IsOn="{Binding BoolValue, Mode=TwoWay}" />
+                                            <ItemsControl Style="{StaticResource SettingsItemsControlStyle}" Grid.Row="1" Visibility="{Binding BoolValue, Converter={StaticResource BoolVisibilityEvaluator}}" Margin="20,5,0,20" ItemsSource="{Binding FeedConfigurationModels}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid Background="{ThemeResource BackgroundThemeBrush}">

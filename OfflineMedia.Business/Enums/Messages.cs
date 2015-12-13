@@ -7,6 +7,7 @@
         ArticleRefresh,
         ReloadGoBackPage,
         MainPageInitialized,
-        RefreshWeather
+        RefreshWeather,
+        ScrollToTop
     }
 }

@@ -32,12 +32,12 @@
             </Button>
         </Grid>
 
-        <StackPanel Margin="0,0,0,4" Background="{ThemeResource BackgroundThemeBrush}">
-            <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
-            <TextBlock Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" ></TextBlock>
+        <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
+            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
+            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
         </StackPanel>
 
-        <Grid Margin="0,0,0,4" Background="{ThemeResource BackgroundThemeBrush}">
+        <Grid Margin="0,4,0,4" Background="{ThemeResource BackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -64,6 +64,6 @@
             </StackPanel>
         </StackPanel>
         <userControls:ArticleList DataContext="{Binding SimilarCathegoriesArticles}" />
-        <userControls:ArticleList DataContext="{Binding SimilarTitlesArticles}" />
+        <userControls:ArticleList Margin="0,0,0,-4" DataContext="{Binding SimilarTitlesArticles}" />
     </StackPanel>
 </UserControl>

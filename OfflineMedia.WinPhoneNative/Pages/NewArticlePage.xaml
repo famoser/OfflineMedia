@@ -36,38 +36,9 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid>
-                            <Grid.Resources>
-                                <Storyboard x:Name="ShowUpButton">
-                                    <DoubleAnimation
-                            Storyboard.TargetName="UpButton"
-                            Storyboard.TargetProperty="Opacity"
-                            Duration="0:0:0.2"
-                            To="1">
-                                        <DoubleAnimation.EasingFunction>
-                                            <ExponentialEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                </Storyboard>
-                                <Storyboard x:Name="HideUpButton">
-                                    <DoubleAnimation
-                            Storyboard.TargetName="UpButton"
-                            Storyboard.TargetProperty="Opacity"
-                            Duration="0:0:0.2"
-                            To="0">
-                                        <DoubleAnimation.EasingFunction>
-                                            <ExponentialEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </Grid.Resources>
-                            <ScrollViewer VerticalScrollMode="Enabled" x:Name="ReadScrollViewer" ViewChanged="ScrollViewer_OnViewChanged">
+                            <ScrollViewer VerticalScrollMode="Enabled" x:Name="ReadScrollViewer">
                                 <articlePageControls:Read DataContext="{Binding }" />
                             </ScrollViewer>
-                            <Button Opacity="0" x:Name="UpButton" Style="{ThemeResource GoToTopButton}" Click="UpButton_Click" >
-                                <Button.Content>
-                                    <SymbolIcon Symbol="Up" />
-                                </Button.Content>
-                            </Button>
                         </Grid>
                     </PivotItem.Content>
                 </PivotItem>

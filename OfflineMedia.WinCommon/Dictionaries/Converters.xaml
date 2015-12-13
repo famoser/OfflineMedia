@@ -25,6 +25,8 @@
     <genericConverter:IntToIntConverter x:Key="IntToIntConverter" />
     <genericConverter:ListToStringConverter x:Key="ListToStringConverter" />
     <genericConverter:ReferenceVisibillityEvaluator x:Key="ReferenceVisibillityEvaluator" />
+    <genericConverter:ListVisibillityEvaluator x:Key="ListVisibillityEvaluator" />
+    
     <genericConverter:ReferenceVisibillityEvaluatorInverted x:Key="ReferenceVisibillityEvaluatorInverted" />
 
     <mainPageConverter:HoverDivStoryboardConverter x:Key="HoverDivStoryboardConverter" />

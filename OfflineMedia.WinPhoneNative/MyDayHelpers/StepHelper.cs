@@ -101,7 +101,7 @@ namespace OfflineMedia.MyDayHelpers
             uint res = 0;
             if (await CheckIfValid())
             {
-                var steps = await _stepCounter.GetStepCountHistoryAsync(DateTime.Now.Date, DateTime.Now - DateTime.Now.Date);
+                var steps = await _stepCounter.GetStepCountHistoryAsync(DateTime.Now.Date, TimeSpan.FromHours(1));
                 foreach (var stepCounterReading in steps)
                 {
                     res += stepCounterReading.WalkingStepCount;
