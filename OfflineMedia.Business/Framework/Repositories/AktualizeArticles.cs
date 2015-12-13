@@ -36,109 +36,119 @@ namespace OfflineMedia.Business.Framework.Repositories
             if (_newArticleModels.Contains(article))
             {
                 _newArticleModels.Remove(article);
-                _newArticleModels.Insert(0, article);
-
-                if (!_aktualizeArticlesTasks.Any())
-                {
-                    var tsk = AktualizeArticlesTask();
-                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
-                    _aktualizeArticlesTasks.Add(tsk);
-                }
-                return true;
             }
-            return false;
+            _newArticleModels.Insert(0, article);
+
+            if (!_aktualizeArticlesTasks.Any())
+            {
+                var tsk = AktualizeArticlesTask(false);
+                tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
+                _aktualizeArticlesTasks.Add(tsk);
+            }
+            return true;
+
         }
 
         private List<FeedModel> _newFeedModels;
         public async Task ActualizeArticles()
         {
-            //Get Total Number of feeds
-            _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
-
-            _newFeedModels = new List<FeedModel>();
-            foreach (var sourceModel in _sources)
+            try
             {
-                if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
-                    continue;
 
-                foreach (var feed in sourceModel.FeedList)
-                {
-                    _newFeedModels.Add(feed);
-                }
-            }
+                //Get Total Number of feeds
+                _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
 
+                _newFeedModels = new List<FeedModel>();
+                foreach (var sourceModel in _sources)
+                {
+                    if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
+                        continue;
 
-            //Actualize feeds
-            if (_actualizeFeedsTasks.Count < ConcurrentThreads)
-            {
-                for (int i = 0; i < ConcurrentThreads; i++)
-                {
-                    var tsk = AktualizeFeedsTask();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _actualizeFeedsTasks));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    _actualizeFeedsTasks.Add(tsk);
-                }
-            }
-
-            while (_actualizeFeedsTasks.Any())
-            {
-                try
-                {
-                    var tsk = _actualizeFeedsTasks.FirstOrDefault();
-                    if (tsk != null)
-                        await tsk;
-                }
-                //may raise exception because list is emptied in excatly that moment
-                catch (Exception)
-                {
-                    
-                }
-            }
-            
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var state = (int)ArticleState.New;
-                var newarticles = await repo.GetByCondition(d => d.State == state);
-                foreach (var articleModel in newarticles)
-                {
-                    if (_newArticleModels.All(d => d.Id != articleModel.Id))
+                    foreach (var feed in sourceModel.FeedList)
                     {
-                        _newArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService(), true));
+                        _newFeedModels.Add(feed);
+                    }
+                }
+
+
+                //Actualize feeds
+                if (_actualizeFeedsTasks.Count < ConcurrentThreads)
+                {
+                    for (int i = 0; i < ConcurrentThreads; i++)
+                    {
+                        var tsk = AktualizeFeedsTask();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        tsk.ContinueWith(t => DeleteTaskFromList(tsk, _actualizeFeedsTasks));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        _actualizeFeedsTasks.Add(tsk);
+                    }
+                }
+
+                while (_actualizeFeedsTasks.Count >0)
+                {
+                    try
+                    {
+                        var tsk = _actualizeFeedsTasks.FirstOrDefault();
+                        if (tsk != null)
+                            await tsk;
+                    }
+                    //may raise exception because list is emptied in excatly that moment
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+                using (var unitOfWork = new UnitOfWork(true))
+                {
+                    var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                    var state = (int)ArticleState.New;
+                    var newarticles = await repo.GetByCondition(d => d.State == state);
+                    foreach (var articleModel in newarticles)
+                    {
+                        if (_newArticleModels.All(d => d.Id != articleModel.Id))
+                        {
+                            _newArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService(), true));
+                        }
+                    }
+                }
+
+                _newArticles = _newArticleModels.Count;
+
+                //Actualize articles
+                if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
+                {
+                    for (int i = 0; i < ConcurrentThreads; i++)
+                    {
+                        var tsk = AktualizeArticlesTask();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        _aktualizeArticlesTasks.Add(tsk);
+                    }
+                }
+
+
+                while (_aktualizeArticlesTasks.Count > 0)
+                {
+                    try
+                    {
+                        var tsk = _aktualizeArticlesTasks.FirstOrDefault();
+                        if (tsk != null)
+                            await tsk;
+                    }
+                    //may raise exception because list is emptied in excatly that moment
+                    catch (Exception)
+                    {
+
                     }
                 }
             }
-
-            _newArticles = _newArticleModels.Count;
-
-            //Actualize articles
-            if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
+            catch (Exception ex)
             {
-                for (int i = 0; i < ConcurrentThreads; i++)
-                {
-                    var tsk = AktualizeArticlesTask();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    _aktualizeArticlesTasks.Add(tsk);
-                }
-            }
-
-
-            while (_aktualizeArticlesTasks.Any())
-            {
-                try
-                {
-                    var tsk = _aktualizeArticlesTasks.FirstOrDefault();
-                    if (tsk != null)
-                        await tsk;
-                }
-                //may raise exception because list is emptied in excatly that moment
-                catch (Exception)
-                {
-
-                }
+                LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
+                _progressService.HideProgress();
+                _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
             }
         }
 
@@ -174,7 +184,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private async Task AktualizeArticlesTask()
+        private async Task AktualizeArticlesTask(bool showprogress = true)
         {
             using (var unitOfWork = new UnitOfWork(false))
             {
@@ -209,8 +219,11 @@ namespace OfflineMedia.Business.Framework.Repositories
                         await ToDatabase();
                     }
 
-                    var percentage = Convert.ToInt32(100 - ((_newArticleModels.Count * 100) / _newArticles));
-                    _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
+                    if (showprogress)
+                    {
+                        var percentage = Convert.ToInt32(100 - ((_newArticleModels.Count * 100) / _newArticles));
+                        _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
+                    }
                 }
             }
         }
