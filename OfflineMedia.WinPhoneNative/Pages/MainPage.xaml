@@ -21,7 +21,6 @@
         </TransitionCollection>
     </Page.Transitions>
 
-
     <Grid Style="{ThemeResource RootGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

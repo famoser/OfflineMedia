@@ -28,8 +28,6 @@ namespace OfflineMediaV3.DroidNative
 		{
 			global::GalaSoft.MvvmLight.Resource.String.ApplicationName = global::OfflineMediaV3.DroidNative.Resource.String.ApplicationName;
 			global::GalaSoft.MvvmLight.Resource.String.Hello = global::OfflineMediaV3.DroidNative.Resource.String.Hello;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::OfflineMediaV3.DroidNative.Resource.String.ApplicationName;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::OfflineMediaV3.DroidNative.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

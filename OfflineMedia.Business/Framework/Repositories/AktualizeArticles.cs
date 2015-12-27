@@ -89,7 +89,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     try
                     {
                         var tsk = _actualizeFeedsTasks.FirstOrDefault();
-                        if (tsk != null)
+                        if (tsk != null && !tsk.IsCompleted)
                             await tsk;
                     }
                     //may raise exception because list is emptied in excatly that moment
@@ -287,6 +287,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                         _toDatabaseFeeds.Remove(articles);
                         if (articles.Any())
                         {
+                            Messenger.Default.Send(articles, Messages.FeedRefresh);
+
                             var repo =
                                 new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                             var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
@@ -310,7 +312,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                             newArticles.AddRange(articles);
 
                             _newArticleModels.AddRange(articles);
-                            Messenger.Default.Send(articles, Messages.FeedRefresh);
                         }
                     }
 

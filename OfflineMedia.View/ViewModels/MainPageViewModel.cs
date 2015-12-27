@@ -108,7 +108,7 @@ namespace OfflineMedia.View.ViewModels
                     {
                         foreach (var feedModel in sourceModel.FeedList)
                         {
-                            if (feedModel.FeedConfiguration.Guid == first.FeedConfigurationId)
+                            if (feedModel.FeedConfiguration.Guid == first.FeedConfigurationId || feedModel.FeedConfiguration.Guid == first.FeedConfiguration.Guid)
                             {
                                 if (obj.Count < MaxArticlesPerFeed)
                                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -90,7 +91,8 @@ namespace OfflineMedia.View.ViewModels
                 Feed = new FeedModel
                 {
                     FeedConfiguration = obj.FeedConfiguration,
-                    Source = obj.Source
+                    Source = obj.Source,
+                    ArticleList = new ObservableCollection<ArticleModel>()
                 };
                 Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 1, 0);
                 if (Feed.ArticleList.Count == 1)

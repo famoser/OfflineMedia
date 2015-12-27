@@ -10,7 +10,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -20,7 +19,7 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
+    
     <Grid Style="{ThemeResource RootGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

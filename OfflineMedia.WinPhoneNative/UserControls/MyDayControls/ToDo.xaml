@@ -22,8 +22,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding }" FontSize="20" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="1" Margin="0" Style="{ThemeResource MyDayButton}" Command="{Binding MyDayViewModel.RemoveToDoCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
+                    <TextBlock Margin="4,0,0,0" Grid.Row="0" Text="{Binding }" FontSize="20" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <Button Margin="0,0,4,0" Grid.Row="0" Grid.Column="1" Style="{ThemeResource MyDayButton}" Command="{Binding MyDayViewModel.RemoveToDoCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
                         <Button.Content>
                             <SymbolIcon Symbol="Remove" />
                         </Button.Content>
@@ -39,8 +39,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="AddInput" InputScope="NameOrPhoneNumber" TabIndex="10" PlaceholderText="neuer Eintrag..." Margin="0,10,10,10" Height="36" Grid.Column="0" Text="{Binding NewToDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="1" Tapped="UIElement_OnTapped" Margin="0" Style="{ThemeResource MyDayButton}" Command="{Binding AddNewToDoCommand}">
+            <TextBox x:Name="AddInput" InputScope="NameOrPhoneNumber" TabIndex="10" PlaceholderText="neuer Eintrag..." Margin="4,10,10,10" Height="36" Grid.Column="0" Text="{Binding NewToDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="1" Tapped="UIElement_OnTapped" Margin="0,0,4,0" Style="{ThemeResource MyDayButton}" Command="{Binding AddNewToDoCommand}">
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />
                 </Button.Content>

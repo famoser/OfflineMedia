@@ -45,6 +45,9 @@
 
 
             <viewModel:ViewModelLocator x:Key="Locator" />
+            
+            
+            
 
             <FontFamily x:Key="WeatherIconFont">/Assets/Fonts/owfont-regular.ttf#owf-regular</FontFamily>
 
