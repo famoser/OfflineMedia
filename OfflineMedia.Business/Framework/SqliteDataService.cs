@@ -539,7 +539,9 @@ namespace OfflineMedia.Business.Framework
             Lock(activeLock);
         }
 
+#pragma warning disable 1998
         private async Task UnlockDatabase()
+#pragma warning restore 1998
         {
             UnLock();
         }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OfflineMedia</RootNamespace>
     <AssemblyName>OfflineMedia</AssemblyName>
-    <DefaultLanguage>de-CH</DefaultLanguage>
+    <DefaultLanguage>de-de</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
