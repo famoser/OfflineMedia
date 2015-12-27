@@ -106,15 +106,20 @@ namespace OfflineMedia.View.ViewModels
                 {
                     _articleRepository.ActualizeArticle(Article);
                 }
-                else if (Article.State == ArticleState.Loaded)
+                else 
                 {
                     if (!Article.IsLoadedCompletely())
-                        Article = await _articleRepository.GetCompleteArticle(am.Id);
-
-                    Article.State = ArticleState.Read;
-                    _articleRepository.UpdateArticleFlat(Article);
-                    Messenger.Default.Send(Article, Messages.ArticleRefresh);
-
+                    {
+                        var ar = await _articleRepository.GetCompleteArticle(am.Id);
+                        Article = null;
+                        Article = ar;
+                    }
+                    if (Article.State == ArticleState.Loaded)
+                    {
+                        Article.State = ArticleState.Read;
+                        _articleRepository.UpdateArticleFlat(Article);
+                        Messenger.Default.Send(Article, Messages.ArticleRefresh);
+                    }
                     SimilarCathegoriesArticles =
                         new FeedModel()
                         {
