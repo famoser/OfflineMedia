@@ -7,184 +7,100 @@ using GalaSoft.MvvmLight.Messaging;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
-using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
-using SQLite.Net.Attributes;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository
     {
-        private const int ConcurrentThreads = 4;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
         private readonly List<ArticleModel> _newArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
 
-        private readonly List<Task> _actualizeFeedsTasks = new List<Task>();
-        private readonly List<List<ArticleModel>> _toDatabaseFeeds = new List<List<ArticleModel>>();
-        private int _newFeeds;
-
+        
         public bool ActualizeArticle(ArticleModel article)
         {
             if (_newArticleModels.Contains(article))
             {
                 _newArticleModels.Remove(article);
-            }
-            _newArticleModels.Insert(0, article);
+                _newArticleModels.Insert(0, article);
 
-            if (!_aktualizeArticlesTasks.Any())
-            {
-                var tsk = AktualizeArticlesTask(false);
-                tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
-                _aktualizeArticlesTasks.Add(tsk);
+                if (!_aktualizeArticlesTasks.Any())
+                {
+                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
+                    _aktualizeArticlesTasks.Add(tsk);
+                }
+                return true;
             }
-            return true;
-
+            return false;
         }
 
-        private List<FeedModel> _newFeedModels;
+
         public async Task ActualizeArticles()
         {
-            try
+            //Get Total Number of feeds
+            int feedcounter = _sources.SelectMany(source => source.FeedList).Count();
+            int activecounter = 0;
+
+            foreach (var sourceModel in _sources)
             {
+                if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
+                    continue;
 
-                //Get Total Number of feeds
-                _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
-
-                _newFeedModels = new List<FeedModel>();
-                foreach (var sourceModel in _sources)
+                foreach (var feed in sourceModel.FeedList)
                 {
-                    if (sourceModel.SourceConfiguration.Source == SourceEnum.Favorites)
-                        continue;
-
-                    foreach (var feed in sourceModel.FeedList)
+                    var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
+                    _progressService.ShowProgress("Feeds werden heruntergeladen...", Convert.ToInt32((++activecounter * 100) / feedcounter));
+                    if (newfeed != null)
                     {
-                        _newFeedModels.Add(feed);
-                    }
-                }
+                        ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
 
-
-                //Actualize feeds
-                if (_actualizeFeedsTasks.Count < ConcurrentThreads)
-                {
-                    for (int i = 0; i < ConcurrentThreads; i++)
-                    {
-                        var tsk = AktualizeFeedsTask();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        tsk.ContinueWith(t => DeleteTaskFromList(tsk, _actualizeFeedsTasks));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        _actualizeFeedsTasks.Add(tsk);
-                    }
-                }
-
-                while (_actualizeFeedsTasks.Count >0)
-                {
-                    try
-                    {
-                        var tsk = _actualizeFeedsTasks.FirstOrDefault();
-                        if (tsk != null && !tsk.IsCompleted)
-                            await tsk;
-                    }
-                    //may raise exception because list is emptied in excatly that moment
-                    catch (Exception)
-                    {
-
-                    }
-                }
-
-                using (var unitOfWork = new UnitOfWork(true))
-                {
-                    var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                    var state = (int)ArticleState.New;
-                    var newarticles = await repo.GetByCondition(d => d.State == state);
-                    foreach (var articleModel in newarticles)
-                    {
-                        if (_newArticleModels.All(d => d.Id != articleModel.Id))
-                        {
-                            _newArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService(), true));
-                        }
-                    }
-                }
-
-                _newArticles = _newArticleModels.Count;
-
-                //Actualize articles
-                if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
-                {
-                    for (int i = 0; i < ConcurrentThreads; i++)
-                    {
-                        var tsk = AktualizeArticlesTask();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        tsk.ContinueWith(t => DeleteTaskFromList(tsk, _aktualizeArticlesTasks));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        _aktualizeArticlesTasks.Add(tsk);
-                    }
-                }
-
-
-                while (_aktualizeArticlesTasks.Count > 0)
-                {
-                    try
-                    {
-                        var tsk = _aktualizeArticlesTasks.FirstOrDefault();
-                        if (tsk != null)
-                            await tsk;
-                    }
-                    //may raise exception because list is emptied in excatly that moment
-                    catch (Exception)
-                    {
-
+                        Messenger.Default.Send(newfeed, Messages.FeedRefresh);
+                        var newarticles = await FeedToDatabase(newfeed);
+                        _newArticleModels.AddRange(newarticles);
                     }
                 }
             }
-            catch (Exception ex)
+
+            using (var unitOfWork = new UnitOfWork(true))
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
-                _progressService.HideProgress();
-                _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
+                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                var state = (int)ArticleState.New;
+                var newarticles = await repo.GetByCondition(d => d.State == state);
+                foreach (var articleModel in newarticles)
+                {
+                    if (_newArticleModels.All(d => d.Id != articleModel.Id))
+                    {
+                        _newArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService(), true));
+                    }
+                }
+            }
+
+            _newArticles = _newArticleModels.Count;
+
+            //Actualize articles
+            if (!_aktualizeArticlesTasks.Any())
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    var tsk = AktualizeArticlesTask().ContinueWith(DeleteTaskFromList);
+                    _aktualizeArticlesTasks.Add(tsk);
+                }
+            }
+
+            foreach (var aktualizeArticlesTask in _aktualizeArticlesTasks)
+            {
+                await aktualizeArticlesTask;
             }
         }
 
-        private async Task AktualizeFeedsTask()
-        {
-            while (_newFeedModels.Any())
-            {
-                var feed = _newFeedModels[0];
-                _newFeedModels.Remove(feed);
-
-                var percentage = Convert.ToInt32((_newFeeds - _newFeedModels.Count) * 100 / _newFeeds);
-                _progressService.ShowProgress("Feed wird heruntergeladen...", percentage);
-
-                var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-
-                if (newfeed != null)
-                {
-                    ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-
-                    if (percentage == 100)
-                    {
-                        _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
-                        _progressService.HideProgress();
-                    }
-                    _toDatabaseFeeds.Add(newfeed);
-                    await FeedToDatabase();
-
-                    if (percentage == 100)
-                    {
-                        _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
-                    }
-                }
-            }
-        }
-
-        private async Task AktualizeArticlesTask(bool showprogress = true)
+        private async Task AktualizeArticlesTask()
         {
             using (var unitOfWork = new UnitOfWork(false))
             {
@@ -219,11 +135,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                         await ToDatabase();
                     }
 
-                    if (showprogress)
-                    {
-                        var percentage = Convert.ToInt32(100 - ((_newArticleModels.Count * 100) / _newArticles));
-                        _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
-                    }
+                    var percentage = Convert.ToInt32(100 - ((_newArticleModels.Count * 100) / _newArticles));
+                    _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
                 }
             }
         }
@@ -262,69 +175,52 @@ namespace OfflineMedia.Business.Framework.Repositories
             _toDatabaseIsActive = false;
         }
 
-        private void DeleteTaskFromList(Task obj, IList<Task> list)
+        private void DeleteTaskFromList(Task obj)
         {
-            if (list.Contains(obj))
-                list.Remove(obj);
+            if (_aktualizeArticlesTasks.Contains(obj))
+                _aktualizeArticlesTasks.Remove(obj);
         }
 
-        private bool _feedToDatabaseRunning;
-        private async Task FeedToDatabase()
+        private async Task<List<ArticleModel>> FeedToDatabase(List<ArticleModel> articles)
         {
-            if (_feedToDatabaseRunning)
-                return;
-
-            _feedToDatabaseRunning = true;
-            var deleteArticles = new List<int>();
-            var newArticles = new List<ArticleModel>();
             try
             {
-                using (var unitOfWork = new UnitOfWork(false))
+                if (articles.Any())
                 {
-                    while (_toDatabaseFeeds.Any())
+                    using (var unitOfWork = new UnitOfWork(false))
                     {
-                        var articles = _toDatabaseFeeds[0];
-                        _toDatabaseFeeds.Remove(articles);
-                        if (articles.Any())
+                        var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                        var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
+                        var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
+                        for (int index = 0; index < articles.Count; index++)
                         {
-                            Messenger.Default.Send(articles, Messages.FeedRefresh);
-
-                            var repo =
-                                new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                            var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
-                            var oldfeed = await repo.GetByCondition(a => a.FeedConfigurationId == guidString);
-                            for (int index = 0; index < articles.Count; index++)
+                            var articleModel = articles[index];
+                            var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articleModel.PublicUri);
+                            if (oldmodel != null)
                             {
-                                var articleModel = articles[index];
-                                var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articleModel.PublicUri);
-                                if (oldmodel != null)
-                                {
-                                    articles.Remove(articleModel);
-                                    oldfeed.Remove(oldmodel);
-                                    index--;
-                                }
+                                articles.Remove(articleModel);
+                                oldfeed.Remove(oldmodel);
+                                index--;
                             }
-
-                            //delete old ones
-                            deleteArticles.AddRange(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
-
-                            //only new ones left
-                            newArticles.AddRange(articles);
-
-                            _newArticleModels.AddRange(articles);
                         }
-                    }
 
-                    await DeleteAllArticlesAndTrances(deleteArticles, await unitOfWork.GetDataService());
-                    await InsertAllArticleAndTraces(newArticles, await unitOfWork.GetDataService());
-                    await unitOfWork.Commit();
+                        //delete old ones
+                        await DeleteAllArticlesAndTrances(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList(), await unitOfWork.GetDataService());
+
+                        //only new ones left
+                        await InsertAllArticleAndTraces(articles, await unitOfWork.GetDataService());
+
+                        await unitOfWork.Commit();
+
+                        return articles;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured", ex);
             }
-            _feedToDatabaseRunning = false;
+            return new List<ArticleModel>();
         }
 
         private async Task DeleteAllArticlesAndTrances(List<int> newarticlesId, IDataService dataService)
