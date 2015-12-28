@@ -7,64 +7,91 @@
     xmlns:myDayControls="using:OfflineMedia.UserControls.MyDayControls"
     mc:Ignorable="d"
     Foreground="White"
+    d:DesignWidth="340"
     d:DataContext="{Binding MyDayViewModel.Forecast1, Source={StaticResource Locator}}">
 
-    <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Margin="5,0" Grid.Row="0">
+        <Grid Margin="0,0" Grid.Row="0" Background="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" VerticalAlignment="Center">
-                <StackPanel>
-                    <TextBlock Margin="0" Text="{Binding City}" Foreground="White" Style="{ThemeResource FeedTitleTextBlock}" />
-                    <TextBlock FontSize="20" Text="{Binding CurrentForecast.Description}" FontWeight="ExtraLight" />
-                </StackPanel>
+            <TextBlock Margin="7,0,10,0" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Height="45" Grid.Column="0" TextAlignment="Center" FontSize="53" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
+            <Grid Grid.Column="1" Background="{ThemeResource AkzentBackgroundThemeBrush}">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding City}" Style="{ThemeResource WeatherPrimaryTextBlock}"  />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding CurrentForecast.Description}"  Style="{ThemeResource WeatherSecondaryTextBlock}"/>
+
+                    <TextBlock HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Text="{Binding CurrentForecast.Date, Converter={StaticResource DateToDayConverter}}"  Style="{ThemeResource WeatherPrimaryTextBlock}" />
+                    <TextBlock HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Text="{Binding CurrentForecast.Date, Converter={StaticResource DateToTimeConverter}}" Style="{ThemeResource WeatherSecondaryTextBlock}" />
+                </Grid>
             </Grid>
-            <Grid Grid.Column="1">
+        </Grid>
+        <ProgressBar Grid.Row="1" Value="{Binding ActiveIndex}" Maximum="{Binding ForecastItems.Count, Converter={StaticResource IntToIntConverter}, ConverterParameter=-1}" Height="1" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Background="Transparent"></ProgressBar>
+
+        <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}" Grid.Row="2">
+            <Grid Margin="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock FontSize="70" Text="{Binding CurrentForecast.TemperatureKelvin, Converter={StaticResource KelvinToCelciusConverter}}" />
-                <TextBlock FontSize="20" Margin="0,10,3,0" Text="°C" Grid.Column="1" />
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="temperatur" Style="{ThemeResource WeatherSecondaryTextBlock}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="40" Text="{Binding CurrentForecast.TemperatureKelvin, Converter={StaticResource KelvinToCelciusConverter}}" />
+                    <TextBlock Grid.Row="1" FontSize="20" Margin="0,4,3,0" Text="°C" Grid.Column="1" />
+                </Grid>
+                <Grid Grid.Column="1" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="luftfeuchtigkeit" Style="{ThemeResource WeatherSecondaryTextBlock}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="40" Text="{Binding CurrentForecast.HumidityPercentage}" />
+                    <TextBlock Grid.Row="1" FontSize="20" Margin="0,4,3,0" Text="%" Grid.Column="1" />
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="bewölkung" Style="{ThemeResource WeatherSecondaryTextBlock}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="40" Text="{Binding CurrentForecast.CloudinessPercentage}" />
+                    <TextBlock Grid.Row="1" FontSize="20" Margin="0,4,3,0" Text="%" Grid.Column="1" />
+                </Grid>
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="5,5,5,-10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="{Binding CurrentForecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="0" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
-
-            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding Next1Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="1" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next1Forecast.ConditionFontIcon}" />
-
-            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="2" Text="{Binding Next2Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="2" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next2Forecast.ConditionFontIcon}" />
-
-            <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3" Text="{Binding Next3Forecast.Date, Converter={StaticResource DateToTimeConverter}}" />
-            <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="3" FontSize="60" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding Next2Forecast.ConditionFontIcon}" />
-
-        </Grid>
-        
+        <Slider VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="3" Opacity="0" Value="{Binding ActiveIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding ForecastItems.Count, Converter={StaticResource IntToIntConverter}, ConverterParameter=-1}" />
     </Grid>
 </UserControl>

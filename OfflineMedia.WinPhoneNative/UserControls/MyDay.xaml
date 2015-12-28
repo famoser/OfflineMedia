@@ -13,10 +13,10 @@
 
     <StackPanel>
         <StackPanel>
-            <Grid Margin="0,0,0,4" Visibility="{Binding Forecast1.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
+            <Grid Margin="0,0,0,10" Visibility="{Binding Forecast1.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                 <myDayControls:ForecastNew DataContext="{Binding Forecast1}" />
             </Grid>
-            <Grid Margin="0,0,0,4" Visibility="{Binding Forecast2.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
+            <Grid Margin="0,0,0,10" Visibility="{Binding Forecast2.CurrentForecast, Converter={StaticResource ReferenceVisibillityEvaluator}}">
                 <myDayControls:ForecastNew DataContext="{Binding Forecast2}" />
             </Grid>
             <!--<myDayControls:Steps Margin="0,0,0,4" />-->

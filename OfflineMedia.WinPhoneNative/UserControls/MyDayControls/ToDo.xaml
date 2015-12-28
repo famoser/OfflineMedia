@@ -22,7 +22,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="4,0,0,0" Grid.Row="0" Text="{Binding }" FontSize="20" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <TextBlock Margin="4,0,0,0" Grid.Row="0" Text="{Binding }" FontSize="16" TextWrapping="Wrap" VerticalAlignment="Center" />
                     <Button Margin="0,0,4,0" Grid.Row="0" Grid.Column="1" Style="{ThemeResource MyDayButton}" Command="{Binding MyDayViewModel.RemoveToDoCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
                         <Button.Content>
                             <SymbolIcon Symbol="Remove" />

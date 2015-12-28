@@ -107,8 +107,11 @@ namespace OfflineMedia.WinCommon.Controls
             if (new Windows.Devices.Input.TouchCapabilities().TouchPresent == 0)
             {
                 var refreshButton = (Button)GetTemplateChild(RefreshButton);
-                refreshButton.Visibility = Visibility.Visible;
-                refreshButton.Click += RefreshButton_Click;
+                if (refreshButton != null)
+                {
+                    refreshButton.Visibility = Visibility.Visible;
+                    refreshButton.Click += RefreshButton_Click;
+                }
             }
 
             timer = new DispatcherTimer();

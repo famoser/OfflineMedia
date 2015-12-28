@@ -35,6 +35,8 @@
     <myDayConverter:KelvinToCelciusConverter x:Key="KelvinToCelciusConverter" />
     <myDayConverter:EnumToIntConverter x:Key="EnumToIntConverter" />
     <myDayConverter:DateTimeConverter x:Key="DateToTimeConverter" />
+    <myDayConverter:DateToDayConverter x:Key="DateToDayConverter" />
+    
     
 
     <settingsPageConverter:ULongToByteConverter x:Key="ULongToByteConverter" />

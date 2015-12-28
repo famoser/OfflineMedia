@@ -21,7 +21,9 @@ namespace OfflineMedia.Framework
             //arrrange
             var entites = new Dictionary<object, object>()
             {
+#pragma warning disable 618
                 {new ArticleModel(), new ArticleEntity()},
+#pragma warning restore 618
                 {new ContentModel(),new ContentEntity()},
                 {new GalleryModel(),new GalleryEntity()},
                 {new ImageModel(),new ImageEntity()},

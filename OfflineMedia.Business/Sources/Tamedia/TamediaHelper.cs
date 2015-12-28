@@ -152,7 +152,7 @@ namespace OfflineMedia.Business.Sources.Tamedia
                             a.RelatedArticles = new List<ArticleModel>();
                             for (int i = 0; i < elemnt.article_previews.Count; i++)
                             {
-                                a.RelatedArticles.Add(new ArticleModel()
+                                a.RelatedArticles.Add(new ArticleModel
                                 {
                                     LogicUri = new Uri(scm.LogicBaseUrl + "api/articles/" + elemnt.article_previews[i].id),
                                     PublicUri = new Uri(scm.PublicBaseUrl + elemnt.article_previews[i].legacy_id),

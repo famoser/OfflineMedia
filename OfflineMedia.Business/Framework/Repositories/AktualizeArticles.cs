@@ -139,7 +139,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     //may raise exception because list is emptied in excatly that moment
                     catch (Exception ex)
                     {
-                        LogHelper.Instance.Log(LogLevel.Error, this,"Exception occured while waiting for tasks to complete (2)", ex);
+                        LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured while waiting for tasks to complete (2)", ex);
                     }
                 }
 
@@ -273,6 +273,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             _feedToDatabaseRunning = true;
             var deleteArticles = new List<int>();
             var newArticles = new List<ArticleModel>();
+            var executes = new List<Action>();
             try
             {
                 using (var unitOfWork = new UnitOfWork(false))
@@ -283,8 +284,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                         _toDatabaseFeeds.Remove(articles);
                         if (articles.Any())
                         {
-                            Messenger.Default.Send(articles, Messages.FeedRefresh);
-
                             var repo =
                                 new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                             var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
@@ -308,11 +307,18 @@ namespace OfflineMedia.Business.Framework.Repositories
                             newArticles.AddRange(articles);
 
                             _newArticleModels.AddRange(articles);
+                            executes.Add(() => Messenger.Default.Send(articles, Messages.FeedRefresh));
                         }
                     }
 
                     await DeleteAllArticlesAndTrances(deleteArticles, await unitOfWork.GetDataService());
                     await InsertAllArticleAndTraces(newArticles, await unitOfWork.GetDataService());
+
+                    foreach (var execute in executes)
+                    {
+                        execute.Invoke();
+                    }
+
                     await unitOfWork.Commit();
                 }
             }

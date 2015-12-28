@@ -63,7 +63,7 @@
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" TextWrapping="Wrap" FontSize="16" Text="{Binding Article.WordDump}" />
             </StackPanel>
         </StackPanel>
-        <userControls:ArticleList DataContext="{Binding SimilarCathegoriesArticles}" />
+        <userControls:ArticleList Margin="0,0,0,10" DataContext="{Binding SimilarCathegoriesArticles}" />
         <userControls:ArticleList Margin="0,0,0,-4" DataContext="{Binding SimilarTitlesArticles}" />
     </StackPanel>
 </UserControl>

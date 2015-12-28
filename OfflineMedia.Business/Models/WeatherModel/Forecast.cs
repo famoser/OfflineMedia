@@ -21,36 +21,6 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
-        public ForecastItem Next1Forecast
-        {
-            get
-            {
-                if (ForecastItems == null || !ForecastItems.Any() || ActiveIndex > ForecastItems.Count)
-                    return null;
-                return ForecastItems[ActiveIndex + 1];
-            }
-        }
-
-        public ForecastItem Next2Forecast
-        {
-            get
-            {
-                if (ForecastItems == null || !ForecastItems.Any() || ActiveIndex + 1 > ForecastItems.Count)
-                    return null;
-                return ForecastItems[ActiveIndex + 2];
-            }
-        }
-
-        public ForecastItem Next3Forecast
-        {
-            get
-            {
-                if (ForecastItems == null || !ForecastItems.Any() || ActiveIndex + 2 > ForecastItems.Count)
-                    return null;
-                return ForecastItems[ActiveIndex + 3];
-            }
-        }
-
         private int _activeIndex;
         public int ActiveIndex
         {

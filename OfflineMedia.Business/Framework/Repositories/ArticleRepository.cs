@@ -527,14 +527,14 @@ namespace OfflineMedia.Business.Framework.Repositories
         #region Article Samples
         private ArticleModel GetSampleArticle()
         {
-            var avm = new ArticleModel()
+            var avm = new ArticleModel
             {
                 Title = "Auf der Suche nach der nächsten Systemkrise",
                 SubTitle = "Liquidität an den Finanzmärkten",
                 //Teaser = "Seit dem Ausbruch der Finanzkrise forsten Aufsichtsorgane den Finanzsektor nach möglichen Systemrisiken durch. Grosses Kopfzerbrechen bereitet eine geringere Liquidität.",
                 Content = new List<ContentModel>
                 {
-                    new ContentModel()
+                    new ContentModel
                     {
                         Html = "<p>Innert kurzer Zeit schwankten im letzten Oktober die Renditen zehnjähriger US-Staatsanleihen um 37 Basispunkte – was zunächst nicht spektakulär klingt. Man muss sich aber vor Augen führen, dass die prozentualen Preisveränderungen nach dem Kollaps der Investmentbank Lehman Brothers im Jahr 2008 geringer ausgefallen waren. Im Nachgang dieses «flash crash» wurden viele Theorien herumgereicht, warum es zu den schroffen Marktbewegungen gekommen war, obwohl die Nachrichtenlage nicht als besonders schwerwiegend galt. Für viele Kommentatoren und Regulierungsbehörden sind die Vorgänge im Oktober ein Beleg schwindender Liquidität am Anleihemarkt. Vor kurzem reihte sich Jamie Dimon, der Chef der amerikanischen Grossbank JP Morgan, in den Reigen der Warner ein.</p>" +
                         "<h2>Weniger Marktmacher</h2>" +
