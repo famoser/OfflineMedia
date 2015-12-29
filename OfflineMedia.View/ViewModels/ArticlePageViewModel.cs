@@ -43,6 +43,7 @@ namespace OfflineMedia.View.ViewModels
             _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
             _favoriteCommand = new RelayCommand(Favorite);
             _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
+            _reloadArticleCommand = new RelayCommand(ReloadArticle, () => CanReloadArticle);
 
             _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
             _goLeftCommand = new RelayCommand(GoLeft, () => CanGoLeft);
@@ -117,6 +118,8 @@ namespace OfflineMedia.View.ViewModels
                     if (Article.State == ArticleState.Loaded)
                     {
                         Article.State = ArticleState.Read;
+                        _reloadArticleCommand.RaiseCanExecuteChanged();
+
                         _articleRepository.UpdateArticleFlat(Article);
                         Messenger.Default.Send(Article, Messages.ArticleRefresh);
                     }
@@ -169,7 +172,9 @@ namespace OfflineMedia.View.ViewModels
         public ArticleModel Article
         {
             get { return _article; }
-            set { Set(ref _article, value); }
+            set { if (Set(ref _article, value))
+                    _reloadArticleCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private DisplayState _displayState;
@@ -339,7 +344,7 @@ namespace OfflineMedia.View.ViewModels
         private bool _isSpritzReady;
 
         private int _activeIndexSave;
-        private int _activeIndex
+        private int ActiveIndex
         {
             get { return _activeIndexSave; }
             set
@@ -366,7 +371,7 @@ namespace OfflineMedia.View.ViewModels
             try
             {
                 _isSpritzReady = false;
-                _activeIndex = 0;
+                ActiveIndex = 0;
                 _spritzState = SpritzState.Ready;
                 _spritzWords = new List<SpritzWord>();
 
@@ -424,11 +429,11 @@ namespace OfflineMedia.View.ViewModels
 
             int delay = (60 * 1000) / ReadingSpeed;
 
-            if (SpritzState == SpritzState.Running && _activeIndex < _spritzWords.Count)
+            if (SpritzState == SpritzState.Running && ActiveIndex < _spritzWords.Count)
             {
-                if (++_activeIndex < _spritzWords.Count)
+                if (++ActiveIndex < _spritzWords.Count)
                 {
-                    DisplayWord(_spritzWords[_activeIndex]);
+                    DisplayWord(_spritzWords[ActiveIndex]);
                     await Task.Delay(delay);
                     DisplayNextWord();
                 }
@@ -450,13 +455,13 @@ namespace OfflineMedia.View.ViewModels
 
         private bool CanGoToStart
         {
-            get { return _activeIndex > 0 && SpritzState != SpritzState.Running; }
+            get { return ActiveIndex > 0 && SpritzState != SpritzState.Running; }
         }
 
         private void GoToStart()
         {
-            _activeIndex = 0;
-            DisplayWord(_spritzWords[_activeIndex]);
+            ActiveIndex = 0;
+            DisplayWord(_spritzWords[ActiveIndex]);
 
             _goRightCommand.RaiseCanExecuteChanged();
             _goLeftCommand.RaiseCanExecuteChanged();
@@ -473,14 +478,14 @@ namespace OfflineMedia.View.ViewModels
 
         private bool CanGoLeft
         {
-            get { return _activeIndex > 0 && SpritzState != SpritzState.Running; }
+            get { return ActiveIndex > 0 && SpritzState != SpritzState.Running; }
         }
 
         private void GoLeft()
         {
-            if (--_activeIndex > 0)
+            if (--ActiveIndex > 0)
             {
-                DisplayWord(_spritzWords[_activeIndex]);
+                DisplayWord(_spritzWords[ActiveIndex]);
                 _goRightCommand.RaiseCanExecuteChanged();
             }
             else
@@ -503,24 +508,44 @@ namespace OfflineMedia.View.ViewModels
         {
             get
             {
-                return _spritzWords != null && _activeIndex < _spritzWords.Count - 1 &&
+                return _spritzWords != null && ActiveIndex < _spritzWords.Count - 1 &&
                        SpritzState != SpritzState.Running;
             }
         }
 
         private void GoRight()
         {
-            if (++_activeIndex < _spritzWords.Count - 1)
+            if (++ActiveIndex < _spritzWords.Count - 1)
             {
-                DisplayWord(_spritzWords[_activeIndex]);
+                DisplayWord(_spritzWords[ActiveIndex]);
                 _goLeftCommand.RaiseCanExecuteChanged();
                 _goToStartCommand.RaiseCanExecuteChanged();
             }
             else
             {
-                DisplayWord(_spritzWords[_activeIndex]);
+                DisplayWord(_spritzWords[ActiveIndex]);
                 _goRightCommand.RaiseCanExecuteChanged();
             }
+        }
+        #endregion
+
+        #region Open In Browser Button
+        private readonly RelayCommand _reloadArticleCommand;
+        public ICommand ReloadArticleCommand
+        {
+            get { return _reloadArticleCommand; }
+        }
+
+        private bool CanReloadArticle
+        {
+            get { return Article.State == ArticleState.Loaded || Article.State == ArticleState.Read; }
+        }
+
+        private void ReloadArticle()
+        {
+            Article.State = ArticleState.New;
+            _reloadArticleCommand.RaiseCanExecuteChanged();
+            _articleRepository.UpdateArticleFlat(Article);
         }
         #endregion
 
@@ -621,7 +646,7 @@ namespace OfflineMedia.View.ViewModels
             else if (SpritzState == SpritzState.Finished)
             {
                 SpritzState = SpritzState.Ready;
-                _activeIndex = 0;
+                ActiveIndex = 0;
                 if (_spritzWords.Count > 0)
                     DisplayWord(_spritzWords[0]);
             }

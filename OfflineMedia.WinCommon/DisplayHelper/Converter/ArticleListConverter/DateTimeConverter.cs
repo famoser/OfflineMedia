@@ -8,8 +8,8 @@ namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             DateTime dt = (DateTime)value;
-            if (dt == DateTime.MinValue)
-                return "unbekanntes Veröffentlichungsdatum";
+            if (dt < DateTime.MinValue + TimeSpan.FromDays(1))
+                return "";
             return dt.ToString("dd.MM.yyyy");
         }
 

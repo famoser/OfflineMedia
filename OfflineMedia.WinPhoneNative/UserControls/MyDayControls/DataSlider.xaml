@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignWidth="500"
+    d:DesignWidth="320"
     d:DesignHeight="100"
     d:DataContext="{Binding MyDayViewModel.Forecast1, Source={StaticResource Locator}}">
 

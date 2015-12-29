@@ -201,7 +201,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             return sourceModel;
         }
-
+        
         public void UpdateArticleFlat(ArticleModel am)
         {
             _toDatabaseFlatArticles.Add(am);

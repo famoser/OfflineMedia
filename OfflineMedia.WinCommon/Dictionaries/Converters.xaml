@@ -8,8 +8,9 @@
     xmlns:myDayConverter="using:OfflineMedia.DisplayHelper.Converter.MyDayConverter"
     xmlns:settingsPageConverter="using:OfflineMedia.DisplayHelper.Converter.SettingsPageConverter"
     xmlns:debugConverter="using:OfflineMedia.DisplayHelper.Converter.DebugConverters">
-    
+
     <articleListConverter:DateTimeConverter x:Key="DateTimeConverter" />
+    <articleListConverter:DetailedDateTimeConverter x:Key="DetailedDateTimeConverter" />
     <articleListConverter:ShortDateTimeConverter x:Key="ShortDateTimeConverter" />
     <articleListConverter:IsReadConverter x:Key="IsReadConverter" />
     <articleListConverter:ByteToBitmapConverter x:Key="ByteToBitmapConverter" />

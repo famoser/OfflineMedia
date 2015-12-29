@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="500"
-    d:DesignWidth="500"
+    d:DesignWidth="320"
     Foreground="White"
      d:DataContext="{Binding MyDayViewModel, Source={StaticResource Locator}}">
 
@@ -22,7 +22,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="4,0,0,0" Grid.Row="0" Text="{Binding }" FontSize="16" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <TextBlock Margin="10,10,10,10" Grid.Row="0" Text="{Binding }" FontSize="16" TextWrapping="Wrap" VerticalAlignment="Center" />
                     <Button Margin="0,0,4,0" Grid.Row="0" Grid.Column="1" Style="{ThemeResource MyDayButton}" Command="{Binding MyDayViewModel.RemoveToDoCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
                         <Button.Content>
                             <SymbolIcon Symbol="Remove" />

@@ -20,6 +20,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <!--<Button Grid.Column="0" Command="{Binding ReloadArticleCommand}" Style="{ThemeResource Button}">
+                <Button.Content>
+                    <SymbolIcon Symbol="Refresh" />
+                </Button.Content>
+            </Button>-->
             <Button Grid.Column="2" Command="{Binding FavoriteCommand}" Style="{ThemeResource Button}">
                 <Button.Content>
                     <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
@@ -44,13 +49,13 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="5">
                 <TextBlock Text="Veröffentlichungsdatum" />
-                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.PublicationTime, Converter={StaticResource ShortDateTimeConverter}}" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.PublicationTime, Converter={StaticResource DetailedDateTimeConverter}}" />
                 <TextBlock Text="Author" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Author}" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="5">
                 <TextBlock Text="heruntergeladen am" />
-                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.CreateDate, Converter={StaticResource ShortDateTimeConverter}}" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.CreateDate, Converter={StaticResource DetailedDateTimeConverter}}" />
                 <TextBlock Text="Quelle" />
                 <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}" />
             </StackPanel>

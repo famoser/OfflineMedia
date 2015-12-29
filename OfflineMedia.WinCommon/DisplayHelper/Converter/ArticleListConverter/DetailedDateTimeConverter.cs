@@ -3,14 +3,14 @@ using Windows.UI.Xaml.Data;
 
 namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
 {
-    public class ShortDateTimeConverter : IValueConverter
+    public class DetailedDateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             DateTime dt = (DateTime)value;
             if (dt < DateTime.MinValue + TimeSpan.FromDays(1))
                 return "";
-            return dt.ToString("dd.MM.yyyy");
+            return dt.ToString("dd.MM.yyyy HH:mm");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -18,4 +18,5 @@ namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
             return null;
         }
     }
+
 }

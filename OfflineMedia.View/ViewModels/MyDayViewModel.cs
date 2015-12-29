@@ -60,6 +60,7 @@ namespace OfflineMedia.View.ViewModels
                     "Clean files",
                     "Do other stuff",
                     "Look up lady gaga long story short and all the other stuff",
+                    "Another very long text to observe: Another very long text to observe: Another very long text to observe",
                     "lorem ipsum",
                 };
             }

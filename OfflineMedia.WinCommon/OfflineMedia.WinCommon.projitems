@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PullToRefreshListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DetailedDateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ShortDateTimeConverter.cs" />
