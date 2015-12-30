@@ -83,6 +83,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeThemeRepository.cs" />
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="SourceTests\Blick.cs" />
     <Compile Include="SourceTests\Helpers\AssertHelper.cs" />

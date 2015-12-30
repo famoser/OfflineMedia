@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
+using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.Tamedia;
@@ -16,6 +18,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task TamediaGetFeedArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.BaslerZeitung);
@@ -37,6 +41,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task TamediaGetFullArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.BaslerZeitung);
@@ -47,7 +53,7 @@ namespace OfflineMedia.SourceTests
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
 
             //assert
-            Assert.IsTrue(feed.Any(), "Not items in feed");
+            Assert.IsTrue(feed.Any(), "No items in feed");
             for (int index = 0; index < feed.Count; index++)
             {
                 var articleModel = feed[index];

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
+using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
+using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Singleton;
+using OfflineMedia.Fakes;
 
 namespace OfflineMedia.SourceTests.Helpers
 {
@@ -29,6 +32,11 @@ namespace OfflineMedia.SourceTests.Helpers
                 article.FeedConfiguration = feedConfigModel;
             }
             return res;
+        }
+
+        public void PrepareTests()
+        {
+            SimpleIoc.Default.Register<IThemeRepository, FakeThemeRepository>();
         }
     }
 }

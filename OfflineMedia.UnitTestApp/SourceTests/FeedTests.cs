@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Helpers;
@@ -12,6 +14,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task AllFeedsOnline()
         {
+            var invalidDic = new List<Tuple<string, string, string>>();
+
             //prepare
             var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
 
@@ -22,8 +26,13 @@ namespace OfflineMedia.SourceTests
                 {
                     var str = await Download.DownloadStringAsync(new Uri(feedConfigurationModel.Url));
                     if (str == null)
-                        Assert.Fail("Feed download failed for Feed " + feedConfigurationModel.Name + " with url " + feedConfigurationModel.Url + " for source " + sourceConfigurationModel.SourceNameShort);
+                        invalidDic.Add(new Tuple<string, string, string>(feedConfigurationModel.Name, feedConfigurationModel.Url, sourceConfigurationModel.SourceNameShort));
                 }
+            }
+            if (invalidDic.Count > 0)
+            {
+                var msg = invalidDic.Aggregate("Feed download failed for Feeds: ", (current, tuple) => current + (tuple.Item1 + " with url " + tuple.Item2 + " for source " + tuple.Item3));
+                Assert.Fail(msg);
             }
         }
     }

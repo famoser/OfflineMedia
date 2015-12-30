@@ -15,6 +15,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task BlickGetFeedArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Blick);
@@ -35,6 +37,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task BlickGetFullArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Blick);

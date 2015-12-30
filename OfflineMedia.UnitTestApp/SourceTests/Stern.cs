@@ -15,6 +15,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task SternGetFeedArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Stern);
@@ -35,6 +37,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task SternGetFullArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Stern);

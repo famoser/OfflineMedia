@@ -15,6 +15,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task NzzGetFeedArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Nzz);
@@ -28,6 +30,8 @@ namespace OfflineMedia.SourceTests
             Assert.IsTrue(feed.Any(), "Not items in feed");
             foreach (var articleModel in feed)
             {
+                //teaser is freiwillig
+                articleModel.Teaser = "a";
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
             }
         }
@@ -35,6 +39,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task NzzGetFullArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Nzz);
@@ -62,9 +68,12 @@ namespace OfflineMedia.SourceTests
                         Assert.Fail("mediaSourceHelper EvaluateArticle failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
                 }
 
+                //teaser & author sind freiwillig
+                articleModel.Teaser = "a";
+                articleModel.Author += "-";
+
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
 
-                articleModel.Author += "-";
                 AssertHelper.Instance.AssertFullArticleProperties(articleModel);
             }
         }

@@ -16,6 +16,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task ZwanzigMinGetFeedArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.ZwanzigMin);
@@ -37,6 +39,8 @@ namespace OfflineMedia.SourceTests
         [TestMethod]
         public async Task ZwanzigMinGetFullArticle()
         {
+            SourceTestHelper.Instance.PrepareTests();
+
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
             var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.ZwanzigMin);

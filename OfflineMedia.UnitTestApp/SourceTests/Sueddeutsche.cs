@@ -9,6 +9,7 @@ namespace OfflineMedia.SourceTests
     public class Sueddeutsche
     {
         [TestMethod]
+        [Ignore]
         public async Task SueddeuscheAuthentication()
         {
             var res = await Download.DownloadStringAsync(new Uri("http://api.sueddeutsche.de/content?id=sz.1.2629856"));
