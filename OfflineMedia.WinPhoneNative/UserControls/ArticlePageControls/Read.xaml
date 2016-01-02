@@ -48,16 +48,14 @@
             </StackPanel>
 
             <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Image Stretch="UniformToFill" Grid.RowSpan="4" Margin="0" >
+
+                <Image Stretch="UniformToFill" Margin="0" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+
+                <!--<Image Stretch="UniformToFill" Grid.RowSpan="4" Margin="0" >
                     <Image.Source>
                         <BitmapImage UriSource="{Binding Article.LeadImage.Url, Mode=OneWay}" />
                     </Image.Source>
-                </Image>
+                </Image>-->
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >

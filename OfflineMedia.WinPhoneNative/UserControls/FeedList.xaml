@@ -76,6 +76,11 @@
                     <TextBlock Height="25" />
                 </DataTemplate>
             </controls:PullToRefreshListView.FooterTemplate>
+            <controls:PullToRefreshListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </controls:PullToRefreshListView.ItemContainerStyle>
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate>
                     <userControls:ArticleList Margin="0,0,0,10" DataContext="{Binding }" />

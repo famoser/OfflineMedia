@@ -35,5 +35,36 @@ namespace OfflineMedia.SourceTests
                 Assert.Fail(msg);
             }
         }
+
+        [TestMethod]
+        public async Task ConfigurationValid()
+        {
+            //prepare
+            var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
+            var guids = new List<Guid>();
+            var invalidGuids = new List<Guid>();
+
+            //act
+            foreach (var sourceConfigurationModel in configmodels)
+            {
+                if (guids.Contains(sourceConfigurationModel.Guid))
+                    invalidGuids.Add(sourceConfigurationModel.Guid);
+                else
+                    guids.Add(sourceConfigurationModel.Guid);
+
+                foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
+                {
+                    if (guids.Contains(feedConfigurationModel.Guid))
+                        invalidGuids.Add(feedConfigurationModel.Guid);
+                    else
+                        guids.Add(feedConfigurationModel.Guid);
+                   }
+            }
+            if (invalidGuids.Count > 0)
+            {
+                var msg = invalidGuids.Aggregate("Guid duplicates: ", (current, guid) => current + guid + "; ");
+                Assert.Fail(msg);
+            }
+        }
     }
 }

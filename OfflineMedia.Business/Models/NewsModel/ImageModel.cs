@@ -5,6 +5,7 @@ namespace OfflineMedia.Business.Models.NewsModel
 {
     public class ImageModel : BaseModel
     {
+
         [EntityMap]
         [EntityConversion(typeof(string), typeof(Uri))]
         public Uri Url { get; set; }
@@ -21,11 +22,21 @@ namespace OfflineMedia.Business.Models.NewsModel
         [EntityMap]
         public string Author { get; set; }
 
+        private byte[] _image;
         [EntityMap]
-        public byte[] Image { get; set; }
+        public byte[] Image
+        {
+            get { return _image; }
+            set { Set(ref _image, value); }
+        }
 
+        private bool _isLoaded;
         [EntityMap]
-        public bool IsLoaded { get; set; }
+        public bool IsLoaded
+        {
+            get { return _isLoaded; }
+            set { Set(ref _isLoaded, value); }
+        }
 
         [EntityMap]
         public int GalleryId { get; set; }

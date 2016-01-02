@@ -268,7 +268,7 @@
     "Guid": "fb43f5c9-ae40-4fc2-938c-aa07d4fb1b10",
     "SourceNameLong": "Basler Zeitung",
     "SourceNameShort": "BAZ",
-    "Source": 5,
+    "Source": 20,
     "LogicBaseUrl": "http://mobile2.bazonline.ch/",
     "PublicBaseUrl": "http://bazonline.ch/",
     "FeedConfigurationModels": [
@@ -338,7 +338,7 @@
     "Guid": "3fb9936b-1f19-44df-8d87-d2cd8c66735b",
     "SourceNameLong": "Berner Zeitung",
     "SourceNameShort": "BZ",
-    "Source": 6,
+    "Source": 21,
     "LogicBaseUrl": "http://mobile2.bernerzeitung.ch/",
     "PublicBaseUrl": "http://bernerzeitung.ch/",
     "FeedConfigurationModels": [
@@ -408,7 +408,7 @@
     "Guid": "f2a5115e-a2aa-40bd-8d5a-c6a1c6f8cdcb",
     "SourceNameLong": "Der Bund",
     "SourceNameShort": "Bund",
-    "Source": 7,
+    "Source": 22,
     "LogicBaseUrl": "http://mobile2.derbund.ch/",
     "PublicBaseUrl": "http://derbund.ch/",
     "FeedConfigurationModels": [
@@ -478,7 +478,7 @@
     "Guid": "dd029e37-f403-4ba9-9b7f-d93a28af997f",
     "SourceNameLong": "Tagesanzeiger",
     "SourceNameShort": "Tagi",
-    "Source": 8,
+    "Source": 23,
     "LogicBaseUrl": "http://mobile2.tagesanzeiger.ch/",
     "PublicBaseUrl": "http://tagesanzeiger.ch/",
     "FeedConfigurationModels": [
@@ -548,7 +548,7 @@
     "Guid": "16f8ffaa-96dd-4d58-a7b1-687198a77495",
     "SourceNameLong": "Der Postillon [Satire]",
     "SourceNameShort": "Postillon",
-    "Source": 9,
+    "Source": 5,
     "LogicBaseUrl": "http://www.der-postillon.com/",
     "PublicBaseUrl": "http://www.der-postillon.com/",
     "FeedConfigurationModels": [
@@ -598,7 +598,7 @@
     "Guid": "392d095d-cc48-455b-86f9-98f922072546",
     "SourceNameLong": "Stern [D]",
     "SourceNameShort": "Stern",
-    "Source": 10,
+    "Source": 6,
     "LogicBaseUrl": "http://mobile-feed.stern.de/android/",
     "PublicBaseUrl": "http://stern.de/",
     "FeedConfigurationModels": [
@@ -678,7 +678,7 @@
     "Guid": "e1312421-95d4-4db0-aecb-9fcc424dd078",
     "SourceNameLong": "24 Heures [fr-CH]",
     "SourceNameShort": "24",
-    "Source": 12,
+    "Source": 24,
     "LogicBaseUrl": "http://mobile2.24heures.ch/",
     "PublicBaseUrl": "http://24heures.ch/",
     "FeedConfigurationModels": [
@@ -745,10 +745,80 @@
     ]
   },
   {
+    "Guid": "d714afb9-570d-4047-9e70-7174f853db26",
+    "SourceNameLong": "Le Matin [fr-CH]",
+    "SourceNameShort": "LM",
+    "Source": 24,
+    "LogicBaseUrl": "http://mobile2.lematin.ch/",
+    "PublicBaseUrl": "http://lematin.ch/",
+    "FeedConfigurationModels": [
+      {
+        "Guid": "ddcb897f-95e8-44b6-887e-c7f33f1285ff",
+        "Name": "Accueil",
+        "Url": "http://mobile2.lematin.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "16bea112-d7bb-49ee-a350-d05671fc963c",
+        "Name": "Faits Divers",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a658aab5c37387f001984"
+      },
+      {
+        "Guid": "5718c851-6a4a-43cf-9325-c84e3059a2e4",
+        "Name": "People",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a655cab5c37387f0013c2"
+      },
+      {
+        "Guid": "9cfdc1d7-eee5-4dbb-b462-7c294241d583",
+        "Name": "Sports",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a653cab5c37387f000f37"
+      },
+      {
+        "Guid": "26e450d0-1185-4618-bb3d-374d73ea0c74",
+        "Name": "Suisse",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a655cab5c37387f0013c5"
+      },
+      {
+        "Guid": "ce753d8a-8f7b-496b-ba6d-e03882798541",
+        "Name": "Monde",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a655cab5c37387f0013c3"
+      },
+      {
+        "Guid": "e7ea2ce3-a95f-4efc-9f8f-01c501b7fb7a",
+        "Name": "Loisirs",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a655cab5c37387f0013c1"
+      },
+      {
+        "Guid": "1b2f7519-477a-4b04-ba7f-694f3f39e126",
+        "Name": "Société",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a6581ab5c37387f001874"
+      },
+      {
+        "Guid": "7e8de801-5b22-44c2-a0d1-907290b27aa7",
+        "Name": "High-Tech",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a6576ab5c37387f001726"
+      },
+      {
+        "Guid": "2f9c45ef-2fe8-4607-b8bb-b70d82673370",
+        "Name": "Économie",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a6548ab5c37387f0010f9"
+      },
+      {
+        "Guid": "6206c7b9-b0fb-4287-b905-de3dd19ae6b2",
+        "Name": "Auto",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a657fab5c37387f00182d"
+      },
+      {
+        "Guid": "3487b792-14cc-46ea-a38e-0c6ef79cc646}",
+        "Name": "Savoir",
+        "Url": "http://mobile2.lematin.ch/api/categories/551a655aab5c37387f001379"
+      }
+    ]
+  },
+  {
     "Guid": "a55bcdf6-8888-4154-9247-799c38650521",
     "SourceNameLong": "Tribune de Genève [fr-CH]",
     "SourceNameShort": "TdG",
-    "Source": 13,
+    "Source": 26,
     "LogicBaseUrl": "http://mobile2.tdg.ch/",
     "PublicBaseUrl": "http://tdg.ch/",
     "FeedConfigurationModels": [
@@ -818,5 +888,59 @@
         "Url": "http://mobile2.tdg.ch/api/categories/551a657fab5c37387f00182d"
       }
     ]
+  },
+  {
+    "Guid": "a7bf9565-9a3a-4a7f-a218-3375f4cb9187",
+    "SourceNameLong": "Zürichsee-Zeitung",
+    "SourceNameShort": "ZsZ",
+    "Source": 27,
+    "LogicBaseUrl": "http://mobile2.zsz.ch/",
+    "PublicBaseUrl": "http://zsz.ch/",
+    "FeedConfigurationModels": [ ]
+  },
+  {
+    "Guid": "c88b1332-eb8b-4612-9496-ad12a80bd376",
+    "SourceNameLong": "Der Landbote",
+    "SourceNameShort": "Landbote",
+    "Source": 28,
+    "LogicBaseUrl": "http://mobile2.landbote.ch/",
+    "PublicBaseUrl": "http://landbote.ch/",
+    "FeedConfigurationModels": [ ]
+  },
+  {
+    "Guid": "5ad9fb9b-0715-4516-ab18-f0eb5c2031d5",
+    "SourceNameLong": "Züricher Unterländer",
+    "SourceNameShort": "ZU",
+    "Source": 29,
+    "LogicBaseUrl": "http://mobile2.zuonline.ch/",
+    "PublicBaseUrl": "http://zuonline.ch/",
+    "FeedConfigurationModels": [ ]
+  },
+  {
+    "Guid": "176eb077-55ba-418b-94d0-e64bfc51c720",
+    "SourceNameLong": "Berner Oberländer",
+    "SourceNameShort": "Oberländer",
+    "Source": 30,
+    "LogicBaseUrl": "http://mobile2.berneroberlaender.ch/",
+    "PublicBaseUrl": "http://berneroberlaender.ch/",
+    "FeedConfigurationModels": [ ]
+  },
+  {
+    "Guid": "ec5e06b9-14a4-4829-abda-0f26ed342278",
+    "SourceNameLong": "Thuner Tagblatt",
+    "SourceNameShort": "Thuner",
+    "Source": 31,
+    "LogicBaseUrl": "http://mobile2.thunertagblatt.ch/",
+    "PublicBaseUrl": "http://thunertagblatt.ch/",
+    "FeedConfigurationModels": [ ]
+  },
+  {
+    "Guid": "a72fc9cf-d825-4b33-8a55-ee4cee3ddbbd",
+    "SourceNameLong": "Langenthaler Tagblatt",
+    "SourceNameShort": "Langenthaler",
+    "Source": 32,
+    "LogicBaseUrl": "http://mobile2.langenthalertagblatt.ch/",
+    "PublicBaseUrl": "http://langenthalertagblatt.ch/",
+    "FeedConfigurationModels": [ ]
   }
 ]

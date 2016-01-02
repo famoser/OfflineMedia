@@ -15,42 +15,26 @@ namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var bytes = value as byte[];
-            if (bytes != null)
+            if (!(value is byte[]))
+                return null;
+
+            using (InMemoryRandomAccessStream ms = new InMemoryRandomAccessStream())
             {
-                //var img = new BitmapImage();
-                //MemoryStream stream = new MemoryStream(bytes);
-                //img.SetSource(stream.AsRandomAccessStream());
-                //return img;
-
-                var task = Task.Run(async () =>
+                // Writes the image byte array in an InMemoryRandomAccessStream
+                // that is needed to set the source of BitmapImage.
+                using (DataWriter writer = new DataWriter(ms.GetOutputStreamAt(0)))
                 {
-                    using (InMemoryRandomAccessStream raStream = new InMemoryRandomAccessStream())
-                    {
-                        using (DataWriter writer = new DataWriter(raStream))
-                        {
-                            // Write the bytes to the stream
-                            writer.WriteBytes(bytes);
+                    writer.WriteBytes((byte[])value);
 
-                            // Store the bytes to the MemoryStream
-                            await writer.StoreAsync();
+                    // The GetResults here forces to wait until the operation completes
+                    // (i.e., it is executed synchronously), so this call can block the UI.
+                    writer.StoreAsync().GetResults();
+                }
 
-                            // Not necessary, but do it anyway
-                            await writer.FlushAsync();
-
-                            // Detach from the Memory stream so we don't close it
-                            writer.DetachStream();
-                        }
-
-                        raStream.Seek(0);
-
-                        BitmapImage bitMapImage = new BitmapImage();
-                        bitMapImage.SetSource(raStream);
-                        return bitMapImage;
-                    }
-                });
+                var image = new BitmapImage();
+                image.SetSource(ms);
+                return image;
             }
-            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
