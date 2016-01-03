@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="AddInput" InputScope="NameOrPhoneNumber" TabIndex="10" PlaceholderText="neuer Eintrag..." Margin="4,10,10,10" Height="36" Grid.Column="0" Text="{Binding NewToDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="AddInput" TabIndex="10" PlaceholderText="neuer Eintrag..." Margin="4,10,10,10" Height="36" Grid.Column="0" Text="{Binding NewToDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Column="1" Tapped="UIElement_OnTapped" Margin="0,0,4,0" Style="{ThemeResource MyDayButton}" Command="{Binding AddNewToDoCommand}">
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />

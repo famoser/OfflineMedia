@@ -102,13 +102,10 @@ namespace OfflineMedia.Business.Sources.Tamedia
                     await repo.GetThemeModelFor(feedConfigModel.Name)
                 };
 
-
-                if (nfa.top_element != null)
+                
+                if (a.LeadImage == null && nfa.picture_medium_url != null)
                 {
-                    if (nfa.top_element.boxtype == "picture")
-                    {
-                        a.LeadImage = new ImageModel() { Url = new Uri(nfa.picture_medium_url), Html = nfa.text };
-                    }
+                    a.LeadImage = new ImageModel() { Url = new Uri(nfa.picture_medium_url) };
                 }
                 if (nfa.authors != null)
                 {
@@ -149,6 +146,7 @@ namespace OfflineMedia.Business.Sources.Tamedia
                     {
                         if (elemnt.boxtype == "articles" && elemnt.article_previews != null)
                         {
+                            /*
                             a.RelatedArticles = new List<ArticleModel>();
                             for (int i = 0; i < elemnt.article_previews.Count; i++)
                             {
@@ -172,7 +170,7 @@ namespace OfflineMedia.Business.Sources.Tamedia
                                         a.RelatedArticles[i].Author += item.name;
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }

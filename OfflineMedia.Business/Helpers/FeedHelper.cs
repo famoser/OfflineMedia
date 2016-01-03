@@ -22,6 +22,12 @@ namespace OfflineMedia.Business.Helpers
                 foreach (var article in newfeed)
                 {
                     article.FeedConfiguration = feed.FeedConfiguration;
+
+                    if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
+                    {
+                        article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
+                        article.LeadImage.IsLoaded = true;
+                    }
                 }
 
                 return newfeed;

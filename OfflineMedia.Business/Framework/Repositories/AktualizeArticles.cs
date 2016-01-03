@@ -113,33 +113,36 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 _newArticles = _newArticleModels.Count;
 
-                //Actualize articles
-                if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
+                if (_newArticles > 0)
                 {
-                    for (int i = 0; i < ConcurrentThreads; i++)
+                    //Actualize articles
+                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
                     {
-                        var tsk = AktualizeArticlesTask();
-                        _aktualizeArticlesTasks.Add(tsk);
-                    }
-                }
-
-
-                while (_aktualizeArticlesTasks.Count > 0)
-                {
-                    try
-                    {
-                        var tsk = _aktualizeArticlesTasks.FirstOrDefault();
-                        if (tsk != null)
+                        for (int i = 0; i < ConcurrentThreads; i++)
                         {
-                            if (tsk.Status <= TaskStatus.Running)
-                                await tsk;
-                            _aktualizeArticlesTasks.Remove(tsk);
+                            var tsk = AktualizeArticlesTask();
+                            _aktualizeArticlesTasks.Add(tsk);
                         }
                     }
-                    //may raise exception because list is emptied in excatly that moment
-                    catch (Exception ex)
+
+                    while (_aktualizeArticlesTasks.Count > 0)
                     {
-                        LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured while waiting for tasks to complete (2)", ex);
+                        try
+                        {
+                            var tsk = _aktualizeArticlesTasks.FirstOrDefault();
+                            if (tsk != null)
+                            {
+                                if (tsk.Status <= TaskStatus.Running)
+                                    await tsk;
+                                _aktualizeArticlesTasks.Remove(tsk);
+                            }
+                        }
+                            //may raise exception because list is emptied in excatly that moment
+                        catch (Exception ex)
+                        {
+                            LogHelper.Instance.Log(LogLevel.Error, this,
+                                "Exception occured while waiting for tasks to complete (2)", ex);
+                        }
                     }
                 }
 

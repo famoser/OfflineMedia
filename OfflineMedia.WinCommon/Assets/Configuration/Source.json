@@ -808,7 +808,7 @@
         "Url": "http://mobile2.lematin.ch/api/categories/551a657fab5c37387f00182d"
       },
       {
-        "Guid": "3487b792-14cc-46ea-a38e-0c6ef79cc646}",
+        "Guid": "3487b792-14cc-46ea-a38e-0c6ef79cc646",
         "Name": "Savoir",
         "Url": "http://mobile2.lematin.ch/api/categories/551a655aab5c37387f001379"
       }
@@ -893,54 +893,500 @@
     "Guid": "a7bf9565-9a3a-4a7f-a218-3375f4cb9187",
     "SourceNameLong": "Zürichsee-Zeitung",
     "SourceNameShort": "ZsZ",
-    "Source": 27,
     "LogicBaseUrl": "http://mobile2.zsz.ch/",
     "PublicBaseUrl": "http://zsz.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 27,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "a3fc7853-3bcf-4ad9-90a3-7e8319de2217",
+        "Name": "Front",
+        "Url": "http://mobile2.zsz.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "296e0118-d9cc-47ed-b749-dce5c9b4ded0",
+        "Name": "Meilen",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a657fab5c37387f001838"
+      },
+      {
+        "Guid": "ebe5b3e6-5153-4609-a2fa-83597f4f8117",
+        "Name": "Horgen",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a657fab5c37387f001836"
+      },
+      {
+        "Guid": "cb8d0931-b25e-4840-81c3-87778c67f006",
+        "Name": "Obersee",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a657fab5c37387f001842"
+      },
+      {
+        "Guid": "45bc0aa4-ba0a-4161-9390-410a4cdbc2a2",
+        "Name": "Überregional",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6587ab5c37387f001931"
+      },
+      {
+        "Guid": "c5c4567a-359d-4d30-aab3-b7dbae4353b7",
+        "Name": "Sport",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "bcfa4826-66be-4376-8c06-875f64b74e3c",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "eeed8910-889c-4684-9df1-356b384e31fa",
+        "Name": "Ausland",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "7f4a78ea-0eb6-41cb-92a9-3cb80c8c3f25",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "9bc9e0ab-994b-404e-9dc5-6df133a084ba",
+        "Name": "Blogs/Leben",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "2fe568d2-7c0f-4d5b-b850-0476a8a5bc5b",
+        "Name": "Marktplatz",
+        "Url": "http://mobile2.zsz.ch/api/categories/551a6595ab5c37387f001af5"
+      }
+    ]
   },
   {
     "Guid": "c88b1332-eb8b-4612-9496-ad12a80bd376",
     "SourceNameLong": "Der Landbote",
     "SourceNameShort": "Landbote",
-    "Source": 28,
     "LogicBaseUrl": "http://mobile2.landbote.ch/",
     "PublicBaseUrl": "http://landbote.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 28,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "f63ca835-20fa-49f6-83e9-3e408201c66e",
+        "Name": "Front",
+        "Url": "http://mobile2.landbote.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "f9553118-4c82-49c1-b441-97fa0ff16598",
+        "Name": "Winterthur",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6591ab5c37387f001a7d"
+      },
+      {
+        "Guid": "3b687113-6693-4f9a-b8ab-9c31b0e86471",
+        "Name": "Region",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6539ab5c37387f000ec6"
+      },
+      {
+        "Guid": "b6d372d8-f301-446d-b38a-dd388c07e3f8",
+        "Name": "Überregional",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6587ab5c37387f001931"
+      },
+      {
+        "Guid": "daeb17cb-d4d1-4be1-9b45-ad38b437af1b",
+        "Name": "Sport",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "fb5c19af-9421-4a79-b1d2-5ba4af3bf1c8",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "364d338b-ff0e-4450-944e-43e09ca84598",
+        "Name": "Ausland",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "249837f3-ea2f-4e0a-8724-646c3e4275f6",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "412e1db2-02c0-4102-a886-b7307b4f9760",
+        "Name": "Blogs/Leben",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "acebc678-e0a1-47b3-b858-f525b1272928",
+        "Name": "Marktplatz",
+        "Url": "http://mobile2.landbote.ch/api/categories/551a6595ab5c37387f001af5"
+      }
+    ]
   },
   {
     "Guid": "5ad9fb9b-0715-4516-ab18-f0eb5c2031d5",
     "SourceNameLong": "Züricher Unterländer",
     "SourceNameShort": "ZU",
-    "Source": 29,
     "LogicBaseUrl": "http://mobile2.zuonline.ch/",
     "PublicBaseUrl": "http://zuonline.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 29,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "6d1c4bc2-8c58-4813-b7bf-1ebdf49b213c",
+        "Name": "Front",
+        "Url": "http://mobile2.zuonline.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "aaeadc76-9803-4834-89b7-5dcfe561c571",
+        "Name": "Bülach",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6591ab5c37387f001a7f"
+      },
+      {
+        "Guid": "2d611f5d-2bda-4e00-b9b7-b45cfd373de5",
+        "Name": "Dielsdorf",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6591ab5c37387f001a81"
+      },
+      {
+        "Guid": "f6ca8ea8-3645-46cd-b259-4d5a5cd03a4e",
+        "Name": "Sport",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "f6b253d5-53b8-4973-8c84-790da0a48cfa",
+        "Name": "Überregional",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6587ab5c37387f001931"
+      },
+      {
+        "Guid": "8821202f-a92c-4598-a86c-939e6aa55db1",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "d770fe49-6b1f-4528-bfa0-fd91e1875ef9",
+        "Name": "Ausland",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "f84b016a-8171-4d7c-b02e-62e2b084524d",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "f488bab9-d7ed-4f1f-ac9a-6c1e413880f8",
+        "Name": "Blogs/Leben",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "34f84c0f-5555-40a0-83fe-8af84d54941b",
+        "Name": "Marktplatz",
+        "Url": "http://mobile2.zuonline.ch/api/categories/551a6595ab5c37387f001af5"
+      }
+    ]
   },
   {
     "Guid": "176eb077-55ba-418b-94d0-e64bfc51c720",
     "SourceNameLong": "Berner Oberländer",
     "SourceNameShort": "Oberländer",
-    "Source": 30,
     "LogicBaseUrl": "http://mobile2.berneroberlaender.ch/",
     "PublicBaseUrl": "http://berneroberlaender.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 30,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "b2bab0a1-1e93-400b-8416-ef8daead7cf0",
+        "Name": "Front",
+        "Url": "http://mobile2.berneroberlaender.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "5dbdd042-4ad0-4e50-bce9-2cdb3084048e",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "36d85890-3ec6-4da3-b749-4625e0e520b9",
+        "Name": "Region",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/558d5aba87da8b2fb9000b21"
+      },
+      {
+        "Guid": "8678db1c-86d8-4c39-ad1f-3077bddcad13",
+        "Name": "Oberland",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/558d5aba87da8b2fb9000b21"
+      },
+      {
+        "Guid": "8e73ae14-d3ec-426a-bed3-daf35fd276b6",
+        "Name": "Thun",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/558d5aba87da8b2fb9000b20"
+      },
+      {
+        "Guid": "137cd332-ef90-4327-bfa2-56808cda9e6b",
+        "Name": "Bern",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a653aab5c37387f000f05"
+      },
+      {
+        "Guid": "093a86e8-e883-447e-9f61-eeb9463a9a17",
+        "Name": "Emmental",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/558d5aba87da8b2fb9000b22"
+      },
+      {
+        "Guid": "95446888-3353-465b-8c46-cb2bb16c4068",
+        "Name": "Oberaargau",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/558d5aba87da8b2fb9000b23"
+      },
+      {
+        "Guid": "f742ee42-cdf1-42a2-8405-1a4027f57dd2",
+        "Name": "Kanton Bern",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a654aab5c37387f00113d"
+      },
+      {
+        "Guid": "8b1a205b-6319-4739-a398-da9ba3338552",
+        "Name": "Ausland",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "edf75b98-8d49-4664-ad7f-68d698717a5d",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "d83a57b9-9af5-48fd-b73e-04ba3a0928f8",
+        "Name": "Sport",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "abd4e1a8-bc46-48e5-a6b0-c6af97ca685e",
+        "Name": "Panorama",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb7"
+      },
+      {
+        "Guid": "586e63b2-7846-482e-9465-e7f832e76bd0",
+        "Name": "Leben",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000ebd"
+      },
+      {
+        "Guid": "2bfe7c59-eae6-4e48-b17b-53298feb4c5f",
+        "Name": "Kultur",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000ebc"
+      },
+      {
+        "Guid": "738a6dd0-9790-48ab-9292-def38008c9d0",
+        "Name": "Auto",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000ebe"
+      },
+      {
+        "Guid": "cebc1ae0-430f-4462-a143-0663b7c0c4da",
+        "Name": "Digital",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb8"
+      },
+      {
+        "Guid": "f72a609d-1104-4846-b322-895d1f900d20",
+        "Name": "Wissen",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6538ab5c37387f000eb9"
+      },
+      {
+        "Guid": "78501ded-16c1-464f-9376-5713f08517bb",
+        "Name": "Blogs",
+        "Url": "http://mobile2.berneroberlaender.ch/api/categories/551a6568ab5c37387f00154e"
+      }
+    ]
   },
   {
     "Guid": "ec5e06b9-14a4-4829-abda-0f26ed342278",
     "SourceNameLong": "Thuner Tagblatt",
     "SourceNameShort": "Thuner",
-    "Source": 31,
     "LogicBaseUrl": "http://mobile2.thunertagblatt.ch/",
     "PublicBaseUrl": "http://thunertagblatt.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 31,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "731bcb4d-3066-4ee9-ab22-b86d226b45a4",
+        "Name": "Front",
+        "Url": "http://mobile2.thunertagblatt.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "d8c97ec5-e4fb-42b7-93fe-663d031f3ffd",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "c6e924ca-644d-4cb0-8576-d6fa0532ecb3",
+        "Name": "Region",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/558d5aba87da8b2fb9000b1e"
+      },
+      {
+        "Guid": "288e719d-3625-4678-b4a6-1f3ee87e6d55",
+        "Name": "Thun",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/558d5aba87da8b2fb9000b20"
+      },
+      {
+        "Guid": "661bd15a-3671-4bae-9474-1859ee92c1e3",
+        "Name": "Oberland",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/558d5aba87da8b2fb9000b21"
+      },
+      {
+        "Guid": "2c9d473e-eecb-46fc-aeb0-fef494fa51d0",
+        "Name": "Bern",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a653aab5c37387f000f05"
+      },
+      {
+        "Guid": "c74bbdc8-e3a6-4a17-a727-ebf262e549ff",
+        "Name": "Emmental",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/558d5aba87da8b2fb9000b22"
+      },
+      {
+        "Guid": "c6022d6f-8482-4022-9732-f690820f97f4",
+        "Name": "Oberaargau",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/558d5aba87da8b2fb9000b23"
+      },
+      {
+        "Guid": "5a8d92b3-03df-4752-bf40-17d3ade58c46",
+        "Name": "Kanton Bern",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a653aab5c37387f000f05"
+      },
+      {
+        "Guid": "dc748920-b38a-4326-b26c-320c50b2118b",
+        "Name": "Ausland",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "e0bd0992-870c-4aaf-b4bf-413086d48064",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "62bd0278-b82d-42c2-a261-17fc884f05ad",
+        "Name": "Sport",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "f46bf701-2669-4fac-863d-2e47f5d2ad26",
+        "Name": "Panorama",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb7"
+      },
+      {
+        "Guid": "be893727-f6d9-4363-a836-ebf0ac6921db",
+        "Name": "Leben",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000ebd"
+      },
+      {
+        "Guid": "f29707fe-280b-413a-b5e3-b977d9865cd4",
+        "Name": "Kultur",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000ebc"
+      },
+      {
+        "Guid": "805a3218-1fe6-4d05-8d0e-a5672358aeef",
+        "Name": "Auto",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000ebe"
+      },
+      {
+        "Guid": "32e49559-b8ef-46bd-99a9-26a9bce2f241",
+        "Name": "Digital",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb8"
+      },
+      {
+        "Guid": "7295ddba-d8e6-47c2-984d-74e8488eeba6",
+        "Name": "Wissen",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6538ab5c37387f000eb9"
+      },
+      {
+        "Guid": "5ad1d906-daf0-4c49-abd5-8dbb2697a23d",
+        "Name": "Blogs",
+        "Url": "http://mobile2.thunertagblatt.ch/api/categories/551a6568ab5c37387f00154e"
+      }
+    ]
   },
   {
     "Guid": "a72fc9cf-d825-4b33-8a55-ee4cee3ddbbd",
     "SourceNameLong": "Langenthaler Tagblatt",
     "SourceNameShort": "Langenthaler",
-    "Source": 32,
     "LogicBaseUrl": "http://mobile2.langenthalertagblatt.ch/",
     "PublicBaseUrl": "http://langenthalertagblatt.ch/",
-    "FeedConfigurationModels": [ ]
+    "Source": 32,
+    "FeedConfigurationModels": [
+      {
+        "Guid": "c8423681-3ce5-491e-977c-345534dcf932",
+        "Name": "Front",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/lists/newest?to=9999999999"
+      },
+      {
+        "Guid": "ec57756a-be82-4c66-9160-56fac24f6dd4",
+        "Name": "Schweiz",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb4"
+      },
+      {
+        "Guid": "8417d1fc-83ed-49e6-9f1d-6461b69cdb96",
+        "Name": "Region",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/558d5aba87da8b2fb9000b1d"
+      },
+      {
+        "Guid": "25edd14e-2061-42fc-8d4e-eac7483ac71b",
+        "Name": "Oberaargau",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/558d5aba87da8b2fb9000b23"
+      },
+      {
+        "Guid": "faa77fdf-d320-469c-8fc7-b5b99c145a2f",
+        "Name": "Emmental",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/558d5aba87da8b2fb9000b22"
+      },
+      {
+        "Guid": "41df7ce0-a4a7-4768-88a8-bca0d724a415",
+        "Name": "Bern",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a653aab5c37387f000f05"
+      },
+      {
+        "Guid": "fd538112-65af-42c4-8384-6fece4b1f151",
+        "Name": "Thun",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/558d5aba87da8b2fb9000b20"
+      },
+      {
+        "Guid": "e543f382-a089-4dd6-afac-9bc8469f7752",
+        "Name": "Oberland",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/558d5aba87da8b2fb9000b21"
+      },
+      {
+        "Guid": "96715794-7647-4ee1-99f7-cb780e948726",
+        "Name": "Kanton Bern",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a654aab5c37387f00113d"
+      },
+      {
+        "Guid": "0e2f860b-48b0-48fb-8558-a8be403e08a4",
+        "Name": "Ausland",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "44283741-5626-4c8d-85b6-4d0869d142ec",
+        "Name": "Wirtschaft",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "3ee33a5d-b6fb-4e95-af82-41e7b4d2a577",
+        "Name": "Sport",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "2d64b9cf-6331-4da3-8f28-cb6b137e8ad1",
+        "Name": "Panorama",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb7"
+      },
+      {
+        "Guid": "91345c5b-512c-471d-853b-37a84aa9b60d",
+        "Name": "Leben",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000ebd"
+      },
+      {
+        "Guid": "863abd33-5770-4eee-a061-2ffa1e4d9924",
+        "Name": "Kultur",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000ebc"
+      },
+      {
+        "Guid": "8e1cbee3-2c11-4e37-8ada-6c6103980020",
+        "Name": "Auto",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000ebe"
+      },
+      {
+        "Guid": "a751cb0c-0de6-4159-9b70-86c6081457ec",
+        "Name": "Digital",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb8"
+      },
+      {
+        "Guid": "363e7e1d-9828-416e-a238-b4ca41caae4d",
+        "Name": "Wissen",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6538ab5c37387f000eb9"
+      },
+      {
+        "Guid": "811e5f0d-1ff4-4a06-b3b9-c09cc5af6498",
+        "Name": "Blogs",
+        "Url": "http://mobile2.langenthalertagblatt.ch/api/categories/551a6568ab5c37387f00154e"
+      }
+    ]
   }
 ]

@@ -27,7 +27,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer Visibility="Collapsed" x:Name="MyDayWrapper" IsTabStop="true" VerticalScrollMode="Enabled" Margin="0,0,108,-26" Grid.Row="1" >
+        <ScrollViewer Opacity="0" Visibility="Collapsed" x:Name="MyDayWrapper" IsTabStop="true" VerticalScrollMode="Enabled" Margin="0,0,108,-26" Grid.Row="1" >
             <userControls:MyDay Margin="0,0,0,26" />
             <ScrollViewer.Background>
                 <ImageBrush ImageSource="../Assets/Images/skulls-background-small-white.png" Stretch="None" />
@@ -61,16 +61,19 @@
                             <ExponentialEase EasingMode="EaseOut"/>
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
-                    <!-- resize overlay grid -->
+                    <!-- show mydaywrapper grid -->
                     <DoubleAnimation
-                            Storyboard.TargetName="OverlayGrid"
-                            Storyboard.TargetProperty="(UIElement.Width)"
+                            Storyboard.TargetName="MyDayWrapper"
+                            Storyboard.TargetProperty="(UIElement.Opacity)"
                             Duration="0:0:0.2"
-                            To="109">
+                            To="1">
                         <DoubleAnimation.EasingFunction>
                             <ExponentialEase EasingMode="EaseOut"/>
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Visible, Source={StaticResource StaticEnumHelper}}"/>
+                    </ObjectAnimationUsingKeyFrames>
                     <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="MyDayWrapper" Storyboard.TargetProperty="(UIElement.Visibility)">
                         <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Visible, Source={StaticResource StaticEnumHelper}}"/>
                     </ObjectAnimationUsingKeyFrames>
@@ -114,16 +117,19 @@
                             <ExponentialEase EasingMode="EaseOut"/>
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
-                    <!-- resize overlay grid-->
+                    <!-- hide MyDayWrapper -->
                     <DoubleAnimation
-                            Storyboard.TargetName="OverlayGrid"
-                            Storyboard.TargetProperty="(UIElement.Width)"
+                            Storyboard.TargetName="MyDayWrapper"
+                            Storyboard.TargetProperty="(UIElement.Opacity)"
                             Duration="0:0:0.2"
-                            To="{Binding WidthOfDevice, Source={StaticResource ResolutionHelper}}">
+                            To="0">
                         <DoubleAnimation.EasingFunction>
                             <ExponentialEase EasingMode="EaseOut"/>
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.2" Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Collapsed, Source={StaticResource StaticEnumHelper}}"/>
+                    </ObjectAnimationUsingKeyFrames>
                     <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.2" Storyboard.TargetName="MyDayWrapper" Storyboard.TargetProperty="(UIElement.Visibility)">
                         <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{Binding Collapsed, Source={StaticResource StaticEnumHelper}}"/>
                     </ObjectAnimationUsingKeyFrames>
@@ -160,7 +166,7 @@
         </Pivot>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Grid x:Name="OverlayGrid" Width="{Binding WidthOfDevice, Source={StaticResource ResolutionHelper}}" HorizontalAlignment="Right" Grid.Row="1" Opacity="0" Background="White" Tapped="Button_Tapped">
+        <Grid Visibility="Collapsed" x:Name="OverlayGrid" Width="109" HorizontalAlignment="Right" Grid.Row="1" Opacity="0" Background="White" Tapped="Button_Tapped">
             
         </Grid>
         
