@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\beta_source.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

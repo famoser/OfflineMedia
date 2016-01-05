@@ -89,6 +89,7 @@
     <Compile Include="SourceTests\Helpers\AssertHelper.cs" />
     <Compile Include="SourceTests\FeedTests.cs" />
     <Compile Include="Framework\MappingTests.cs" />
+    <Compile Include="SourceTests\Spiegel.cs" />
     <Compile Include="SourceTests\Stern.cs" />
     <Compile Include="SourceTests\Nzz.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

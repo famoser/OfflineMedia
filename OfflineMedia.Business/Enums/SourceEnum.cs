@@ -22,6 +22,7 @@
         LangenthalerTagblatt = 32,
         Postillon = 5,
         Stern = 6,
+        Spiegel = 7,
         Favorites = 100
     }
 }

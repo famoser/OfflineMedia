@@ -253,6 +253,12 @@
     <Compile Include="Sources\OpenWeatherMap\Models\Forecast.cs" />
     <Compile Include="Sources\OpenWeatherMap\OpenWeatherMapHelper.cs" />
     <Compile Include="Sources\Postillon\PostillonHelper.cs" />
+    <Compile Include="Sources\Spiegel\Models\Channel.cs" />
+    <Compile Include="Sources\Spiegel\Models\Enclosure.cs" />
+    <Compile Include="Sources\Spiegel\Models\Image.cs" />
+    <Compile Include="Sources\Spiegel\Models\Item.cs" />
+    <Compile Include="Sources\Spiegel\Models\Rss.cs" />
+    <Compile Include="Sources\Spiegel\SpiegelHelper.cs" />
     <Compile Include="Sources\Stern\Models\Feed.cs" />
     <Compile Include="Sources\Stern\SternHelper.cs" />
     <Compile Include="Sources\Tamedia\Models\Feed.cs" />
@@ -322,7 +328,9 @@
   <ItemGroup>
     <Compile Include="Sources\Stern\Models\Article.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sources\Zeit\Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

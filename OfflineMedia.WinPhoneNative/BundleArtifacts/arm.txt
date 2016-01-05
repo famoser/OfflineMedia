@@ -1,3 +1,3 @@
-MainPackage=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.33_ARM.appx
-SymbolPackage=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\AppPackages\OfflineMedia.WinPhoneNative_2015.832.0.33_Test\OfflineMedia.WinPhoneNative_2015.832.0.33_ARM.appxsym
-ResourcePack=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.33_language-de.appx
+MainPackage=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.35_ARM.appx
+SymbolPackage=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\AppPackages\OfflineMedia.WinPhoneNative_2015.832.0.35_Test\OfflineMedia.WinPhoneNative_2015.832.0.35_ARM.appxsym
+ResourcePack=E:\Sync\Personen\florianmoser\projekte\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.35_language-de.appx

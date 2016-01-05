@@ -9,6 +9,7 @@ using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.Blick;
 using OfflineMedia.Business.Sources.Nzz;
 using OfflineMedia.Business.Sources.Postillon;
+using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.Business.Sources.Stern;
 using OfflineMedia.Business.Sources.Tamedia;
 using OfflineMedia.Business.Sources.ZwanzigMin;
@@ -61,11 +62,7 @@ namespace OfflineMedia.Business.Helpers
             {
                 sh = new PostillonHelper();
             }
-            else if (source == SourceEnum.BernerZeitung ||
-                source == SourceEnum.DerBund ||
-            source == SourceEnum.Tagesanzeiger ||
-            source == SourceEnum.BaslerZeitung ||
-            source == SourceEnum.LeMatin)
+            else if ((int)source >= 20 && (int)source <= 40)
             {
                 sh = new TamediaHelper();
             }
@@ -76,6 +73,10 @@ namespace OfflineMedia.Business.Helpers
             else if (source == SourceEnum.Stern)
             {
                 sh = new SternHelper();
+            }
+            else if (source == SourceEnum.Spiegel)
+            {
+                sh = new SpiegelHelper();
             }
             return sh;
         }

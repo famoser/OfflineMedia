@@ -19,3 +19,10 @@ taz
 
 spiegel
 	- verwendet rss feeds & html, nicht gut geeignet
+	-rss feeds: http://www.spiegel.de/schlagzeilen/index.rss
+	
+zeit
+	- verwendet inkorrektes xml und json (wtf??)
+	- artikel: http://xml.zeit.de/kultur/2015-12/selbstverwirklichung-optimierung-essay
+	- all: http://xml.zeit.de/index
+	you may replace xml with json
