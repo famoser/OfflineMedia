@@ -70,6 +70,32 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
     <SDKReference Include="Microsoft.VCLibs, version=12.0">
@@ -84,11 +110,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fakes\FakeThemeRepository.cs" />
+    <Compile Include="Framework\XmlHelperTests.cs" />
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="SourceTests\Blick.cs" />
     <Compile Include="SourceTests\Helpers\AssertHelper.cs" />
     <Compile Include="SourceTests\FeedTests.cs" />
     <Compile Include="Framework\MappingTests.cs" />
+    <Compile Include="SourceTests\Spiegel - Copy.cs" />
     <Compile Include="SourceTests\Spiegel.cs" />
     <Compile Include="SourceTests\Stern.cs" />
     <Compile Include="SourceTests\Nzz.cs" />
@@ -96,6 +124,7 @@
     <Compile Include="SourceTests\Helpers\SourceTestHelper.cs" />
     <Compile Include="SourceTests\Sueddeutsche.cs" />
     <Compile Include="SourceTests\Tamedia.cs" />
+    <Compile Include="SourceTests\Zeit.cs" />
     <Compile Include="SourceTests\ZwanzigMin.cs" />
     <Compile Include="Stats\Statistics.cs" />
   </ItemGroup>

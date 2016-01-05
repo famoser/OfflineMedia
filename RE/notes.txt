@@ -19,10 +19,19 @@ taz
 
 spiegel
 	- verwendet rss feeds & html, nicht gut geeignet
-	-rss feeds: http://www.spiegel.de/schlagzeilen/index.rss
+	- rss feeds: http://www.spiegel.de/schlagzeilen/index.rss
+	- Problem: not full html returned from server
+	implementiert
 	
 zeit
 	- verwendet inkorrektes xml und json (wtf??)
 	- artikel: http://xml.zeit.de/kultur/2015-12/selbstverwirklichung-optimierung-essay
 	- all: http://xml.zeit.de/index
 	you may replace xml with json
+	implementiert
+	
+welt
+	- 
+	
+bild
+	http://json.bild.de/servlet/json/android/4393080,v=6.json

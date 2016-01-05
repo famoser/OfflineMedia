@@ -25,6 +25,23 @@ namespace OfflineMedia.Common.Framework.Logs
             _logs.Add(lm);
         }
 
+        public void LogException(Exception ex, object from = null)
+        {
+            var lm = new LogModel
+            {
+                LogLevel = LogLevel.Error,
+                Message = "Exception occured"
+            };
+
+            if (from != null)
+                lm.Location = from.GetType().Namespace + "." + from.GetType().Name;
+
+            if (ex != null)
+                lm.Message += ex.ToString();
+
+            _logs.Add(lm);
+        }
+
         public void Log(LogLevel level, string from, string message, Exception ex = null)
         {
             var lm = new LogModel

@@ -6,12 +6,14 @@ using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
+using OfflineMedia.Business.Sources.Bild;
 using OfflineMedia.Business.Sources.Blick;
 using OfflineMedia.Business.Sources.Nzz;
 using OfflineMedia.Business.Sources.Postillon;
 using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.Business.Sources.Stern;
 using OfflineMedia.Business.Sources.Tamedia;
+using OfflineMedia.Business.Sources.Zeit;
 using OfflineMedia.Business.Sources.ZwanzigMin;
 using OfflineMedia.Common.Framework.Singleton;
 using OfflineMedia.Common.Helpers;
@@ -77,6 +79,14 @@ namespace OfflineMedia.Business.Helpers
             else if (source == SourceEnum.Spiegel)
             {
                 sh = new SpiegelHelper();
+            }
+            else if (source == SourceEnum.Bild)
+            {
+                sh = new BildHelper();
+            }
+            else if (source == SourceEnum.Zeit)
+            {
+                sh = new ZeitHelper();
             }
             return sh;
         }

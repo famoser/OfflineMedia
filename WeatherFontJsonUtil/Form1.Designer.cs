@@ -1,4 +1,4 @@
-﻿namespace WeatherFontJsonUtil
+﻿namespace Utils.WeatherFontJsonUtil
 {
     partial class Form1
     {

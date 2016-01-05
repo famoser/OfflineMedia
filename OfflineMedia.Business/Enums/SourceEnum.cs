@@ -23,6 +23,8 @@
         Postillon = 5,
         Stern = 6,
         Spiegel = 7,
+        Zeit = 8,
+        Bild = 9,
         Favorites = 100
     }
 }

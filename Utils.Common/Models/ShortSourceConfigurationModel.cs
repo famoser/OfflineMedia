@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfflineMedia.Business.Enums;
 
-namespace TamediaLinkAggregator.Models
+namespace Utils.Common.Models
 {
-    class ShortSourceConfigurationModel
+    public class ShortSourceConfigurationModel
     {
         public Guid Guid { get; set; }
 

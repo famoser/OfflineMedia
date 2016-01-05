@@ -595,6 +595,146 @@
     ]
   },
   {
+    "Guid": "d25b910e-f266-4fa5-9cb4-6af7d9da483d",
+    "SourceNameLong": "Zeit [D]",
+    "SourceNameShort": "Zeit",
+    "Source": 8,
+    "LogicBaseUrl": "http://xml.zeit.de/",
+    "PublicBaseUrl": "http://zeit.de/",
+    "FeedConfigurationModels": [
+      {
+        "Guid": "2b4fc887-70f7-439e-b8d3-5974749281bd",
+        "Name": "Startseite",
+        "Url": "http://xml.zeit.de/index"
+      },
+      {
+        "Guid": "483e523f-e00e-4ead-a3b8-ac97c45498db",
+        "Name": "Politik",
+        "Url": "http://xml.zeit.de/politik/index"
+      },
+      {
+        "Guid": "15c6dc0f-7ae9-479d-8ca8-b1098e745aee",
+        "Name": "Gesellschaft",
+        "Url": "http://xml.zeit.de/gesellschaft/index"
+      },
+      {
+        "Guid": "88f8b3a7-73ab-40ff-964e-b3c1813fcbe9",
+        "Name": "Wirtschaft",
+        "Url": "http://xml.zeit.de/wirtschaft/index"
+      },
+      {
+        "Guid": "0e243467-2cda-4e63-ae6c-eb5c587e051a",
+        "Name": "Kultur",
+        "Url": "http://xml.zeit.de/kultur/index"
+      },
+      {
+        "Guid": "e3808afd-8c96-4d7b-a8c4-d1978643b028",
+        "Name": "Wissen",
+        "Url": "http://xml.zeit.de/wissen/index"
+      },
+      {
+        "Guid": "a00d4a90-5bb8-43ca-8ad5-47978888b5d9",
+        "Name": "Digital",
+        "Url": "http://xml.zeit.de/digital/index"
+      },
+      {
+        "Guid": "08739638-d02a-4f0f-971d-ad47d7762e23",
+        "Name": "Studium",
+        "Url": "http://xml.zeit.de/studium/index"
+      },
+      {
+        "Guid": "682b2b29-0759-4129-8dc0-c601b46838c4",
+        "Name": "Karriere",
+        "Url": "http://xml.zeit.de/karriere/index"
+      },
+      {
+        "Guid": "eb6b3626-44c4-48d6-b3e0-c04b5c41de54",
+        "Name": "Entdecken",
+        "Url": "http://xml.zeit.de/entdecken/index"
+      },
+      {
+        "Guid": "f8c67948-4ee1-40dd-811e-b745bf66dbfd",
+        "Name": "Sport",
+        "Url": "http://xml.zeit.de/sport/index"
+      },
+      {
+        "Guid": "8c1c8136-7dad-474e-ba45-69c4f809b152",
+        "Name": "Spiele",
+        "Url": "http://xml.zeit.de/spiele/index"
+      },
+      {
+        "Guid": "269722cf-4288-4aac-85e6-40a17899403d",
+        "Name": "Mobilität",
+        "Url": "http://xml.zeit.de/mobilitaet/index"
+      },
+      {
+        "Guid": "191385a3-7ae3-4434-8c04-15a268ae6616",
+        "Name": "Hamburg",
+        "Url": "http://xml.zeit.de/hamburg/index"
+      }
+    ]
+  },
+  {
+    "Guid": "c973a469-6f62-41b2-a413-079656d165ae",
+    "SourceNameLong": "Spiegel [D]",
+    "SourceNameShort": "Spiegel",
+    "Source": 7,
+    "LogicBaseUrl": "http://www.spiegel.de/",
+    "PublicBaseUrl": "http://www.spiegel.de/",
+    "FeedConfigurationModels": [
+      {
+        "Guid": "cd5cdca8-a904-4e4b-abc3-0417902c57ed",
+        "Name": "Topmeldungen",
+        "Url": "http://www.spiegel.de/schlagzeilen/tops/index.rss"
+      },
+      {
+        "Guid": "f5a32128-c3e1-4c13-8047-90c03814125e",
+        "Name": "Schlagzeilen",
+        "Url": "http://www.spiegel.de/schlagzeilen/index.rss"
+      },
+      {
+        "Guid": "57ea45fd-0eef-40d9-9f03-10ac8fc198b2",
+        "Name": "Politik",
+        "Url": "http://www.spiegel.de/politik/index.rss"
+      },
+      {
+        "Guid": "bcf8d4c9-7d11-4680-a21e-e16696c3bec2",
+        "Name": "Wirtschaft",
+        "Url": "http://www.spiegel.de/wirtschaft/index.rss"
+      },
+      {
+        "Guid": "c265af52-8383-4f13-a020-9db7717fbb22",
+        "Name": "Panorama",
+        "Url": "http://www.spiegel.de/panorama/index.rss"
+      },
+      {
+        "Guid": "9b328aee-05c9-46ce-876c-5f9d0af4460b",
+        "Name": "Sport",
+        "Url": "http://www.spiegel.de/sport/index.rss"
+      },
+      {
+        "Guid": "445f7652-6901-4100-a53a-d8c9fb26d5e5",
+        "Name": "Kultur",
+        "Url": "http://www.spiegel.de/kultur/index.rss"
+      },
+      {
+        "Guid": "d77b21f8-9047-409a-8845-ac0980bd979f",
+        "Name": "Netzwelt",
+        "Url": "http://www.spiegel.de/netzwelt/index.rss"
+      },
+      {
+        "Guid": "59734cd3-8602-4eef-89e2-ff3cf8c52f00",
+        "Name": "Wissenschaft",
+        "Url": "http://www.spiegel.de/wissenschaft/index.rss"
+      },
+      {
+        "Guid": "d24b1148-0f90-47ea-a240-dd2303a3c640",
+        "Name": "Gesundheit",
+        "Url": "http://www.spiegel.de/gesundheit/index.rss"
+      }
+    ]
+  },
+  {
     "Guid": "392d095d-cc48-455b-86f9-98f922072546",
     "SourceNameLong": "Stern [D]",
     "SourceNameShort": "Stern",
@@ -671,6 +811,111 @@
         "Guid": "3b333036-76c4-4797-b1a2-1117080737c3",
         "Name": "Auto",
         "Url": "http://mobile-feed.stern.de/android/Auto/"
+      }
+    ]
+  },
+  {
+    "Guid": "{bbf00102-fee2-43a8-9daa-88caa8ad5117}",
+    "SourceNameLong": "Bild [D]",
+    "SourceNameShort": "Bild",
+    "Source": 9,
+    "LogicBaseUrl": "http://json.bild.de/",
+    "PublicBaseUrl": "http://bild.de/",
+    "FeedConfigurationModels": [
+      {
+        "Guid": "775f2140-b9cf-41fb-8f32-bd342edba99b",
+        "Name": "Startseite",
+        "Url": "http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json"
+      },
+      {
+        "Guid": "2f6da3e9-f4d8-4ce2-8056-97ad3b48f604",
+        "Name": "News",
+        "Url": "http://json.bild.de/servlet/json/android/16804530,v=2591.json"
+      },
+      {
+        "Guid": "adccc877-53af-4dfb-af6f-8561998e0cf3",
+        "Name": "BILDplus",
+        "Url": "http://json.bild.de:80/servlet/json/android/30723544,v=115.json"
+      },
+      {
+        "Guid": "ae5c45c6-ba6b-478f-bfea-3049964612be",
+        "Name": "Politik",
+        "Url": "http://json.bild.de:80/servlet/json/android/16804552,v=2389.json"
+      },
+      {
+        "Guid": "401c2f32-0dde-4419-9265-44760c6ba6a9",
+        "Name": "Unterhaltung",
+        "Url": "http://json.bild.de:80/servlet/json/android/16804710,v=2774.json"
+      },
+      {
+        "Guid": "3023af39-149e-49fb-947b-b71fc6788f88",
+        "Name": "Sport",
+        "Url": "http://json.bild.de:80/servlet/json/android/15479124,v=6885.json"
+      },
+      {
+        "Guid": "ed58d8bb-fe5f-442b-bcd1-e52650edaf59",
+        "Name": "Bundesliga",
+        "Url": "http://json.bild.de:80/servlet/json/android/31074490,v=19.json"
+      },
+      {
+        "Guid": "19747140-7b81-456e-b043-675637569db4",
+        "Name": "Viral",
+        "Url": "http://json.bild.de:80/servlet/json/android/38809228,v=8.json"
+      },
+      {
+        "Guid": "820aa72a-e5f7-4174-aba3-eb7b20001b0c",
+        "Name": "Regional",
+        "Url": "http://json.bild.de:80/servlet/json/android/15799990,v=45.json"
+      },
+      {
+        "Guid": "ae193519-cfa1-4312-9946-a2e72a8c1fa0",
+        "Name": "Geld",
+        "Url": "http://json.bild.de:80/servlet/json/android/15683376,v=366.json"
+      },
+      {
+        "Guid": "dd235d77-6e47-47a7-a28d-2a63eecec5d1",
+        "Name": "Digital",
+        "Url": "http://json.bild.de:80/servlet/json/android/15479358,v=268.json"
+      },
+      {
+        "Guid": "3d08bd06-fbf5-43f0-8c6e-3616ad3b9699",
+        "Name": "Ratgeber",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478376,v=1034.json"
+      },
+      {
+        "Guid": "6b5543ba-34e6-4635-98cb-60cd95f679e5",
+        "Name": "Lifestyle",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478526,v=1507.json"
+      },
+      {
+        "Guid": "090ea317-9563-43c0-9747-e37aba521ddd",
+        "Name": "Reise",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478744,v=1411.json"
+      },
+      {
+        "Guid": "21629661-2c5d-4ed0-bbe1-91bd9b269017",
+        "Name": "Spiele",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478836,v=133.json"
+      },
+      {
+        "Guid": "041a4713-b0e6-407d-9d50-492e3237c526",
+        "Name": "Auto",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478182,v=313.json"
+      },
+      {
+        "Guid": "f0a92193-a818-4135-8f7b-ad252242b009",
+        "Name": "Erotik",
+        "Url": "http://json.bild.de:80/servlet/json/android/15479740,v=193.json"
+      },
+      {
+        "Guid": "811d1865-7223-4fba-85bd-4b305a1d6902",
+        "Name": "Leser-Reporter",
+        "Url": "http://json.bild.de:80/servlet/json/android/15682146,v=462.json"
+      },
+      {
+        "Guid": "041a4713-b0e6-407d-9d50-492e3237c526",
+        "Name": "Auto",
+        "Url": "http://json.bild.de:80/servlet/json/android/15478182,v=313.json"
       }
     ]
   },

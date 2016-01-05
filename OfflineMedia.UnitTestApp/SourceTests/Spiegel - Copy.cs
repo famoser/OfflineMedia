@@ -8,24 +8,25 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
+using OfflineMedia.Business.Sources.Bild;
 using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.SourceTests.Helpers;
 
 namespace OfflineMedia.SourceTests
 {
     [TestClass]
-    public class Spiegel
+    public class Bild
     {
         [TestMethod]
-        public async Task SpiegelGetFeedArticle()
+        public async Task BildGetFeedArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
 
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
+            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Bild);
             var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
+            IMediaSourceHelper mediaSourceHelper = new BildHelper();
 
             //act
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
@@ -35,21 +36,20 @@ namespace OfflineMedia.SourceTests
             foreach (var articleModel in feed)
             {
                 //teaser is freiwillig
-                articleModel.Teaser = "a";
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
             }
         }
         
         [TestMethod]
-        public async Task SpiegelGetFullArticle()
+        public async Task BildGetFullArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
 
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
+            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Bild);
             var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
+            IMediaSourceHelper mediaSourceHelper = new BildHelper();
 
             //act
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);

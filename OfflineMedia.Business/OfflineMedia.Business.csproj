@@ -179,6 +179,33 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\Models\ArticleState.cs" />
     <Compile Include="Enums\Models\ContentType.cs" />
@@ -212,6 +239,7 @@
     <Compile Include="Helpers\SpritzHelper.cs" />
     <Compile Include="Helpers\Statistics.cs" />
     <Compile Include="Helpers\Upload.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Models\Configuration\FeedConfigurationModel.cs" />
     <Compile Include="Models\Configuration\SimpleSettingModel.cs" />
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
@@ -233,6 +261,12 @@
     <Compile Include="Models\WeatherModel\ForecastItem.cs" />
     <Compile Include="Models\WeatherModel\WeatherLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Bild\BildHelper.cs" />
+    <Compile Include="Sources\Bild\Models\Feed\Banner.cs" />
+    <Compile Include="Sources\Bild\Models\Feed\ChildNode.cs" />
+    <Compile Include="Sources\Bild\Models\Feed\Images.cs" />
+    <Compile Include="Sources\Bild\Models\Feed\Keywords.cs" />
+    <Compile Include="Sources\Bild\Models\Feed\RootObject.cs" />
     <Compile Include="Sources\Blick\BlickHelper.cs" />
     <Compile Include="Sources\Blick\Models\articlefeeditem.cs" />
     <Compile Include="Sources\Blick\Models\feed.cs" />
@@ -263,6 +297,15 @@
     <Compile Include="Sources\Stern\SternHelper.cs" />
     <Compile Include="Sources\Tamedia\Models\Feed.cs" />
     <Compile Include="Sources\Tamedia\TamediaHelper.cs" />
+    <Compile Include="Sources\Zeit\Models\Author.cs" />
+    <Compile Include="Sources\Zeit\Models\Block.cs" />
+    <Compile Include="Sources\Zeit\Models\Cluster.cs" />
+    <Compile Include="Sources\Zeit\Models\Container.cs" />
+    <Compile Include="Sources\Zeit\Models\Cp_extra.cs" />
+    <Compile Include="Sources\Zeit\Models\Feed.cs" />
+    <Compile Include="Sources\Zeit\Models\Image.cs" />
+    <Compile Include="Sources\Zeit\Models\Region.cs" />
+    <Compile Include="Sources\Zeit\ZeitHelper.cs" />
     <Compile Include="Sources\ZwanzigMin\Models\channel.cs" />
     <Compile Include="Sources\ZwanzigMin\Models\item.cs" />
     <Compile Include="Sources\ZwanzigMin\ZwanzigMinHelper.cs" />
@@ -328,9 +371,7 @@
   <ItemGroup>
     <Compile Include="Sources\Stern\Models\Article.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sources\Zeit\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

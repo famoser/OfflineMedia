@@ -58,8 +58,9 @@ namespace OfflineMedia.Business.Sources.Spiegel
 
         public async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedConfigurationModel fcm)
         {
-            if (nfa == null) return null;
-
+            if (nfa == null || nfa.Link.Contains("/video/video"))
+                return null;
+            
             try
             {
                 var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
@@ -113,8 +114,8 @@ namespace OfflineMedia.Business.Sources.Spiegel
 
                 var articleColumn = doc.DocumentNode
                     .Descendants("div")
-                    .FirstOrDefault(o => o.GetAttributeValue("class", null) != null &&
-                             o.GetAttributeValue("class", null).Contains("js-article-column"));
+                    .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
+                             o.GetAttributeValue("id", null).Contains("js-article-column"));
 
                 var author = articleColumn
                     .Descendants("p")

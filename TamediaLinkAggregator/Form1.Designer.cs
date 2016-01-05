@@ -1,4 +1,4 @@
-﻿namespace TamediaLinkAggregator
+﻿namespace Utils.TamediaLinkAggregator
 {
     partial class Form1
     {

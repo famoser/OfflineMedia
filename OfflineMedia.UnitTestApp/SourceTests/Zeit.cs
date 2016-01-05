@@ -1,31 +1,49 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
-using OfflineMedia.Business.Sources.Spiegel;
+using OfflineMedia.Business.Sources.Zeit;
 using OfflineMedia.SourceTests.Helpers;
 
 namespace OfflineMedia.SourceTests
 {
     [TestClass]
-    public class Spiegel
+    public class Zeit
     {
         [TestMethod]
-        public async Task SpiegelGetFeedArticle()
+        public async Task RepairFeed()
+        {
+            //arrage
+            SourceTestHelper.Instance.PrepareTests();
+            
+            var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
+            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Zeit);
+            var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
+            var str = await Download.DownloadStringAsync(new Uri(feedConfig.Url));
+            var helper = new ZeitHelper();
+            
+
+            //act & assert
+            Assert.IsTrue(helper.RepairFeedXml(ref str));
+            Assert.IsNotNull(str);
+        }
+
+        [TestMethod]
+        public async Task ZeitGetFeedArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
 
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
+            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Zeit);
             var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
+            IMediaSourceHelper mediaSourceHelper = new ZeitHelper();
 
             //act
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
@@ -35,25 +53,24 @@ namespace OfflineMedia.SourceTests
             foreach (var articleModel in feed)
             {
                 //teaser is freiwillig
-                articleModel.Teaser = "a";
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
             }
         }
-        
+
         [TestMethod]
-        public async Task SpiegelGetFullArticle()
+        public async Task ZeitGetFullArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
 
             //arrange
             var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
+            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Zeit);
             var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
+            IMediaSourceHelper mediaSourceHelper = new ZeitHelper();
 
             //act
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
-            
+
             //assert
             Assert.IsTrue(feed.Any(), "No items in feed");
             for (int index = 0; index < feed.Count; index++)
@@ -71,8 +88,10 @@ namespace OfflineMedia.SourceTests
                     else
                         Assert.Fail("mediaSourceHelper EvaluateArticle failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
                 }
-                
+
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
+                //cannot be extracted
+                articleModel.Author = "auth";
                 AssertHelper.Instance.AssertFullArticleProperties(articleModel);
             }
         }
