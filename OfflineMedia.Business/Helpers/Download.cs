@@ -44,12 +44,18 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed at 1 for url " + url, ex);
+                var res = await MakeBaseRequest(url);
+                if (res != null)
+                {
+                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadStringAsync failed for url " + url + " but successfully recovered", ex);
+                    return res;
+                }
+                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed for url " + url, ex);
             }
             return null;
         }
 
-        private static async Task<string> MakeBaseRequest(string url, Encoding enc = null)
+        private static async Task<string> MakeBaseRequest(Uri url, Encoding enc = null)
         {
             try
             {

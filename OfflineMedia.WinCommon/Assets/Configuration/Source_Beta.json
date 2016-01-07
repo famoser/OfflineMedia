@@ -1,0 +1,105 @@
+﻿{
+  "Guid": "{bbf00102-fee2-43a8-9daa-88caa8ad5117}",
+  "SourceNameLong": "Bild [D]",
+  "SourceNameShort": "Bild",
+  "Source": 9,
+  "LogicBaseUrl": "http://json.bild.de/",
+  "PublicBaseUrl": "http://bild.de/",
+  "FeedConfigurationModels": [
+    {
+      "Guid": "775f2140-b9cf-41fb-8f32-bd342edba99b",
+      "Name": "Startseite",
+      "Url": "http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json"
+    },
+    {
+      "Guid": "2f6da3e9-f4d8-4ce2-8056-97ad3b48f604",
+      "Name": "News",
+      "Url": "http://json.bild.de/servlet/json/android/16804530,v=2591.json"
+    },
+    {
+      "Guid": "adccc877-53af-4dfb-af6f-8561998e0cf3",
+      "Name": "BILDplus",
+      "Url": "http://json.bild.de:80/servlet/json/android/30723544,v=115.json"
+    },
+    {
+      "Guid": "ae5c45c6-ba6b-478f-bfea-3049964612be",
+      "Name": "Politik",
+      "Url": "http://json.bild.de:80/servlet/json/android/16804552,v=2389.json"
+    },
+    {
+      "Guid": "401c2f32-0dde-4419-9265-44760c6ba6a9",
+      "Name": "Unterhaltung",
+      "Url": "http://json.bild.de:80/servlet/json/android/16804710,v=2774.json"
+    },
+    {
+      "Guid": "3023af39-149e-49fb-947b-b71fc6788f88",
+      "Name": "Sport",
+      "Url": "http://json.bild.de:80/servlet/json/android/15479124,v=6885.json"
+    },
+    {
+      "Guid": "ed58d8bb-fe5f-442b-bcd1-e52650edaf59",
+      "Name": "Bundesliga",
+      "Url": "http://json.bild.de:80/servlet/json/android/31074490,v=19.json"
+    },
+    {
+      "Guid": "19747140-7b81-456e-b043-675637569db4",
+      "Name": "Viral",
+      "Url": "http://json.bild.de:80/servlet/json/android/38809228,v=8.json"
+    },
+    {
+      "Guid": "820aa72a-e5f7-4174-aba3-eb7b20001b0c",
+      "Name": "Regional",
+      "Url": "http://json.bild.de:80/servlet/json/android/15799990,v=45.json"
+    },
+    {
+      "Guid": "ae193519-cfa1-4312-9946-a2e72a8c1fa0",
+      "Name": "Geld",
+      "Url": "http://json.bild.de:80/servlet/json/android/15683376,v=366.json"
+    },
+    {
+      "Guid": "dd235d77-6e47-47a7-a28d-2a63eecec5d1",
+      "Name": "Digital",
+      "Url": "http://json.bild.de:80/servlet/json/android/15479358,v=268.json"
+    },
+    {
+      "Guid": "3d08bd06-fbf5-43f0-8c6e-3616ad3b9699",
+      "Name": "Ratgeber",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478376,v=1034.json"
+    },
+    {
+      "Guid": "6b5543ba-34e6-4635-98cb-60cd95f679e5",
+      "Name": "Lifestyle",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478526,v=1507.json"
+    },
+    {
+      "Guid": "090ea317-9563-43c0-9747-e37aba521ddd",
+      "Name": "Reise",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478744,v=1411.json"
+    },
+    {
+      "Guid": "21629661-2c5d-4ed0-bbe1-91bd9b269017",
+      "Name": "Spiele",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478836,v=133.json"
+    },
+    {
+      "Guid": "041a4713-b0e6-407d-9d50-492e3237c526",
+      "Name": "Auto",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478182,v=313.json"
+    },
+    {
+      "Guid": "f0a92193-a818-4135-8f7b-ad252242b009",
+      "Name": "Erotik",
+      "Url": "http://json.bild.de:80/servlet/json/android/15479740,v=193.json"
+    },
+    {
+      "Guid": "811d1865-7223-4fba-85bd-4b305a1d6902",
+      "Name": "Leser-Reporter",
+      "Url": "http://json.bild.de:80/servlet/json/android/15682146,v=462.json"
+    },
+    {
+      "Guid": "041a4713-b0e6-407d-9d50-492e3237c526",
+      "Name": "Auto",
+      "Url": "http://json.bild.de:80/servlet/json/android/15478182,v=313.json"
+    }
+  ]
+}

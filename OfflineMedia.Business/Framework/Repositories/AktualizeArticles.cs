@@ -48,10 +48,19 @@ namespace OfflineMedia.Business.Framework.Repositories
         }
 
         private List<FeedModel> _newFeedModels;
+        private bool _actualizeActive;
+        private bool _actualizeRequested;
         public async Task ActualizeArticles()
         {
             try
             {
+                if (_actualizeActive)
+                {
+                    _actualizeRequested = true;
+                    return;
+                }
+                _actualizeActive = true;
+
                 //Get Total Number of feeds
                 _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
 
@@ -154,6 +163,12 @@ namespace OfflineMedia.Business.Framework.Repositories
                 LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
                 _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
+            }
+            _actualizeActive = false;
+            if (_actualizeRequested)
+            {
+                _actualizeRequested = false;
+                await ActualizeArticles();
             }
         }
 

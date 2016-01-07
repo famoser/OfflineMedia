@@ -61,10 +61,10 @@ namespace OfflineMedia.Business.Sources.Zeit
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.StartsWith("There is an error in Zeit XML document (1, "))
+                    if (ex.Message.StartsWith("There is an error in XML document (1, "))
                     {
                         //example: "There is an error in XML document (1, 46013)."
-                        var ms = ex.Message.Substring("There is an error in Zeit XML document (1, ".Length);
+                        var ms = ex.Message.Substring("There is an error in XML document (1, ".Length);
                         var index = Convert.ToInt32(ms.Substring(0, ms.Length - 2));
                         feed = feed.Insert(index, "\n\n\n");
                         if (index > 1000)
@@ -115,7 +115,7 @@ namespace OfflineMedia.Business.Sources.Zeit
                     }
                 };
 
-                if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null)
+                if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null && !string.IsNullOrEmpty(feedArticle.Block.Image.Type))
                 {
                     var url = feedArticle.Block.Image.Baseid.Trim();
                     if (url.Contains("//xml.zeit.de"))
@@ -191,7 +191,7 @@ namespace OfflineMedia.Business.Sources.Zeit
         {
             try
             {
-                var hrefPattern = "[/.A-Za-z0-9- ?_=;+&]";
+                var hrefPattern = "[^\"]";
                 xml = XmlHelper.GetNodes(xml, "cluster").Aggregate((c, s) => c + s);
 
                 //remove namespaces
@@ -210,7 +210,7 @@ namespace OfflineMedia.Business.Sources.Zeit
                 }
 
                 //remove double hrefs
-                var matchList2 = Regex.Matches(xml, "href=\"(" + hrefPattern + ")+([/.A-Za-z0-9- \"?_=;&])+href=\"(" + hrefPattern + ")+\"");
+                var matchList2 = Regex.Matches(xml, "href=\"(" + hrefPattern + ")+([^<>])+href=\"(" + hrefPattern + ")+\"");
                 foreach (var matchItem in matchList2)
                 {
                     var match = matchItem as Match;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -64,7 +66,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
             try
             {
                 var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
-                var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 1);
+                var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
                 var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
                 var link = nfa.Link;
                 if (link.Contains("#ref=rss"))
@@ -77,7 +79,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
                     PublicationTime = DateTime.Parse(nfa.PubDate),
                     PublicUri = new Uri(nfa.Link),
                     LogicUri = new Uri(link),
-                    Themes = new List<ThemeModel>()
+                    Themes = new List<ThemeModel>
                     {
                         await repo.GetThemeModelFor(nfa.Category)
                     }
@@ -87,8 +89,19 @@ namespace OfflineMedia.Business.Sources.Spiegel
                 {
                     var url = nfa.Enclosure.Url;
                     if (url.Contains("thumbsmall"))
-                        url = url.Replace("thumbsmall", "breitwandaufmacher");
-                    a.LeadImage = new ImageModel() { Url = new Uri(url) };
+                    {
+                        var newurl = url.Replace("thumbsmall", "panoV9free");
+                        HttpRequestMessage ms = new HttpRequestMessage(HttpMethod.Head, newurl);
+                        using (var client = new HttpClient())
+                        {
+                            var res = await client.SendAsync(ms);
+                            if (res.IsSuccessStatusCode)
+                                url = newurl;
+                            else
+                                url = url.Replace("thumbsmall", "thumb");
+                        }
+                    }
+                    a.LeadImage = new ImageModel { Url = new Uri(url) };
                 }
 
                 return a;
@@ -109,33 +122,39 @@ namespace OfflineMedia.Business.Sources.Spiegel
         {
             try
             {
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(article);
-
-                var articleColumn = doc.DocumentNode
-                    .Descendants("div")
-                    .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
-                             o.GetAttributeValue("id", null).Contains("js-article-column"));
-
-                var author = articleColumn
-                    .Descendants("p")
-                    .FirstOrDefault();
-
-                if (author != null)
+                await Task.Run(() =>
                 {
-                    am.Author = author.InnerText;
-                }
+                    var doc = new HtmlDocument();
+                    doc.LoadHtml(article);
 
-                var content = articleColumn
-                    .Descendants("div")
-                    .FirstOrDefault();
+                    var articleColumn = doc.DocumentNode
+                        .Descendants("div")
+                        .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
+                                             o.GetAttributeValue("id", null).Contains("js-article-column"));
 
-                if (content != null)
-                {
-                    var ps = content.Descendants("p");
-                    var html = ps.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
-                    am.Content = new List<ContentModel> { new ContentModel() { Html = html, ContentType = ContentType.Html } };
-                }
+                    var author = articleColumn
+                        .Descendants("p")
+                        .FirstOrDefault();
+
+                    if (author != null)
+                    {
+                        am.Author = author.InnerText;
+                    }
+
+                    var content = articleColumn
+                        .Descendants("div")
+                        .FirstOrDefault();
+
+                    if (content != null)
+                    {
+                        var ps = content.Descendants("p");
+                        var html = ps.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
+                        am.Content = new List<ContentModel>
+                        {
+                            new ContentModel {Html = html, ContentType = ContentType.Html}
+                        };
+                    }
+                });
             }
             catch (Exception ex)
             {

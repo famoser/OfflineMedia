@@ -18,6 +18,7 @@ namespace OfflineMedia.SourceTests
     public class Bild
     {
         [TestMethod]
+        [Ignore]
         public async Task BildGetFeedArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
@@ -41,6 +42,7 @@ namespace OfflineMedia.SourceTests
         }
         
         [TestMethod]
+        [Ignore]
         public async Task BildGetFullArticle()
         {
             SourceTestHelper.Instance.PrepareTests();

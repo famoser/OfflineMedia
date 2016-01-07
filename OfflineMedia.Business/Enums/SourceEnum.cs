@@ -25,6 +25,7 @@
         Spiegel = 7,
         Zeit = 8,
         Bild = 9,
+        Welt = 10,
         Favorites = 100
     }
 }

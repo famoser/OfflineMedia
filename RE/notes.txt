@@ -9,29 +9,44 @@ x-nonce: 534d0e50-fa50-4054-8947-c2e1312b0a1d;GT-N7100
 Host: api.sueddeutsche.de
 Connection: Keep-Alive
 Accept-Encoding: gzip
+
+ - http://media-cdn.sueddeutsche.de/image/sz.1.2806424/400x150
+ - http://www.sueddeutsche.de/news/homepagefeed?timestamp=1452070778001
+ - http://www.sueddeutsche.de/news/department/1.2806316.json
+ 
+short link: http://www.sueddeutsche.de/news/sz.1.2806316
 	
-	
+http://api.sueddeutsche.de/news/article/sz.1.2806316.json 403
+
+link sinside html sdeapp://article/sz.1.2745018
+Politik: /department/sz.2.236
+
+ [truncated]{"navigation":[{"data":[{"title":"Startseite","url":"sdeapp://department/0","icon":"http://api.sueddeutsche.de/assets/images/navigation/home.png","left":1},{"title":"Nachrichtenticker","url":"sdeapp://scanner/0","icon":"http://
+ 
+ 
+ 
+
 faz
 	- app started nicht im bluestacks player
 	
 taz
 	- hat keine app, es wird im pdf format gelesen
-
-spiegel
-	- verwendet rss feeds & html, nicht gut geeignet
-	- rss feeds: http://www.spiegel.de/schlagzeilen/index.rss
-	- Problem: not full html returned from server
-	implementiert
-	
-zeit
-	- verwendet inkorrektes xml und json (wtf??)
-	- artikel: http://xml.zeit.de/kultur/2015-12/selbstverwirklichung-optimierung-essay
-	- all: http://xml.zeit.de/index
-	you may replace xml with json
-	implementiert
 	
 welt
-	- 
+	- überblick: http://www.welt.de/?config=feeds_ipadhdueberblick
+	- article http://www.welt.de/politik/ausland/article150592885/Das-Kalifat-kann-jetzt-weg.xmli_ipadhd
+	http://www.welt.de/politik/ausland/article150683265/Lieber-den-Kopf-verlieren-als-wuerdelos-zu-leben.xmli_ipadhd
+	
+	feeds:
+	String value: http://www.welt.de/?config=feeds_ipadhdueberblick
+	String value: http://www.welt.de/?config=feeds_ipadhdpolitik
+	String value: http://www.welt.de/?config=feeds_ipadhdwirtschaft
+	String value: http://www.welt.de/?config=feeds_ipadhdsport
+	String value: http://www.welt.de/?config=feeds_ipadhdpanorama
 	
 bild
-	http://json.bild.de/servlet/json/android/4393080,v=6.json
+	http://json.bild.de/servlet/json/android/43633702
+	bild resize: http://bilder.bild.de/fotos/heiko-maas-taeter-von-koeln-muessen-bestraft-werden-44029176/Bild/1,w=450c=0,p=0.bild.jpg
+	home: http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json
+	coremedia ID is id for json
+	unit tests failing

@@ -297,6 +297,13 @@
     <Compile Include="Sources\Stern\SternHelper.cs" />
     <Compile Include="Sources\Tamedia\Models\Feed.cs" />
     <Compile Include="Sources\Tamedia\TamediaHelper.cs" />
+    <Compile Include="Sources\Welt\Models\Channel.cs" />
+    <Compile Include="Sources\Welt\Models\Description.cs" />
+    <Compile Include="Sources\Welt\Models\Enclosure.cs" />
+    <Compile Include="Sources\Welt\Models\Image.cs" />
+    <Compile Include="Sources\Welt\Models\Item.cs" />
+    <Compile Include="Sources\Welt\Models\Rss.cs" />
+    <Compile Include="Sources\Welt\WeltHelper.cs" />
     <Compile Include="Sources\Zeit\Models\Author.cs" />
     <Compile Include="Sources\Zeit\Models\Block.cs" />
     <Compile Include="Sources\Zeit\Models\Cluster.cs" />

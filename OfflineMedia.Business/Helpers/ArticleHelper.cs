@@ -13,6 +13,7 @@ using OfflineMedia.Business.Sources.Postillon;
 using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.Business.Sources.Stern;
 using OfflineMedia.Business.Sources.Tamedia;
+using OfflineMedia.Business.Sources.Welt;
 using OfflineMedia.Business.Sources.Zeit;
 using OfflineMedia.Business.Sources.ZwanzigMin;
 using OfflineMedia.Common.Framework.Singleton;
@@ -87,6 +88,10 @@ namespace OfflineMedia.Business.Helpers
             else if (source == SourceEnum.Zeit)
             {
                 sh = new ZeitHelper();
+            }
+            else if (source == SourceEnum.Welt)
+            {
+                sh = new WeltHelper();
             }
             return sh;
         }

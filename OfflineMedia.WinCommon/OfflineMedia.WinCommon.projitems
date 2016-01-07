@@ -54,6 +54,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Source.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Source_Beta.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\WeatherFontMapping.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
