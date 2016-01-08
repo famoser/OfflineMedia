@@ -14,9 +14,9 @@ using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Tamedia
 {
-    public class TamediaHelper : SingletonBase<TamediaHelper>, IMediaSourceHelper
+    public class TamediaHelper : BaseMediaSourceHelper
     {
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel feeedConfigModel)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel feeedConfigModel)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -52,24 +52,19 @@ namespace OfflineMedia.Business.Sources.Tamedia
             return articlelist;
         }
 
-        public bool NeedsToEvaluateArticle()
-        {
-            return false;
-        }
-
 #pragma warning disable 1998
-        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
 #pragma warning restore 1998
         {
             throw new NotImplementedException();
         }
 
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             throw new NotImplementedException();
         }
 
-        public List<string> GetKeywords(ArticleModel articleModel)
+        public new List<string> GetKeywords(ArticleModel articleModel)
         {
             var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
             //var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);

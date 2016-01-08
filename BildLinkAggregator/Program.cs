@@ -21,7 +21,7 @@ namespace Utils.BildLinkAggregator
         private static async Task Execute()
         {
             var json = await Download.DownloadStringAsync(new Uri("http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json"));
-            var feed = JsonConvert.DeserializeObject<RootObject>(json);
+            var feed = JsonConvert.DeserializeObject<FeedRoot>(json);
             foreach (var childNode in feed.__childNodes__)
             {
                 

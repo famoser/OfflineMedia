@@ -20,9 +20,9 @@ using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Zeit
 {
-    public class ZeitHelper : IMediaSourceHelper
+    public class ZeitHelper : BaseMediaSourceHelper
     {
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -109,12 +109,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
         }
 
-        public bool NeedsToEvaluateArticle()
-        {
-            return true;
-        }
-
-        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             try
             {
@@ -146,21 +141,6 @@ namespace OfflineMedia.Business.Sources.Zeit
                 return new Tuple<bool, ArticleModel>(false, am);
             }
             return new Tuple<bool, ArticleModel>(true, am);
-        }
-
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
-        {
-            original.Author = evaluatedArticle.Author;
-            original.Content = evaluatedArticle.Content;
-            return true;
-        }
-
-        public List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.Instance.FusionLists(part1, part2);
         }
 
         public bool RepairFeedXml(ref string xml)

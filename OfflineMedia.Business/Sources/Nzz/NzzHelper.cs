@@ -15,10 +15,10 @@ using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Nzz
 {
-    public class NzzHelper : SingletonBase<NzzHelper>, IMediaSourceHelper
+    public class NzzHelper : BaseMediaSourceHelper
     {
 #pragma warning disable 1998
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
 #pragma warning restore 1998
         {
             var articlelist = new List<ArticleModel>();
@@ -66,12 +66,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             }
         }
 
-        public bool NeedsToEvaluateArticle()
-        {
-            return true;
-        }
-
-        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             if (article == null) return new Tuple<bool, ArticleModel>(false, am);
 
@@ -88,20 +83,12 @@ namespace OfflineMedia.Business.Sources.Nzz
             return new Tuple<bool, ArticleModel>(false, am);
         }
 
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Content = evaluatedArticle.Content;
             original.Author = evaluatedArticle.Author;
             original.Themes = evaluatedArticle.Themes;
             return true;
-        }
-
-        public List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.Instance.FusionLists(part1, part2);
         }
 
         public async Task<Tuple<bool, ArticleModel>> ArticleToArticleModel(NzzArticle na, ArticleModel am)

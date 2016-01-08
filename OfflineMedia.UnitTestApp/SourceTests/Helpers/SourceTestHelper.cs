@@ -21,7 +21,15 @@ namespace OfflineMedia.SourceTests.Helpers
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/Source.json"));
             var json = await FileIO.ReadTextAsync(file);
-            return JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
+            var sc = JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
+            foreach (var sourceConfigurationModel in sc)
+            {
+                foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
+                {
+                    feedConfigurationModel.SourceConfiguration = sourceConfigurationModel;
+                }
+            }
+            return sc;
         }
 
         public async Task<List<ArticleModel>> GetFeedFor(IMediaSourceHelper mediaSourceHelper, SourceConfigurationModel sourceConfigModel, FeedConfigurationModel feedConfigModel)

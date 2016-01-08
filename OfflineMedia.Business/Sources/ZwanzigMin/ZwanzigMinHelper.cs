@@ -16,9 +16,9 @@ using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.ZwanzigMin
 {
-    public class ZwanzigMinHelper : SingletonBase<ZwanzigMinHelper>, IMediaSourceHelper
+    public class ZwanzigMinHelper : BaseMediaSourceHelper
     {
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -58,7 +58,7 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             return articlelist;
         }
 
-        public bool NeedsToEvaluateArticle()
+        public new bool NeedsToEvaluateArticle()
         {
             return false;
         }
@@ -68,23 +68,16 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             return nfa.link != null;
         }
 
-        public Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             throw new NotImplementedException();
         }
 
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             throw new NotImplementedException();
         }
-
-        public List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.Instance.FusionLists(part1, part2);
-        }
+        
 
         public async Task<ArticleModel> FeedToArticleModel(item nfa, FeedConfigurationModel fcm)
         {

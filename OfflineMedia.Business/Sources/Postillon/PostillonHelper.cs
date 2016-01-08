@@ -14,10 +14,10 @@ using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Postillon
 {
-    public class PostillonHelper : SingletonBase<PostillonHelper>, IMediaSourceHelper
+    public class PostillonHelper : BaseMediaSourceHelper
     {
 #pragma warning disable 1998
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
 #pragma warning restore 1998
         {
             var articlelist = new List<ArticleModel>();
@@ -92,13 +92,8 @@ namespace OfflineMedia.Business.Sources.Postillon
                 return null;
             }
         }
-
-        public bool NeedsToEvaluateArticle()
-        {
-            return true;
-        }
         
-        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             if (article == null) return new Tuple<bool, ArticleModel>(false, am);
 
@@ -131,20 +126,12 @@ namespace OfflineMedia.Business.Sources.Postillon
             return new Tuple<bool, ArticleModel>(false, am);
         }
 
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Content = evaluatedArticle.Content;
             original.Themes = evaluatedArticle.Themes;
             original.Author = evaluatedArticle.Author;
             return true;
-        }
-
-        public List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.Instance.FusionLists(part1, part2);
         }
 
         public bool WriteProperties(ref ArticleModel am, HtmlNode na)

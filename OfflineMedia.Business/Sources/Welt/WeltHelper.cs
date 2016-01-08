@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using GalaSoft.MvvmLight.Ioc;
-using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
@@ -15,13 +11,12 @@ using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Welt.Models;
 using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Welt
 {
-    public class WeltHelper : IMediaSourceHelper
+    public class WeltHelper : BaseMediaSourceHelper
     {
-        public async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
+        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
         {
             var articlelist = new List<ArticleModel>();
             if (feed == null) return articlelist;
@@ -93,12 +88,7 @@ namespace OfflineMedia.Business.Sources.Welt
             }
         }
 
-        public bool NeedsToEvaluateArticle()
-        {
-            return true;
-        }
-
-        public async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
         {
             try
             {
@@ -129,21 +119,6 @@ namespace OfflineMedia.Business.Sources.Welt
                 return new Tuple<bool, ArticleModel>(false, am);
             }
             return new Tuple<bool, ArticleModel>(true, am);
-        }
-
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
-        {
-            original.Author = evaluatedArticle.Author;
-            original.Content = evaluatedArticle.Content;
-            return true;
-        }
-
-        public List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.Instance.FusionLists(part1, part2);
         }
     }
 }

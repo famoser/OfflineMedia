@@ -65,7 +65,7 @@ namespace OfflineMedia.Services
 
         public Task<string> GetSourceJson()
         {
-            return GetContentsOfAssetFile("Source");
+            return GetContentsOfAssetFile("Source_min");
         }
 
         public Task<string> GetWeatherFontJson()

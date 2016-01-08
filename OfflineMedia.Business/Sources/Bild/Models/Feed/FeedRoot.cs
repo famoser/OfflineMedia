@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace OfflineMedia.Business.Sources.Bild.Models.Feed
 {
-    public class RootObject
+    public class FeedRoot
     {
         public int adStatus { get; set; }
         public string name { get; set; }

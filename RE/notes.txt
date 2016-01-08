@@ -47,6 +47,6 @@ welt
 bild
 	http://json.bild.de/servlet/json/android/43633702
 	bild resize: http://bilder.bild.de/fotos/heiko-maas-taeter-von-koeln-muessen-bestraft-werden-44029176/Bild/1,w=450c=0,p=0.bild.jpg
-	home: http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json
+	home (feed url quelle): http://json.bild.de/servlet/json/android/26324062,cnv=true,v=94.json
 	coremedia ID is id for json
 	unit tests failing

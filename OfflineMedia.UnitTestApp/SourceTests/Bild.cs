@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.Bild;
 using OfflineMedia.Business.Sources.Spiegel;
@@ -18,7 +21,6 @@ namespace OfflineMedia.SourceTests
     public class Bild
     {
         [TestMethod]
-        [Ignore]
         public async Task BildGetFeedArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
@@ -36,13 +38,14 @@ namespace OfflineMedia.SourceTests
             Assert.IsTrue(feed.Any(), "No items in feed");
             foreach (var articleModel in feed)
             {
-                //teaser is freiwillig
+                //PublicationTime not in feed
+                articleModel.PublicationTime = DateTime.Now;
+
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
             }
         }
-        
+
         [TestMethod]
-        [Ignore]
         public async Task BildGetFullArticle()
         {
             SourceTestHelper.Instance.PrepareTests();
@@ -55,7 +58,7 @@ namespace OfflineMedia.SourceTests
 
             //act
             var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
-            
+
             //assert
             Assert.IsTrue(feed.Any(), "No items in feed");
             for (int index = 0; index < feed.Count; index++)
@@ -73,7 +76,11 @@ namespace OfflineMedia.SourceTests
                     else
                         Assert.Fail("mediaSourceHelper EvaluateArticle failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
                 }
-                
+
+                //author & themes not found
+                articleModel.Author = "a";
+                articleModel.Themes = new List<ThemeModel>() { new ThemeModel() };
+
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
                 AssertHelper.Instance.AssertFullArticleProperties(articleModel);
             }
