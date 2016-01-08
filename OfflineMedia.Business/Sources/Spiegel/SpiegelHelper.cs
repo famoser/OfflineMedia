@@ -34,11 +34,8 @@ namespace OfflineMedia.Business.Sources.Spiegel
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
                 feed = HtmlHelper.RemoveXmlLvl(feed);
                 feed = feed.Replace("content:encoded", "content");
-
-                var serializer = new XmlSerializer(typeof(Channel));
-                TextReader reader = new StringReader(feed);
-
-                var channel = (Channel)serializer.Deserialize(reader);
+                
+                var channel = XmlHelper.Deserialize<Channel>(feed);
                 if (channel == null)
                     LogHelper.Instance.Log(LogLevel.Error, this, "SpiegelHelper.EvaluateFeed failed: channel is null after deserialisation");
                 else

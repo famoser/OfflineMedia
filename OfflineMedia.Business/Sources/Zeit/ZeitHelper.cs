@@ -34,50 +34,26 @@ namespace OfflineMedia.Business.Sources.Zeit
                 if (!RepairFeedXml(ref feed))
                     return articlelist;
 
-                var serializer = new XmlSerializer(typeof(Feed));
-                TextReader reader = new StringReader(feed);
-
-                try
+                var zeitFeed = XmlHelper.Deserialize<Feed>(feed);
+                if (zeitFeed == null)
+                    LogHelper.Instance.Log(LogLevel.Error, this,
+                        "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation");
+                else
                 {
-                    var zeitFeed = (Feed)serializer.Deserialize(reader);
-                    if (zeitFeed == null)
-                        LogHelper.Instance.Log(LogLevel.Error, this, "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation");
-                    else
+                    foreach (var item in zeitFeed.Cluster)
                     {
-                        foreach (var item in zeitFeed.Cluster)
+                        foreach (var region in item.Region)
                         {
-                            foreach (var region in item.Region)
+                            foreach (var feedArticle in region.Container)
                             {
-                                foreach (var feedArticle in region.Container)
-                                {
 
-                                    var article = await FeedToArticleModel(feedArticle, fcm);
-                                    if (article != null)
-                                        articlelist.Add(article);
-                                }
+                                var article = await FeedToArticleModel(feedArticle, fcm);
+                                if (article != null)
+                                    articlelist.Add(article);
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    if (ex.Message.StartsWith("There is an error in XML document (1, "))
-                    {
-                        //example: "There is an error in XML document (1, 46013)."
-                        var ms = ex.Message.Substring("There is an error in XML document (1, ".Length);
-                        var index = Convert.ToInt32(ms.Substring(0, ms.Length - 2));
-                        feed = feed.Insert(index, "\n\n\n");
-                        if (index > 1000)
-                        {
-                            var subtr = feed.Substring(index - 1000);
-                        }
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
             }
             catch (Exception ex)
             {

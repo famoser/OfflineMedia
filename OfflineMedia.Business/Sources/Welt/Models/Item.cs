@@ -15,9 +15,9 @@ namespace OfflineMedia.Business.Sources.Welt.Models
         public string Category { get; set; }
         [XmlElement(ElementName = "pubDate")]
         public string PubDate { get; set; }
+        [XmlElement(ElementName = "description")]
+        public string Description { get; set; }
         [XmlElement(ElementName = "enclosure")]
         public Enclosure Enclosure { get; set; }
-        [XmlElement(ElementName = "description")]
-        public Description Description { get; set; }
     }
 }
