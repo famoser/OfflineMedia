@@ -17,6 +17,7 @@ using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -133,10 +134,12 @@ namespace OfflineMedia.Business.Framework.Repositories
         public async Task<ObservableCollection<SourceModel>> GetSources()
         {
             _sources = new ObservableCollection<SourceModel>();
+            TimerHelper.Instance.Stop("GetSources starting", this);
             using (var unitOfWork = new UnitOfWork(true))
             {
                 var sources = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
 
+                TimerHelper.Instance.Stop("Generating Models", this);
                 foreach (var source in sources)
                 {
                     if (source.BoolValue)
@@ -214,6 +217,12 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
             await repo.Update(am);
+        }
+
+        private async Task AddAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
+        {
+            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
+            await repo.AddAll(am);
         }
 
         public async Task<ArticleModel> GetArticleById(int articleId)

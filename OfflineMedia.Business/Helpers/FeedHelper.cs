@@ -10,7 +10,7 @@ namespace OfflineMedia.Business.Helpers
 {
     public class FeedHelper : SingletonBase<FeedHelper>
     {
-        public async Task<List<ArticleModel>>  DownloadFeed(FeedModel feed)
+        public async Task<List<ArticleModel>> DownloadFeed(FeedModel feed)
         {
             IMediaSourceHelper mediaSourceHelper =ArticleHelper.Instance.GetMediaSource(feed.Source.SourceConfiguration.Source);
 

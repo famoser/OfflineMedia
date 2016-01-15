@@ -12,6 +12,7 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 using SQLite.Net.Attributes;
@@ -54,6 +55,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
+                TimerHelper.Instance.Stop("Inside Method...", this);
                 if (_actualizeActive)
                 {
                     _actualizeRequested = true;
@@ -61,6 +63,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
                 _actualizeActive = true;
 
+                TimerHelper.Instance.Stop("Creating Feed Tasks", this);
                 //Get Total Number of feeds
                 _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
 
@@ -87,6 +90,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
+                TimerHelper.Instance.Stop("Waiting for Feed Tasks", this);
                 while (_actualizeFeedsTasks.Count > 0)
                 {
                     try
@@ -105,7 +109,11 @@ namespace OfflineMedia.Business.Framework.Repositories
                         LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured while waiting for tasks to complete (1)", ex);
                     }
                 }
+                _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
+                await FeedToDatabase(true);
+                _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
+                TimerHelper.Instance.Stop("Get additional articles from Database", this);
                 using (var unitOfWork = new UnitOfWork(true))
                 {
                     var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
@@ -124,6 +132,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 if (_newArticles > 0)
                 {
+                    TimerHelper.Instance.Stop("Actualizing articles", this);
                     //Actualize articles
                     if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
                     {
@@ -134,6 +143,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                         }
                     }
 
+                    TimerHelper.Instance.Stop("Waiting for Tasks", this);
                     while (_aktualizeArticlesTasks.Count > 0)
                     {
                         try
@@ -146,7 +156,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                                 _aktualizeArticlesTasks.Remove(tsk);
                             }
                         }
-                            //may raise exception because list is emptied in excatly that moment
+                        //may raise exception because list is emptied in excatly that moment
                         catch (Exception ex)
                         {
                             LogHelper.Instance.Log(LogLevel.Error, this,
@@ -154,6 +164,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                         }
                     }
                 }
+                TimerHelper.Instance.Stop("Finished", this);
 
                 _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
@@ -179,27 +190,15 @@ namespace OfflineMedia.Business.Framework.Repositories
                 var feed = _newFeedModels[0];
                 _newFeedModels.Remove(feed);
 
-                var percentage = Convert.ToInt32((_newFeeds - _newFeedModels.Count) * 100 / _newFeeds);
-                _progressService.ShowProgress("Feed wird heruntergeladen...", percentage);
-
                 var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
+
+                var percentage = Convert.ToInt32((_newFeeds - _newFeedModels.Count) * 100 / _newFeeds * 2);
+                _progressService.ShowProgress("Feed wird heruntergeladen...", percentage);
 
                 if (newfeed != null)
                 {
-                    ArticleHelper.Instance.AddWordDumpFromFeed(ref newfeed);
-
-                    if (percentage == 100)
-                    {
-                        _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
-                        _progressService.HideProgress();
-                    }
                     _toDatabaseFeeds.Add(newfeed);
                     await FeedToDatabase();
-
-                    if (percentage == 100)
-                    {
-                        _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
-                    }
                 }
             }
         }
@@ -258,24 +257,23 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 await _themeRepository.SaveChanges(await unitOfWork.GetDataService());
 
-                while (_toDatabaseArticles.Any() || _toDatabaseFlatArticles.Any())
+                if (_toDatabaseFlatArticles.Any())
                 {
-                    var flatarticle = _toDatabaseFlatArticles.FirstOrDefault();
-                    if (flatarticle != null)
+                    var list = new List<ArticleModel>(_toDatabaseFlatArticles);
+                    _toDatabaseFlatArticles.Clear();
+                    await AddAllArticlesFlat(list, await unitOfWork.GetDataService());
+
+                    //message will not be send anymore: Messenger.Default.Send(flatarticle, Messages.ArticleRefresh);
+                }
+
+                while (_toDatabaseArticles.Any())
+                {
+                    var complexarticle = _toDatabaseArticles.FirstOrDefault();
+                    if (complexarticle != null)
                     {
-                        _toDatabaseFlatArticles.Remove(flatarticle);
-                        await UpdateArticleFlat(flatarticle, await unitOfWork.GetDataService());
-                        Messenger.Default.Send(flatarticle, Messages.ArticleRefresh);
-                    }
-                    else
-                    {
-                        var complexarticles = _toDatabaseArticles.FirstOrDefault();
-                        if (complexarticles != null)
-                        {
-                            _toDatabaseArticles.Remove(complexarticles);
-                            await InsertOrUpdateArticleAndTraces(complexarticles, await unitOfWork.GetDataService());
-                            Messenger.Default.Send(complexarticles, Messages.ArticleRefresh);
-                        }
+                        _toDatabaseArticles.Remove(complexarticle);
+                        await InsertOrUpdateArticleAndTraces(complexarticle, await unitOfWork.GetDataService());
+                        Messenger.Default.Send(complexarticle, Messages.ArticleRefresh);
                     }
                 }
             }
@@ -283,25 +281,26 @@ namespace OfflineMedia.Business.Framework.Repositories
         }
 
         private bool _feedToDatabaseRunning;
-        private async Task FeedToDatabase()
+        private new List<int> _feedToDatabaseDeleteArticles = new List<int>();
+        private new List<ArticleModel> _feedToDatabaseNewArticles = new List<ArticleModel>();
+        private async Task FeedToDatabase(bool force = false)
         {
             if (_feedToDatabaseRunning)
                 return;
 
             _feedToDatabaseRunning = true;
-            var deleteArticles = new List<int>();
-            var newArticles = new List<ArticleModel>();
-            var executes = new List<Action>();
             try
             {
                 using (var unitOfWork = new UnitOfWork(false))
                 {
+                    var work = _feedToDatabaseNewArticles.Count + _feedToDatabaseDeleteArticles.Count;
                     while (_toDatabaseFeeds.Any())
                     {
                         var articles = _toDatabaseFeeds[0];
                         _toDatabaseFeeds.Remove(articles);
                         if (articles.Any())
                         {
+                            Messenger.Default.Send(new List<ArticleModel>(articles), Messages.FeedRefresh);
                             var repo =
                                 new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                             var guidString = articles.FirstOrDefault().FeedConfiguration.Guid.ToString();
@@ -319,25 +318,23 @@ namespace OfflineMedia.Business.Framework.Repositories
                             }
 
                             //delete old ones
-                            deleteArticles.AddRange(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
+                            _feedToDatabaseDeleteArticles.AddRange(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
 
                             //only new ones left
-                            newArticles.AddRange(articles);
+                            _feedToDatabaseNewArticles.AddRange(articles);
 
                             _newArticleModels.AddRange(articles);
-                            executes.Add(() => Messenger.Default.Send(articles, Messages.FeedRefresh));
                         }
                     }
 
-                    await DeleteAllArticlesAndTrances(deleteArticles, await unitOfWork.GetDataService());
-                    await InsertAllArticleAndTraces(newArticles, await unitOfWork.GetDataService());
-
-                    foreach (var execute in executes)
+                    if (work > 100 || force)
                     {
-                        execute.Invoke();
-                    }
+                        await DeleteAllArticlesAndTrances(_feedToDatabaseDeleteArticles, await unitOfWork.GetDataService());
+                        await InsertAllArticleAndTraces(_feedToDatabaseNewArticles, await unitOfWork.GetDataService());
+                        _newArticleModels.AddRange(_feedToDatabaseNewArticles);
 
-                    await unitOfWork.Commit();
+                        await unitOfWork.Commit();
+                    }
                 }
             }
             catch (Exception ex)
@@ -479,6 +476,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     {
                         if (sh.WriteProperties(ref article, tuple.Item2))
                         {
+                            article.WordDump = string.Join(" ", sh.GetKeywords(article));
                             article.State = ArticleState.Loaded;
                             ArticleHelper.Instance.OptimizeArticle(ref article);
                         }

@@ -9,6 +9,7 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -160,7 +161,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     using (var unitOfWork = new UnitOfWork(false))
                     {
                         var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(await unitOfWork.GetDataService());
-                        
+
                         await repo.Update(ssm);
 
                         await unitOfWork.Commit();
@@ -245,10 +246,11 @@ namespace OfflineMedia.Business.Framework.Repositories
             return _sourceConfigModels.FirstOrDefault(s => s.FeedConfigurationModels.Any(d => d.Guid == guid)).FeedConfigurationModels.FirstOrDefault(d => d.Guid == guid);
         }
 
-        public async Task Initialize(IDataService dataService)
+        private async Task InitializeTask(IDataService dataService)
         {
             try
             {
+                TimerHelper.Instance.Stop("Loading JSON", this);
                 var json = await _storageService.GetSettingsJson();
                 _settingModels = JsonConvert.DeserializeObject<List<SettingModel>>(json);
 
@@ -257,46 +259,39 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(dataService);
 
+                TimerHelper.Instance.Stop("Loading Settings", this);
                 var guidSettings = await repo.GetByCondition(entity => true);
 
+                TimerHelper.Instance.Stop("Sorting out Settings", this);
                 //add new settings
                 var newSettings = new List<SimpleSettingModel>();
-                var reload = false;
+                var enableSources = 0;
+                var enableFeeds = 0;
                 if (!guidSettings.Any())
                 {
-                    reload = true;
-                    //nzz
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("02b529d6-0186-4112-b8f0-24f6500b6587"),
-                        BoolValue = true
-                    });
-                    //topthemen
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d"),
-                        BoolValue = true
-                    });
-                    //international
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("5aae7274-aa91-4992-8203-94419e850e8e"),
-                        BoolValue = true
-                    });
-                    guidSettings.AddRange(newSettings);
+                    enableSources = 1;
+                    enableFeeds = 3;
                 }
 
+                var sourceDic = new Dictionary<SimpleSettingModel, SourceConfigurationModel>();
+                var feedDic = new Dictionary<SimpleSettingModel, FeedConfigurationModel>();
                 foreach (var sourceConfigurationModel in _sourceConfigModels)
                 {
                     var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
                     if (modl == null)
                     {
-                        reload = true;
-                        newSettings.Add(new SimpleSettingModel
+                        var ssm = new SimpleSettingModel
                         {
                             Guid = sourceConfigurationModel.Guid,
-                            BoolValue = false
-                        });
+                            BoolValue = enableSources-- > 0
+                        };
+                        newSettings.Add(ssm);
+                        sourceDic.Add(ssm, sourceConfigurationModel);
+                    }
+                    else
+                    {
+                        guidSettings.Remove(modl);
+                        sourceDic.Add(modl, sourceConfigurationModel);
                     }
 
                     foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
@@ -304,76 +299,79 @@ namespace OfflineMedia.Business.Framework.Repositories
                         modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigurationModel.Guid);
                         if (modl == null)
                         {
-                            reload = true;
-                            newSettings.Add(new SimpleSettingModel
+                            var ssm = new SimpleSettingModel
                             {
                                 Guid = feedConfigurationModel.Guid,
-                                BoolValue = false
-                            });
+                                BoolValue = enableFeeds-- > 0
+                            };
+                            newSettings.Add(ssm);
+                            feedDic.Add(ssm, feedConfigurationModel);
                         }
+                        else
+                        {
+                            guidSettings.Remove(modl);
+                            feedDic.Add(modl, feedConfigurationModel);
+                        }
+
+                        //relink
+                        feedConfigurationModel.SourceConfiguration = sourceConfigurationModel;
                     }
                 }
 
+                var smDic = new Dictionary<SimpleSettingModel, SettingModel>();
                 foreach (var settingModel in _settingModels)
                 {
                     var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
                     if (modl == null)
                     {
-                        reload = true;
-                        newSettings.Add(new SimpleSettingModel
+                        var ssm = new SimpleSettingModel
                         {
                             Guid = settingModel.Guid,
                             Value = settingModel.DefaultValue
-                        });
+                        };
+                        newSettings.Add(ssm);
+                        smDic.Add(ssm, settingModel);
+                    }
+                    else
+                    {
+                        guidSettings.Remove(modl);
+                        smDic.Add(modl, settingModel);
                     }
                 }
+                
+                //write settings
+                TimerHelper.Instance.Stop("Write Settings", this);
 
                 //insert new settings
-                if (reload)
+                if (newSettings.Count > 0)
                 {
+                    TimerHelper.Instance.Stop("Insert new Settings (" + newSettings.Count + ")", this);
                     await repo.AddAll(newSettings);
-
-                    guidSettings = await repo.GetByCondition(entity => true);
                 }
 
-                //write settings
-                for (int index = 0; index < _sourceConfigModels.Count; index++)
+                foreach (var sourceConfigurationModel in sourceDic)
                 {
-                    var sourceConfigurationModel = _sourceConfigModels[index];
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
-                    WriteProperties(ref sourceConfigurationModel, ref modl);
-                    _sourceConfigModels[index] = sourceConfigurationModel;
-                    guidSettings.Remove(modl);
-
-                    for (int i = 0; i < _sourceConfigModels[index].FeedConfigurationModels.Count; i++)
-                    {
-                        var feedConfigModel = _sourceConfigModels[index].FeedConfigurationModels[i];
-                        modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigModel.Guid);
-                        WriteProperties(ref feedConfigModel, ref modl);
-
-                        //relink
-                        feedConfigModel.SourceConfiguration = _sourceConfigModels[index];
-
-                        _sourceConfigModels[index].FeedConfigurationModels[i] = feedConfigModel;
-                        guidSettings.Remove(modl);
-                    }
+                    WriteProperties(sourceConfigurationModel.Value, sourceConfigurationModel.Key);
                 }
 
-                for (int index = 0; index < _settingModels.Count; index++)
+                foreach (var feedConfigurationModel in feedDic)
                 {
-                    var settingModel = _settingModels[index];
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
-
-                    WriteProperties(ref settingModel, ref modl);
-                    _settingModels[index] = settingModel;
-                    guidSettings.Remove(modl);
+                    WriteProperties(feedConfigurationModel.Value, feedConfigurationModel.Key);
                 }
 
+                foreach (var settingModel in smDic)
+                {
+                    WriteProperties(settingModel.Value, settingModel.Key);
+                }
+                
                 //remove old settings
-                foreach (var guidSettingModel in guidSettings)
+                if (guidSettings.Count > 0)
                 {
-                    await repo.Delete(guidSettingModel);
+                    TimerHelper.Instance.Stop("Remove old Settings (" + guidSettings.Count + ")", this);
+                    await repo.DeleteAll(guidSettings);
                 }
+
+                TimerHelper.Instance.Stop("Settings Initialized", this);
 
                 _isInitialized = true;
             }
@@ -383,7 +381,17 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private void WriteProperties(ref SettingModel to, ref SimpleSettingModel from)
+        private Task _initializingTask;
+        public async Task Initialize(IDataService dataService)
+        {
+            if (_initializingTask == null)
+                _initializingTask = InitializeTask(dataService);
+
+            if (!_initializingTask.IsCompleted)
+                await _initializingTask;
+        }
+
+        private void WriteProperties(SettingModel to, SimpleSettingModel from)
         {
             to.Id = from.Id;
             to.ChangeDate = from.ChangeDate;
@@ -391,7 +399,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             to.Value = from.Value;
         }
 
-        private void WriteProperties(ref FeedConfigurationModel to, ref SimpleSettingModel from)
+        private void WriteProperties(FeedConfigurationModel to, SimpleSettingModel from)
         {
             to.Id = from.Id;
             to.ChangeDate = from.ChangeDate;
@@ -399,7 +407,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             to.Value = from.Value;
         }
 
-        private void WriteProperties(ref SourceConfigurationModel to, ref SimpleSettingModel from)
+        private void WriteProperties(SourceConfigurationModel to, SimpleSettingModel from)
         {
             to.Id = from.Id;
             to.ChangeDate = from.ChangeDate;

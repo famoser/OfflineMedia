@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Views;
 using Microsoft.ApplicationInsights;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Common.Framework.Logs;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Pages;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -53,7 +54,6 @@ namespace OfflineMedia
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-
             if (!e.Handled)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
@@ -107,6 +107,7 @@ namespace OfflineMedia
             }
 #endif
 
+            TimerHelper.Instance.Stop("Launched...", this);
             DispatcherHelper.Initialize();
 
 
@@ -161,6 +162,7 @@ namespace OfflineMedia
 
             // Ensure the current window is active
             Window.Current.Activate();
+            TimerHelper.Instance.Stop("Activated...", this);
         }
 
         /// <summary>

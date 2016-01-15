@@ -180,6 +180,8 @@ namespace OfflineMedia.View.ViewModels
             if (_criticalChangeHasHappened)
             {
                 SimpleIoc.Default.Unregister(SimpleIoc.Default.GetInstance<MainPageViewModel>());
+                Messenger.Default.Send(PageKeys.Main, Messages.ReloadGoBackPage);
+
                 _criticalChangeHasHappened = false;
             }
 

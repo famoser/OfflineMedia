@@ -18,6 +18,7 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Timer;
 
 namespace OfflineMedia.View.ViewModels
 {
@@ -63,6 +64,9 @@ namespace OfflineMedia.View.ViewModels
 
         private void EvaluateMessages(ArticleModel obj)
         {
+            var th = new TimerHelper();
+            th.Stop("Evaluating Article Message", this);
+
             if (Sources != null && obj != null)
             {
                 if (_favorites != null && _favorites.BoolValue && Sources.Any() && Sources[Sources.Count - 1].SourceConfiguration.Source == SourceEnum.Favorites)
@@ -79,66 +83,64 @@ namespace OfflineMedia.View.ViewModels
                             Sources[Sources.Count - 1].FeedList[0].ArticleList.Remove(am);
                     }
                 }
-                foreach (var sourceModel in Sources)
+
+                var source =
+                    Sources.FirstOrDefault(d => d.SourceConfiguration == obj.FeedConfiguration.SourceConfiguration);
+                var feed = source?.FeedList.FirstOrDefault(d => d.FeedConfiguration == obj.FeedConfiguration);
+                if (feed != null)
                 {
-                    if (sourceModel.FeedList != null)
+                    var article = feed.ArticleList.FirstOrDefault(a => a.Id == obj.Id);
+                    if (article != null)
                     {
-                        foreach (var feedModel in sourceModel.FeedList)
-                        {
-                            var oldarticle = feedModel.ArticleList.FirstOrDefault(a => a.Id == obj.Id);
-                            if (oldarticle != null)
-                            {
-                                var index = feedModel.ArticleList.IndexOf(oldarticle);
-                                feedModel.ArticleList[index] = obj;
-                            }
-                        }
+                        var index = feed.ArticleList.IndexOf(article);
+                        feed.ArticleList[index] = article;
                     }
                 }
             }
+            th.Stop("Evaluating Article Message", this);
+            var res2 = th.GetAnalytics;
         }
 
         private void EvaluateMessages(List<ArticleModel> obj)
         {
+            var th = new TimerHelper();
+            th.Stop("Evaluating List Message", this);
             var first = obj?.FirstOrDefault();
             if (Sources != null && first != null)
             {
-                foreach (var sourceModel in Sources)
+                var source =
+                    Sources.FirstOrDefault(s => s.SourceConfiguration == first.FeedConfiguration.SourceConfiguration);
+                var feed = source?.FeedList.FirstOrDefault(f => f.FeedConfiguration == first.FeedConfiguration);
+                if (feed != null)
                 {
-                    if (sourceModel.FeedList != null)
+                    if (obj.Count < MaxArticlesPerFeed)
                     {
-                        foreach (var feedModel in sourceModel.FeedList)
+                        var oldcount = obj.Count;
+                        for (int i = obj.Count; i < MaxArticlesPerFeed; i++)
                         {
-                            if (feedModel.FeedConfiguration.Guid == first.FeedConfigurationId || feedModel.FeedConfiguration.Guid == first.FeedConfiguration.Guid)
-                            {
-                                if (obj.Count < MaxArticlesPerFeed)
-                                {
-                                    var oldcount = obj.Count;
-                                    for (int i = obj.Count; i < MaxArticlesPerFeed; i++)
-                                    {
-                                        if (feedModel.ArticleList.Count > i - oldcount)
-                                            obj.Add(feedModel.ArticleList[i - oldcount]);
-                                        else
-                                            break;
-                                    }
-                                }
-
-                                for (int i = 0; i < feedModel.ArticleList.Count; i++)
-                                {
-                                    if (obj.Count > i)
-                                        feedModel.ArticleList[i] = obj[i];
-                                    else
-                                        feedModel.ArticleList.RemoveAt(i);
-                                }
-
-                                for (int i = feedModel.ArticleList.Count; i < MaxArticlesPerFeed && i < obj.Count; i++)
-                                {
-                                    feedModel.ArticleList.Add(obj[i]);
-                                }
-                            }
+                            if (feed.ArticleList.Count > i - oldcount)
+                                obj.Add(feed.ArticleList[i - oldcount]);
+                            else
+                                break;
                         }
+                    }
+
+                    for (int i = 0; i < feed.ArticleList.Count; i++)
+                    {
+                        if (obj.Count > i)
+                            feed.ArticleList[i] = obj[i];
+                        else
+                            feed.ArticleList.RemoveAt(i);
+                    }
+
+                    for (int i = feed.ArticleList.Count; i < MaxArticlesPerFeed && i < obj.Count; i++)
+                    {
+                        feed.ArticleList.Add(obj[i]);
                     }
                 }
             }
+            th.Stop("Evaluating List Message failed", this);
+            var res2 = th.GetAnalytics;
         }
 
         private void ReloadPage(PageKeys obj)
@@ -210,8 +212,12 @@ namespace OfflineMedia.View.ViewModels
         private SettingModel _favorites;
         public async void Initialize()
         {
+            TimerHelper.Instance.Stop("Initilizing...", this);
             _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
+            TimerHelper.Instance.Stop("Progress Showed, Sources start", this);
             Sources = await _articleRepository.GetSources();
+
+            TimerHelper.Instance.Stop("Got Sources, Loading Feeds", this);
             foreach (var sourceModel in Sources)
             {
                 foreach (var feedModel in sourceModel.FeedList)
@@ -238,6 +244,7 @@ namespace OfflineMedia.View.ViewModels
             _favorites = await _settingsRepository.GetSettingByKey(SettingKeys.FavoritesEnabled);
             if (_favorites != null && _favorites.BoolValue)
             {
+                TimerHelper.Instance.Stop("Got Feeds, Getting Favorites...", this);
                 Sources.Add(await _articleRepository.GetFavorites());
             }
 
@@ -258,8 +265,12 @@ namespace OfflineMedia.View.ViewModels
                 _isActualizing = true;
                 _refreshCommand.RaiseCanExecuteChanged();
 
+                TimerHelper.Instance.Stop("Actualizing Articles", this);
                 await _articleRepository.ActualizeArticles();
+                TimerHelper.Instance.Stop("Uploading Stats", this);
                 await _apiRepository.UploadStats();
+
+                var res = TimerHelper.Instance.GetAnalytics;
 
                 _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));

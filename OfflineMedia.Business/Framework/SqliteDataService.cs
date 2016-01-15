@@ -175,6 +175,32 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
+        public async Task<List<T>> GetAllById<T>(List<int> ids) where T : EntityIdBase, new()
+        {
+            await LockDatabase("GetById");
+            try
+            {
+                var res = await _asyncConnection.Table<T>().Where( a=> ids.Any(d => d == a.Id)).ToListAsync();
+
+                await UnlockDatabase();
+                return res;
+            }
+            catch (InvalidOperationException ex)
+            {
+                if (ex.Message != "Sequence contains no elements")
+                {
+                    LogHelper.Instance.Log(LogLevel.Error, this, "GetAllById failed for " + typeof(T).Name, ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "GetAllById failed for " + typeof(T).Name, ex);
+            }
+
+            await UnlockDatabase();
+            return null;
+        }
+
         public async Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new()
         {
             await LockDatabase("DeleteAllById");
