@@ -6,15 +6,19 @@ using OfflineMedia.Data.Entities;
 
 namespace OfflineMedia.Data
 {
+    /// <summary>
+    /// Data Service
+    /// </summary>
     public interface IDataService
     {
         Task<T> GetById<T>(int id) where T : class, new();
-        Task<List<T>> GetAllById<T>(List<int> ids) where T : EntityIdBase, new();
+        Task<List<T>> GetAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new();
+        Task<List<T>> GetAll<T>() where T : EntityIdBase, new();
         Task<bool> DeleteById<T>(int id) where T : class, new();
-        Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new();
+        Task<bool> DeleteAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new();
         Task<int> Add<T>(T entity) where T : EntityIdBase, new();
-        Task<List<int>> AddAll<T>(List<T> entity) where T : EntityIdBase, new();
-        Task<bool> UpdateAll<T>(List<T> entity) where T : EntityIdBase, new();
+        Task<List<int>> AddAll<T>(IEnumerable<T> entity) where T : EntityIdBase, new();
+        Task<bool> UpdateAll<T>(IEnumerable<T> entity) where T : EntityIdBase, new();
         Task<bool> Update<T>(T entity) where T : EntityIdBase, new();
         Task<int> GetHighestId<T>() where T : EntityIdBase, new();
 

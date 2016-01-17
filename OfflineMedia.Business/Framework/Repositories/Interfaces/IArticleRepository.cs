@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Models;
@@ -20,6 +21,8 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         bool ActualizeArticle(ArticleModel article);
 
         void UpdateArticleFlat(ArticleModel am);
+
+        void AddListProperties(List<ArticleModel> am);
 
         Task<ArticleModel> GetArticleById(int articleId);
         Task<ArticleModel> GetCompleteArticle(int articleId);

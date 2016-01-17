@@ -175,12 +175,12 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
-        public async Task<List<T>> GetAllById<T>(List<int> ids) where T : EntityIdBase, new()
+        public async Task<List<T>> GetAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new()
         {
             await LockDatabase("GetById");
             try
             {
-                var res = await _asyncConnection.Table<T>().Where( a=> ids.Any(d => d == a.Id)).ToListAsync();
+                var res = await _asyncConnection.Table<T>().Where(a => ids.Any(d => d == a.Id)).ToListAsync();
 
                 await UnlockDatabase();
                 return res;
@@ -201,18 +201,39 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
-        public async Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new()
+        public async Task<List<T>> GetAll<T>() where T : EntityIdBase, new()
+        {
+            await LockDatabase("GetById");
+            try
+            {
+                var res = await _asyncConnection.Table<T>().ToListAsync();
+
+                await UnlockDatabase();
+                return res;
+            }
+            catch (InvalidOperationException ex)
+            {
+                if (ex.Message != "Sequence contains no elements")
+                {
+                    LogHelper.Instance.Log(LogLevel.Error, this, "GetAll failed for " + typeof(T).Name, ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "GetAll failed for " + typeof(T).Name, ex);
+            }
+
+            await UnlockDatabase();
+            return null;
+        }
+
+        public async Task<bool> DeleteAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new()
         {
             await LockDatabase("DeleteAllById");
             try
             {
-                await _asyncConnection.RunInTransactionAsync(conn =>
-                {
-                    foreach (var id in ids)
-                    {
-                        conn.Delete<T>(id);
-                    }
-                });
+                var args = string.Join(",", ids);
+                await _asyncConnection.ExecuteAsync("DELETE FROM " + typeof(T).Name + " WHERE id IN (" + args + ");");
 
                 await UnlockDatabase();
                 return true;
@@ -249,11 +270,11 @@ namespace OfflineMedia.Business.Framework
                     return res;
                 }
             }
-            
+
             return -1;
         }
 
-        public async Task<List<int>> AddAll<T>(List<T> obj) where T : EntityIdBase, new()
+        public async Task<List<int>> AddAll<T>(IEnumerable<T> obj) where T : EntityIdBase, new()
         {
             await LockDatabase("AddAll");
             try
@@ -305,11 +326,11 @@ namespace OfflineMedia.Business.Framework
                     return true;
                 }
             }
-            
+
             return false;
         }
 
-        public async Task<bool> UpdateAll<T>(List<T> obj) where T : EntityIdBase, new()
+        public async Task<bool> UpdateAll<T>(IEnumerable<T> obj) where T : EntityIdBase, new()
         {
             await LockDatabase("UpdateAll");
             try
@@ -365,7 +386,7 @@ namespace OfflineMedia.Business.Framework
                     return res;
                 }
             }
-            
+
             return -1;
         }
 
@@ -391,7 +412,7 @@ namespace OfflineMedia.Business.Framework
                     return true;
                 }
             }
-            
+
             return false;
         }
 
@@ -406,7 +427,7 @@ namespace OfflineMedia.Business.Framework
                     if (descending)
                     {
                         if (limit > 0)
-                            res= await
+                            res = await
                                     _asyncConnection.Table<T>()
                                         .Where(func)
                                         .OrderByDescending(orderByProperty)
@@ -505,24 +526,16 @@ namespace OfflineMedia.Business.Framework
 
         public async Task<bool> DeleteArticlesById(IEnumerable<int> articleIds)
         {
+            await DeleteAllById<ArticleEntity>(articleIds);
             await LockDatabase("DeleteArticlesById");
             try
             {
-                await _asyncConnection.RunInTransactionAsync(conn =>
-                {
-                    foreach (var articleId in articleIds)
-                    {
-                        conn.Delete<ArticleEntity>(articleId);
-                    }
-
-                    //clear tables from invalid values
-                    conn.Execute("DELETE FROM ContentEntity WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
-                    conn.Execute("DELETE FROM GalleryEntity WHERE Id NOT IN (SELECT GalleryId FROM ContentEntity)");
-                    conn.Execute("DELETE FROM ImageEntity WHERE GalleryId NOT IN (SELECT Id FROM GalleryEntity) AND GalleryId > 0");
-                    conn.Execute("DELETE FROM ImageEntity WHERE Id NOT IN (SELECT LeadImageId FROM ArticleEntity) AND GalleryId = 0");
-                    conn.Execute("DELETE FROM RelatedArticleRelations WHERE Article1Id NOT IN (SELECT Id FROM ArticleEntity) OR Article2Id NOT IN (SELECT Id FROM ArticleEntity)");
-                    conn.Execute("DELETE FROM ThemeArticleRelations WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
-                });
+                await _asyncConnection.ExecuteAsync("DELETE FROM ContentEntity WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
+                await _asyncConnection.ExecuteAsync("DELETE FROM GalleryEntity WHERE Id NOT IN (SELECT GalleryId FROM ContentEntity)");
+                await _asyncConnection.ExecuteAsync("DELETE FROM ImageEntity WHERE GalleryId NOT IN (SELECT Id FROM GalleryEntity) AND GalleryId > 0");
+                await _asyncConnection.ExecuteAsync("DELETE FROM ImageEntity WHERE Id NOT IN (SELECT LeadImageId FROM ArticleEntity) AND GalleryId = 0");
+                await _asyncConnection.ExecuteAsync("DELETE FROM RelatedArticleRelations WHERE Article1Id NOT IN (SELECT Id FROM ArticleEntity) OR Article2Id NOT IN (SELECT Id FROM ArticleEntity)");
+                await _asyncConnection.ExecuteAsync("DELETE FROM ThemeArticleRelations WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
 
                 await UnlockDatabase();
                 return true;
@@ -544,14 +557,14 @@ namespace OfflineMedia.Business.Framework
                 {
                     conn.Execute("UPDATE ArticleEntity SET State=0 WHERE State=1");
                 });
-                
+
                 return true;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "ResetLoadingEnum", ex);
             }
-            
+
             return false;
         }
 
@@ -561,7 +574,7 @@ namespace OfflineMedia.Business.Framework
         {
             var guid = Guid.NewGuid();
             _process.Enqueue(guid);
-            while (await IsLocked(guid)) {}
+            while (await IsLocked(guid)) { }
             Lock(activeLock);
         }
 

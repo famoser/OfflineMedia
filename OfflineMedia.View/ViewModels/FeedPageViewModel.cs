@@ -79,6 +79,8 @@ namespace OfflineMedia.View.ViewModels
                             Feed.ArticleList.Add(obj[i]);
                         }
                     }
+
+                    _articleRepository.AddListProperties(Feed.ArticleList.ToList());
                 }
             }
         }

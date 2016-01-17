@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OfflineMedia.Business.Framework.Generic;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Framework.Logs;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -89,6 +90,33 @@ namespace OfflineMedia.Business.Framework.Repositories
             return new List<TBusiness>();
         }
 
+        public async Task<List<TBusiness>> GetAll()
+        {
+            try
+            {
+                var entityList = await _dataService.GetAll<TEntity>();
+
+                if (entityList.Any())
+                {
+                    var list = new List<TBusiness>();
+                    foreach (var entity in entityList)
+                    {
+                        var business = new TBusiness();
+                        business = _entityBusinessConverter.ConvertToBusiness(entity, business);
+                        list.Add(business);
+                    }
+
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = String.Format("Exception Occured while trying to Get Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+            }
+            return new List<TBusiness>();
+        }
+
         public async Task<int> CountByCondition(Expression<Func<TEntity, bool>> func)
         {
             try
@@ -127,11 +155,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
-                List<TEntity> list = new List<TEntity>();
-                foreach (var business1 in business)
-                {
-                    list.Add(_entityBusinessConverter.ConvertToEntity(business1, new TEntity(), true));
-                }
+                var list = _entityBusinessConverter.ConvertAllToEntity<TBusiness, TEntity>(business);
                 var res = await _dataService.AddAll(list);
                 if (res.Count == business.Count)
                 {
@@ -170,11 +194,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
-                List<TEntity> list = new List<TEntity>();
-                foreach (var business1 in business)
-                {
-                    list.Add(_entityBusinessConverter.ConvertToEntity(business1, new TEntity(), true));
-                }
+                var list = _entityBusinessConverter.ConvertAllToEntity<TBusiness, TEntity>(business);
                 return await _dataService.UpdateAll(list);
             }
             catch (Exception ex)
@@ -185,17 +205,11 @@ namespace OfflineMedia.Business.Framework.Repositories
             return false;
         }
 
-
-
         public async Task<bool> DeleteAll(List<TBusiness> business)
         {
             try
             {
-                List<int> list = new List<int>();
-                foreach (var business1 in business)
-                {
-                    list.Add(_entityBusinessConverter.GetPrimaryKeyFromBusiness(business1));
-                }
+                List<int> list = _entityBusinessConverter.GetPrimaryKeyFromBusinesses(business);
                 return await _dataService.DeleteAllById<TEntity>(list);
             }
             catch (Exception ex)

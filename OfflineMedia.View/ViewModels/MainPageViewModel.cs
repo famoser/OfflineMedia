@@ -113,30 +113,16 @@ namespace OfflineMedia.View.ViewModels
                 var feed = source?.FeedList.FirstOrDefault(f => f.FeedConfiguration == first.FeedConfiguration);
                 if (feed != null)
                 {
-                    if (obj.Count < MaxArticlesPerFeed)
+                    for (int i = 0; i < feed.ArticleList.Count && i < obj.Count && i < MaxArticlesPerFeed; i++)
                     {
-                        var oldcount = obj.Count;
-                        for (int i = obj.Count; i < MaxArticlesPerFeed; i++)
-                        {
-                            if (feed.ArticleList.Count > i - oldcount)
-                                obj.Add(feed.ArticleList[i - oldcount]);
-                            else
-                                break;
-                        }
+                        feed.ArticleList[i] = obj[i];
                     }
-
-                    for (int i = 0; i < feed.ArticleList.Count; i++)
-                    {
-                        if (obj.Count > i)
-                            feed.ArticleList[i] = obj[i];
-                        else
-                            feed.ArticleList.RemoveAt(i);
-                    }
-
                     for (int i = feed.ArticleList.Count; i < MaxArticlesPerFeed && i < obj.Count; i++)
                     {
                         feed.ArticleList.Add(obj[i]);
                     }
+
+                    _articleRepository.AddListProperties(feed.ArticleList.ToList());
                 }
             }
             th.Stop("Evaluating List Message failed", this);

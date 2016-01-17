@@ -149,6 +149,11 @@ namespace OfflineMedia.Business.Models.NewsModel
             return Content != null && Content.Any();
         }
 
+        public bool IsInDatabase()
+        {
+            return Id != 0;
+        }
+
         public bool IsStatic { get; set; }
     }
 }

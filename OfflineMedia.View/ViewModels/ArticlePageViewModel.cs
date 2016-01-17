@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -100,7 +101,7 @@ namespace OfflineMedia.View.ViewModels
         private async void SelectArticle(ArticleModel am)
         {
             SetDisplayState(DisplayState.Article);
-            if (!am.IsStatic)
+            if (!am.IsStatic && am.IsInDatabase())
             {
                 Article = am;
                 if (Article.State == ArticleState.New)
@@ -172,10 +173,29 @@ namespace OfflineMedia.View.ViewModels
         public ArticleModel Article
         {
             get { return _article; }
-            set { if (Set(ref _article, value))
+            set
+            {
+                var oldarticle = _article;
+                if (Set(ref _article, value))
+                {
+                    if (_article != null)
+                        _article.PropertyChanged += ArticleOnPropertyChanged;
+
+                    if (oldarticle != null)
+                        oldarticle.PropertyChanged -= ArticleOnPropertyChanged;
+
                     _reloadArticleCommand.RaiseCanExecuteChanged();
+                }
             }
         }
+
+        private void ArticleOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == "Content")
+                //fix failed redering of Content
+                RaisePropertyChanged(() => Article);
+        }
+
 
         private DisplayState _displayState;
         public DisplayState DisplayState

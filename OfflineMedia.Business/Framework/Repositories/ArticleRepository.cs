@@ -204,7 +204,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             return sourceModel;
         }
-        
+
         public void UpdateArticleFlat(ArticleModel am)
         {
             _toDatabaseFlatArticles.Add(am);
@@ -213,16 +213,31 @@ namespace OfflineMedia.Business.Framework.Repositories
 #pragma warning restore 4014
         }
 
-        private async Task UpdateArticleFlat(ArticleModel am, IDataService dataService)
+        public async void AddListProperties(List<ArticleModel> am)
         {
-            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-            await repo.Update(am);
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                foreach (var articleModel in am)
+                {
+                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
+                    if (articleModel.LeadImage == null)
+                    {
+                        articleModel.LeadImage = await imageRepo.GetById(articleModel.LeadImageId);
+                    }
+                }
+            }
         }
 
         private async Task AddAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
         {
             var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
             await repo.AddAll(am);
+        }
+
+        private async Task UpdateAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
+        {
+            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
+            await repo.UpdateAll(am);
         }
 
         public async Task<ArticleModel> GetArticleById(int articleId)
@@ -348,8 +363,11 @@ namespace OfflineMedia.Business.Framework.Repositories
             try
             {
                 var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
-                model.LeadImage = await imageRepo.GetById(model.LeadImageId);
-
+                if (model.LeadImage == null)
+                {
+                    model.LeadImage = await imageRepo.GetById(model.LeadImageId);
+                }
+               
                 if (deep)
                 {
                     var contentRepo = new GenericRepository<ContentModel, ContentEntity>(dataService);
@@ -369,10 +387,9 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                     model.Themes = await _themeRepository.GetThemesByArticleId(model.Id);
                     model.RelatedArticles = await GetRelatedArticlesByArticleId(model.Id, dataService);
-
-                    model.FeedConfiguration = await SimpleIoc.Default.GetInstance<ISettingsRepository>().GetFeedConfigurationFor(model.FeedConfigurationId, dataService);
                 }
-            }
+
+             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "AddModels failed!", ex);
