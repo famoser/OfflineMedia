@@ -18,6 +18,7 @@ using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.Common.Framework.Timer;
+using OfflineMedia.Common.Helpers;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -311,38 +312,51 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             using (var unitOfWork = new UnitOfWork(true))
             {
-                var keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                List<int> list = new List<int>();
-                foreach (var keyword in keywords)
+                string[] keywords = null;
+                if (article.WordDump != null)
+                keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                else
                 {
-                    list.AddRange(await (await unitOfWork.GetDataService()).GetByKeyword(keyword));
+                    var str = article.Title + " " + article.SubTitle;
+                    if (!string.IsNullOrWhiteSpace(str))
+                        keywords = TextHelper.Instance.GetImportantWords(str).ToArray();
                 }
-
-                var countDic = new Dictionary<int, int>();
-                foreach (var id in list)
+                if (keywords != null)
                 {
-                    if (id != article.Id)
+                    List<int> list = new List<int>();
+                    foreach (var keyword in keywords)
                     {
-                        if (countDic.ContainsKey(id))
-                            countDic[id]++;
-                        else
-                            countDic.Add(id, 1);
+                        list.AddRange(await (await unitOfWork.GetDataService()).GetByKeyword(keyword));
                     }
-                }
 
-                ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
-                var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
-                for (int i = 0; i < favorites.Count() && i < max; i++)
-                {
-                    var newart = await articleRepo.GetById(favorites[i]);
-                    if (newart != null)
-                        articles.Add(newart);
-                }
+                    var countDic = new Dictionary<int, int>();
+                    foreach (var id in list)
+                    {
+                        if (id != article.Id)
+                        {
+                            if (countDic.ContainsKey(id))
+                                countDic[id]++;
+                            else
+                                countDic.Add(id, 1);
+                        }
+                    }
 
-                await AddModels(articles);
-                return articles;
+                    ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
+                    var articleRepo =
+                        new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                    var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
+                    for (int i = 0; i < favorites.Count() && i < max; i++)
+                    {
+                        var newart = await articleRepo.GetById(favorites[i]);
+                        if (newart != null)
+                            articles.Add(newart);
+                    }
+
+                    await AddModels(articles);
+                    return articles;
+                }
             }
+            return new ObservableCollection<ArticleModel>();
         }
 
         private async Task<List<ArticleModel>> AddModels(IEnumerable<ArticleModel> models, bool deep = false)
@@ -389,7 +403,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                     model.RelatedArticles = await GetRelatedArticlesByArticleId(model.Id, dataService);
                 }
 
-             }
+                model.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(model.FeedConfigurationId, dataService);
+            }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "AddModels failed!", ex);
