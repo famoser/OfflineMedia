@@ -39,7 +39,7 @@ namespace OfflineMedia.Business.Helpers
                         }
                     }
 
-                    return await client.GetStringAsync(url);
+                    return await client.GetStringAsync(url).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace OfflineMedia.Business.Helpers
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
 
-                var response = await request.GetResponseAsync();
+                var response = await request.GetResponseAsync().ConfigureAwait(false);
 
                 StringBuilder stringBuilder = new StringBuilder();
                 using (StreamReader reader = new StreamReader(response.GetResponseStream(), enc))
@@ -92,7 +92,7 @@ namespace OfflineMedia.Business.Helpers
             {
                 using (var client = new HttpClient())
                 {
-                    return await client.GetStreamAsync(url);
+                    return await client.GetStreamAsync(url).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -110,7 +110,7 @@ namespace OfflineMedia.Business.Helpers
                 {
                     using (var client = new HttpClient())
                     {
-                        return await client.GetByteArrayAsync(url);
+                        return await client.GetByteArrayAsync(url).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)

@@ -16,10 +16,13 @@
 
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="TextForegroundThemeBrush" Color="#FEF4F4F4" />
-                    <SolidColorBrush x:Key="TextBackgroundThemeBrush" Color="#000000" />
-                    <SolidColorBrush x:Key="ForegroundThemeBrush" Color="#ffffff" />
-                    <SolidColorBrush x:Key="BackgroundThemeBrush" Color="#000000" />
+                    <SolidColorBrush x:Key="TextForegroundThemeBrush" Color="#F6F6F6" />
+                    <SolidColorBrush x:Key="TextBackgroundThemeBrush" Color="#434343" />
+                    <SolidColorBrush x:Key="ForegroundThemeBrush" Color="#F6F6F6" />
+                    <SolidColorBrush x:Key="BackgroundThemeBrush" Color="#434343" />
+                    <SolidColorBrush x:Key="AkzentBackgroundThemeBrush" Color="#2f8841" />
+                    <SolidColorBrush x:Key="AkzentLightBackgroundThemeBrush" Color="#662F8841" />
+                    <SolidColorBrush x:Key="AkzentForegroundThemeBrush" Color="#434343" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="TextForegroundThemeBrush" Color="#434343" />
@@ -53,7 +56,7 @@
 
             <DataTemplate x:Key="ArticleListItemTemplate" >
                 <Grid Margin="0,0,0,4" >
-                    <StackPanel Background="White" HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}">
+                    <StackPanel Background="{ThemeResource TextBackgroundThemeBrush}" HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}">
                         
                         <TextBlock HorizontalAlignment="Right" Margin="0,4,4,0" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource TextForegroundThemeBrush}" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}" />
                         <TextBlock Margin="10,4,0,0" TextTrimming="WordEllipsis" Foreground="{ThemeResource TextForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="18" Text="{Binding Title}" />
@@ -235,7 +238,7 @@
             <Style TargetType="Button" x:Key="MyDayButton">
                 <Setter Property="VerticalAlignment" Value="Top" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="Background" Value="White" />
+                <Setter Property="Background" Value="{ThemeResource TextBackgroundThemeBrush}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="BorderBrush" Value="{ThemeResource AkzentBackgroundThemeBrush}"/>
             </Style>

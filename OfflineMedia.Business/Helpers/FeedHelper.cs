@@ -22,30 +22,37 @@ namespace OfflineMedia.Business.Helpers
                 string feedresult = await Download.DownloadStringAsync(new Uri(feed.FeedConfiguration.Url));
                 var newfeed = await mediaSourceHelper.EvaluateFeed(feedresult, feed.Source.SourceConfiguration, feed.FeedConfiguration);
 
-                foreach (var article in newfeed)
+                if (newfeed != null)
                 {
-                    article.FeedConfiguration = feed.FeedConfiguration;
-                }
+                    foreach (var article in newfeed)
+                    {
+                        article.FeedConfiguration = feed.FeedConfiguration;
+                    }
 
-                var tsks = new List<Task>();
-                for (int i = 0; i < ConcurrentThreads; i++)
-                {
-                    tsks.Add(DownloadImages());
+                    return newfeed;
                 }
-
-                while (tsks.Count > 0)
-                {
-                    var tsk = tsks.FirstOrDefault();
-                    if (tsk.Status <= TaskStatus.Running)
-                        await tsk;
-                    tsks.Remove(tsk);
-                }
-
-                return newfeed;
             }
             return null;
         }
 
+        public async Task DownloadPictures(List<ArticleModel> models)
+        {
+            _toDo.AddRange(models);
+            for (int i = 0; i < ConcurrentThreads; i++)
+            {
+                tsks.Add(DownloadImages());
+            }
+
+            while (tsks.Count > 0)
+            {
+                var tsk = tsks.FirstOrDefault();
+                if (tsk.Status <= TaskStatus.Running)
+                    await tsk;
+                tsks.Remove(tsk);
+            }
+        }
+
+        private List<Task> tsks = new List<Task>();
         private List<ArticleModel> _toDo = new List<ArticleModel>(); 
         private async Task DownloadImages()
         {

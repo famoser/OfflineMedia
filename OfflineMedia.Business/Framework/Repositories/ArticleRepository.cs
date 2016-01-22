@@ -229,12 +229,6 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private async Task AddAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
-        {
-            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-            await repo.AddAll(am);
-        }
-
         private async Task UpdateAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
         {
             var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
@@ -273,39 +267,53 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         public async Task<ObservableCollection<ArticleModel>> GetSimilarCathegoriesArticles(ArticleModel article, int max)
         {
-            using (var unitOfWork = new UnitOfWork(true))
+            try
             {
-                List<ThemeArticleRelationModel> list = new List<ThemeArticleRelationModel>();
-                foreach (var themeModel in article.Themes)
+                using (var unitOfWork = new UnitOfWork(true))
                 {
-                    var themeRepo = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(await unitOfWork.GetDataService());
-                    list.AddRange(await themeRepo.GetByCondition(t => t.ThemeId == themeModel.Id));
-                }
-
-                var countDic = new Dictionary<int, int>();
-                foreach (var themeArticleRelationModel in list)
-                {
-                    if (themeArticleRelationModel.ArticleId != article.Id)
+                    List<ThemeArticleRelationModel> list = new List<ThemeArticleRelationModel>();
+                    if (article.Themes != null)
                     {
-                        if (countDic.ContainsKey(themeArticleRelationModel.ArticleId))
-                            countDic[themeArticleRelationModel.ArticleId]++;
-                        else
-                            countDic.Add(themeArticleRelationModel.ArticleId, 1);
+                        foreach (var themeModel in article.Themes)
+                        {
+                            var themeRepo =
+                                new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(
+                                    await unitOfWork.GetDataService());
+                            list.AddRange(await themeRepo.GetByCondition(t => t.ThemeId == themeModel.Id));
+                        }
+
+                        var countDic = new Dictionary<int, int>();
+                        foreach (var themeArticleRelationModel in list)
+                        {
+                            if (themeArticleRelationModel.ArticleId != article.Id)
+                            {
+                                if (countDic.ContainsKey(themeArticleRelationModel.ArticleId))
+                                    countDic[themeArticleRelationModel.ArticleId]++;
+                                else
+                                    countDic.Add(themeArticleRelationModel.ArticleId, 1);
+                            }
+                        }
+                        ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
+                        var articleRepo =
+                            new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                        var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
+                        for (int i = 0; i < favorites.Count() && i < max; i++)
+                        {
+                            var newart = await articleRepo.GetById(favorites[i]);
+                            if (newart != null)
+                                articles.Add(newart);
+                        }
+
+                        await AddModels(articles);
+                        return articles;
                     }
                 }
-                ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
-                var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
-                for (int i = 0; i < favorites.Count() && i < max; i++)
-                {
-                    var newart = await articleRepo.GetById(favorites[i]);
-                    if (newart != null)
-                        articles.Add(newart);
-                }
-
-                await AddModels(articles);
-                return articles;
             }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex);
+            }
+            return new ObservableCollection<ArticleModel>();
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetSimilarTitlesArticles(ArticleModel article, int max)

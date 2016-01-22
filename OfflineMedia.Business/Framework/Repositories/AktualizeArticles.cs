@@ -21,7 +21,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository
     {
-        private const int ConcurrentThreads = 4;
+        private const int ConcurrentThreads = 1;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
         private List<ArticleModel> _newArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
@@ -337,6 +337,10 @@ namespace OfflineMedia.Business.Framework.Repositories
                                 }
                             }
                         }
+
+                        //if (newarticles.Any())
+                        //    await FeedHelper.Instance.DownloadPictures(newarticles);
+
                         Messenger.Default.Send(articles, Messages.FeedRefresh);
 
                         //delete old ones

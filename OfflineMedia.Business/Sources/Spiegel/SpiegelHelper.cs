@@ -123,24 +123,13 @@ namespace OfflineMedia.Business.Sources.Spiegel
                         .Descendants("div")
                         .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
                                              o.GetAttributeValue("id", null).Contains("js-article-column"));
-
-                    var author = articleColumn
-                        .Descendants("p")
-                        .FirstOrDefault();
-
-                    if (author != null)
-                    {
-                        am.Author = author.InnerText;
-                    }
-
+                    
                     var content = articleColumn
-                        .Descendants("div")
-                        .FirstOrDefault();
+                        .Descendants("p");
 
                     if (content != null)
                     {
-                        var ps = content.Descendants("p");
-                        var html = ps.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
+                        var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                         am.Content = new List<ContentModel>
                         {
                             new ContentModel {Html = html, ContentType = ContentType.Html}
