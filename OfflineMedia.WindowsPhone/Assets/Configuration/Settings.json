@@ -1,0 +1,51 @@
+﻿[
+    {
+        "Guid": "f6cdc2c8-e645-4a48-8fae-a312838ca378",
+        "Key": "UseMobileData",
+        "DefaultValue": "false",
+        "IsChangeable": "false",
+        "ValueType": "0",
+        "OnContent": "Mobile Daten ein",
+        "OffContent": "Mobile Daten aus"
+    },
+    {
+        "Guid": "f1d1e0d4-c0e2-4905-8a93-9bb73d62ce43",
+        "Key": "WordsPerMinute",
+        "DefaultValue": "300",
+        "IsChangeable": "true",
+        "ValueType": "1",
+        "Description": "Wörter pro Min. in Spritz"
+    },
+    {
+        "Guid": "b35d9e74-8ea8-45f5-84e8-7f66c9273f55",
+        "Key": "BaseFontSize",
+        "DefaultValue": "15",
+        "IsChangeable": "true",
+        "ValueType": "1",
+        "Description": "Textgrösse"
+    },
+    {
+        "Guid": "2ff43da6-effc-4006-a1ac-510f170bb048",
+        "Key": "IsFirstTime",
+        "DefaultValue": "true",
+        "IsChangeable": "false",
+        "ValueType": "0"
+    },
+    {
+        "Guid": "cd5a6bd0-643a-4293-9d5f-35cd57cec95e",
+        "Key": "FavoritesEnabled",
+        "DefaultValue": "false",
+        "IsChangeable": "true",
+        "IsCriticalChange": "true",
+        "ValueType": "0",
+        "OnContent": "Favoriten anzeigen",
+        "OffContent": "Favoriten ausblenden"
+    },
+    {
+        "Guid": "ca19688a-8e3b-46b5-af69-ab6061529cc2",
+        "Key": "UniqueDeviceId",
+        "DefaultValue": "5201b6e5-7420-478a-8465-4c33dd381487",
+        "IsChangeable": "false",
+        "ValueType": "3"
+    }
+]
