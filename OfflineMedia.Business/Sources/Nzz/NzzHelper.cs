@@ -83,7 +83,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             return new Tuple<bool, ArticleModel>(false, am);
         }
 
-        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Content = evaluatedArticle.Content;
             original.Author = evaluatedArticle.Author;

@@ -123,7 +123,7 @@ namespace OfflineMedia.Business.Sources.Bild
             return new Tuple<bool, ArticleModel>(true, am);
         }
 
-        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Content = evaluatedArticle.Content;
             original.PublicationTime = evaluatedArticle.PublicationTime;

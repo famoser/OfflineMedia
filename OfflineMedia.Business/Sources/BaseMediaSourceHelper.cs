@@ -13,21 +13,21 @@ namespace OfflineMedia.Business.Sources
     {
         public abstract Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm);
 
-        public bool NeedsToEvaluateArticle()
+        public virtual bool NeedsToEvaluateArticle()
         {
             return true;
         }
 
         public abstract Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am);
 
-        public bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public virtual bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Author = evaluatedArticle.Author;
             original.Content = evaluatedArticle.Content;
             return true;
         }
 
-        public List<string> GetKeywords(ArticleModel articleModel)
+        public virtual List<string> GetKeywords(ArticleModel articleModel)
         {
             var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
             var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
