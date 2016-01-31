@@ -58,50 +58,10 @@ namespace OfflineMedia.View.ViewModels
                 Initialize();
 
             Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, ReloadPage);
-            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, EvaluateMessages);
             Messenger.Default.Register<List<ArticleModel>>(this, Messages.FeedRefresh, EvaluateMessages);
         }
 
-        private void EvaluateMessages(ArticleModel obj)
-        {
-            var th = new TimerHelper();
-            th.Stop("Evaluating Article Message", this);
-
-            if (Sources != null && obj != null)
-            {
-                if (_favorites != null && _favorites.BoolValue && Sources.Any() && Sources[Sources.Count - 1].SourceConfiguration.Source == SourceEnum.Favorites)
-                {
-                    if (obj.IsFavorite)
-                    {
-                        if (Sources[Sources.Count - 1].FeedList[0].ArticleList.Any(a => a.Id != obj.Id))
-                            Sources[Sources.Count - 1].FeedList[0].ArticleList.Insert(0, obj);
-                    }
-                    else
-                    {
-                        var am = Sources[Sources.Count - 1].FeedList[0].ArticleList.FirstOrDefault(d => d.Id == obj.Id);
-                        if (am != null)
-                            Sources[Sources.Count - 1].FeedList[0].ArticleList.Remove(am);
-                    }
-                }
-
-                var source =
-                    Sources.FirstOrDefault(d => d.SourceConfiguration == obj.FeedConfiguration.SourceConfiguration);
-                var feed = source?.FeedList.FirstOrDefault(d => d.FeedConfiguration == obj.FeedConfiguration);
-                if (feed != null)
-                {
-                    var article = feed.ArticleList.FirstOrDefault(a => a.Id == obj.Id);
-                    if (article != null)
-                    {
-                        var index = feed.ArticleList.IndexOf(article);
-                        feed.ArticleList[index] = article;
-                    }
-                }
-            }
-            th.Stop("Evaluating Article Message", this);
-            var res2 = th.GetAnalytics;
-        }
-
-        private void EvaluateMessages(List<ArticleModel> obj)
+        private async void EvaluateMessages(List<ArticleModel> obj)
         {
             var th = new TimerHelper();
             th.Stop("Evaluating List Message", this);
@@ -122,10 +82,13 @@ namespace OfflineMedia.View.ViewModels
                         feed.ArticleList.Add(obj[i]);
                     }
 
-                    _articleRepository.AddListProperties(feed.ArticleList.ToList());
+                    foreach (var articleModel in feed.ArticleList)
+                    {
+                        await _articleRepository.LoadMoreArticleContent(articleModel);
+                    }
                 }
             }
-            th.Stop("Evaluating List Message failed", this);
+            th.Stop("Evaluating List Message finished", this);
             var res2 = th.GetAnalytics;
         }
 
@@ -208,19 +171,13 @@ namespace OfflineMedia.View.ViewModels
             {
                 foreach (var feedModel in sourceModel.FeedList)
                 {
-                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 1);
-                    if (feedModel.ArticleList.Count == 1)
+                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
+                    if (feedModel.ArticleList.Count > 0)
                     {
-                        //load rest of articles
-                        for (int i = 1; i < MaxArticlesPerFeed; i++)
+                        //load images
+                        foreach (var articleModel in feedModel.ArticleList)
                         {
-                            var newarticle =
-                                (await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 1, i))
-                                    .FirstOrDefault();
-                            if (newarticle != null)
-                                feedModel.ArticleList.Add(newarticle);
-                            else
-                                break;
+                            await _articleRepository.LoadMoreArticleContent(articleModel);
                         }
                     }
                     else

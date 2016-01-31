@@ -26,9 +26,11 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository : IArticleRepository
     {
-        private ISettingsRepository _settingsRepository;
-        private IThemeRepository _themeRepository;
-        private IProgressService _progressService;
+        private readonly ISettingsRepository _settingsRepository;
+        private readonly IThemeRepository _themeRepository;
+        private readonly IProgressService _progressService;
+
+        private List<ArticleModel> _repoArticles;
 
         public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService)
         {
@@ -131,6 +133,52 @@ namespace OfflineMedia.Business.Framework.Repositories
             return GetInfoArticle();
         }
 
+        public async Task<bool> UpdateArticleState(ArticleModel am)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                return await (await unitOfWork.GetDataService()).SetArticleState(am.Id, (int)am.State);
+            }
+        }
+
+        public async Task<bool> UpdateArticleFavorite(ArticleModel am)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                if (_favoriteSourceModel != null && _favoriteSourceModel.FeedList != null && _favoriteSourceModel.FeedList.Count > 0 && _favoriteSourceModel.FeedList[0].ArticleList != null)
+                {
+                    if (am.IsFavorite)
+                    {
+                        if (!_favoriteSourceModel.FeedList[0].ArticleList.Contains(am))
+                            _favoriteSourceModel.FeedList[0].ArticleList.Add(am);
+                    }
+                    else
+                    {
+                        if (_favoriteSourceModel.FeedList[0].ArticleList.Contains(am))
+                            _favoriteSourceModel.FeedList[0].ArticleList.Remove(am);
+                    }
+                }
+                return await (await unitOfWork.GetDataService()).SetArticleFavorite(am.Id, am.IsFavorite);
+            }
+        }
+
+        public async Task LoadMoreArticleContent(ArticleModel am, bool content = false)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                if (am.LeadImage == null && am.LeadImageId > 0)
+                {
+                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
+                    am.LeadImage = await imageRepo.GetById(am.LeadImageId);
+                }
+                if (content && am.Content == null)
+                {
+                    var contentRepo = new GenericRepository<ContentModel, ContentEntity>(await unitOfWork.GetDataService());
+                    am.Content = await contentRepo.GetByCondition(d => d.ArticleId == am.Id, d => d.Order);
+                }
+            }
+        }
+
         private ObservableCollection<SourceModel> _sources;
         public async Task<ObservableCollection<SourceModel>> GetSources()
         {
@@ -138,7 +186,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             TimerHelper.Instance.Stop("GetSources starting", this);
             using (var unitOfWork = new UnitOfWork(true))
             {
-                var sources = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
+                var sources = await _settingsRepository.GetSourceConfigurations();
 
                 TimerHelper.Instance.Stop("Generating Models", this);
                 foreach (var source in sources)
@@ -169,100 +217,63 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
+                TimerHelper.Instance.Stop("Getting all articles from Database", this);
+                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                _repoArticles = await repo.GetAll();
+                foreach (var articleModel in _repoArticles)
+                {
+                    articleModel.FeedConfiguration =
+                        await _settingsRepository.GetFeedConfigurationFor(articleModel.FeedConfigurationId);
+                }
+
+                TimerHelper.Instance.Stop("Got all articles from Database", this);
+
                 return _sources;
             }
         }
 
+        private SourceModel _favoriteSourceModel;
         public async Task<SourceModel> GetFavorites()
         {
-            var sourceModel = new SourceModel
+            if (_favoriteSourceModel == null)
             {
-                SourceConfiguration = new SourceConfigurationModel()
+                _favoriteSourceModel = new SourceModel
                 {
-                    SourceNameLong = "Favoriten",
-                    SourceNameShort = "Favoriten",
-                    Source = SourceEnum.Favorites
-                }
-            };
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var articles = new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.IsFavorite, d => d.ChangeDate, true)));
-                sourceModel.FeedList = new ObservableCollection<FeedModel>()
+                    SourceConfiguration = new SourceConfigurationModel()
+                    {
+                        SourceNameLong = "Favoriten",
+                        SourceNameShort = "Favoriten",
+                        Source = SourceEnum.Favorites
+                    }
+                };
+                _favoriteSourceModel.FeedList = new ObservableCollection<FeedModel>()
                 {
                     new FeedModel()
                     {
                         CustomTitle = "Favoriten",
-                        ArticleList = articles,
+                        ArticleList =
+                            new ObservableCollection<ArticleModel>(
+                                _repoArticles.Where(a => a.IsFavorite).OrderByDescending(a => a.PublicationTime)),
                         FeedConfiguration = new FeedConfigurationModel()
                         {
                             Name = "Favoriten",
-                            SourceConfiguration = sourceModel.SourceConfiguration
+                            SourceConfiguration = _favoriteSourceModel.SourceConfiguration
                         },
-                        Source = sourceModel
+                        Source = _favoriteSourceModel
                     }
                 };
             }
-            return sourceModel;
-        }
-
-        public void UpdateArticleFlat(ArticleModel am)
-        {
-            _toDatabaseFlatArticles.Add(am);
-#pragma warning disable 4014
-            ToDatabase();
-#pragma warning restore 4014
-        }
-
-        public async void AddListProperties(List<ArticleModel> am)
-        {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                foreach (var articleModel in am)
-                {
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
-                    if (articleModel.LeadImage == null)
-                    {
-                        articleModel.LeadImage = await imageRepo.GetById(articleModel.LeadImageId);
-                    }
-                }
-            }
-        }
-
-        private async Task UpdateAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
-        {
-            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-            await repo.UpdateAll(am);
-        }
-
-        public async Task<ArticleModel> GetArticleById(int articleId)
-        {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                return await AddModels(await repo.GetById(articleId), await unitOfWork.GetDataService());
-            }
+            return _favoriteSourceModel;
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0)
         {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var guidstring = feedId.ToString();
-                return new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.FeedConfigurationId == guidstring, o => o.PublicationTime, true, max, skip)));
-            }
-        }
-
-        public async Task<ArticleModel> GetCompleteArticle(int articleId)
-        {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var article = await repo.GetById(articleId);
-                article = await AddModels(article, await unitOfWork.GetDataService(), true);
-                return article;
-            }
+            return
+                new ObservableCollection<ArticleModel>(
+                    _repoArticles.Where(a => a.FeedConfigurationId == feedId)
+                        .OrderByDescending(p => p.PublicationTime)
+                        .Skip(skip)
+                        .Take(max));
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetSimilarCathegoriesArticles(ArticleModel article, int max)
@@ -322,7 +333,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 string[] keywords = null;
                 if (article.WordDump != null)
-                keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 else
                 {
                     var str = article.Title + " " + article.SubTitle;
@@ -389,7 +400,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     model.LeadImage = await imageRepo.GetById(model.LeadImageId);
                 }
-               
+
                 if (deep)
                 {
                     var contentRepo = new GenericRepository<ContentModel, ContentEntity>(dataService);
@@ -411,7 +422,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     model.RelatedArticles = await GetRelatedArticlesByArticleId(model.Id, dataService);
                 }
 
-                model.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(model.FeedConfigurationId, dataService);
+                model.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(model.FeedConfigurationId);
             }
             catch (Exception ex)
             {

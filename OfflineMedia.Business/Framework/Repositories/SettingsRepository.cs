@@ -29,18 +29,18 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         #region sample
 
-        public async Task<List<SourceConfigurationModel>> GetSourceConfigurations(IDataService dataService)
+        public async Task<List<SourceConfigurationModel>> GetSourceConfigurations()
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _sourceConfigModels;
         }
 
-        public async Task<List<SettingModel>> GetAllSettings(IDataService dataService)
+        public async Task<List<SettingModel>> GetAllSettings()
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _settingModels;
         }
@@ -136,10 +136,10 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         #endregion
 
-        public async Task<SettingModel> GetSettingByKey(SettingKeys key, IDataService dataService)
+        private async Task<SettingModel> GetSettingByKey(SettingKeys key, IDataService dataService)
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _settingModels.FirstOrDefault(s => s.Key == key);
         }
@@ -238,10 +238,10 @@ namespace OfflineMedia.Business.Framework.Repositories
             return false;
         }
 
-        public async Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid, IDataService dataService)
+        public async Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid)
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _sourceConfigModels.FirstOrDefault(s => s.FeedConfigurationModels.Any(d => d.Guid == guid)).FeedConfigurationModels.FirstOrDefault(d => d.Guid == guid);
         }
@@ -382,11 +382,13 @@ namespace OfflineMedia.Business.Framework.Repositories
         }
 
         private Task _initializingTask;
-        public async Task Initialize(IDataService dataService)
+        public async Task Initialize()
         {
-            if (_initializingTask == null)
-                _initializingTask = InitializeTask(dataService);
-
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                if (_initializingTask == null)
+                    _initializingTask = InitializeTask(await unitOfWork.GetDataService());
+            }
             if (!_initializingTask.IsCompleted)
                 await _initializingTask;
         }

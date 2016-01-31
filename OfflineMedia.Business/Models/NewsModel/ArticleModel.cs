@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Common.Framework;
 
 namespace OfflineMedia.Business.Models.NewsModel
@@ -114,7 +116,13 @@ namespace OfflineMedia.Business.Models.NewsModel
         public List<ContentModel> Content
         {
             get { return _content; }
-            set { Set(ref _content, value); }
+            set
+            {
+                SimpleIoc.Default.GetInstance<IDispatchHelper>().CheckBeginInvokeOnUI(() =>
+                {
+                    Set(ref _content, value);
+                });
+            }
         }
 
         public FeedConfigurationModel FeedConfiguration { get; set; }
@@ -122,6 +130,8 @@ namespace OfflineMedia.Business.Models.NewsModel
         public ArticleModel LeftArticle { get; set; }
 
         public ArticleModel RightArticle { get; set; }
+
+        public ArticleModel Link { get; set; }
 
         [CallBeforeSave]
         public void SetIds()
@@ -155,5 +165,33 @@ namespace OfflineMedia.Business.Models.NewsModel
         }
 
         public bool IsStatic { get; set; }
+
+        public static ArticleModel Clone(ArticleModel model)
+        {
+            return new ArticleModel()
+            {
+                Author = model.Author,
+                Content = model.Content,
+                FeedConfiguration = model.FeedConfiguration,
+                FeedConfigurationId = model.FeedConfigurationId,
+                IsFavorite = model.IsFavorite,
+                IsStatic = model.IsStatic,
+                LeadImage = model.LeadImage,
+                LeadImageId = model.LeadImageId,
+                LeftArticle = model.LeftArticle,
+                LogicUri = model.LogicUri,
+                PublicUri = model.PublicUri,
+                PublicationTime = model.PublicationTime,
+                RelatedArticles = model.RelatedArticles,
+                RightArticle = model.RightArticle,
+                SourceConfigurationId = model.SourceConfigurationId,
+                State = model.State,
+                SubTitle = model.SubTitle,
+                Teaser = model.Teaser,
+                Themes = model.Themes,
+                Title = model.Title,
+                WordDump = model.WordDump
+            };
+        }
     }
 }

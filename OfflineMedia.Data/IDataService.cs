@@ -28,5 +28,7 @@ namespace OfflineMedia.Data
 
         Task<List<int>> GetByKeyword(string keyword);
         Task<bool> DeleteArticlesById(IEnumerable<int> enumerable);
+        Task<bool> SetArticleState(int articleId, int newState);
+        Task<bool> SetArticleFavorite(int articleId, bool isFavorite);
     }
 }

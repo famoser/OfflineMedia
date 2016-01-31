@@ -21,26 +21,23 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         public async Task UploadStats()
         {
-            using (var unitOfWork = new UnitOfWork(true))
+            var config = await _settingsRepository.GetSourceConfigurations();
+            var dic = new Dictionary<string, string>();
+            foreach (var sourceConfigurationModel in config.Where(s => s.BoolValue))
             {
-                var config = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
-                var dic = new Dictionary<string, string>();
-                foreach (var sourceConfigurationModel in config.Where(s => s.BoolValue))
+                if (sourceConfigurationModel.BoolValue)
                 {
-                    if (sourceConfigurationModel.BoolValue)
+                    var feeds = "";
+                    foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels.Where(f => f.BoolValue))
                     {
-                        var feeds = "";
-                        foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels.Where(f => f.BoolValue))
-                        {
-                            feeds += feedConfigurationModel.Name + ", ";
-                        }
-                        feeds = feeds.Substring(0, feeds.Length - 2);
-                        dic.Add(sourceConfigurationModel.SourceNameShort, feeds);
+                        feeds += feedConfigurationModel.Name + ", ";
                     }
+                    feeds = feeds.Substring(0, feeds.Length - 2);
+                    dic.Add(sourceConfigurationModel.SourceNameShort, feeds);
                 }
-                await _apiService.UploadStats(dic);
             }
-
+            await _apiService.UploadStats(dic);
+            
             /* own stats; disablöed because data is never evaluated
             using (var unitOfWork = new UnitOfWork(true))
             {

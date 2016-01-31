@@ -549,6 +549,45 @@ namespace OfflineMedia.Business.Framework
             return false;
         }
 
+        public async Task<bool> SetArticleState(int articleId, int newState)
+        {
+            await LockDatabase("DeleteArticlesById");
+            try
+            {
+                await _asyncConnection.ExecuteAsync("UPDATE ArticleEntity SET State = " + newState + " WHERE Id = " + articleId);
+
+                await UnlockDatabase();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+            }
+
+            await UnlockDatabase();
+            return false;
+        }
+
+        public async Task<bool> SetArticleFavorite(int articleId, bool isFavorite)
+        {
+            await LockDatabase("DeleteArticlesById");
+            try
+            {
+                var str = isFavorite ? "1" : "0";
+                await _asyncConnection.ExecuteAsync("UPDATE ArticleEntity SET IsFavorite = " + str + " WHERE Id = " + articleId);
+
+                await UnlockDatabase();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+            }
+
+            await UnlockDatabase();
+            return false;
+        }
+
         private async Task<bool> PrepareDatabase()
         {
             try

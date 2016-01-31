@@ -82,15 +82,8 @@ namespace OfflineMedia.View.ViewModels
             {
                 Initialize();
             }
-            
-            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
-            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, ArticleRefreshed);
-        }
 
-        private void ArticleRefreshed(ArticleModel obj)
-        {
-            if (obj?.Id == Article?.Id)
-                SelectArticle(obj);
+            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
         }
 
         private void EvaluateMessage(ArticleModel obj)
@@ -108,21 +101,18 @@ namespace OfflineMedia.View.ViewModels
                 {
                     _articleRepository.ActualizeArticle(Article);
                 }
-                else 
+                else
                 {
                     if (!Article.IsLoadedCompletely())
                     {
-                        var ar = await _articleRepository.GetCompleteArticle(am.Id);
-                        Article = null;
-                        Article = ar;
+                        await _articleRepository.LoadMoreArticleContent(Article, true);
                     }
                     if (Article.State == ArticleState.Loaded)
                     {
                         Article.State = ArticleState.Read;
                         _reloadArticleCommand.RaiseCanExecuteChanged();
 
-                        _articleRepository.UpdateArticleFlat(Article);
-                        Messenger.Default.Send(Article, Messages.ArticleRefresh);
+                        await _articleRepository.UpdateArticleState(Article);
                     }
                     SimilarCathegoriesArticles =
                         new FeedModel()
@@ -152,19 +142,16 @@ namespace OfflineMedia.View.ViewModels
 
         private async void Initialize()
         {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize, await unitOfWork.GetDataService());
-                RaisePropertyChanged(() => FontSize);
-                _makeFontBiggerCommand.RaiseCanExecuteChanged();
-                _makeFontSmallerCommand.RaiseCanExecuteChanged();
+            _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize);
+            RaisePropertyChanged(() => FontSize);
+            _makeFontBiggerCommand.RaiseCanExecuteChanged();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
 
-                _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute, await unitOfWork.GetDataService());
-                RaisePropertyChanged(() => ReadingSpeed);
-                _increaseSpeedCommand.RaiseCanExecuteChanged();
-                _decreaseSpeedCommand.RaiseCanExecuteChanged();
-            }
-
+            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute);
+            RaisePropertyChanged(() => ReadingSpeed);
+            _increaseSpeedCommand.RaiseCanExecuteChanged();
+            _decreaseSpeedCommand.RaiseCanExecuteChanged();
+            
             RaisePropertyChanged(() => FontSize);
             RaisePropertyChanged(() => ReadingSpeed);
         }
@@ -314,8 +301,7 @@ namespace OfflineMedia.View.ViewModels
         private void Favorite()
         {
             Article.IsFavorite = !Article.IsFavorite;
-            _articleRepository.UpdateArticleFlat(Article);
-            Messenger.Default.Send(Article, Messages.ArticleRefresh);
+            _articleRepository.UpdateArticleFavorite(Article);
         }
         #endregion
 
@@ -565,7 +551,7 @@ namespace OfflineMedia.View.ViewModels
         {
             Article.State = ArticleState.New;
             _reloadArticleCommand.RaiseCanExecuteChanged();
-            _articleRepository.UpdateArticleFlat(Article);
+            _articleRepository.UpdateArticleState(Article);
         }
         #endregion
 

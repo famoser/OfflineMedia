@@ -23,7 +23,7 @@ namespace OfflineMedia.Business.Framework.Repositories
     {
         private const int ConcurrentThreads = 1;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
-        private List<ArticleModel> _newArticleModels = new List<ArticleModel>();
+        private List<ArticleModel> _aktualizeArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
@@ -32,13 +32,12 @@ namespace OfflineMedia.Business.Framework.Repositories
         private readonly List<List<ArticleModel>> _toDatabaseFeeds = new List<List<ArticleModel>>();
         private int _newFeeds;
 
-        public bool ActualizeArticle(ArticleModel article)
+        public async Task<bool> ActualizeArticle(ArticleModel article)
         {
-            if (_newArticleModels.Contains(article))
-            {
-                _newArticleModels.Remove(article);
-            }
-            _newArticleModels.Insert(0, article);
+            if (_aktualizeArticleModels.Contains(article))
+                _aktualizeArticleModels.Remove(article);
+
+            _aktualizeArticleModels.Insert(0, article);
 
             if (!_aktualizeArticlesTasks.Any())
             {
@@ -90,12 +89,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
-                using (var unitOfWork = new UnitOfWork(true))
-                {
-                    var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                    _existingFlatArticles = new List<ArticleModel>(await repo.GetAll());
-                }
-
                 TimerHelper.Instance.Stop("Waiting for Feed Tasks", this);
                 while (_actualizeFeedsTasks.Count > 0)
                 {
@@ -121,19 +114,19 @@ namespace OfflineMedia.Business.Framework.Repositories
                 _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
                 TimerHelper.Instance.Stop("Get additional articles from Database", this);
-                _newArticleModels = _newArticleModels.Where(a => a.State == ArticleState.New).ToList();
+                _aktualizeArticleModels = _aktualizeArticleModels.Where(a => a.State == ArticleState.New).ToList();
                 using (var unitOfWork = new UnitOfWork(true))
                 {
-                    foreach (var articleModel in _newArticleModels)
+                    foreach (var articleModel in _aktualizeArticleModels)
                     {
-                        if (_newArticleModels.All(d => d.Id != articleModel.Id))
+                        if (_aktualizeArticleModels.All(d => d.Id != articleModel.Id))
                         {
-                            _newArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService()));
+                            _aktualizeArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService()));
                         }
                     }
                 }
 
-                _newArticles = _newArticleModels.Count;
+                _newArticles = _aktualizeArticleModels.Count;
 
                 if (_newArticles > 0)
                 {
@@ -216,44 +209,41 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         private async Task AktualizeArticlesTask(bool showprogress = true)
         {
-            using (var unitOfWork = new UnitOfWork(false))
+            while (_aktualizeArticleModels.Any())
             {
-                while (_newArticleModels.Any())
-                {
-                    var article = _newArticleModels.OrderByDescending(d => d.PublicationTime).FirstOrDefault();
-                    _newArticleModels.Remove(article);
+                var article = _aktualizeArticleModels.OrderByDescending(d => d.PublicationTime).FirstOrDefault();
+                _aktualizeArticleModels.Remove(article);
 
-                    article.State = ArticleState.Loading;
+                article.State = ArticleState.Loading;
+                _toDatabaseFlatArticles.Add(article);
+                await ToDatabase();
+
+                //Messenger.Default.Send(article, Messages.ArticleRefresh);
+
+                //this comes from the cache, so its OK to use here
+                article.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(article.FeedConfigurationId);
+
+                IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
+                if (sh == null)
+                {
+                    LogHelper.Instance.Log(LogLevel.Warning, this,
+                        "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
+                    article.State = ArticleState.WrongSourceFaillure;
                     _toDatabaseFlatArticles.Add(article);
                     await ToDatabase();
+                }
+                else
+                {
+                    article = await ActualizeArticle(article, sh);
 
-                    //Messenger.Default.Send(article, Messages.ArticleRefresh);
+                    _toDatabaseArticles.Add(article);
+                    await ToDatabase();
+                }
 
-                    //this comes from the cache, so its OK to use here
-                    article.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(article.FeedConfigurationId, await unitOfWork.GetDataService());
-
-                    IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
-                    if (sh == null)
-                    {
-                        LogHelper.Instance.Log(LogLevel.Warning, this,
-                            "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
-                        article.State = ArticleState.WrongSourceFaillure;
-                        _toDatabaseFlatArticles.Add(article);
-                        await ToDatabase();
-                    }
-                    else
-                    {
-                        article = await ActualizeArticle(article, sh);
-
-                        _toDatabaseArticles.Add(article);
-                        await ToDatabase();
-                    }
-
-                    if (showprogress)
-                    {
-                        var percentage = Convert.ToInt32(100 - ((_newArticleModels.Count * 100) / _newArticles));
-                        _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
-                    }
+                if (showprogress)
+                {
+                    var percentage = Convert.ToInt32(100 - ((_aktualizeArticleModels.Count * 100) / _newArticles));
+                    _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
                 }
             }
         }
@@ -272,7 +262,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     var list = new List<ArticleModel>(_toDatabaseFlatArticles);
                     _toDatabaseFlatArticles.Clear();
-                    await UpdateAllArticlesFlat(list, await unitOfWork.GetDataService());
+                    var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                    await repo.UpdateAll(list);
                 }
 
                 while (_toDatabaseArticles.Any())
@@ -282,7 +273,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                     {
                         _toDatabaseArticles.Remove(complexarticle);
                         await InsertOrUpdateArticleAndTraces(complexarticle, await unitOfWork.GetDataService());
-                        Messenger.Default.Send(complexarticle, Messages.ArticleRefresh);
                     }
                 }
             }
@@ -290,9 +280,8 @@ namespace OfflineMedia.Business.Framework.Repositories
         }
 
         private bool _feedToDatabaseRunning;
-        private readonly List<int> _feedToDatabaseDeleteArticles = new List<int>();
-        private readonly List<ArticleModel> _feedToDatabaseNewArticles = new List<ArticleModel>();
-        private List<ArticleModel> _existingFlatArticles = new List<ArticleModel>();
+        private readonly List<int> _deleteArticlesFromDatabase = new List<int>();
+        private readonly List<ArticleModel> _newArticlesToDatabase = new List<ArticleModel>();
         private async Task FeedToDatabase(bool force = false)
         {
             if (_feedToDatabaseRunning)
@@ -301,7 +290,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             _feedToDatabaseRunning = true;
             try
             {
-                var work = _feedToDatabaseNewArticles.Count + _feedToDatabaseDeleteArticles.Count;
+                var work = _newArticlesToDatabase.Count + _deleteArticlesFromDatabase.Count;
                 var g = Guid.NewGuid();
                 TimerHelper.Instance.Stop("Sorting articles...", this, g);
                 while (_toDatabaseFeeds.Any())
@@ -309,47 +298,38 @@ namespace OfflineMedia.Business.Framework.Repositories
                     var articles = _toDatabaseFeeds[0];
                     _toDatabaseFeeds.Remove(articles);
                     if (articles.Any())
-                    { 
-                        var oldfeed = _existingFlatArticles.Where(a => a.FeedConfigurationId == articles.FirstOrDefault().FeedConfiguration.Guid).ToList();
+                    {
+                        var oldDatabaseArticles = _repoArticles.Where(a => a.FeedConfigurationId == articles.FirstOrDefault().FeedConfiguration.Guid).ToList();
+
+                        var tosend = new List<ArticleModel>();
                         var newarticles = new List<ArticleModel>();
-                        var replacedarticles = new List<ArticleModel>();
-                        for (int index = 0; index < articles.Count; index++)
+                        foreach (var article in articles)
                         {
-                            var oldmodel = oldfeed.FirstOrDefault(d => d.PublicUri == articles[index].PublicUri);
-                            if (oldmodel != null)
+                            var oldDatabaseModel = oldDatabaseArticles.FirstOrDefault(d => d.PublicUri == article.PublicUri);
+                            if (oldDatabaseModel == null)
                             {
-                                articles[index] = oldmodel;
-                                replacedarticles.Add(oldmodel);
-                                oldfeed.Remove(oldmodel);
+                                _repoArticles.Add(article);
+                                newarticles.Add(article);
+                                tosend.Add(article);
                             }
                             else
                             {
-                                newarticles.Add(articles[index]);
+                                oldDatabaseArticles.Remove(oldDatabaseModel);
+                                tosend.Add(oldDatabaseModel);
                             }
                         }
-                        if (replacedarticles.Any())
-                        {
-                            using (var unitOfWork = new UnitOfWork(false))
-                            {
-                                foreach (var replacedarticle in replacedarticles)
-                                {
-                                    replacedarticle.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(replacedarticle.FeedConfigurationId, await unitOfWork.GetDataService());
-                                }
-                            }
-                        }
+
 
                         //if (newarticles.Any())
                         //    await FeedHelper.Instance.DownloadPictures(newarticles);
 
-                        Messenger.Default.Send(articles, Messages.FeedRefresh);
+                        Messenger.Default.Send(tosend, Messages.FeedRefresh);
 
                         //delete old ones
-                        _feedToDatabaseDeleteArticles.AddRange(oldfeed.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
+                        _deleteArticlesFromDatabase.AddRange(oldDatabaseArticles.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
 
                         //only new ones left
-                        _feedToDatabaseNewArticles.AddRange(newarticles);
-
-                        _newArticleModels.AddRange(newarticles);
+                        _newArticlesToDatabase.AddRange(newarticles);
                     }
                 }
                 TimerHelper.Instance.Stop("Sorting finished...", this, g);
@@ -359,14 +339,13 @@ namespace OfflineMedia.Business.Framework.Repositories
                     using (var unitOfWork = new UnitOfWork(false))
                     {
                         TimerHelper.Instance.Stop("Deleting articles...", this, g);
-                        await
-                            DeleteAllArticlesAndTrances(_feedToDatabaseDeleteArticles, await unitOfWork.GetDataService());
-                        _feedToDatabaseDeleteArticles.Clear();
+                        await DeleteAllArticlesAndTrances(_deleteArticlesFromDatabase, await unitOfWork.GetDataService());
+                        _deleteArticlesFromDatabase.Clear();
 
                         TimerHelper.Instance.Stop("InsertAllArticleAndTraces...", this, g);
-                        await InsertAllArticleAndTraces(_feedToDatabaseNewArticles, await unitOfWork.GetDataService());
-                        _newArticleModels.AddRange(_feedToDatabaseNewArticles);
-                        _feedToDatabaseNewArticles.Clear();
+                        await InsertAllArticleAndTraces(_newArticlesToDatabase, await unitOfWork.GetDataService());
+                        _aktualizeArticleModels.AddRange(_newArticlesToDatabase);
+                        _newArticlesToDatabase.Clear();
 
                         TimerHelper.Instance.Stop("Commiting Changes...", this, g);
                         await unitOfWork.Commit();

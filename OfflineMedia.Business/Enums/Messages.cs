@@ -4,7 +4,6 @@
     {
         Select,
         FeedRefresh,
-        ArticleRefresh,
         ReloadGoBackPage,
         MainPageInitialized,
         RefreshWeather,

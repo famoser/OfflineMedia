@@ -82,11 +82,9 @@ namespace OfflineMedia.View.ViewModels
 
         public async void Initialize()
         {
-            using(var unitOfWork= new UnitOfWork(true))
-            {
-                _allSettings = await _settingsRepository.GetAllSettings(await unitOfWork.GetDataService());
-                _sourceConfiguration = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
-            }
+                _allSettings = await _settingsRepository.GetAllSettings();
+                _sourceConfiguration = await _settingsRepository.GetSourceConfigurations();
+            
 
             SortOutSettings();
 
