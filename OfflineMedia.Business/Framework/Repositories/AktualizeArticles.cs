@@ -477,14 +477,14 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
+                if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
+                {
+                    article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
+                    article.LeadImage.IsLoaded = true;
+                }
+
                 if (sh.NeedsToEvaluateArticle())
                 {
-                    if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
-                    {
-                        article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
-                        article.LeadImage.IsLoaded = true;
-                    }
-
                     string articleresult = await Download.DownloadStringAsync(article.LogicUri);
                     var tuple = await sh.EvaluateArticle(articleresult, article);
                     if (tuple.Item1)
