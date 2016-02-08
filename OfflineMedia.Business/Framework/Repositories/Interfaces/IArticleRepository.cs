@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Models;
@@ -17,12 +18,13 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         ArticleModel GetEmptyFeedArticle();
 
         Task ActualizeArticles();
-        bool ActualizeArticle(ArticleModel article);
+        Task<bool> ActualizeArticle(ArticleModel am);
 
-        void UpdateArticleFlat(ArticleModel am);
+        Task<bool> UpdateArticleState(ArticleModel am);
 
-        Task<ArticleModel> GetArticleById(int articleId);
-        Task<ArticleModel> GetCompleteArticle(int articleId);
+        Task<bool> UpdateArticleFavorite(ArticleModel am);
+
+        Task LoadMoreArticleContent(ArticleModel am, bool content = false);
 
         Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0);
 

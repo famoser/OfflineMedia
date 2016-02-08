@@ -77,6 +77,95 @@ namespace OfflineMedia.Business.Framework.Generic
             return res;
         }
 
+        public List<TE> ConvertAllToEntity<TB, TE>(List<TB> business, bool takeCareOfDateTime = true)
+            where TE : class, new() where TB : class
+        {
+            var res = business.Select(b => new TE()).ToList();
+
+            if (business.Any())
+            {
+                Type businessType = business[0].GetType();
+                IEnumerable<MethodInfo> businessMethods = businessType.GetRuntimeMethods();
+
+                foreach (var businessMethod in businessMethods)
+                {
+                    var attribute =
+                        businessMethod.GetCustomAttribute(typeof (CallBeforeSaveAttribute), false) as
+                            CallBeforeSaveAttribute;
+                    if (attribute != null)
+                        foreach (var b in business)
+                        {
+                            businessMethod.Invoke(b, null);
+                        }
+                }
+
+                //gets all properties of the entity
+                Type entityType = typeof (TE);
+                IEnumerable<PropertyInfo> entityProps = entityType.GetRuntimeProperties().ToList();
+
+                //gets all properties of the business
+                IEnumerable<PropertyInfo> businessProps = businessType.GetRuntimeProperties();
+
+                foreach (var propertyInfo in businessProps)
+                {
+                    //check for the attribute
+                    var attribute =
+                        propertyInfo.GetCustomAttribute(typeof (EntityMapAttribute), false) as EntityMapAttribute;
+                    if (attribute != null)
+                    {
+                        //check if I am allowed to write properties to the entity from this object
+                        if (attribute.Procedure == EntityMappingProcedure.ReadAndWrite ||
+                            attribute.Procedure == EntityMappingProcedure.OnlyWrite)
+                        {
+                            //match entity 
+                            if (attribute.EntityType == null ||
+                                CheckIfTypeAndNameMatch(entityType, attribute.EntityType))
+                            {
+                                //match property of entity to the business
+                                var name = attribute.CustomMapping ?? propertyInfo.Name;
+                                var prop = entityProps.FirstOrDefault(e => e.Name == name);
+                                if (prop != null)
+                                {
+                                    for (int i = 0; i < business.Count; i++)
+                                    {
+                                        prop.SetValue(res[i], GetValue(propertyInfo, true, propertyInfo.GetValue(business[i])));
+
+                                        if (takeCareOfDateTime)
+                                        {
+                                            if (prop.Name == "ChangeDate")
+                                                prop.SetValue(res[i], DateTime.Now);
+                                            if (prop.Name == "CreateDate")
+                                            {
+                                                if (
+                                                    (DateTime)GetValue(propertyInfo, true, propertyInfo.GetValue(business[i])) ==
+                                                    DateTime.MinValue)
+                                                    prop.SetValue(res[i], DateTime.Now);
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (!attribute.IsOptional)
+                                    {
+                                        //if Property not found on entity, but requested on business, we throw an error
+                                        string errorMsg =
+                                            String.Format(
+                                                "ConvertToEntity(): Property '{0}' which should be mapped to '{1}' was not found on entity, but requested in the business object.",
+                                                propertyInfo.Name, name);
+                                        errorMsg += String.Format("typeof business: '{0}',  typeof entity: '{1}'",
+                                            business.GetType(), typeof(TE).FullName);
+                                        LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+
         private bool CheckIfTypeAndNameMatch(Type type, string name)
         {
             if (type.Name == name)
@@ -242,6 +331,30 @@ namespace OfflineMedia.Business.Framework.Generic
             LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
 
             return -1;
+        }
+        
+        public List<int> GetPrimaryKeyFromBusinesses<TB>(List<TB> business) where TB : class
+        {
+            var list = new List<int>();
+            //gets all properties of the business
+            Type businessType = business.GetType();
+            IEnumerable<PropertyInfo> businessProps = businessType.GetRuntimeProperties();
+
+            foreach (var propertyInfo in businessProps)
+            {
+                //check for the attribute
+                var attribute = propertyInfo.GetCustomAttribute(typeof(EntityPrimaryKeyAttribute), false) as EntityPrimaryKeyAttribute;
+                if (attribute != null)
+                {
+                    list.AddRange(business.Select(b => (int)propertyInfo.GetValue(b)));
+                }
+            }
+
+            //if Property not found on entity, but requested on business, we throw an error
+            string errorMsg = String.Format("GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'", business.GetType());
+            LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+
+            return list;
         }
 
         public bool SetPrimaryKeyToBusiness<TB>(TB business, object primaryKey) where TB : class

@@ -9,33 +9,51 @@ namespace OfflineMedia.Common.Framework.Timer
 {
     public class TimerHelper : SingletonBase<TimerHelper>
     {
-        private Tuple<DateTime, string> _lastEntry;
-        private Tuple<DateTime, string> _firstEntry;
-        private string _result;
-        public void Stop(string description, object place)
+        private readonly Dictionary<Guid, Tuple<DateTime, string>> _lastEntry = new Dictionary<Guid, Tuple<DateTime, string>>();
+        private readonly Dictionary<Guid, Tuple<DateTime, string>> _firstEntry = new Dictionary<Guid, Tuple<DateTime, string>>();
+        private readonly Dictionary<Guid, string> _result = new Dictionary<Guid, string>();
+        public void Stop(string description, object place, Guid? identi = null)
         {
+#if DEBUG
             var classname = place is string ? (string)place : place.GetType().Name;
-            var newEntry =  new Tuple<DateTime, string>(DateTime.Now, classname + ": " + description);
+            var newEntry = new Tuple<DateTime, string>(DateTime.Now, classname + ": " + description);
+            var identifier = identi.HasValue ? identi.Value : Guid.Empty;
 
-            if (_lastEntry != null)
+            if (!_lastEntry.ContainsKey(identifier))
             {
-                _result += classname + ": " + description + " " + FormatTimeSpan(DateTime.Now - _lastEntry.Item1) + " ms (" + FormatDateTime(DateTime.Now) + ")\n";
-                _firstEntry = newEntry;
+                _lastEntry.Add(identifier, newEntry);
+                _result.Add(identifier, "");
+                _firstEntry.Add(identifier, newEntry);
             }
-
-            _lastEntry = newEntry;
+            else
+            {
+                _result[identifier] += classname + ": " + description + " " + FormatTimeSpan(DateTime.Now - _lastEntry[identifier].Item1) + " (" + FormatDateTime(DateTime.Now) + ")\n";
+                _lastEntry[identifier] = newEntry;
+            }
+#endif
         }
 
         public string GetAnalytics
         {
             get
             {
-                if (_result == null)
-                    return "No entries";
-                return 
-                    "Start: " + FormatDateTime(_firstEntry.Item1) + "\n" +
-                    "End: " + FormatDateTime(_lastEntry.Item1) + "\n" +
-                    "Duration: " + FormatTimeSpan(_lastEntry.Item1 - _firstEntry.Item1) + "\n" + "\n" + _result;
+#if DEBUG
+                var res = "";
+                foreach (var s in _result)
+                {
+                    var key = "Key: " + s.Key + "\n";
+
+                    if (_result.Values == null)
+                        res += key + "No entries\n\n\n";
+                    else
+                        res += "Start: " + FormatDateTime(_firstEntry[s.Key].Item1) + "\n" +
+                        "End: " + FormatDateTime(_lastEntry[s.Key].Item1) + "\n" +
+                        "Duration: " + FormatTimeSpan(_lastEntry[s.Key].Item1 - _firstEntry[s.Key].Item1) + "\n" + "\n" + _result[s.Key] + "\n\n\n";
+                }
+                return res;
+#else
+                return "";
+#endif
             }
         }
 

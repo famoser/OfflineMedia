@@ -83,7 +83,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             return new Tuple<bool, ArticleModel>(false, am);
         }
 
-        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             original.Content = evaluatedArticle.Content;
             original.Author = evaluatedArticle.Author;
@@ -149,8 +149,18 @@ namespace OfflineMedia.Business.Sources.Nzz
                 try
                 {
                     var img = new ImageModel { Html = li.caption, Author = li.source };
-                    string uri = li.path.Replace("%width%", "640").Replace("%height%", "360").Replace("%format%", "text");
-                    img.Url = new Uri(uri);
+                    if (li.path.Contains("http://nzz-img.s3.amazonaws.com/"))
+                    {
+                        var uri = li.path.Substring(li.path.IndexOf("http://nzz-img.s3.amazonaws.com/", StringComparison.Ordinal));
+                        img.Url = new Uri(uri);
+                    }
+                    else
+                    {
+                        string uri = li.path.Replace("%width%", "640")
+                            .Replace("%height%", "360")
+                            .Replace("%format%", "text");
+                        img.Url = new Uri(uri);
+                    }
                     return img;
                 }
                 catch (Exception ex)

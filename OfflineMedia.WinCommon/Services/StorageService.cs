@@ -141,8 +141,8 @@ namespace OfflineMedia.Services
         {
             try
             {
-                var deleteall = true;
-                //var deleteall = await DeleteAll();
+                //var deleteall = true;
+                var deleteall = await DeleteAll();
                 if (deleteall)
                     foreach (var fil in await ApplicationData.Current.LocalFolder.GetFilesAsync())
                     {

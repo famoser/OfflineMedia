@@ -59,12 +59,12 @@ namespace OfflineMedia.Business.Sources.Tamedia
             throw new NotImplementedException();
         }
 
-        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             throw new NotImplementedException();
         }
 
-        public new List<string> GetKeywords(ArticleModel articleModel)
+        public override List<string> GetKeywords(ArticleModel articleModel)
         {
             var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
             //var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);

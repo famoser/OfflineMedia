@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Roots xmlns="clr-namespace:Microsoft.Xaml.Tools.XamlCompiler.RootLog;assembly=Microsoft.Windows.UI.Xaml.81.Build.Tasks">
+  <Roots.Interfaces>
+    <RootInterface FullName="Windows.UI.Xaml.Data.IValueConverter" />
+  </Roots.Interfaces>
+  <Roots.PropertyPathNames>
+    <RootPropertyPathName Name="State" />
+    <RootPropertyPathName Name="LeadImage" />
+    <RootPropertyPathName Name="Teaser" />
+    <RootPropertyPathName Name="SubTitle" />
+    <RootPropertyPathName Name="Title" />
+    <RootPropertyPathName Name="PublicationTime" />
+    <RootPropertyPathName Name="Url" />
+    <RootPropertyPathName Name="ArticlePageViewModel" />
+    <RootPropertyPathName Name="IsSpritzActive" />
+    <RootPropertyPathName Name="DecreaseSpeedCommand" />
+    <RootPropertyPathName Name="StartCommand" />
+    <RootPropertyPathName Name="SpritzState" />
+    <RootPropertyPathName Name="IncreaseSpeedCommand" />
+    <RootPropertyPathName Name="GoRightCommand" />
+    <RootPropertyPathName Name="GoLeftCommand" />
+    <RootPropertyPathName Name="GoToStartCommand" />
+    <RootPropertyPathName Name="AfterText" />
+    <RootPropertyPathName Name="MiddleText" />
+    <RootPropertyPathName Name="BeforeText" />
+    <RootPropertyPathName Name="Article" />
+    <RootPropertyPathName Name="Content" />
+    <RootPropertyPathName Name="FontSize" />
+    <RootPropertyPathName Name="SpritzCommand" />
+    <RootPropertyPathName Name="FavoriteCommand" />
+    <RootPropertyPathName Name="IsFavorite" />
+    <RootPropertyPathName Name="ReadingSpeed" />
+    <RootPropertyPathName Name="MakeFontSmallerCommand" />
+    <RootPropertyPathName Name="MakeFontBiggerCommand" />
+    <RootPropertyPathName Name="FeedConfiguration" />
+    <RootPropertyPathName Name="SourceConfiguration" />
+    <RootPropertyPathName Name="SourceNameLong" />
+    <RootPropertyPathName Name="Author" />
+    <RootPropertyPathName Name="FeedPageViewModel" />
+    <RootPropertyPathName Name="Feed" />
+    <RootPropertyPathName Name="ProgressViewModel" />
+    <RootPropertyPathName Name="IsAnyProgressActive" />
+    <RootPropertyPathName Name="ProgressMessage" />
+    <RootPropertyPathName Name="IsIndeterminateProgress" />
+    <RootPropertyPathName Name="ProgressPercentage" />
+    <RootPropertyPathName Name="MainPageViewModel" />
+    <RootPropertyPathName Name="Sources" />
+    <RootPropertyPathName Name="SourceNameShort" />
+    <RootPropertyPathName Name="OpenInfoCommand" />
+    <RootPropertyPathName Name="OpenSettingsCommand" />
+    <RootPropertyPathName Name="RefreshCommand" />
+    <RootPropertyPathName Name="DisplayState" />
+    <RootPropertyPathName Name="Keywords" />
+    <RootPropertyPathName Name="Themes" />
+    <RootPropertyPathName Name="CreateDate" />
+    <RootPropertyPathName Name="TotalWords" />
+    <RootPropertyPathName Name="ActiveWord" />
+    <RootPropertyPathName Name="SetDisplayStateCommand" />
+    <RootPropertyPathName Name="DisplayStateInfo" />
+    <RootPropertyPathName Name="DisplayStateSpritz" />
+    <RootPropertyPathName Name="DisplayStateArticle" />
+    <RootPropertyPathName Name="SettingsPageViewModel" />
+    <RootPropertyPathName Name="BoolValue" />
+    <RootPropertyPathName Name="FeedConfigurationModels" />
+    <RootPropertyPathName Name="Name" />
+    <RootPropertyPathName Name="GeneralPossibleValuesSettings" />
+    <RootPropertyPathName Name="PossibleValues" />
+    <RootPropertyPathName Name="Value" />
+    <RootPropertyPathName Name="Description" />
+    <RootPropertyPathName Name="GeneralFreeSettings" />
+    <RootPropertyPathName Name="GeneralIntSettings" />
+    <RootPropertyPathName Name="IntValue" />
+    <RootPropertyPathName Name="GeneralBoolSettings" />
+    <RootPropertyPathName Name="OffContent" />
+    <RootPropertyPathName Name="OnContent" />
+    <RootPropertyPathName Name="SaveCommand" />
+    <RootPropertyPathName Name="ArticleList" />
+    <RootPropertyPathName Name="Titel" />
+    <RootPropertyPathName Name="FeedList" />
+  </Roots.PropertyPathNames>
+  <Roots.RootTypes>
+    <RootType FullName="Windows.UI.Xaml.Application">
+      <RootProperty Name="RequestedTheme" />
+      <RootProperty Name="Resources" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.ResourceDictionary">
+      <RootProperty Name="ThemeDictionaries" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Media.SolidColorBrush">
+      <RootProperty Name="Color" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.ViewModel.ViewModelLocator" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.DateTimeConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.IsReadConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.ArticleCountCutter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.ReferenceVisibillityEvaluator" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.FontSizeArticleListEvaluator" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.PercentageToWidthConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.BoolVisibilityEvaluator" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.BoolVisibilityEvaluatorInverted" />
+    <RootType FullName="Windows.UI.Xaml.DataTemplate">
+      <RootProperty Name="Template" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Button">
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="Command" />
+      <RootProperty Name="BorderThickness" />
+      <RootProperty Name="Content" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Style" />
+      <RootProperty Name="CommandParameter" />
+      <RootProperty Name="Background" />
+      <RootEvent Name="Click" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Control">
+      <RootProperty Name="BorderThickness" />
+      <RootProperty Name="FontSize" />
+      <RootProperty Name="FontWeight" />
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="Background" />
+      <RootProperty Name="Padding" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.FrameworkElement">
+      <RootProperty Name="Width" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="VerticalAlignment" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ContentControl">
+      <RootProperty Name="Style" />
+      <RootProperty Name="Content" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.UIElement">
+      <RootProperty Name="Opacity" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Pivot">
+      <RootProperty Name="Style" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="ItemsSource" />
+      <RootProperty Name="HeaderTemplate" />
+      <RootProperty Name="ItemTemplate" />
+      <RootProperty Name="Items" />
+      <RootEvent Name="PivotItemLoaded" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
+      <RootProperty Name="FontSize" />
+      <RootProperty Name="FontWeight" />
+      <RootProperty Name="TextWrapping" />
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="TextTrimming" />
+      <RootProperty Name="MaxHeight" />
+      <RootProperty Name="FontFamily" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Text" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="TextAlignment" />
+      <RootProperty Name="Width" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Style" />
+      <RootProperty Name="Height" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.RichTextBlock">
+      <RootProperty Name="FontFamily" />
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="IsTextSelectionEnabled" />
+      <RootProperty Name="Style" />
+      <RootProperty Name="FontSize" />
+      <RootProperty Name="Blocks" />
+      <RootProperty Name="Margin" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ToggleSwitch">
+      <RootProperty Name="OnContent" />
+      <RootProperty Name="OffContent" />
+      <RootProperty Name="IsOn" />
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Padding" />
+      <RootProperty Name="Style" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ScrollViewer">
+      <RootProperty Name="VerticalScrollMode" />
+      <RootProperty Name="Content" />
+      <RootProperty Name="HorizontalScrollMode" />
+      <RootProperty Name="HorizontalScrollBarVisibility" />
+      <RootProperty Name="Style" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Border">
+      <RootProperty Name="BorderThickness" />
+      <RootProperty Name="BorderBrush" />
+      <RootProperty Name="Background" />
+      <RootProperty Name="Height" />
+      <RootProperty Name="Width" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Style" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ContentPresenter" />
+    <RootType FullName="Windows.UI.Xaml.Setter">
+      <RootProperty Name="Property" />
+      <RootProperty Name="Value" />
+    </RootType>
+    <RootType FullName="Microsoft.Xaml.Tools.DirectUI.ProxyTypes.ThemeResourceExtension" />
+    <RootType FullName="Windows.UI.Xaml.Controls.Grid">
+      <RootProperty Name="Background" />
+      <RootProperty Name="Opacity" />
+      <RootProperty Name="MaxHeight" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="RowDefinitions" />
+      <RootProperty Name="Children" />
+      <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Height" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="ColumnDefinitions" />
+      <RootMethod Name="GetRowSpan" />
+      <RootMethod Name="SetRowSpan" />
+      <RootMethod Name="GetRow" />
+      <RootMethod Name="SetRow" />
+      <RootMethod Name="GetColumn" />
+      <RootMethod Name="SetColumn" />
+      <RootMethod Name="GetColumnSpan" />
+      <RootMethod Name="SetColumnSpan" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Data.Binding">
+      <RootProperty Name="Mode" />
+      <RootProperty Name="Converter" />
+      <RootProperty Name="Source" />
+      <RootProperty Name="ConverterParameter" />
+    </RootType>
+    <RootType FullName="Microsoft.Xaml.Tools.DirectUI.ProxyTypes.StaticResourceExtension" />
+    <RootType FullName="Windows.UI.Xaml.Controls.RowDefinition">
+      <RootProperty Name="Height" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Image">
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="Stretch" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Source" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Media.Imaging.BitmapImage">
+      <RootProperty Name="UriSource" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Page">
+      <RootProperty Name="Background" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="Resources" />
+      <RootProperty Name="Content" />
+      <RootProperty Name="Transitions" />
+      <RootProperty Name="BottomAppBar" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.FavoriteIconConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.BoolToGridLenghtConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.SpritzStateIconConverter" />
+    <RootType FullName="Windows.UI.Xaml.Controls.ColumnDefinition">
+      <RootProperty Name="Width" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.StackPanel">
+      <RootProperty Name="Orientation" />
+      <RootProperty Name="Children" />
+      <RootProperty Name="Background" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.SymbolIcon">
+      <RootProperty Name="Symbol" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.DisplayHelper.DependencyObjects.Properties">
+      <RootMethod Name="GetHtml" />
+      <RootMethod Name="SetHtml" />
+      <RootMethod Name="GetFontSize" />
+      <RootMethod Name="SetFontSize" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Documents.Paragraph">
+      <RootProperty Name="Inlines" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Documents.Run">
+      <RootProperty Name="Text" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Documents.Bold">
+      <RootProperty Name="Inlines" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.Pages.ArticlePage" />
+    <RootType FullName="OfflineMediaV3.UserControls.ArticleList">
+      <RootProperty Name="DataContext" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ProgressBar">
+      <RootProperty Name="IsIndeterminate" />
+      <RootProperty Name="Value" />
+      <RootProperty Name="Height" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.Pages.FeedPage" />
+    <RootType FullName="Windows.UI.Xaml.Media.Animation.TransitionCollection" />
+    <RootType FullName="Windows.UI.Xaml.Media.Animation.NavigationThemeTransition">
+      <RootProperty Name="DefaultNavigationTransitionInfo" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Media.Animation.SlideNavigationTransitionInfo" />
+    <RootType FullName="OfflineMediaV3.UserControls.FeedList">
+      <RootProperty Name="Margin" />
+      <RootProperty Name="DataContext" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.CommandBar">
+      <RootProperty Name="Opacity" />
+      <RootProperty Name="ClosedDisplayMode" />
+      <RootProperty Name="PrimaryCommands" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.AppBarButton">
+      <RootProperty Name="Label" />
+      <RootProperty Name="Icon" />
+      <RootProperty Name="Command" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.Pages.MainPage" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.DisplayStateConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.DisplayStateVisibilityConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.ShortDateTimeConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.SpecificConverter.ThemeConverter" />
+    <RootType FullName="OfflineMediaV3.DisplayHelper.Converter.ArrayToStringConverter" />
+    <RootType FullName="OfflineMediaV3.Pages.NewArticlePage" />
+    <RootType FullName="Windows.UI.Xaml.Controls.PivotItem">
+      <RootProperty Name="Header" />
+      <RootProperty Name="Content" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ItemsControl">
+      <RootProperty Name="Margin" />
+      <RootProperty Name="ItemsSource" />
+      <RootProperty Name="ItemTemplate" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="ItemContainerStyle" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ComboBox">
+      <RootProperty Name="ItemsSource" />
+      <RootProperty Name="SelectedValue" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBox">
+      <RootProperty Name="Text" />
+      <RootProperty Name="InputScope" />
+    </RootType>
+    <RootType FullName="OfflineMediaV3.Pages.SettingsPage" />
+    <RootType FullName="Windows.UI.Xaml.Controls.UserControl">
+      <RootProperty Name="Content" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ListView">
+      <RootProperty Name="IsItemClickEnabled" />
+      <RootProperty Name="SelectionMode" />
+      <RootProperty Name="IsHoldingEnabled" />
+      <RootProperty Name="ItemsSource" />
+      <RootProperty Name="ItemTemplate" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="FooterTemplate" />
+      <RootProperty Name="Background" />
+      <RootEvent Name="ItemClick" />
+    </RootType>
+  </Roots.RootTypes>
+</Roots>

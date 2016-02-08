@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.Platform;
 using OfflineMedia.Services;
@@ -44,6 +45,7 @@ namespace OfflineMedia.ViewModel
             SimpleIoc.Default.Register<IVariaService, VariaService>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IApiService, ApiService>();
+            SimpleIoc.Default.Register<IDispatchHelper, DispatchWinRtHelper>();
 
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
 

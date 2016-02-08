@@ -5,6 +5,7 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
+using Nito.AsyncEx;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models;
@@ -21,8 +22,6 @@ namespace OfflineMedia.View.ViewModels
             _articleRepository = articleRepository;
 
             Messenger.Default.Register<FeedModel>(this, Messages.Select, EvaluateSelect);
-
-            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, EvaluateMessages);
             Messenger.Default.Register<List<ArticleModel>>(this, Messages.FeedRefresh, EvaluateMessages);
 
             if (IsInDesignMode)
@@ -31,34 +30,7 @@ namespace OfflineMedia.View.ViewModels
             }
         }
 
-        private void EvaluateMessages(ArticleModel obj)
-        {
-            if (Feed != null && obj != null)
-            {
-                if (Feed.Source.SourceConfiguration.Source == SourceEnum.Favorites)
-                {
-                    if (obj.IsFavorite)
-                    {
-                        if (Feed.ArticleList.Any(a => a.Id != obj.Id))
-                            Feed.ArticleList.Insert(0, obj);
-                    }
-                    else
-                    {
-                        var am = Feed.ArticleList.FirstOrDefault(d => d.Id == obj.Id);
-                        if (am != null)
-                            Feed.ArticleList.Remove(am);
-                    }
-                }
-                var oldarticle = Feed.ArticleList.FirstOrDefault(a => a.Id == obj.Id);
-                if (oldarticle != null)
-                {
-                    var index = Feed.ArticleList.IndexOf(oldarticle);
-                    Feed.ArticleList[index] = obj;
-                }
-            }
-        }
-
-        private void EvaluateMessages(List<ArticleModel> obj)
+        private async void EvaluateMessages(List<ArticleModel> obj)
         {
             var first = obj?.FirstOrDefault();
             if (Feed != null && first != null)
@@ -94,19 +66,12 @@ namespace OfflineMedia.View.ViewModels
                     Source = obj.Source,
                     ArticleList = new ObservableCollection<ArticleModel>()
                 };
-                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 1, 0);
-                if (Feed.ArticleList.Count == 1)
+                Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 40);
+                if (Feed.ArticleList.Count > 0)
                 {
-                    //load rest of articles
-                    for (int i = 1; ; i++)
+                    foreach (var articleModel in Feed.ArticleList)
                     {
-                        var newarticle =
-                            (await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 1, i))
-                                .FirstOrDefault();
-                        if (newarticle != null)
-                            Feed.ArticleList.Add(newarticle);
-                        else
-                            break;
+                        await _articleRepository.LoadMoreArticleContent(articleModel);
                     }
                 }
                 else

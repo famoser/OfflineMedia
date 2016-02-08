@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -81,15 +82,8 @@ namespace OfflineMedia.View.ViewModels
             {
                 Initialize();
             }
-            
-            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
-            Messenger.Default.Register<ArticleModel>(this, Messages.ArticleRefresh, ArticleRefreshed);
-        }
 
-        private void ArticleRefreshed(ArticleModel obj)
-        {
-            if (obj?.Id == Article?.Id)
-                SelectArticle(obj);
+            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
         }
 
         private void EvaluateMessage(ArticleModel obj)
@@ -100,28 +94,25 @@ namespace OfflineMedia.View.ViewModels
         private async void SelectArticle(ArticleModel am)
         {
             SetDisplayState(DisplayState.Article);
-            if (!am.IsStatic)
+            if (!am.IsStatic && am.IsInDatabase())
             {
                 Article = am;
                 if (Article.State == ArticleState.New)
                 {
                     _articleRepository.ActualizeArticle(Article);
                 }
-                else 
+                else
                 {
                     if (!Article.IsLoadedCompletely())
                     {
-                        var ar = await _articleRepository.GetCompleteArticle(am.Id);
-                        Article = null;
-                        Article = ar;
+                        await _articleRepository.LoadMoreArticleContent(Article, true);
                     }
                     if (Article.State == ArticleState.Loaded)
                     {
                         Article.State = ArticleState.Read;
                         _reloadArticleCommand.RaiseCanExecuteChanged();
 
-                        _articleRepository.UpdateArticleFlat(Article);
-                        Messenger.Default.Send(Article, Messages.ArticleRefresh);
+                        await _articleRepository.UpdateArticleState(Article);
                     }
                     SimilarCathegoriesArticles =
                         new FeedModel()
@@ -151,19 +142,16 @@ namespace OfflineMedia.View.ViewModels
 
         private async void Initialize()
         {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize, await unitOfWork.GetDataService());
-                RaisePropertyChanged(() => FontSize);
-                _makeFontBiggerCommand.RaiseCanExecuteChanged();
-                _makeFontSmallerCommand.RaiseCanExecuteChanged();
+            _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.BaseFontSize);
+            RaisePropertyChanged(() => FontSize);
+            _makeFontBiggerCommand.RaiseCanExecuteChanged();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
 
-                _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute, await unitOfWork.GetDataService());
-                RaisePropertyChanged(() => ReadingSpeed);
-                _increaseSpeedCommand.RaiseCanExecuteChanged();
-                _decreaseSpeedCommand.RaiseCanExecuteChanged();
-            }
-
+            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute);
+            RaisePropertyChanged(() => ReadingSpeed);
+            _increaseSpeedCommand.RaiseCanExecuteChanged();
+            _decreaseSpeedCommand.RaiseCanExecuteChanged();
+            
             RaisePropertyChanged(() => FontSize);
             RaisePropertyChanged(() => ReadingSpeed);
         }
@@ -172,10 +160,29 @@ namespace OfflineMedia.View.ViewModels
         public ArticleModel Article
         {
             get { return _article; }
-            set { if (Set(ref _article, value))
+            set
+            {
+                var oldarticle = _article;
+                if (Set(ref _article, value))
+                {
+                    if (_article != null)
+                        _article.PropertyChanged += ArticleOnPropertyChanged;
+
+                    if (oldarticle != null)
+                        oldarticle.PropertyChanged -= ArticleOnPropertyChanged;
+
                     _reloadArticleCommand.RaiseCanExecuteChanged();
+                }
             }
         }
+
+        private void ArticleOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == "Content")
+                //fix failed redering of Content
+                RaisePropertyChanged(() => Article);
+        }
+
 
         private DisplayState _displayState;
         public DisplayState DisplayState
@@ -294,8 +301,7 @@ namespace OfflineMedia.View.ViewModels
         private void Favorite()
         {
             Article.IsFavorite = !Article.IsFavorite;
-            _articleRepository.UpdateArticleFlat(Article);
-            Messenger.Default.Send(Article, Messages.ArticleRefresh);
+            _articleRepository.UpdateArticleFavorite(Article);
         }
         #endregion
 
@@ -545,7 +551,7 @@ namespace OfflineMedia.View.ViewModels
         {
             Article.State = ArticleState.New;
             _reloadArticleCommand.RaiseCanExecuteChanged();
-            _articleRepository.UpdateArticleFlat(Article);
+            _articleRepository.UpdateArticleState(Article);
         }
         #endregion
 

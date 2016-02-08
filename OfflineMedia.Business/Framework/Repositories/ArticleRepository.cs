@@ -18,6 +18,7 @@ using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.Common.Framework.Timer;
+using OfflineMedia.Common.Helpers;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -25,9 +26,11 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository : IArticleRepository
     {
-        private ISettingsRepository _settingsRepository;
-        private IThemeRepository _themeRepository;
-        private IProgressService _progressService;
+        private readonly ISettingsRepository _settingsRepository;
+        private readonly IThemeRepository _themeRepository;
+        private readonly IProgressService _progressService;
+
+        private List<ArticleModel> _repoArticles;
 
         public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService)
         {
@@ -130,6 +133,52 @@ namespace OfflineMedia.Business.Framework.Repositories
             return GetInfoArticle();
         }
 
+        public async Task<bool> UpdateArticleState(ArticleModel am)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                return await (await unitOfWork.GetDataService()).SetArticleState(am.Id, (int)am.State);
+            }
+        }
+
+        public async Task<bool> UpdateArticleFavorite(ArticleModel am)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                if (_favoriteSourceModel != null && _favoriteSourceModel.FeedList != null && _favoriteSourceModel.FeedList.Count > 0 && _favoriteSourceModel.FeedList[0].ArticleList != null)
+                {
+                    if (am.IsFavorite)
+                    {
+                        if (!_favoriteSourceModel.FeedList[0].ArticleList.Contains(am))
+                            _favoriteSourceModel.FeedList[0].ArticleList.Add(am);
+                    }
+                    else
+                    {
+                        if (_favoriteSourceModel.FeedList[0].ArticleList.Contains(am))
+                            _favoriteSourceModel.FeedList[0].ArticleList.Remove(am);
+                    }
+                }
+                return await (await unitOfWork.GetDataService()).SetArticleFavorite(am.Id, am.IsFavorite);
+            }
+        }
+
+        public async Task LoadMoreArticleContent(ArticleModel am, bool content = false)
+        {
+            using (var unitOfWork = new UnitOfWork(true))
+            {
+                if (am.LeadImage == null && am.LeadImageId > 0)
+                {
+                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
+                    am.LeadImage = await imageRepo.GetById(am.LeadImageId);
+                }
+                if (content && am.Content == null)
+                {
+                    var contentRepo = new GenericRepository<ContentModel, ContentEntity>(await unitOfWork.GetDataService());
+                    am.Content = await contentRepo.GetByCondition(d => d.ArticleId == am.Id, d => d.Order);
+                }
+            }
+        }
+
         private ObservableCollection<SourceModel> _sources;
         public async Task<ObservableCollection<SourceModel>> GetSources()
         {
@@ -137,7 +186,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             TimerHelper.Instance.Stop("GetSources starting", this);
             using (var unitOfWork = new UnitOfWork(true))
             {
-                var sources = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
+                var sources = await _settingsRepository.GetSourceConfigurations();
 
                 TimerHelper.Instance.Stop("Generating Models", this);
                 foreach (var source in sources)
@@ -168,166 +217,165 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
+                TimerHelper.Instance.Stop("Getting all articles from Database", this);
+                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                _repoArticles = await repo.GetAll();
+                foreach (var articleModel in _repoArticles)
+                {
+                    articleModel.FeedConfiguration =
+                        await _settingsRepository.GetFeedConfigurationFor(articleModel.FeedConfigurationId);
+                }
+
+                TimerHelper.Instance.Stop("Got all articles from Database", this);
+
                 return _sources;
             }
         }
 
+        private SourceModel _favoriteSourceModel;
         public async Task<SourceModel> GetFavorites()
         {
-            var sourceModel = new SourceModel
+            if (_favoriteSourceModel == null)
             {
-                SourceConfiguration = new SourceConfigurationModel()
+                _favoriteSourceModel = new SourceModel
                 {
-                    SourceNameLong = "Favoriten",
-                    SourceNameShort = "Favoriten",
-                    Source = SourceEnum.Favorites
-                }
-            };
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var articles = new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.IsFavorite, d => d.ChangeDate, true)));
-                sourceModel.FeedList = new ObservableCollection<FeedModel>()
+                    SourceConfiguration = new SourceConfigurationModel()
+                    {
+                        SourceNameLong = "Favoriten",
+                        SourceNameShort = "Favoriten",
+                        Source = SourceEnum.Favorites
+                    }
+                };
+                _favoriteSourceModel.FeedList = new ObservableCollection<FeedModel>()
                 {
                     new FeedModel()
                     {
                         CustomTitle = "Favoriten",
-                        ArticleList = articles,
+                        ArticleList =
+                            new ObservableCollection<ArticleModel>(
+                                _repoArticles.Where(a => a.IsFavorite).OrderByDescending(a => a.PublicationTime)),
                         FeedConfiguration = new FeedConfigurationModel()
                         {
                             Name = "Favoriten",
-                            SourceConfiguration = sourceModel.SourceConfiguration
+                            SourceConfiguration = _favoriteSourceModel.SourceConfiguration
                         },
-                        Source = sourceModel
+                        Source = _favoriteSourceModel
                     }
                 };
             }
-            return sourceModel;
-        }
-        
-        public void UpdateArticleFlat(ArticleModel am)
-        {
-            _toDatabaseFlatArticles.Add(am);
-#pragma warning disable 4014
-            ToDatabase();
-#pragma warning restore 4014
-        }
-
-        private async Task UpdateArticleFlat(ArticleModel am, IDataService dataService)
-        {
-            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-            await repo.Update(am);
-        }
-
-        private async Task AddAllArticlesFlat(List<ArticleModel> am, IDataService dataService)
-        {
-            var repo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-            await repo.AddAll(am);
-        }
-
-        public async Task<ArticleModel> GetArticleById(int articleId)
-        {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                return await AddModels(await repo.GetById(articleId), await unitOfWork.GetDataService());
-            }
+            return _favoriteSourceModel;
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0)
         {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var guidstring = feedId.ToString();
-                return new ObservableCollection<ArticleModel>(await AddModels(await repo.GetByCondition(d => d.FeedConfigurationId == guidstring, o => o.PublicationTime, true, max, skip)));
-            }
-        }
-
-        public async Task<ArticleModel> GetCompleteArticle(int articleId)
-        {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var article = await repo.GetById(articleId);
-                article = await AddModels(article, await unitOfWork.GetDataService(), true);
-                return article;
-            }
+            return
+                new ObservableCollection<ArticleModel>(
+                    _repoArticles.Where(a => a.FeedConfigurationId == feedId)
+                        .OrderByDescending(p => p.PublicationTime)
+                        .Skip(skip)
+                        .Take(max));
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetSimilarCathegoriesArticles(ArticleModel article, int max)
         {
-            using (var unitOfWork = new UnitOfWork(true))
+            try
             {
-                List<ThemeArticleRelationModel> list = new List<ThemeArticleRelationModel>();
-                foreach (var themeModel in article.Themes)
+                using (var unitOfWork = new UnitOfWork(true))
                 {
-                    var themeRepo = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(await unitOfWork.GetDataService());
-                    list.AddRange(await themeRepo.GetByCondition(t => t.ThemeId == themeModel.Id));
-                }
-
-                var countDic = new Dictionary<int, int>();
-                foreach (var themeArticleRelationModel in list)
-                {
-                    if (themeArticleRelationModel.ArticleId != article.Id)
+                    List<ThemeArticleRelationModel> list = new List<ThemeArticleRelationModel>();
+                    if (article.Themes != null)
                     {
-                        if (countDic.ContainsKey(themeArticleRelationModel.ArticleId))
-                            countDic[themeArticleRelationModel.ArticleId]++;
-                        else
-                            countDic.Add(themeArticleRelationModel.ArticleId, 1);
+                        foreach (var themeModel in article.Themes)
+                        {
+                            var themeRepo =
+                                new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(
+                                    await unitOfWork.GetDataService());
+                            list.AddRange(await themeRepo.GetByCondition(t => t.ThemeId == themeModel.Id));
+                        }
+
+                        var countDic = new Dictionary<int, int>();
+                        foreach (var themeArticleRelationModel in list)
+                        {
+                            if (themeArticleRelationModel.ArticleId != article.Id)
+                            {
+                                if (countDic.ContainsKey(themeArticleRelationModel.ArticleId))
+                                    countDic[themeArticleRelationModel.ArticleId]++;
+                                else
+                                    countDic.Add(themeArticleRelationModel.ArticleId, 1);
+                            }
+                        }
+                        ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
+                        var articleRepo =
+                            new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                        var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
+                        for (int i = 0; i < favorites.Count() && i < max; i++)
+                        {
+                            var newart = await articleRepo.GetById(favorites[i]);
+                            if (newart != null)
+                                articles.Add(newart);
+                        }
+
+                        await AddModels(articles);
+                        return articles;
                     }
                 }
-                ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
-                var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
-                for (int i = 0; i < favorites.Count() && i < max; i++)
-                {
-                    var newart = await articleRepo.GetById(favorites[i]);
-                    if (newart != null)
-                        articles.Add(newart);
-                }
-
-                await AddModels(articles);
-                return articles;
             }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex);
+            }
+            return new ObservableCollection<ArticleModel>();
         }
 
         public async Task<ObservableCollection<ArticleModel>> GetSimilarTitlesArticles(ArticleModel article, int max)
         {
             using (var unitOfWork = new UnitOfWork(true))
             {
-                var keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                List<int> list = new List<int>();
-                foreach (var keyword in keywords)
+                string[] keywords = null;
+                if (article.WordDump != null)
+                    keywords = article.WordDump.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                else
                 {
-                    list.AddRange(await (await unitOfWork.GetDataService()).GetByKeyword(keyword));
+                    var str = article.Title + " " + article.SubTitle;
+                    if (!string.IsNullOrWhiteSpace(str))
+                        keywords = TextHelper.Instance.GetImportantWords(str).ToArray();
                 }
-
-                var countDic = new Dictionary<int, int>();
-                foreach (var id in list)
+                if (keywords != null)
                 {
-                    if (id != article.Id)
+                    List<int> list = new List<int>();
+                    foreach (var keyword in keywords)
                     {
-                        if (countDic.ContainsKey(id))
-                            countDic[id]++;
-                        else
-                            countDic.Add(id, 1);
+                        list.AddRange(await (await unitOfWork.GetDataService()).GetByKeyword(keyword));
                     }
-                }
 
-                ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
-                var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
-                var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
-                for (int i = 0; i < favorites.Count() && i < max; i++)
-                {
-                    var newart = await articleRepo.GetById(favorites[i]);
-                    if (newart != null)
-                        articles.Add(newart);
-                }
+                    var countDic = new Dictionary<int, int>();
+                    foreach (var id in list)
+                    {
+                        if (id != article.Id)
+                        {
+                            if (countDic.ContainsKey(id))
+                                countDic[id]++;
+                            else
+                                countDic.Add(id, 1);
+                        }
+                    }
 
-                await AddModels(articles);
-                return articles;
+                    ObservableCollection<ArticleModel> articles = new ObservableCollection<ArticleModel>();
+                    var articleRepo =
+                        new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
+                    var favorites = countDic.OrderByDescending(d => d.Value).Select(d => d.Key).ToList();
+                    for (int i = 0; i < favorites.Count() && i < max; i++)
+                    {
+                        var newart = await articleRepo.GetById(favorites[i]);
+                        if (newart != null)
+                            articles.Add(newart);
+                    }
+
+                    await AddModels(articles);
+                    return articles;
+                }
             }
+            return new ObservableCollection<ArticleModel>();
         }
 
         private async Task<List<ArticleModel>> AddModels(IEnumerable<ArticleModel> models, bool deep = false)
@@ -348,7 +396,10 @@ namespace OfflineMedia.Business.Framework.Repositories
             try
             {
                 var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
-                model.LeadImage = await imageRepo.GetById(model.LeadImageId);
+                if (model.LeadImage == null)
+                {
+                    model.LeadImage = await imageRepo.GetById(model.LeadImageId);
+                }
 
                 if (deep)
                 {
@@ -369,9 +420,9 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                     model.Themes = await _themeRepository.GetThemesByArticleId(model.Id);
                     model.RelatedArticles = await GetRelatedArticlesByArticleId(model.Id, dataService);
-
-                    model.FeedConfiguration = await SimpleIoc.Default.GetInstance<ISettingsRepository>().GetFeedConfigurationFor(model.FeedConfigurationId, dataService);
                 }
+
+                model.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(model.FeedConfigurationId);
             }
             catch (Exception ex)
             {

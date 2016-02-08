@@ -19,7 +19,7 @@ namespace OfflineMedia.DisplayHelper.DependencyObjects
         public static void GenerateTags(int fontSize)
         {
             Tags = new Dictionary<string, TagDefinition>(){
-			{"div", new TagDefinition("<Span{0}>\n", "</Span>", true)},
+			{"div", new TagDefinition("<Span{0}>\n", "</Span>", false, true)},
 			{"p", new TagDefinition("<Paragraph Margin=\"0,10,0,0\" FontSize=\"" + fontSize + "\" LineHeight=\"" + (fontSize*1.5) + "\" LineStackingStrategy=\"MaxHeight\"{0}>", "</Paragraph>\n", true)},
 			{"h1", new TagDefinition("<Paragraph Margin=\"0,20,0,0\" FontSize=\"" + (fontSize*1.5) + "\" LineHeight=\"" + (fontSize*1.5*1.5) + "\" LineStackingStrategy=\"MaxHeight\" FontWeight=\"Bold\"{0}>", "</Paragraph>\n", true)},
 			{"h2", new TagDefinition("<Paragraph Margin=\"0,20,0,0\" FontSize=\"" + (fontSize*1.5) + "\" LineHeight=\"" + (fontSize*1.5*1.5) + "\" LineStackingStrategy=\"MaxHeight\"{0}>", "</Paragraph>\n", true)},
@@ -82,9 +82,16 @@ namespace OfflineMedia.DisplayHelper.DependencyObjects
         private static string CleanHtml(string html)
         {
             //clean from html comments
-            var temp = Regex.Replace(html, "<!--*-->", "");
+            html = Regex.Replace(html, "<!--*-->", "");
+            html = html.Trim();
+            if (html.Contains("<div") && html.IndexOf("<div", StringComparison.Ordinal) == 0)
+            {
+                html = html.Substring(html.IndexOf(">", StringComparison.Ordinal));
+                if (html.EndsWith("</div>"))
+                    html = html.Substring(0, html.Length - "</div>".Length);
+            }
 
-            return temp;
+            return html;
         }
 
         private static string CleanXaml(string html)
@@ -168,6 +175,9 @@ namespace OfflineMedia.DisplayHelper.DependencyObjects
             HtmlNode top = null;
             if (Tags.ContainsKey(tagName))
             {
+                if (Tags[tagName].Ignore)
+                    return null;
+
                 if (Tags[tagName].MustBeTop && !isTop)
                     return node;
 

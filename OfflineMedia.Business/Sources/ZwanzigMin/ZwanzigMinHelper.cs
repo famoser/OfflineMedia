@@ -58,7 +58,7 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             return articlelist;
         }
 
-        public new bool NeedsToEvaluateArticle()
+        public override bool NeedsToEvaluateArticle()
         {
             return false;
         }
@@ -73,13 +73,12 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             throw new NotImplementedException();
         }
 
-        public new bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
+        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
         {
             throw new NotImplementedException();
         }
-        
 
-        public async Task<ArticleModel> FeedToArticleModel(item nfa, FeedConfigurationModel fcm)
+        private async Task<ArticleModel> FeedToArticleModel(item nfa, FeedConfigurationModel fcm)
         {
             if (nfa == null) return null;
 
@@ -114,11 +113,6 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
                 LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.FeedToArticleModel failed", ex);
                 return null;
             }
-        }
-
-        public ArticleModel ArticleToArticleModel(object na)
-        {
-            throw new NotImplementedException();
         }
     }
 }

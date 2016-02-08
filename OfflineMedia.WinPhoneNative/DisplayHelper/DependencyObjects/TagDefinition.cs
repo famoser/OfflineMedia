@@ -12,30 +12,35 @@ namespace OfflineMedia.DisplayHelper.DependencyObjects
             this.Attributes = new Dictionary<string, string>();
         }
 
-        public TagDefinition(string XamlTag)
+        public TagDefinition(string xamlTag)
             : this()
         {
-            this.BeginXamlTag = XamlTag;
-            this.EndXamlTag = string.Format(XamlTag, string.Empty).Replace("<", "</");
+            this.BeginXamlTag = xamlTag;
+            this.EndXamlTag = string.Format(xamlTag, string.Empty).Replace("<", "</");
         }
-        public TagDefinition(string XamlBeginTag, string XamlEndTag, bool MustBeTop = false)
+
+        public TagDefinition(string xamlBeginTag, string xamlEndTag, bool mustBeTop = false, bool ignore = false)
             : this()
         {
-            this.BeginXamlTag = XamlBeginTag;
-            this.EndXamlTag = XamlEndTag;
-            this.MustBeTop = MustBeTop;
+            this.BeginXamlTag = xamlBeginTag;
+            this.EndXamlTag = xamlEndTag;
+            this.MustBeTop = mustBeTop;
+            this.Ignore = ignore;
         }
-        public TagDefinition(Action<StringBuilder, HtmlNode> CustomAction)
+
+        public TagDefinition(Action<StringBuilder, HtmlNode> customAction)
             : this()
         {
-            this.CustomAction = CustomAction;
+            this.CustomAction = customAction;
             this.IsCustom = true;
         }
+
         public string BeginXamlTag { get; set; }
         public string EndXamlTag { get; set; }
         public Dictionary<string, string> Attributes { get; set; }
         public bool MustBeTop { get; set; }
         public bool IsCustom { get; set; }
+        public bool Ignore { get; set; }
         public Action<StringBuilder, HtmlNode> CustomAction { get; set; }
     }
 }
