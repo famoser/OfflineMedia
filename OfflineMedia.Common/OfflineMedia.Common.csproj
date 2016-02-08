@@ -201,6 +201,7 @@
     <Compile Include="Framework\Services\Interfaces\IVariaService.cs" />
     <Compile Include="Framework\Singleton\SingletonBase.cs" />
     <Compile Include="Framework\Singleton\SingletonManager.cs" />
+    <Compile Include="Framework\Timer\TimerHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

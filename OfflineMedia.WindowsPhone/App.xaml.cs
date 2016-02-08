@@ -1,33 +1,38 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Phone.UI.Input;
-using Windows.UI.ViewManagement;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.ApplicationInsights;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Timer;
-using OfflineMedia.Pages;
+using Microsoft.Practices.ServiceLocation;
+using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.WindowsPhone.Services;
+using SQLite.Net.Interop;
+using SQLite.Net.Platform.WinRT;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
-namespace OfflineMedia
+namespace OfflineMedia.WindowsPhone
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     public sealed partial class App : Application
     {
-        private TransitionCollection _transitions;
+        private TransitionCollection transitions;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,60 +40,8 @@ namespace OfflineMedia
         /// </summary>
         public App()
         {
-            WindowsAppInitializer.InitializeAsync();
-
-            InitializeComponent();
-            Suspending += OnSuspending;
-            UnhandledException += OnUnhandledException;
-
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-
-            Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, EvaluateReloadGoBackPageMessages);
-        }
-
-        private PageKeys _burnNextGoBack;
-        private void EvaluateReloadGoBackPageMessages(PageKeys obj)
-        {
-            _burnNextGoBack = obj;
-        }
-
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                Frame rootFrame = Window.Current.Content as Frame;
-
-                if (rootFrame != null && rootFrame.CanGoBack)
-                {
-                    if (_burnNextGoBack != PageKeys.Undefined)
-                    {
-                        var nav = SimpleIoc.Default.GetInstance<INavigationService>();
-                        nav.GoBack();
-                        nav.GoBack();
-                        nav.NavigateTo(_burnNextGoBack.ToString());
-
-                        _burnNextGoBack = PageKeys.Undefined;
-                    }
-                    else
-                    {
-                        rootFrame.GoBack();
-                        if (_burnNextGoBack != PageKeys.Undefined)
-                        {
-                            var nav = SimpleIoc.Default.GetInstance<INavigationService>();
-                            nav.NavigateTo(_burnNextGoBack.ToString());
-                            rootFrame.BackStack.RemoveAt(rootFrame.BackStackDepth - 1);
-
-                            _burnNextGoBack = PageKeys.Undefined;
-                        }
-                    }
-                    e.Handled = true;
-                }
-                else
-                {
-                    //handled in MainPage
-                    //Current.Exit();
-                }
-            }
+            this.InitializeComponent();
+            this.Suspending += this.OnSuspending;
         }
 
         /// <summary>
@@ -99,19 +52,26 @@ namespace OfflineMedia
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            // Create design time view services and models
+            SimpleIoc.Default.Register<IProgressService, ProgressService>();
+            SimpleIoc.Default.Register<IStorageService, StorageService>();
+            SimpleIoc.Default.Register<IVariaService, VariaService>();
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
+
+            SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
+
+            Xamarin.Forms.Forms.Init(e);
 #if DEBUG
-            if (Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
-                DebugSettings.EnableFrameRateCounter = false;
-                DebugSettings.IsOverdrawHeatMapEnabled = false;
+                this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
-            TimerHelper.Instance.Stop("Launched...", this);
-            DispatcherHelper.Initialize();
-
-
             Frame rootFrame = Window.Current.Content as Frame;
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -122,6 +82,10 @@ namespace OfflineMedia
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
 
+                // Set the default language
+                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+
+                Xamarin.Forms.Forms.Init(e);
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application
@@ -136,15 +100,15 @@ namespace OfflineMedia
                 // Removes the turnstile navigation for startup.
                 if (rootFrame.ContentTransitions != null)
                 {
-                    _transitions = new TransitionCollection();
+                    this.transitions = new TransitionCollection();
                     foreach (var c in rootFrame.ContentTransitions)
                     {
-                        _transitions.Add(c);
+                        this.transitions.Add(c);
                     }
                 }
 
                 rootFrame.ContentTransitions = null;
-                rootFrame.Navigated += RootFrame_FirstNavigated;
+                rootFrame.Navigated += this.RootFrame_FirstNavigated;
 
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
@@ -155,14 +119,8 @@ namespace OfflineMedia
                 }
             }
 
-            DispatcherHelper.Initialize();
-
-            var applicationView = ApplicationView.GetForCurrentView();
-            applicationView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
-
             // Ensure the current window is active
             Window.Current.Activate();
-            TimerHelper.Instance.Stop("Activated...", this);
         }
 
         /// <summary>
@@ -173,8 +131,8 @@ namespace OfflineMedia
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions = _transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
-            rootFrame.Navigated -= RootFrame_FirstNavigated;
+            rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
+            rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
 
         /// <summary>
@@ -186,18 +144,10 @@ namespace OfflineMedia
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var logs = LogHelper.Instance.GetAllLogs();
-            var client = new TelemetryClient();
-            foreach (var logModel in logs)
-            {
-                client.TrackEvent(logModel.Header, logModel.Values);
-            }
-        }
+            var deferral = e.SuspendingOperation.GetDeferral();
 
-        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
-        {
-            LogHelper.Instance.Log(LogLevel.FatalError, this, unhandledExceptionEventArgs.Message, unhandledExceptionEventArgs.Exception);
-            OnSuspending(null, null);
+            // TODO: Save application state and stop any background activity
+            deferral.Complete();
         }
     }
 }

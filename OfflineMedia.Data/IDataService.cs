@@ -9,6 +9,7 @@ namespace OfflineMedia.Data
     public interface IDataService
     {
         Task<T> GetById<T>(int id) where T : class, new();
+        Task<List<T>> GetAllById<T>(List<int> ids) where T : EntityIdBase, new();
         Task<bool> DeleteById<T>(int id) where T : class, new();
         Task<bool> DeleteAllById<T>(List<int> ids) where T : EntityIdBase, new();
         Task<int> Add<T>(T entity) where T : EntityIdBase, new();

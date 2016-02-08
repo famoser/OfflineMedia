@@ -18,6 +18,7 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Timer;
 
 namespace OfflineMedia.View.ViewModels
 {
@@ -210,8 +211,12 @@ namespace OfflineMedia.View.ViewModels
         private SettingModel _favorites;
         public async void Initialize()
         {
+            TimerHelper.Instance.Stop("Initilizing...", this);
             _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
+            TimerHelper.Instance.Stop("Progress Showed, Sources start", this);
             Sources = await _articleRepository.GetSources();
+
+            TimerHelper.Instance.Stop("Got Sources, Loading Feeds", this);
             foreach (var sourceModel in Sources)
             {
                 foreach (var feedModel in sourceModel.FeedList)
@@ -238,11 +243,12 @@ namespace OfflineMedia.View.ViewModels
             _favorites = await _settingsRepository.GetSettingByKey(SettingKeys.FavoritesEnabled);
             if (_favorites != null && _favorites.BoolValue)
             {
+                TimerHelper.Instance.Stop("Got Feeds, Getting Favorites...", this);
                 Sources.Add(await _articleRepository.GetFavorites());
             }
 
             Messenger.Default.Send(Messages.MainPageInitialized);
-
+            
             ActualizeArticles();
             _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
         }
@@ -258,8 +264,12 @@ namespace OfflineMedia.View.ViewModels
                 _isActualizing = true;
                 _refreshCommand.RaiseCanExecuteChanged();
 
+                TimerHelper.Instance.Stop("Actualizing Articles", this);
                 await _articleRepository.ActualizeArticles();
+                TimerHelper.Instance.Stop("Uploading Stats", this);
                 await _apiRepository.UploadStats();
+                
+                var res = TimerHelper.Instance.GetAnalytics;
 
                 _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));

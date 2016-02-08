@@ -8,7 +8,7 @@ using OfflineMedia.Common.Enums;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 
-namespace OfflineMedia.Services
+namespace OfflineMedia.WindowsPhone.Services
 {
     public class StorageService : IStorageService
     {
@@ -65,7 +65,7 @@ namespace OfflineMedia.Services
 
         public Task<string> GetSourceJson()
         {
-            return GetContentsOfAssetFile("Source_min");
+            return GetContentsOfAssetFile("Source");
         }
 
         public Task<string> GetWeatherFontJson()
@@ -141,8 +141,7 @@ namespace OfflineMedia.Services
         {
             try
             {
-                var deleteall = true;
-                //var deleteall = await DeleteAll();
+                var deleteall = await DeleteAll();
                 if (deleteall)
                     foreach (var fil in await ApplicationData.Current.LocalFolder.GetFilesAsync())
                     {

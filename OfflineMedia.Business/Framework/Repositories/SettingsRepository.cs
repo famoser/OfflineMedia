@@ -9,6 +9,7 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -245,10 +246,11 @@ namespace OfflineMedia.Business.Framework.Repositories
             return _sourceConfigModels.FirstOrDefault(s => s.FeedConfigurationModels.Any(d => d.Guid == guid)).FeedConfigurationModels.FirstOrDefault(d => d.Guid == guid);
         }
 
-        public async Task Initialize(IDataService dataService)
+        private async Task InitializeTask(IDataService dataService)
         {
             try
             {
+                TimerHelper.Instance.Stop("Loading JSON", this);
                 var json = await _storageService.GetSettingsJson();
                 _settingModels = JsonConvert.DeserializeObject<List<SettingModel>>(json);
 
@@ -257,14 +259,14 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(dataService);
 
+                TimerHelper.Instance.Stop("Loading Settings", this);
                 var guidSettings = await repo.GetByCondition(entity => true);
 
+                TimerHelper.Instance.Stop("Sorting out Settings", this);
                 //add new settings
                 var newSettings = new List<SimpleSettingModel>();
-                var reload = false;
                 if (!guidSettings.Any())
                 {
-                    reload = true;
                     //nzz
                     newSettings.Add(new SimpleSettingModel
                     {
@@ -291,7 +293,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                     var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
                     if (modl == null)
                     {
-                        reload = true;
                         newSettings.Add(new SimpleSettingModel
                         {
                             Guid = sourceConfigurationModel.Guid,
@@ -304,7 +305,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                         modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigurationModel.Guid);
                         if (modl == null)
                         {
-                            reload = true;
                             newSettings.Add(new SimpleSettingModel
                             {
                                 Guid = feedConfigurationModel.Guid,
@@ -319,7 +319,6 @@ namespace OfflineMedia.Business.Framework.Repositories
                     var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
                     if (modl == null)
                     {
-                        reload = true;
                         newSettings.Add(new SimpleSettingModel
                         {
                             Guid = settingModel.Guid,
@@ -329,14 +328,15 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
 
                 //insert new settings
-                if (reload)
+                if (newSettings.Count > 0)
                 {
+                    TimerHelper.Instance.Stop("Insert new Settings (" + newSettings.Count + ")", this);
                     await repo.AddAll(newSettings);
-
-                    guidSettings = await repo.GetByCondition(entity => true);
+                    guidSettings.AddRange(newSettings);
                 }
 
                 //write settings
+                TimerHelper.Instance.Stop("Write Settings", this);
                 for (int index = 0; index < _sourceConfigModels.Count; index++)
                 {
                     var sourceConfigurationModel = _sourceConfigModels[index];
@@ -370,17 +370,31 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
 
                 //remove old settings
-                foreach (var guidSettingModel in guidSettings)
+                if (guidSettings.Count > 0)
                 {
-                    await repo.Delete(guidSettingModel);
+                    TimerHelper.Instance.Stop("Remove old Settings (" + guidSettings.Count + ")", this);
+                    await repo.DeleteAll(guidSettings);
                 }
 
+                TimerHelper.Instance.Stop("Settings Initialized", this);
+                
                 _isInitialized = true;
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "Settings could not be read out", ex);
             }
+        }
+
+        private Task _initializingTask;
+        public async Task Initialize(IDataService dataService)
+        {
+            
+            if (_initializingTask == null)
+            {
+                _initializingTask = InitializeTask(dataService);
+            }
+            await _initializingTask;
         }
 
         private void WriteProperties(ref SettingModel to, ref SimpleSettingModel from)
