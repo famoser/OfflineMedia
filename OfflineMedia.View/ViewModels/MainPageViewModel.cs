@@ -215,8 +215,6 @@ namespace OfflineMedia.View.ViewModels
                 
                 var res = TimerHelper.Instance.GetAnalytics;
 
-                var res = TimerHelper.Instance.GetAnalytics;
-
                 _progressService.HideProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
             }

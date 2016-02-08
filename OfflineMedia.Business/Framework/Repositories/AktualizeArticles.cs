@@ -21,7 +21,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 {
     public partial class ArticleRepository
     {
-        private const int ConcurrentThreads = 1;
+        private const int ConcurrentThreads = 6;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
         private List<ArticleModel> _aktualizeArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
@@ -78,7 +78,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
-
+                _feedProgress = 0;
                 //Actualize feeds
                 if (_actualizeFeedsTasks.Count < ConcurrentThreads)
                 {
@@ -181,6 +181,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
+        private double _feedProgress = 0;
         private async Task AktualizeFeedsTask()
         {
             var guid = Guid.NewGuid();
@@ -193,8 +194,9 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
 
-                var percentage = Convert.ToInt32((_newFeeds - _newFeedModels.Count) * 100 / _newFeeds * 2);
-                _progressService.ShowProgress("Feed wird heruntergeladen...", percentage);
+                // ReSharper disable once PossibleLossOfFraction
+                _feedProgress += 100 / (_newFeeds * 2);
+                _progressService.ShowProgress("Feed wird heruntergeladen...", (int)_feedProgress);
 
                 TimerHelper.Instance.Stop("Downloaded Feed, Inserting to Database", this, guid);
                 if (newfeed != null)
@@ -202,6 +204,11 @@ namespace OfflineMedia.Business.Framework.Repositories
                     _toDatabaseFeeds.Add(newfeed);
                     await FeedToDatabase();
                 }
+
+                // ReSharper disable once PossibleLossOfFraction
+                _feedProgress += 100 / (_newFeeds * 2);
+                _progressService.ShowProgress("Feed wird heruntergeladen...", (int)_feedProgress);
+
                 TimerHelper.Instance.Stop("Finished, proceeding to next item", this, guid);
             }
             TimerHelper.Instance.Stop("No more models, terminating", this, guid);

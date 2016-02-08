@@ -29,18 +29,18 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         #region sample
 
-        public async Task<List<SourceConfigurationModel>> GetSourceConfigurations(IDataService dataService)
+        public async Task<List<SourceConfigurationModel>> GetSourceConfigurations()
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _sourceConfigModels;
         }
 
-        public async Task<List<SettingModel>> GetAllSettings(IDataService dataService)
+        public async Task<List<SettingModel>> GetAllSettings()
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _settingModels;
         }
@@ -136,20 +136,12 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         #endregion
 
-        public async Task<SettingModel> GetSettingByKey(SettingKeys key, IDataService dataService)
-        {
-            if (!_isInitialized)
-                await Initialize(dataService);
-
-            return _settingModels.FirstOrDefault(s => s.Key == key);
-        }
-
         public async Task<SettingModel> GetSettingByKey(SettingKeys key)
         {
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                return await GetSettingByKey(key, await unitOfWork.GetDataService());
-            }
+            if (!_isInitialized)
+                await Initialize();
+
+            return _settingModels.FirstOrDefault(s => s.Key == key);
         }
 
         public async Task<bool> SaveSetting(SimpleSettingModel ssm)
@@ -161,7 +153,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     using (var unitOfWork = new UnitOfWork(false))
                     {
                         var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(await unitOfWork.GetDataService());
-                        
+
                         await repo.Update(ssm);
 
                         await unitOfWork.Commit();
@@ -187,7 +179,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     {
                         var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(await unitOfWork.GetDataService());
 
-                        var set = await GetSettingByKey(key, await unitOfWork.GetDataService());
+                        var set = await GetSettingByKey(key);
                         set.Value = value;
 
                         await repo.Update(set);
@@ -238,147 +230,120 @@ namespace OfflineMedia.Business.Framework.Repositories
             return false;
         }
 
-        public async Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid, IDataService dataService)
+        public async Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid)
         {
             if (!_isInitialized)
-                await Initialize(dataService);
+                await Initialize();
 
             return _sourceConfigModels.FirstOrDefault(s => s.FeedConfigurationModels.Any(d => d.Guid == guid)).FeedConfigurationModels.FirstOrDefault(d => d.Guid == guid);
         }
 
-        private async Task InitializeTask(IDataService dataService)
+        private async Task InitializeTask()
         {
             try
             {
-                TimerHelper.Instance.Stop("Loading JSON", this);
-                var json = await _storageService.GetSettingsJson();
-                _settingModels = JsonConvert.DeserializeObject<List<SettingModel>>(json);
-
-                json = await _storageService.GetSourceJson();
-                _sourceConfigModels = JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
-
-                var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(dataService);
-
-                TimerHelper.Instance.Stop("Loading Settings", this);
-                var guidSettings = await repo.GetByCondition(entity => true);
-
-                TimerHelper.Instance.Stop("Sorting out Settings", this);
-                //add new settings
-                var newSettings = new List<SimpleSettingModel>();
-                if (!guidSettings.Any())
+                using (var unitOfWork = new UnitOfWork(true))
                 {
-                    //nzz
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("02b529d6-0186-4112-b8f0-24f6500b6587"),
-                        BoolValue = true
-                    });
-                    //topthemen
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d"),
-                        BoolValue = true
-                    });
-                    //international
-                    newSettings.Add(new SimpleSettingModel
-                    {
-                        Guid = Guid.Parse("5aae7274-aa91-4992-8203-94419e850e8e"),
-                        BoolValue = true
-                    });
-                    guidSettings.AddRange(newSettings);
-                }
+                    TimerHelper.Instance.Stop("Loading JSON", this);
+                    var json = await _storageService.GetSettingsJson();
+                    _settingModels = JsonConvert.DeserializeObject<List<SettingModel>>(json);
 
-                foreach (var sourceConfigurationModel in _sourceConfigModels)
-                {
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
-                    if (modl == null)
-                    {
-                        newSettings.Add(new SimpleSettingModel
-                        {
-                            Guid = sourceConfigurationModel.Guid,
-                            BoolValue = false
-                        });
-                    }
+                    json = await _storageService.GetSourceJson();
+                    _sourceConfigModels = JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
 
-                    foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
+                    var repo = new GenericRepository<SimpleSettingModel, SettingEntity>(await unitOfWork.GetDataService());
+
+                    TimerHelper.Instance.Stop("Loading Settings", this);
+                    var guidSettings = await repo.GetAll();
+                    //add new settings
+                    var newSettings = new List<SimpleSettingModel>();
+
+                    TimerHelper.Instance.Stop("Sorting out Settings", this);
+
+                    for (int index = 0; index < _sourceConfigModels.Count; index++)
                     {
-                        modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigurationModel.Guid);
+                        var sourceConfigurationModel = _sourceConfigModels[index];
+                        var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
                         if (modl == null)
                         {
-                            newSettings.Add(new SimpleSettingModel
+                            modl = new SimpleSettingModel
                             {
-                                Guid = feedConfigurationModel.Guid,
+                                Guid = sourceConfigurationModel.Guid,
                                 BoolValue = false
-                            });
+                            };
+                            newSettings.Add(modl);
+                        }
+                        else
+                        {
+                            guidSettings.Remove(modl);
+                        }
+                        WriteProperties(ref sourceConfigurationModel, ref modl);
+                        _sourceConfigModels[index] = sourceConfigurationModel;
+
+                        for (int i = 0; i < sourceConfigurationModel.FeedConfigurationModels.Count; i++)
+                        {
+                            var feedConfigurationModel = sourceConfigurationModel.FeedConfigurationModels[i];
+                            modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigurationModel.Guid);
+                            if (modl == null)
+                            {
+                                modl = new SimpleSettingModel
+                                {
+                                    Guid = feedConfigurationModel.Guid,
+                                    BoolValue = false
+                                };
+                                newSettings.Add(modl);
+                            }
+                            else
+                            {
+                                guidSettings.Remove(modl);
+                            }
+
+                            WriteProperties(ref feedConfigurationModel, ref modl);
+                            _sourceConfigModels[index].FeedConfigurationModels[i] = feedConfigurationModel;
+
+                            feedConfigurationModel.SourceConfiguration = sourceConfigurationModel;
                         }
                     }
-                }
 
-                foreach (var settingModel in _settingModels)
-                {
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
-                    if (modl == null)
+                    for (int index = 0; index < _settingModels.Count; index++)
                     {
-                        newSettings.Add(new SimpleSettingModel
+                        var settingModel = _settingModels[index];
+                        var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
+                        if (modl == null)
                         {
-                            Guid = settingModel.Guid,
-                            Value = settingModel.DefaultValue
-                        });
+                            modl = new SimpleSettingModel
+                            {
+                                Guid = settingModel.Guid,
+                                Value = settingModel.DefaultValue
+                            };
+                            newSettings.Add(modl);
+                        }
+                        else
+                        {
+                            guidSettings.Remove(modl);
+                        }
+
+                        WriteProperties(ref settingModel, ref modl);
+                        _settingModels[index] = settingModel;
                     }
-                }
 
-                //insert new settings
-                if (newSettings.Count > 0)
-                {
-                    TimerHelper.Instance.Stop("Insert new Settings (" + newSettings.Count + ")", this);
-                    await repo.AddAll(newSettings);
-                    guidSettings.AddRange(newSettings);
-                }
-
-                //write settings
-                TimerHelper.Instance.Stop("Write Settings", this);
-                for (int index = 0; index < _sourceConfigModels.Count; index++)
-                {
-                    var sourceConfigurationModel = _sourceConfigModels[index];
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == sourceConfigurationModel.Guid);
-                    WriteProperties(ref sourceConfigurationModel, ref modl);
-                    _sourceConfigModels[index] = sourceConfigurationModel;
-                    guidSettings.Remove(modl);
-
-                    for (int i = 0; i < _sourceConfigModels[index].FeedConfigurationModels.Count; i++)
+                    //insert new settings
+                    if (newSettings.Count > 0)
                     {
-                        var feedConfigModel = _sourceConfigModels[index].FeedConfigurationModels[i];
-                        modl = guidSettings.FirstOrDefault(d => d.Guid == feedConfigModel.Guid);
-                        WriteProperties(ref feedConfigModel, ref modl);
-
-                        //relink
-                        feedConfigModel.SourceConfiguration = _sourceConfigModels[index];
-
-                        _sourceConfigModels[index].FeedConfigurationModels[i] = feedConfigModel;
-                        guidSettings.Remove(modl);
+                        TimerHelper.Instance.Stop("Insert new Settings (" + newSettings.Count + ")", this);
+                        await repo.AddAll(newSettings);
                     }
+
+                    //remove old settings
+                    if (guidSettings.Count > 0)
+                    {
+                        TimerHelper.Instance.Stop("Remove old Settings (" + guidSettings.Count + ")", this);
+                        await repo.DeleteAll(guidSettings);
+                    }
+
+                    TimerHelper.Instance.Stop("Settings Initialized", this);
+                    _isInitialized = true;
                 }
-
-                for (int index = 0; index < _settingModels.Count; index++)
-                {
-                    var settingModel = _settingModels[index];
-                    var modl = guidSettings.FirstOrDefault(d => d.Guid == settingModel.Guid);
-
-                    WriteProperties(ref settingModel, ref modl);
-                    _settingModels[index] = settingModel;
-                    guidSettings.Remove(modl);
-                }
-
-                //remove old settings
-                if (guidSettings.Count > 0)
-                {
-                    TimerHelper.Instance.Stop("Remove old Settings (" + guidSettings.Count + ")", this);
-                    await repo.DeleteAll(guidSettings);
-                }
-
-                TimerHelper.Instance.Stop("Settings Initialized", this);
-                
-                _isInitialized = true;
             }
             catch (Exception ex)
             {
@@ -387,12 +352,12 @@ namespace OfflineMedia.Business.Framework.Repositories
         }
 
         private Task _initializingTask;
-        public async Task Initialize(IDataService dataService)
+        public async Task Initialize()
         {
-            
+
             if (_initializingTask == null)
             {
-                _initializingTask = InitializeTask(dataService);
+                _initializingTask = InitializeTask();
             }
             await _initializingTask;
         }

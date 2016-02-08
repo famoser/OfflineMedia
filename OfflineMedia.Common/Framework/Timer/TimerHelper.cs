@@ -22,7 +22,7 @@ namespace OfflineMedia.Common.Framework.Timer
             if (!_lastEntry.ContainsKey(identifier))
             {
                 _lastEntry.Add(identifier, newEntry);
-                _result.Add(identifier, "");
+                _result.Add(identifier, classname + ": " + description + " (" + FormatDateTime(DateTime.Now) + ")\n");
                 _firstEntry.Add(identifier, newEntry);
             }
             else
