@@ -71,6 +71,9 @@ namespace OfflineMedia.SourceTests
                     else
                         Assert.Fail("mediaSourceHelper EvaluateArticle failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
                 }
+
+                //author freiwillig
+                articleModel.Author = " ";
                 
                 AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
                 AssertHelper.Instance.AssertFullArticleProperties(articleModel);

@@ -109,6 +109,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeDispatchHelper.cs" />
     <Compile Include="Fakes\FakeThemeRepository.cs" />
     <Compile Include="Framework\XmlHelperTests.cs" />
     <Compile Include="Platform\DispatchWinRTHelper.cs" />

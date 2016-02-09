@@ -24,6 +24,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         private const int ConcurrentThreads = 6;
         private readonly List<Task> _aktualizeArticlesTasks = new List<Task>();
         private List<ArticleModel> _aktualizeArticleModels = new List<ArticleModel>();
+        private readonly List<ArticleModel> _newAktualizeArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
         private int _newArticles;
@@ -111,22 +112,38 @@ namespace OfflineMedia.Business.Framework.Repositories
                 TimerHelper.Instance.Stop("Saving forced to database", this);
                 _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
                 await FeedToDatabase(true);
-                _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
                 TimerHelper.Instance.Stop("Get additional articles from Database", this);
-                _aktualizeArticleModels = _aktualizeArticleModels.Where(a => a.State == ArticleState.New).ToList();
-                using (var unitOfWork = new UnitOfWork(true))
+
+                //remove from wrong sources
+                var removeArticlesIds =_repoArticles.Where(a => _newFeedModels.All(fm => fm.FeedConfiguration.Guid != a.FeedConfigurationId)).Select(a => a.Id).ToList();
+                if (removeArticlesIds.Any())
                 {
-                    foreach (var articleModel in _aktualizeArticleModels)
+                    using (var unitOfWork = new UnitOfWork(true))
                     {
-                        if (_aktualizeArticleModels.All(d => d.Id != articleModel.Id))
-                        {
-                            _aktualizeArticleModels.Add(await AddModels(articleModel, await unitOfWork.GetDataService()));
-                        }
+                        await DeleteAllArticlesAndTrances(removeArticlesIds, await unitOfWork.GetDataService());
                     }
                 }
 
+                _aktualizeArticleModels = _repoArticles.Where(a => a.State == ArticleState.New).ToList();
+
+                //add missing models from database
+                using (var unitOfWork = new UnitOfWork(true))
+                {
+                    for (int index = 0; index < _aktualizeArticleModels.Count; index++)
+                    {
+                        var aktualizeArticleModel = _aktualizeArticleModels[index];
+                        if (!_newAktualizeArticleModels.Contains(aktualizeArticleModel))
+                        {
+                            await AddModels(aktualizeArticleModel, await unitOfWork.GetDataService());
+                            _aktualizeArticleModels[index] = aktualizeArticleModel;
+                        }
+                    }
+                }
+                _newAktualizeArticleModels.Clear();
                 _newArticles = _aktualizeArticleModels.Count;
+
+                _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
                 if (_newArticles > 0)
                 {
@@ -318,6 +335,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                                 _repoArticles.Add(article);
                                 newarticles.Add(article);
                                 tosend.Add(article);
+                                _newAktualizeArticleModels.Add(article);
                             }
                             else
                             {
@@ -333,7 +351,10 @@ namespace OfflineMedia.Business.Framework.Repositories
                         Messenger.Default.Send(tosend, Messages.FeedRefresh);
 
                         //delete old ones
-                        _deleteArticlesFromDatabase.AddRange(oldDatabaseArticles.Where(d => !d.IsFavorite).Select(d => d.Id).ToList());
+                        var oldArticles = oldDatabaseArticles.Where(d => !d.IsFavorite).ToList();
+                        foreach (var article in oldArticles)
+                            _repoArticles.Remove(article);
+                        _deleteArticlesFromDatabase.AddRange(oldArticles.Select(d => d.Id).ToList());
 
                         //only new ones left
                         _newArticlesToDatabase.AddRange(newarticles);
@@ -351,7 +372,6 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                         TimerHelper.Instance.Stop("InsertAllArticleAndTraces...", this, g);
                         await InsertAllArticleAndTraces(_newArticlesToDatabase, await unitOfWork.GetDataService());
-                        _aktualizeArticleModels.AddRange(_newArticlesToDatabase);
                         _newArticlesToDatabase.Clear();
 
                         TimerHelper.Instance.Stop("Commiting Changes...", this, g);
@@ -497,26 +517,18 @@ namespace OfflineMedia.Business.Framework.Repositories
                     if (tuple.Item1)
                     {
                         if (sh.WriteProperties(ref article, tuple.Item2))
-                        {
-                            article.WordDump = string.Join(" ", sh.GetKeywords(article));
                             article.State = ArticleState.Loaded;
-                            ArticleHelper.Instance.OptimizeArticle(ref article);
-                        }
                         else
-                        {
                             article.State = ArticleState.WritePropertiesFaillure;
-                        }
                     }
                     else
-                    {
                         article.State = ArticleState.EvaluateArticleFaillure;
-                    }
                 }
                 else
-                {
                     article.State = ArticleState.Loaded;
-                    ArticleHelper.Instance.OptimizeArticle(ref article);
-                }
+
+                article.WordDump = string.Join(" ", sh.GetKeywords(article));
+                ArticleHelper.Instance.OptimizeArticle(ref article);
 
                 ArticleHelper.Instance.AddWordDumpFromArticle2(ref article);
                 return article;

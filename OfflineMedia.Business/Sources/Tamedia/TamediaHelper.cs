@@ -52,6 +52,11 @@ namespace OfflineMedia.Business.Sources.Tamedia
             return articlelist;
         }
 
+        public override bool NeedsToEvaluateArticle()
+        {
+            return false;
+        }
+
 #pragma warning disable 1998
         public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
 #pragma warning restore 1998
@@ -169,8 +174,6 @@ namespace OfflineMedia.Business.Sources.Tamedia
                         }
                     }
                 }
-
-                a.State = ArticleState.Loaded;
 
                 return a;
             }

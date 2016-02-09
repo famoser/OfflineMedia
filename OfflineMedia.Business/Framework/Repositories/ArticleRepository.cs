@@ -220,10 +220,10 @@ namespace OfflineMedia.Business.Framework.Repositories
                 TimerHelper.Instance.Stop("Getting all articles from Database", this);
                 var repo = new GenericRepository<ArticleModel, ArticleEntity>(await unitOfWork.GetDataService());
                 _repoArticles = await repo.GetAll();
+
                 foreach (var articleModel in _repoArticles)
                 {
-                    articleModel.FeedConfiguration =
-                        await _settingsRepository.GetFeedConfigurationFor(articleModel.FeedConfigurationId);
+                    articleModel.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(articleModel.FeedConfigurationId);
                 }
 
                 TimerHelper.Instance.Stop("Got all articles from Database", this);

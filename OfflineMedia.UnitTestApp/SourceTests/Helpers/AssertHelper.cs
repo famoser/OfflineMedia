@@ -35,14 +35,14 @@ namespace OfflineMedia.SourceTests.Helpers
             {
                 foreach (var contentModel in article.Content)
                 {
-                    Assert.IsTrue(contentModel.Article == article || contentModel.Article == null);
+                    Assert.IsTrue(contentModel.Article == article || contentModel.Article == null, "ContentModel not correctly backlinked");
                     if (contentModel.ContentType == ContentType.Gallery)
                     {
-                        Assert.IsNotNull(contentModel.Gallery);
+                        Assert.IsNotNull(contentModel.Gallery, "Gallery object null but contentype of gallery");
                         if (contentModel.Gallery.Images != null)
                             foreach (var imageModel in contentModel.Gallery.Images)
                             {
-                                Assert.IsTrue(imageModel.Gallery == contentModel.Gallery);
+                                Assert.IsTrue(imageModel.Gallery == contentModel.Gallery, "GalleryImage not correctly backlinked");
                             }
                     }
                 }
