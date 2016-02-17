@@ -79,6 +79,16 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
+                //remove from wrong sources
+                var removeArticlesIds = _repoArticles.Where(a => _newFeedModels.All(fm => fm.FeedConfiguration.Guid != a.FeedConfigurationId)).Select(a => a.Id).ToList();
+                if (removeArticlesIds.Any())
+                {
+                    using (var unitOfWork = new UnitOfWork(true))
+                    {
+                        await DeleteAllArticlesAndTrances(removeArticlesIds, await unitOfWork.GetDataService());
+                    }
+                }
+
                 _feedProgress = 0;
                 //Actualize feeds
                 if (_actualizeFeedsTasks.Count < ConcurrentThreads)
@@ -115,15 +125,6 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 TimerHelper.Instance.Stop("Get additional articles from Database", this);
 
-                //remove from wrong sources
-                var removeArticlesIds =_repoArticles.Where(a => _newFeedModels.All(fm => fm.FeedConfiguration.Guid != a.FeedConfigurationId)).Select(a => a.Id).ToList();
-                if (removeArticlesIds.Any())
-                {
-                    using (var unitOfWork = new UnitOfWork(true))
-                    {
-                        await DeleteAllArticlesAndTrances(removeArticlesIds, await unitOfWork.GetDataService());
-                    }
-                }
 
                 _aktualizeArticleModels = _repoArticles.Where(a => a.State == ArticleState.New).ToList();
 

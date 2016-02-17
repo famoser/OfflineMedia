@@ -72,7 +72,7 @@ namespace OfflineMedia.Business.Framework.Generic
             var res = new List<TB>();
             for (int i = 0; i < entity.Count; i++)
             {
-                res.Add(ConvertToBusiness(entity[0], new TB()));
+                res.Add(ConvertToBusiness(entity[i], new TB()));
             }
             return res;
         }
@@ -336,25 +336,34 @@ namespace OfflineMedia.Business.Framework.Generic
         public List<int> GetPrimaryKeyFromBusinesses<TB>(List<TB> business) where TB : class
         {
             var list = new List<int>();
-            //gets all properties of the business
-            Type businessType = business.GetType();
-            IEnumerable<PropertyInfo> businessProps = businessType.GetRuntimeProperties();
-
-            foreach (var propertyInfo in businessProps)
+            if (business.Any())
             {
-                //check for the attribute
-                var attribute = propertyInfo.GetCustomAttribute(typeof(EntityPrimaryKeyAttribute), false) as EntityPrimaryKeyAttribute;
-                if (attribute != null)
+                //gets all properties of the business
+                Type businessType = business[0].GetType();
+                IEnumerable<PropertyInfo> businessProps = businessType.GetRuntimeProperties();
+
+                foreach (var propertyInfo in businessProps)
                 {
-                    list.AddRange(business.Select(b => (int)propertyInfo.GetValue(b)));
+                    //check for the attribute
+                    var attribute =
+                        propertyInfo.GetCustomAttribute(typeof (EntityPrimaryKeyAttribute), false) as
+                            EntityPrimaryKeyAttribute;
+                    if (attribute != null)
+                    {
+                        list.AddRange(business.Select(b => (int) propertyInfo.GetValue(b)));
+                        return list;
+                    }
                 }
+
+                //if Property not found on entity, but requested on business, we throw an error
+                string errorMsg =
+                    String.Format(
+                        "GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'",
+                        business.GetType());
+                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
             }
-
-            //if Property not found on entity, but requested on business, we throw an error
-            string errorMsg = String.Format("GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'", business.GetType());
-            LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
-
             return list;
+
         }
 
         public bool SetPrimaryKeyToBusiness<TB>(TB business, object primaryKey) where TB : class

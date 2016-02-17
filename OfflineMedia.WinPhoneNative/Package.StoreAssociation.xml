@@ -365,18 +365,20 @@
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
+    <MainPackageIdentityName>10401FlorianMoser.BeerCompanion</MainPackageIdentityName>
     <MainPackageIdentityName>10401FlorianMoser.Gymoberwil</MainPackageIdentityName>
+    <MainPackageIdentityName>10401FlorianMoser.rememberless</MainPackageIdentityName>
   </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9WZDNCRDWPHT">
     <PackageInfo>
       <OsMinVersion>6.3.1.0</OsMinVersion>
       <PackageArchitecture>Arm</PackageArchitecture>
-      <PackageMaxArchitectureVersion>2015.832.0.34</PackageMaxArchitectureVersion>
+      <PackageMaxArchitectureVersion>2015.832.0.38</PackageMaxArchitectureVersion>
     </PackageInfo>
     <PackageInfo>
       <OsMinVersion>6.3.1.0</OsMinVersion>
       <PackageArchitecture>Neutral</PackageArchitecture>
-      <PackageMaxArchitectureVersion>2015.832.0.34</PackageMaxArchitectureVersion>
+      <PackageMaxArchitectureVersion>2015.832.0.38</PackageMaxArchitectureVersion>
     </PackageInfo>
   </PackageInfoList>
 </StoreAssociation>
