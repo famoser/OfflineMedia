@@ -82,8 +82,9 @@ namespace OfflineMedia.View.ViewModels
                         feed.ArticleList.Add(obj[i]);
                     }
 
-                    foreach (var articleModel in feed.ArticleList)
+                    for (int index = 0; index < feed.ArticleList.Count; index++)
                     {
+                        var articleModel = feed.ArticleList[index];
                         await _articleRepository.LoadMoreArticleContent(articleModel);
                     }
                 }

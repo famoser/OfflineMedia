@@ -14,6 +14,7 @@ using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
@@ -29,14 +30,16 @@ namespace OfflineMedia.Business.Framework.Repositories
         private readonly ISettingsRepository _settingsRepository;
         private readonly IThemeRepository _themeRepository;
         private readonly IProgressService _progressService;
+        private readonly IPlatformCodeService _platformCodeService;
 
         private List<ArticleModel> _repoArticles;
 
-        public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService)
+        public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService, IPlatformCodeService platformCodeService)
         {
             _settingsRepository = settingsRepository;
             _themeRepository = themeRepository;
             _progressService = progressService;
+            _platformCodeService = platformCodeService;
         }
 
         public ObservableCollection<SourceModel> GetSampleArticles()

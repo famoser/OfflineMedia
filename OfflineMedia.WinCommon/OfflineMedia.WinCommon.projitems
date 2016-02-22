@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\ResolutionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignNavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformCodeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProgressService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StorageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\VariaService.cs" />

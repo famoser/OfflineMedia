@@ -40,8 +40,12 @@ namespace OfflineMedia.UserControls
         private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var feed = DataContext as FeedModel;
-            _navigationService.NavigateTo(PageKeys.Feed.ToString());
-            Messenger.Default.Send(feed, Messages.Select);
+
+            if (feed?.FeedConfiguration != null)
+            {
+                _navigationService.NavigateTo(PageKeys.Feed.ToString());
+                Messenger.Default.Send(feed, Messages.Select);
+            }
         }
     }
 }

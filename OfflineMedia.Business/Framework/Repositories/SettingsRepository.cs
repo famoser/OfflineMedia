@@ -260,6 +260,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                     TimerHelper.Instance.Stop("Sorting out Settings", this);
 
+                    var firstTime = !guidSettings.Any();
+                    
                     for (int index = 0; index < _sourceConfigModels.Count; index++)
                     {
                         var sourceConfigurationModel = _sourceConfigModels[index];
@@ -303,6 +305,18 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                             feedConfigurationModel.SourceConfiguration = sourceConfigurationModel;
                         }
+                    }
+
+                    if (firstTime)
+                    {
+                        newSettings[0].BoolValue = true;
+                        newSettings[1].BoolValue = true;
+                        newSettings[2].BoolValue = true;
+                        newSettings[3].BoolValue = true;
+                        _sourceConfigModels[0].BoolValue = true;
+                        _sourceConfigModels[0].FeedConfigurationModels[0].BoolValue = true;
+                        _sourceConfigModels[0].FeedConfigurationModels[1].BoolValue = true;
+                        _sourceConfigModels[0].FeedConfigurationModels[2].BoolValue = true;
                     }
 
                     for (int index = 0; index < _settingModels.Count; index++)

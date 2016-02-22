@@ -9,6 +9,7 @@ using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Common.Enums.View;
 using OfflineMedia.Common.Framework.Logs;
@@ -81,6 +82,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 //remove from wrong sources
                 var removeArticlesIds = _repoArticles.Where(a => _newFeedModels.All(fm => fm.FeedConfiguration.Guid != a.FeedConfigurationId)).Select(a => a.Id).ToList();
+                _repoArticles.RemoveAll(a => _newFeedModels.All(fm => fm.FeedConfiguration.Guid != a.FeedConfigurationId));
+                GC.Collect();
                 if (removeArticlesIds.Any())
                 {
                     using (var unitOfWork = new UnitOfWork(true))
@@ -91,9 +94,9 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 _feedProgress = 0;
                 //Actualize feeds
-                if (_actualizeFeedsTasks.Count < ConcurrentThreads)
+                if (_actualizeFeedsTasks.Count < ConcurrentThreads && _actualizeFeedsTasks.Count < _newFeeds)
                 {
-                    for (int i = 0; i < ConcurrentThreads; i++)
+                    for (int i = 0; i < ConcurrentThreads && i < _newFeeds; i++)
                     {
                         var tsk = AktualizeFeedsTask();
                         _actualizeFeedsTasks.Add(tsk);
@@ -150,9 +153,9 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     TimerHelper.Instance.Stop("Actualizing articles", this);
                     //Actualize articles
-                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads)
+                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads && _aktualizeArticlesTasks.Count < _newArticles)
                     {
-                        for (int i = 0; i < ConcurrentThreads; i++)
+                        for (int i = 0; i < ConcurrentThreads && i < _newArticles; i++)
                         {
                             var tsk = AktualizeArticlesTask();
                             _aktualizeArticlesTasks.Add(tsk);
@@ -202,6 +205,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         private double _feedProgress = 0;
         private async Task AktualizeFeedsTask()
         {
+
             var guid = Guid.NewGuid();
             TimerHelper.Instance.Stop("Aktualize Feed Task started...", this, guid);
             while (_newFeedModels.Any())
@@ -259,7 +263,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
                 else
                 {
-                    article = await ActualizeArticle(article, sh);
+                    article = await ActualizeArticle(article, sh, _platformCodeService);
 
                     _toDatabaseArticles.Add(article);
                     await ToDatabase();
@@ -501,29 +505,33 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private async Task<ArticleModel> ActualizeArticle(ArticleModel article, IMediaSourceHelper sh)
+        private async Task<ArticleModel> ActualizeArticle(ArticleModel article, IMediaSourceHelper sh, IPlatformCodeService platformCodeService)
         {
             try
             {
                 if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
                 {
-                    article.LeadImage.Image = await Download.DownloadImageAsync(article.LeadImage.Url);
+                    var image = await Download.DownloadImageAsync(article.LeadImage.Url);
+                    article.LeadImage.Image = await CompressionHelper.ResizeImage(image, platformCodeService);
                     article.LeadImage.IsLoaded = true;
                 }
 
                 if (sh.NeedsToEvaluateArticle())
                 {
                     string articleresult = await Download.DownloadStringAsync(article.LogicUri);
-                    var tuple = await sh.EvaluateArticle(articleresult, article);
-                    if (tuple.Item1)
+                    if (articleresult != null)
                     {
-                        if (sh.WriteProperties(ref article, tuple.Item2))
-                            article.State = ArticleState.Loaded;
+                        var tuple = await sh.EvaluateArticle(articleresult, article);
+                        if (tuple.Item1)
+                        {
+                            if (sh.WriteProperties(ref article, tuple.Item2))
+                                article.State = ArticleState.Loaded;
+                            else
+                                article.State = ArticleState.WritePropertiesFaillure;
+                        }
                         else
-                            article.State = ArticleState.WritePropertiesFaillure;
+                            article.State = ArticleState.EvaluateArticleFaillure;
                     }
-                    else
-                        article.State = ArticleState.EvaluateArticleFaillure;
                 }
                 else
                     article.State = ArticleState.Loaded;

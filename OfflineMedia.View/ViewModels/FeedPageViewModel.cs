@@ -69,8 +69,9 @@ namespace OfflineMedia.View.ViewModels
                 Feed.ArticleList = await _articleRepository.GetArticlesByFeed(obj.FeedConfiguration.Guid, 40);
                 if (Feed.ArticleList.Count > 0)
                 {
-                    foreach (var articleModel in Feed.ArticleList)
+                    for (int index = 0; index < Feed.ArticleList.Count; index++)
                     {
+                        var articleModel = Feed.ArticleList[index];
                         await _articleRepository.LoadMoreArticleContent(articleModel);
                     }
                 }

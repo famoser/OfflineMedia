@@ -46,6 +46,7 @@ namespace OfflineMedia.ViewModel
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IApiService, ApiService>();
             SimpleIoc.Default.Register<IDispatchHelper, DispatchWinRtHelper>();
+            SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
 
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
 

@@ -118,8 +118,7 @@ namespace OfflineMedia
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
-                // TODO: change this value to a cache size that is appropriate for your application
+                
                 rootFrame.CacheSize = 1;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -129,6 +128,7 @@ namespace OfflineMedia
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+                rootFrame.ContentTransitions = null;
             }
 
             if (rootFrame.Content == null)

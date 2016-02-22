@@ -262,6 +262,7 @@
     <Compile Include="Models\WeatherModel\WeatherLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDispatchHelper.cs" />
+    <Compile Include="Services\IPlatformCodeService.cs" />
     <Compile Include="Sources\BaseMediaSourceHelper.cs" />
     <Compile Include="Sources\Bild\Models\Article\ChildNode.cs" />
     <Compile Include="Sources\Bild\Models\Article\Image.cs" />

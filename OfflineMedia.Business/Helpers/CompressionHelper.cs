@@ -2,6 +2,8 @@
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
+using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Business.Helpers
 {
@@ -30,6 +32,11 @@ namespace OfflineMedia.Business.Helpers
 
                 return Encoding.UTF8.GetString(buffer,0,buffer.Length);
             }
+        }
+
+        public static Task<byte[]> ResizeImage(byte[] image, IPlatformCodeService platformCodeService)
+        {
+            return platformCodeService.ResizeImage(image);
         }
     }
 }

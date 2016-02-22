@@ -48,14 +48,7 @@
             </StackPanel>
 
             <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-
                 <Image Stretch="UniformToFill" Margin="0" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
-
-                <!--<Image Stretch="UniformToFill" Grid.RowSpan="4" Margin="0" >
-                    <Image.Source>
-                        <BitmapImage UriSource="{Binding Article.LeadImage.Url, Mode=OneWay}" />
-                    </Image.Source>
-                </Image>-->
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
@@ -65,7 +58,7 @@
             <Grid Background="{ThemeResource BackgroundThemeBrush}" >
                 <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
             </Grid>
-            
+
             <Grid Margin="0,4,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -108,7 +101,7 @@
                 </Grid>
             </Grid>
 
-            
+
 
         </StackPanel>
     </Grid>

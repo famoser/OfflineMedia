@@ -152,7 +152,8 @@ namespace OfflineMedia.Business.Sources.Nzz
                     if (li.path.Contains("http://nzz-img.s3.amazonaws.com/"))
                     {
                         var uri = li.path.Substring(li.path.IndexOf("http://nzz-img.s3.amazonaws.com/", StringComparison.Ordinal));
-                        img.Url = new Uri(uri);
+                        if (!uri.Contains("height"))
+                            img.Url = new Uri(uri);
                     }
                     else
                     {
