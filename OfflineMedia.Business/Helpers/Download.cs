@@ -47,10 +47,9 @@ namespace OfflineMedia.Business.Helpers
                 var res = await MakeBaseRequest(url);
                 if (res != null)
                 {
-                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadStringAsync failed for url " + url + " but successfully recovered", ex);
+                    LogHelper.Instance.Log(LogLevel.Info, "Download.cs", "DownloadStringAsync failed for url " + url + " but successfully recovered", ex);
                     return res;
                 }
-                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStringAsync failed for url " + url, ex);
             }
             return null;
         }
@@ -81,9 +80,9 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.LogException(ex);
-                return null;
+                LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "MakeBaseRequest failed: " + url.AbsoluteUri, ex);
             }
+            return null;
         }
 
         public static async Task<Stream> DownloadStreamAsync(string url)
@@ -97,7 +96,7 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadStreamAsync failed for url " + url, ex);
+                LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadStreamAsync failed: " + url, ex);
             }
             return null;
         }
@@ -115,7 +114,7 @@ namespace OfflineMedia.Business.Helpers
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, "Download.cs", "DownloadImageAsync failed for url " + url, ex);
+                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
                 }
             }
             return null;

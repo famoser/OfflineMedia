@@ -8,8 +8,7 @@ namespace OfflineMedia.Common.Framework.Logs
 
         public string Location { get; set; }
         public string Message { get; set; }
-
-
+        
         public string Header
         {
             get { return "Log (Level: " + LogLevel + ")"; }

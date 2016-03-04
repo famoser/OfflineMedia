@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -127,8 +128,7 @@ namespace OfflineMedia.Services
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.GetFileAsync("DELETEALL");
-                return true;
+                return (await ApplicationData.Current.LocalFolder.GetFilesAsync()).Any(x => x.Name.Equals("DELETEALL"));
             }
             catch (Exception ex)
             {
