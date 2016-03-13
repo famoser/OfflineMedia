@@ -55,9 +55,9 @@ namespace OfflineMedia.SourceTests
             for (int index = 0; index < feed.Count; index++)
             {
                 var articleModel = feed[index];
-                string articleString = await Download.DownloadStringAsync(articleModel.LogicUri);
                 if (mediaSourceHelper.NeedsToEvaluateArticle())
                 {
+                    string articleString = await Download.DownloadStringAsync(articleModel.LogicUri);
                     var tuple = await mediaSourceHelper.EvaluateArticle(articleString, articleModel);
                     if (tuple.Item1)
                     {

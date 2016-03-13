@@ -99,6 +99,9 @@
     <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\Microsoft.Net.Http.2.2.29\lib\wpa81\System.Net.Http.Primitives.dll">
       <PackagePath>System.Net.Http.Primitives.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\Nito.AsyncEx.dll">
+      <PackagePath>Nito.AsyncEx.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.pdb">
       <PackagePath>GalaSoft.MvvmLight.pdb</PackagePath>
     </AppxPackagedFile>
