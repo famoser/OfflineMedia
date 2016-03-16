@@ -52,7 +52,7 @@
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
-                <TextBlock  Margin="8,10" TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
+                <TextBlock  Margin="8,15,8,5" TextWrapping="Wrap" FontWeight="SemiLight" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" >

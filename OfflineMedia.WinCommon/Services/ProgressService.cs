@@ -30,14 +30,19 @@ namespace OfflineMedia.Services
             _progressViewModel.ShowDecentInformationMessage(message, timespan);
         }
 
-        public void ShowProgress(string message, int percentageCompleted)
+        public void InitializePercentageProgress(string message, int totalProgress)
         {
-            _progressViewModel.ShowProgress(message, percentageCompleted);
+            _progressViewModel.InitializePercentageProgress(message, totalProgress);
         }
 
-        public void HideProgress()
+        public void IncrementProgress()
         {
-            _progressViewModel.HideProgress();
+            _progressViewModel.IncrementProgress();
+        }
+
+        public void HidePercentageProgress()
+        {
+            _progressViewModel.HidePercentageProgress();
         }
     }
 }

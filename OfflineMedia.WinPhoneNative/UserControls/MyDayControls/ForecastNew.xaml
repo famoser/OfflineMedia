@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Margin="0,0" Grid.Row="0" Background="White">
+        <Grid Margin="0,0" Grid.Row="0" Background="{ThemeResource AkzentBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2*" />
@@ -26,7 +26,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Viewbox Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" Margin="10,10,10,10">
-                <TextBlock Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Margin="-4,0,0,0" TextAlignment="Center" FontSize="60" Height="51" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
+                <TextBlock Foreground="White" Margin="-4,0,0,0" TextAlignment="Center" FontSize="60" Height="51" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
             </Viewbox>
             <Grid Grid.Row="0" Grid.Column="1" Background="{ThemeResource AkzentBackgroundThemeBrush}">
                 <Grid Margin="5">

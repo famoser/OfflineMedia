@@ -13,8 +13,9 @@ namespace OfflineMedia.View.ViewModels.Global
             if (IsInDesignMode)
             {
                 ProgressMessage = "Sample progress message...";
-                ProgressPercentage = 80;
+                ActiveProgressValue = 80;
                 IsPercentageProgress = true;
+                MaxProgressValue = 100;
             }
 
             _messages = new Dictionary<IndeterminateProgressKey, string>();
@@ -67,11 +68,18 @@ namespace OfflineMedia.View.ViewModels.Global
             }
         }
 
-        private int _progressPercentage;
-        public int ProgressPercentage
+        private int _activeProgressValue;
+        public int ActiveProgressValue
         {
-            get { return _progressPercentage; }
-            set { Set(ref _progressPercentage, value); }
+            get { return _activeProgressValue; }
+            set { Set(ref _activeProgressValue, value); }
+        }
+
+        private int _maxProgressValue;
+        public int MaxProgressValue
+        {
+            get { return _maxProgressValue; }
+            set { Set(ref _maxProgressValue, value); }
         }
 
         private string _progressMessage;
@@ -103,18 +111,25 @@ namespace OfflineMedia.View.ViewModels.Global
         #endregion
 
         #region percentage Progress
-        public void ShowProgress(string message, int percentageCompleted)
-        {
-            IsPercentageProgress = true;
-            ProgressMessage = message;
-            ProgressPercentage = percentageCompleted;
-        }
 
-        public void HideProgress()
+        public void HidePercentageProgress()
         {
             IsPercentageProgress = false;
             ProgressMessage = "";
-            ProgressPercentage = 100;
+            ActiveProgressValue = MaxProgressValue;
+        }
+
+        public void IncrementProgress()
+        {
+            ActiveProgressValue++;
+        }
+
+        public void InitializePercentageProgress(string message, int totalProgress)
+        {
+            IsPercentageProgress = true;
+            MaxProgressValue = totalProgress;
+            ActiveProgressValue = 0;
+            ProgressMessage = message;
         }
         #endregion
 

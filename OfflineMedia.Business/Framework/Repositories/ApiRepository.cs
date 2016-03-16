@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Communication;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Common.Framework.Logs;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 
 namespace OfflineMedia.Business.Framework.Repositories
@@ -21,46 +23,29 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         public async Task UploadStats()
         {
-            var config = await _settingsRepository.GetSourceConfigurations();
-            var dic = new Dictionary<string, string>();
-            foreach (var sourceConfigurationModel in config.Where(s => s.BoolValue))
+            try
             {
-                if (sourceConfigurationModel.BoolValue)
+                var config = await _settingsRepository.GetSourceConfigurations();
+                var dic = new Dictionary<string, string>();
+                foreach (var sourceConfigurationModel in config.Where(s => s.BoolValue))
                 {
-                    var feeds = "";
-                    foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels.Where(f => f.BoolValue))
+                    if (sourceConfigurationModel.BoolValue)
                     {
-                        feeds += feedConfigurationModel.Name + ", ";
-                    }
-                    feeds = feeds.Substring(0, feeds.Length - 2);
-                    dic.Add(sourceConfigurationModel.SourceNameShort, feeds);
-                }
-            }
-            await _apiService.UploadStats(dic);
-            
-            /* own stats; disablöed because data is never evaluated
-            using (var unitOfWork = new UnitOfWork(true))
-            {
-                var config = await _settingsRepository.GetSourceConfigurations(await unitOfWork.GetDataService());
-
-                //Contact Server for Stats
-                var postData = new ServerRequest();
-                postData.InstallationId = (await _settingsRepository.GetSettingByKey(SettingKeys.UniqueDeviceId, await unitOfWork.GetDataService())).Value;
-                postData.Entries = new List<ServerRequestEntry>();
-                foreach (var item in config)
-                {
-                    postData.Entries.Add(new ServerRequestEntry() {Guid = item.Guid.ToString(), Value = item.BoolValue});
-                    foreach (var feedModel in item.FeedConfigurationModels)
-                    {
-                        postData.Entries.Add(new ServerRequestEntry()
+                        var feeds = "";
+                        foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels.Where(f => f.BoolValue))
                         {
-                            Guid = feedModel.Guid.ToString(),
-                            Value = feedModel.BoolValue
-                        });
+                            feeds += feedConfigurationModel.Name + ", ";
+                        }
+                        feeds = feeds.Substring(0, feeds.Length - 2);
+                        dic.Add(sourceConfigurationModel.SourceNameShort, feeds);
                     }
                 }
-                await Statistics.UploadStats(postData);
-            }*/
+                await _apiService.UploadStats(dic);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex, this);
+            }
         }
     }
 }

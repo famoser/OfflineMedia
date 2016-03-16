@@ -10,7 +10,8 @@ namespace OfflineMedia.Common.Framework.Services.Interfaces
 
         void ShowDecentInformationMessage(string message, TimeSpan timespan);
 
-        void ShowProgress(string message, int percentageCompleted);
-        void HideProgress();
+        void InitializePercentageProgress(string message, int totalProgress);
+        void IncrementProgress();
+        void HidePercentageProgress();
     }
 }

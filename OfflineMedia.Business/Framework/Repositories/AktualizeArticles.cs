@@ -28,11 +28,9 @@ namespace OfflineMedia.Business.Framework.Repositories
         private readonly List<ArticleModel> _newAktualizeArticleModels = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseArticles = new List<ArticleModel>();
         private readonly List<ArticleModel> _toDatabaseFlatArticles = new List<ArticleModel>();
-        private int _newArticles;
 
         private readonly List<Task> _actualizeFeedsTasks = new List<Task>();
         private readonly List<List<ArticleModel>> _toDatabaseFeeds = new List<List<ArticleModel>>();
-        private int _newFeeds;
 
         public async Task<bool> ActualizeArticle(ArticleModel article)
         {
@@ -66,8 +64,6 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 TimerHelper.Instance.Stop("Creating Feed Tasks", this);
                 //Get Total Number of feeds
-                _newFeeds = _sources.SelectMany(source => source.FeedList).Count();
-
                 _newFeedModels = new List<FeedModel>();
                 foreach (var sourceModel in _sources)
                 {
@@ -92,11 +88,12 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
 
-                _feedProgress = 0;
+                var feedCount = _sources.SelectMany(source => source.FeedList).Count();
+                _progressService.InitializePercentageProgress("Feed wird heruntergeladen...", feedCount * 2);
                 //Actualize feeds
-                if (_actualizeFeedsTasks.Count < ConcurrentThreads && _actualizeFeedsTasks.Count < _newFeeds)
+                if (_actualizeFeedsTasks.Count < ConcurrentThreads && _actualizeFeedsTasks.Count < feedCount)
                 {
-                    for (int i = 0; i < ConcurrentThreads && i < _newFeeds; i++)
+                    for (int i = 0; i < ConcurrentThreads && i < feedCount; i++)
                     {
                         var tsk = AktualizeFeedsTask();
                         _actualizeFeedsTasks.Add(tsk);
@@ -123,13 +120,14 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
                 }
                 TimerHelper.Instance.Stop("Saving forced to database", this);
+                _progressService.HidePercentageProgress();
                 _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
                 await FeedToDatabase(true);
 
                 TimerHelper.Instance.Stop("Get additional articles from Database", this);
 
 
-                _aktualizeArticleModels = _repoArticles.Where(a => a.State == ArticleState.New).ToList();
+                _aktualizeArticleModels = _repoArticles.Where(a => a.State == ArticleState.New).OrderByDescending(a => a.PublicationTime).ToList();
 
                 //add missing models from database
                 using (var unitOfWork = new UnitOfWork(true))
@@ -144,18 +142,18 @@ namespace OfflineMedia.Business.Framework.Repositories
                         }
                     }
                 }
-                _newAktualizeArticleModels.Clear();
-                _newArticles = _aktualizeArticleModels.Count;
-
                 _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
-                if (_newArticles > 0)
+                _newAktualizeArticleModels.Clear();
+                var newArticlesCount = _aktualizeArticleModels.Count;
+                _progressService.InitializePercentageProgress("Artikel werden heruntergeladen...", newArticlesCount);
+                if (newArticlesCount > 0)
                 {
                     TimerHelper.Instance.Stop("Actualizing articles", this);
                     //Actualize articles
-                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads && _aktualizeArticlesTasks.Count < _newArticles)
+                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads && _aktualizeArticlesTasks.Count < newArticlesCount)
                     {
-                        for (int i = 0; i < ConcurrentThreads && i < _newArticles; i++)
+                        for (int i = 0; i < ConcurrentThreads && i < newArticlesCount; i++)
                         {
                             var tsk = AktualizeArticlesTask();
                             _aktualizeArticlesTasks.Add(tsk);
@@ -185,15 +183,16 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
                 TimerHelper.Instance.Stop("Finished", this);
 
-                _progressService.HideProgress();
+                _progressService.HidePercentageProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
-                _progressService.HideProgress();
+                _progressService.HidePercentageProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
             }
+
             _actualizeActive = false;
             if (_actualizeRequested)
             {
@@ -202,7 +201,6 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        private double _feedProgress = 0;
         private async Task AktualizeFeedsTask()
         {
 
@@ -215,10 +213,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 _newFeedModels.Remove(feed);
 
                 var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
-
-                // ReSharper disable once PossibleLossOfFraction
-                _feedProgress += 100 / (_newFeeds * 2);
-                _progressService.ShowProgress("Feed wird heruntergeladen...", (int)_feedProgress);
+                _progressService.IncrementProgress();
 
                 TimerHelper.Instance.Stop("Downloaded Feed, Inserting to Database", this, guid);
                 if (newfeed != null)
@@ -227,9 +222,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     await FeedToDatabase();
                 }
 
-                // ReSharper disable once PossibleLossOfFraction
-                _feedProgress += 100 / (_newFeeds * 2);
-                _progressService.ShowProgress("Feed wird heruntergeladen...", (int)_feedProgress);
+                _progressService.IncrementProgress();
 
                 TimerHelper.Instance.Stop("Finished, proceeding to next item", this, guid);
             }
@@ -271,8 +264,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 
                 if (showprogress)
                 {
-                    var percentage = Convert.ToInt32(100 - ((_aktualizeArticleModels.Count * 100) / _newArticles));
-                    _progressService.ShowProgress("Artikel werden heruntergeladen...", percentage);
+                    _progressService.IncrementProgress();
                 }
             }
         }

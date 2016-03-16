@@ -168,16 +168,20 @@ namespace OfflineMedia.View.ViewModels
             Sources = await _articleRepository.GetSources();
 
             TimerHelper.Instance.Stop("Got Sources, Loading Feeds", this);
-            foreach (var sourceModel in Sources)
+            for (int index = 0; index < Sources.Count; index++)
             {
-                foreach (var feedModel in sourceModel.FeedList)
+                var sourceModel = Sources[index];
+                for (int i = 0; i < sourceModel.FeedList.Count; i++)
                 {
-                    feedModel.ArticleList = await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
+                    var feedModel = sourceModel.FeedList[i];
+                    feedModel.ArticleList =
+                        await _articleRepository.GetArticlesByFeed(feedModel.FeedConfiguration.Guid, 5);
                     if (feedModel.ArticleList.Count > 0)
                     {
                         //load images
-                        foreach (var articleModel in feedModel.ArticleList)
+                        for (int index1 = 0; index1 < feedModel.ArticleList.Count; index1++)
                         {
+                            var articleModel = feedModel.ArticleList[index1];
                             await _articleRepository.LoadMoreArticleContent(articleModel);
                         }
                     }
@@ -193,7 +197,7 @@ namespace OfflineMedia.View.ViewModels
             }
 
             Messenger.Default.Send(Messages.MainPageInitialized);
-            
+
             ActualizeArticles();
             _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ReadingOutArticles);
         }
@@ -201,31 +205,19 @@ namespace OfflineMedia.View.ViewModels
         private bool _isActualizing;
         private async void ActualizeArticles()
         {
-            try
-            {
-                if (_isActualizing)
-                    return;
+            if (_isActualizing)
+                return;
 
-                _isActualizing = true;
-                _refreshCommand.RaiseCanExecuteChanged();
+            _isActualizing = true;
+            _refreshCommand.RaiseCanExecuteChanged();
 
-                TimerHelper.Instance.Stop("Actualizing Articles", this);
-                await _articleRepository.ActualizeArticles();
-                TimerHelper.Instance.Stop("Uploading Stats", this);
-                await _apiRepository.UploadStats();
-                
-                var res = TimerHelper.Instance.GetAnalytics;
+            TimerHelper.Instance.Stop("Actualizing Articles", this);
+            await _articleRepository.ActualizeArticles();
+            TimerHelper.Instance.Stop("Uploading Stats", this);
+            await _apiRepository.UploadStats();
 
-                _progressService.HideProgress();
-                _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
-                _progressService.HideProgress();
-                _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
-            }
-
+            var res = TimerHelper.Instance.GetAnalytics;
+            
             _isActualizing = false;
             _refreshCommand.RaiseCanExecuteChanged();
         }
