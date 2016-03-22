@@ -26,6 +26,8 @@ namespace OfflineMedia.DroidNative
 		
 		public static void UpdateIdValues()
 		{
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::OfflineMedia.DroidNative.Resource.String.ApplicationName;
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::OfflineMedia.DroidNative.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

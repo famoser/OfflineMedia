@@ -126,7 +126,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                         am.Author += na.agency;
 
                     if (!string.IsNullOrEmpty(na.leadText))
-                        am.Teaser = na.leadText;
+                        am.Teaser = na.leadText.Replace(" \n"," ");
 
                     var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
                     am.Themes = await repo.GetThemeModelsFor(na.departments);

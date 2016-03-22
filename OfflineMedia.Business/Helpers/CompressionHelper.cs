@@ -33,10 +33,5 @@ namespace OfflineMedia.Business.Helpers
                 return Encoding.UTF8.GetString(buffer,0,buffer.Length);
             }
         }
-
-        public static Task<byte[]> ResizeImage(byte[] image, IPlatformCodeService platformCodeService)
-        {
-            return platformCodeService.ResizeImage(image);
-        }
     }
 }

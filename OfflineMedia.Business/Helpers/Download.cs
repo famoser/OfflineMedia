@@ -100,40 +100,5 @@ namespace OfflineMedia.Business.Helpers
             }
             return null;
         }
-
-        public static async Task<byte[]> DownloadImageAsync(Uri url)
-        {
-            if (url != null)
-            {
-                try
-                {
-                    using (var client = new HttpClient())
-                    {
-                        client.Timeout = TimeSpan.FromSeconds(30);
-                        var str = await client.GetStreamAsync(url);
-                        return ReadFully(str);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
-                }
-            }
-            return null;
-        }
-
-        private static byte[] ReadFully(Stream input)
-        {
-            byte[] buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
     }
 }

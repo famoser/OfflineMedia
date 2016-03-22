@@ -8,6 +8,6 @@ namespace OfflineMedia.Business.Services
 {
     public interface IPlatformCodeService
     {
-        Task<byte[]> ResizeImage(byte[] image);
+        Task<byte[]> DownloadResizeImage(Uri url);
     }
 }

@@ -25,10 +25,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Viewbox Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" Margin="10,10,10,10">
+            <Viewbox Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" Margin="18,20">
                 <TextBlock Foreground="White" Margin="-4,0,0,0" TextAlignment="Center" FontSize="60" Height="51" FontFamily="{StaticResource WeatherIconFont}" Text="{Binding CurrentForecast.ConditionFontIcon}" />
             </Viewbox>
-            <Grid Grid.Row="0" Grid.Column="1" Background="{ThemeResource AkzentBackgroundThemeBrush}">
+            <Grid Grid.Row="0" Grid.Column="1" Margin="0,5" Background="{ThemeResource AkzentBackgroundThemeBrush}">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -56,7 +56,7 @@
         </Grid>
         <ProgressBar Grid.Row="1" Value="{Binding ActiveIndex}" Maximum="{Binding ForecastItems.Count, Converter={StaticResource IntToIntConverter}, ConverterParameter=-1}" Height="1" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Background="Transparent"></ProgressBar>
         <Grid Background="{ThemeResource AkzentBackgroundThemeBrush}" Grid.Row="2">
-            <Grid Margin="5">
+            <Grid Margin="10,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />

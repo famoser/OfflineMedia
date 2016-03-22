@@ -503,8 +503,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 if (article.LeadImage?.Url != null && !article.LeadImage.IsLoaded)
                 {
-                    var image = await Download.DownloadImageAsync(article.LeadImage.Url);
-                    article.LeadImage.Image = await CompressionHelper.ResizeImage(image, platformCodeService);
+                    article.LeadImage.Image = await platformCodeService.DownloadResizeImage(article.LeadImage.Url);
                     article.LeadImage.IsLoaded = true;
                 }
 
