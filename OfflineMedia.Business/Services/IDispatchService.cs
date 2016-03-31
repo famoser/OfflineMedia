@@ -2,7 +2,7 @@
 
 namespace OfflineMedia.Business.Services
 {
-    public interface IDispatchHelper
+    public interface IDispatchService
     {
         // ReSharper disable once InconsistentNaming
         void CheckBeginInvokeOnUI(Action action);

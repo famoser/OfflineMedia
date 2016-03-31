@@ -98,10 +98,24 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="DisplayHelper\DependencyObjects\CustomGrid.cs" />
+    <Compile Include="DisplayHelper\DependencyObjects\HtmlManager.cs" />
+    <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
+    <Compile Include="DisplayHelper\DependencyObjects\TagDefinition.cs" />
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\ArticleList.xaml.cs">
+      <DependentUpon>ArticleList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FeedList.xaml.cs">
+      <DependentUpon>FeedList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProgressBar.xaml.cs">
+      <DependentUpon>ProgressBar.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -124,11 +138,53 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\ArticleList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FeedList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.12.0">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OfflineMedia.Business\OfflineMedia.Business.csproj">
+      <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
+      <Name>OfflineMedia.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMedia.Common\OfflineMedia.Common.csproj">
+      <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
+      <Name>OfflineMedia.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMedia.Data\OfflineMedia.Data.csproj">
+      <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
+      <Name>OfflineMedia.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OfflineMedia.View\OfflineMedia.View.csproj">
+      <Project>{cccb6bc7-83b4-4342-a5ad-c8f23cb4d0b0}</Project>
+      <Name>OfflineMedia.View</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

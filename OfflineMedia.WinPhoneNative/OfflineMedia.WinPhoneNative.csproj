@@ -260,7 +260,7 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Platform\DispatchWinRTHelper.cs" />
+    <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\ArticleList.xaml.cs">
       <DependentUpon>ArticleList.xaml</DependentUpon>
@@ -298,7 +298,6 @@
     <Compile Include="UserControls\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Platform\NavigationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -482,8 +481,8 @@
     <SDKReference Include="Microsoft.VCLibs, version=12.0">
       <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Phone</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.WP81, Version=3.11.1">
-      <Name>SQLite for Windows Phone 8.1 %28SQLite.WP81, Version=3.11.1%29</Name>
+    <SDKReference Include="SQLite.WP81, Version=3.12.0">
+      <Name>SQLite for Windows Phone 8.1</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup />

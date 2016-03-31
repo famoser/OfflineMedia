@@ -118,7 +118,7 @@ namespace OfflineMedia.Business.Models.NewsModel
             get { return _content; }
             set
             {
-                SimpleIoc.Default.GetInstance<IDispatchHelper>().CheckBeginInvokeOnUI(() =>
+                SimpleIoc.Default.GetInstance<IDispatchService>().CheckBeginInvokeOnUI(() =>
                 {
                     Set(ref _content, value);
                 });

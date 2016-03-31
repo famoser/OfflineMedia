@@ -39,6 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineMedia.WinUniversal",
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems*{610194d2-b335-4b17-8b0d-38980ac839ae}*SharedItemsImports = 4
 		OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems*{a4dc4e5c-48fd-4b39-88ef-1b05b5ef579d}*SharedItemsImports = 4
 		OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems*{4809f533-912f-4087-bb49-2e7f3da429c9}*SharedItemsImports = 13
 		OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems*{5284c071-b394-43d2-9eb6-af183769ce11}*SharedItemsImports = 4

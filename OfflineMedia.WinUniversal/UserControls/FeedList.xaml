@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="OfflineMedia.WinUniversal.UserControls.FeedList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OfflineMedia.WinUniversal.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    d:DataContext="{Binding MainPageViewModel.Sources[0], Source={StaticResource Locator}}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="FeedDataTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Titel}" />
+                <local:ArticleList DataContext="{Binding ArticleList}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ListView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding FeedList}" ItemTemplate="{StaticResource FeedDataTemplate}" >
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource HoverUnAwareListView}">
+                <Setter Property="VerticalAlignment" Value="Top" />
+            </Style>
+        </ListView.ItemContainerStyle>
+    </ListView>
+</UserControl>

@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="OfflineMedia.WinUniversal.UserControls.ArticleList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OfflineMedia.WinUniversal.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    d:DataContext="{Binding MainPageViewModel.Sources[0].FeedList[0].ArticleList, Source={StaticResource Locator}}">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="ArticleDataTemplate">
+            <Grid Width="400">
+                <StackPanel HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}">
+                    <TextBlock HorizontalAlignment="Right" Margin="0,4,4,0" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}" />
+                    <TextBlock Margin="10,4,10,4" TextTrimming="WordEllipsis" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="18" Text="{Binding Title}" />
+                    <TextBlock Margin="10,10,10,20" TextTrimming="WordEllipsis" FontFamily="Segoe UI Semilight" FontSize="14" TextWrapping="Wrap" Text="{Binding SubTitle}" />
+
+                    <Image Margin="0,-10,0,0" MaxHeight="150" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+                    <TextBlock Margin="10,10,10,20" Visibility="{Binding Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="12" Text="{Binding Teaser}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ListView ItemsSource="{Binding }" SelectionMode="None" IsItemClickEnabled="True" ItemTemplate="{StaticResource ArticleDataTemplate}" >
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource HoverUnAwareListView}">
+                <Setter Property="VerticalAlignment" Value="Top" />
+            </Style>
+        </ListView.ItemContainerStyle>
+
+    </ListView>
+</UserControl>

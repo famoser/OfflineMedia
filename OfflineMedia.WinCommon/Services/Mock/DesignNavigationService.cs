@@ -1,7 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Views;
 
-namespace OfflineMedia.Services
+namespace OfflineMedia.Services.Mock
 {
     public class DesignNavigationService : INavigationService
     {

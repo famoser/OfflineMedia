@@ -58,35 +58,28 @@
     </UserControl.Resources>
 
     <Grid>
-        <controls:PullToRefreshListView RefreshCommand="{Binding MainPageViewModel.RefreshCommand, Source={StaticResource Locator}}"
-                                        ArrowColor="Gray"
-                                        Margin="0,0,0,-10" 
-                                        ScrollViewer.VerticalScrollMode="Enabled" 
-                                        SelectionMode="None" 
-                                        ItemsSource="{Binding FeedList}" 
-                                        ItemClick="FeedList_ItemClick" 
-                                        Style="{StaticResource ListViewStyle1}"
-                                        RefreshHeaderHeight="0"
-                                        PullText="Ziehen um zu aktualisieren"
-                                        RefreshText="Loslassen um zu aktualisieren"
-                                        >
-
-            <controls:PullToRefreshListView.FooterTemplate>
+        <ListView Margin="0,0,0,-10" 
+                  ScrollViewer.VerticalScrollMode="Enabled" 
+                  SelectionMode="None" 
+                  ItemsSource="{Binding FeedList}" 
+                  ItemClick="FeedList_ItemClick" 
+                  Style="{StaticResource ListViewStyle1}">
+            <ListView.FooterTemplate>
                 <DataTemplate>
                     <TextBlock Height="25" />
                 </DataTemplate>
-            </controls:PullToRefreshListView.FooterTemplate>
-            <controls:PullToRefreshListView.ItemContainerStyle>
+            </ListView.FooterTemplate>
+            <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
-            </controls:PullToRefreshListView.ItemContainerStyle>
-            <controls:PullToRefreshListView.ItemTemplate>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <userControls:ArticleList Margin="0,0,0,10" DataContext="{Binding }" />
                 </DataTemplate>
-            </controls:PullToRefreshListView.ItemTemplate>
-        </controls:PullToRefreshListView>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 
 </UserControl>

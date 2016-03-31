@@ -47,7 +47,7 @@ namespace OfflineMedia.SourceTests.Helpers
         public void PrepareTests()
         {
             SimpleIoc.Default.Register<IThemeRepository, FakeThemeRepository>();
-            SimpleIoc.Default.Register<IDispatchHelper, FakeDispatchHelper>();
+            SimpleIoc.Default.Register<IDispatchHelper, FakeDispatchService>();
         }
     }
 }

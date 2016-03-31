@@ -20,7 +20,9 @@ using OfflineMedia.Business.Services;
 using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.Platform;
 using OfflineMedia.Services;
+using OfflineMedia.Services.Mock;
 using OfflineMedia.View.ViewModels;
+using OfflineMedia.WinCommon.Services;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 
@@ -45,7 +47,6 @@ namespace OfflineMedia.ViewModel
             SimpleIoc.Default.Register<IVariaService, VariaService>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IApiService, ApiService>();
-            SimpleIoc.Default.Register<IDispatchHelper, DispatchWinRtHelper>();
             SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
 
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
@@ -53,12 +54,13 @@ namespace OfflineMedia.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<INavigationService, DesignNavigationService>();
-
+                SimpleIoc.Default.Register<IDispatchService, DesignDispatchService>();
             }
             else
             {
                 var navigationService = NavigationHelper.CreateNavigationService();
                 SimpleIoc.Default.Register(() => navigationService);
+                SimpleIoc.Default.Register<IDispatchService, DispatchWinRtService>();
             }
         }
     }

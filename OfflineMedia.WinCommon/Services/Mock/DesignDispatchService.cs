@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using OfflineMedia.Business.Services;
 
-namespace OfflineMedia.Fakes
+namespace OfflineMedia.Services.Mock
 {
-    class FakeDispatchHelper : IDispatchHelper
+    public class DesignDispatchService : IDispatchService
     {
         public void CheckBeginInvokeOnUI(Action action)
         {
