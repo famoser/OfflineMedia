@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="78c5bbf5-2f59-4064-8869-9bd3c919d394"
-    Publisher="CN=Florian Moser"
+    Name="e7b95efe-24ac-4cf4-93b8-2d6912747562"
+    Publisher="CN=famoser"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="78c5bbf5-2f59-4064-8869-9bd3c919d394" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e7b95efe-24ac-4cf4-93b8-2d6912747562" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>OfflineMedia.WinUniversal</DisplayName>
-    <PublisherDisplayName>Florian Moser</PublisherDisplayName>
+    <PublisherDisplayName>famoser</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
