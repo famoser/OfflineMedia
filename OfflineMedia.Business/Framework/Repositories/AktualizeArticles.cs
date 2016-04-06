@@ -101,24 +101,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
 
                 TimerHelper.Instance.Stop("Waiting for Feed Tasks", this);
-                while (_actualizeFeedsTasks.Count > 0)
-                {
-                    try
-                    {
-                        var tsk = _actualizeFeedsTasks.FirstOrDefault();
-                        if (tsk != null)
-                        {
-                            if (tsk.Status <= TaskStatus.Running)
-                                await tsk;
-                            _actualizeFeedsTasks.Remove(tsk);
-                        }
-                    }
-                    //may raise exception because list is emptied in excatly that moment
-                    catch (Exception ex)
-                    {
-                        LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured while waiting for tasks to complete (1)", ex);
-                    }
-                }
+                Task.WaitAll(_actualizeFeedsTasks.ToArray());
+
                 TimerHelper.Instance.Stop("Saving forced to database", this);
                 _progressService.HidePercentageProgress();
                 _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
@@ -151,7 +135,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     TimerHelper.Instance.Stop("Actualizing articles", this);
                     //Actualize articles
-                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads && _aktualizeArticlesTasks.Count < newArticlesCount)
+                    if (_aktualizeArticlesTasks.Count < ConcurrentThreads &&
+                        _aktualizeArticlesTasks.Count < newArticlesCount)
                     {
                         for (int i = 0; i < ConcurrentThreads && i < newArticlesCount; i++)
                         {
@@ -161,27 +146,10 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
 
                     TimerHelper.Instance.Stop("Waiting for Tasks", this);
-                    while (_aktualizeArticlesTasks.Count > 0)
-                    {
-                        try
-                        {
-                            var tsk = _aktualizeArticlesTasks.FirstOrDefault();
-                            if (tsk != null)
-                            {
-                                if (tsk.Status <= TaskStatus.Running)
-                                    await tsk;
-                                _aktualizeArticlesTasks.Remove(tsk);
-                            }
-                        }
-                        //may raise exception because list is emptied in excatly that moment
-                        catch (Exception ex)
-                        {
-                            LogHelper.Instance.Log(LogLevel.Error, this,
-                                "Exception occured while waiting for tasks to complete (2)", ex);
-                        }
-                    }
+                    Task.WaitAll(_aktualizeArticlesTasks.ToArray());
+
+                    TimerHelper.Instance.Stop("Finished", this);
                 }
-                TimerHelper.Instance.Stop("Finished", this);
 
                 _progressService.HidePercentageProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
