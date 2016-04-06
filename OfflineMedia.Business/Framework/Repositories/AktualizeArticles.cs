@@ -54,7 +54,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
-                TimerHelper.Instance.Stop("Inside Method...", this);
+                TimerHelper.Instance.Stop("ActualizeArticles starting...", this);
                 if (_actualizeActive)
                 {
                     _actualizeRequested = true;
@@ -63,6 +63,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 _actualizeActive = true;
 
                 TimerHelper.Instance.Stop("Creating Feed Tasks", this);
+
                 //Get Total Number of feeds
                 _newFeedModels = new List<FeedModel>();
                 foreach (var sourceModel in _sources)
@@ -95,8 +96,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     for (int i = 0; i < ConcurrentThreads && i < feedCount; i++)
                     {
-                        var tsk = AktualizeFeedsTask();
-                        _actualizeFeedsTasks.Add(tsk);
+                        _actualizeFeedsTasks.Add(AktualizeFeedsTask());
                     }
                 }
 
@@ -109,8 +109,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 await FeedToDatabase(true);
 
                 TimerHelper.Instance.Stop("Get additional articles from Database", this);
-
-
+                
                 _aktualizeArticleModels = _repoArticles.Where(a => a.State == ArticleState.New).OrderByDescending(a => a.PublicationTime).ToList();
 
                 //add missing models from database
@@ -129,6 +128,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 _progressService.HideIndeterminateProgress(IndeterminateProgressKey.FeedSaveToDatabase);
 
                 _newAktualizeArticleModels.Clear();
+
                 var newArticlesCount = _aktualizeArticleModels.Count;
                 _progressService.InitializePercentageProgress("Artikel werden heruntergeladen...", newArticlesCount);
                 if (newArticlesCount > 0)
@@ -140,16 +140,14 @@ namespace OfflineMedia.Business.Framework.Repositories
                     {
                         for (int i = 0; i < ConcurrentThreads && i < newArticlesCount; i++)
                         {
-                            var tsk = AktualizeArticlesTask();
-                            _aktualizeArticlesTasks.Add(tsk);
+                            _aktualizeArticlesTasks.Add(AktualizeArticlesTask());
                         }
                     }
 
                     TimerHelper.Instance.Stop("Waiting for Tasks", this);
                     Task.WaitAll(_aktualizeArticlesTasks.ToArray());
-
-                    TimerHelper.Instance.Stop("Finished", this);
                 }
+                TimerHelper.Instance.Stop("Finished", this);
 
                 _progressService.HidePercentageProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung abgeschlossen", TimeSpan.FromSeconds(3));
