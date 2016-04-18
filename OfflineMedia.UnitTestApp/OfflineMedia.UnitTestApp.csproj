@@ -104,6 +104,9 @@
     <SDKReference Include="MSTestFramework, Version=14.0">
       <Name>MSTest for Managed Projects</Name>
     </SDKReference>
+    <SDKReference Include="SQLite.WP81, Version=3.12.1">
+      <Name>SQLite for Windows Phone 8.1</Name>
+    </SDKReference>
     <SDKReference Include="TestPlatform, Version=14.0">
       <Name>Microsoft Visual Studio Test Core</Name>
     </SDKReference>
@@ -112,7 +115,6 @@
     <Compile Include="Fakes\FakeDispatchService.cs" />
     <Compile Include="Fakes\FakeThemeRepository.cs" />
     <Compile Include="Framework\XmlHelperTests.cs" />
-    <Compile Include="Platform\DispatchWinRtService.cs" />
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="SourceTests\Blick.cs" />
     <Compile Include="SourceTests\Helpers\AssertHelper.cs" />

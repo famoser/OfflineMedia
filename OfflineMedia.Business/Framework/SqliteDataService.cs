@@ -49,7 +49,7 @@ namespace OfflineMedia.Business.Framework
 
         private static Task _tsk;
         private static SqliteDataService _initInstance;
-        private static readonly AsyncLock _databaseLock = new AsyncLock();
+        private static readonly AsyncLock DatabaseLock = new AsyncLock();
 
         private SqliteDataService(IStorageService storageService, ISQLitePlatform sqlitePlatform)
         {
@@ -156,7 +156,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var res = await _asyncConnection.GetAsync<T>(id);
                     return res;
@@ -181,7 +181,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var res = await _asyncConnection.Table<T>().Where(a => ids.Any(d => d == a.Id)).ToListAsync();
                     return res;
@@ -206,7 +206,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var res = await _asyncConnection.Table<T>().ToListAsync();
                     return res;
@@ -232,7 +232,7 @@ namespace OfflineMedia.Business.Framework
             try
             {
                 var args = string.Join(",", ids);
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.ExecuteAsync("DELETE FROM " + typeof(T).Name + " WHERE id IN (" + args + ");");
                 }
@@ -250,7 +250,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.InsertAsync(obj);
                 }
@@ -276,7 +276,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.RunInTransactionAsync(conn =>
                     {
@@ -305,7 +305,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.UpdateAsync(obj);
                 }
@@ -330,7 +330,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.RunInTransactionAsync(conn =>
                     {
@@ -358,7 +358,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var s = await _asyncConnection.Table<T>().OrderByDescending(c => c.Id).FirstAsync();
                     return s.Id;
@@ -387,7 +387,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.DeleteAsync<T>(id);
                 }
@@ -414,7 +414,7 @@ namespace OfflineMedia.Business.Framework
             try
             {
                 List<T> res;
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     if (orderByProperty != null)
                     {
@@ -484,7 +484,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var res = await _asyncConnection.Table<T>().Where(func).CountAsync();
                     return res;
@@ -502,7 +502,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var res = (await _asyncConnection.Table<ArticleEntity>().Where(
                         a => a.WordDump.Contains(keyword)).ToListAsync()).Select(d => d.Id).ToList();
@@ -523,7 +523,7 @@ namespace OfflineMedia.Business.Framework
             await DeleteAllById<ArticleEntity>(articleIds);
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.ExecuteAsync("DELETE FROM ContentEntity WHERE ArticleId NOT IN (SELECT Id FROM ArticleEntity)");
                     await _asyncConnection.ExecuteAsync("DELETE FROM GalleryEntity WHERE Id NOT IN (SELECT GalleryId FROM ContentEntity)");
@@ -548,7 +548,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.ExecuteAsync("UPDATE ArticleEntity SET State = " + newState + " WHERE Id = " + articleId);
                 }
@@ -568,7 +568,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     var str = isFavorite ? "1" : "0";
                     await _asyncConnection.ExecuteAsync("UPDATE ArticleEntity SET IsFavorite = " + str + " WHERE Id = " + articleId);
@@ -589,7 +589,7 @@ namespace OfflineMedia.Business.Framework
         {
             try
             {
-                using (await _databaseLock.LockAsync())
+                using (await DatabaseLock.LockAsync())
                 {
                     await _asyncConnection.RunInTransactionAsync(conn =>
                     {

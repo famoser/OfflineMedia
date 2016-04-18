@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>DESKTOP-T84VM7H</Machine>
+    <Machine>DESKTOP-S57JIOF</Machine>
     <WindowsUser>famoser</WindowsUser>
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
     <TargetOsVersion>6.3</TargetOsVersion>
@@ -9,43 +9,43 @@
     <SolutionConfiguration>Debug|x86</SolutionConfiguration>
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>a5c11d25-8e00-4576-a4b7-ae3c9d5b3cf7</PackageIdentityName>
-    <IntermediateOutputPath>C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\AppxManifest.xml">
+    <AppXManifest Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\OfflineMedia.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\OfflineMedia.dll">
       <PackagePath>OfflineMedia.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.dll">
       <PackagePath>OfflineMedia.Business.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.dll">
       <PackagePath>OfflineMedia.Common.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.dll">
       <PackagePath>OfflineMedia.Data.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.View\bin\x86\Debug\OfflineMedia.View.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.View\bin\x86\Debug\OfflineMedia.View.dll">
       <PackagePath>OfflineMedia.View.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\OfflineMedia.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\OfflineMedia.pdb">
       <PackagePath>OfflineMedia.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.pdb">
       <PackagePath>OfflineMedia.Business.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.pdb">
       <PackagePath>OfflineMedia.Common.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.pdb">
       <PackagePath>OfflineMedia.Data.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.View\bin\x86\Debug\OfflineMedia.View.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.View\bin\x86\Debug\OfflineMedia.View.pdb">
       <PackagePath>OfflineMedia.View.pdb</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.Common.dll">
@@ -63,62 +63,65 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\MSTestFramework\14.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll">
       <PackagePath>Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.dll">
       <PackagePath>GalaSoft.MvvmLight.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Extras.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Extras.dll">
       <PackagePath>GalaSoft.MvvmLight.Extras.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Platform.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Platform.dll">
       <PackagePath>GalaSoft.MvvmLight.Platform.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll">
       <PackagePath>HtmlAgilityPack.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\Microsoft.ApplicationInsights.1.2.3\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\Microsoft.ApplicationInsights.1.2.3\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll">
       <PackagePath>Microsoft.Practices.ServiceLocation.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\Newtonsoft.Json.8.0.2\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\Newtonsoft.Json.8.0.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\SQLite.Net.Async-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.Async.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\SQLite.Net.Async-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.Async.dll">
       <PackagePath>SQLite.Net.Async.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\SQLite.Net.Core-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\SQLite.Net.Core-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.dll">
       <PackagePath>SQLite.Net.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\SQLite.Net-PCL.3.1.1\lib\portable-win81+wpa81\SQLite.Net.Platform.WinRT.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\SQLite.Net-PCL.3.1.1\lib\portable-win81+wpa81\SQLite.Net.Platform.WinRT.dll">
       <PackagePath>SQLite.Net.Platform.WinRT.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\Microsoft.Net.Http.2.2.29\lib\wpa81\System.Net.Http.Extensions.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\Microsoft.Net.Http.2.2.29\lib\wpa81\System.Net.Http.Extensions.dll">
       <PackagePath>System.Net.Http.Extensions.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\Microsoft.Net.Http.2.2.29\lib\wpa81\System.Net.Http.Primitives.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\Microsoft.Net.Http.2.2.29\lib\wpa81\System.Net.Http.Primitives.dll">
       <PackagePath>System.Net.Http.Primitives.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\Nito.AsyncEx.dll">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.pdb">
       <PackagePath>GalaSoft.MvvmLight.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Extras.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Extras.pdb">
       <PackagePath>GalaSoft.MvvmLight.Extras.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Platform.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.Platform.pdb">
       <PackagePath>GalaSoft.MvvmLight.Platform.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.pdb">
       <PackagePath>HtmlAgilityPack.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.pdb">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.pdb">
       <PackagePath>Microsoft.Practices.ServiceLocation.pdb</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\Redist\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.Extensions.MSPhoneAdapter.Target.dll">
       <PackagePath>Microsoft.VisualStudio.TestPlatform.Extensions.MSPhoneAdapter.Target.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\SQLite.WP81\3.12.1\Redist\Debug\x86\sqlite3.dll">
+      <PackagePath>sqlite3.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\Redist\CommonConfiguration\x86\vstest.executionengine.WindowsPhone.dll">
       <PackagePath>vstest.executionengine.WindowsPhone.dll</PackagePath>
@@ -126,69 +129,72 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\Redist\CommonConfiguration\x86\vstest_executionengine_platformbridge.dll">
       <PackagePath>vstest_executionengine_platformbridge.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\SQLite.WP81\3.12.1\Redist\Debug\x86\sqlite3.pdb">
+      <PackagePath>sqlite3.pdb</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\Redist\CommonConfiguration\neutral\vstest.executionengine.appcontainer.exe">
       <PackagePath>vstest.executionengine.appcontainer.exe</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\TestPlatform\14.0\Redist\CommonConfiguration\neutral\vstest_executionengine_platformbridge.winmd">
       <PackagePath>vstest_executionengine_platformbridge.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\SplashScreen.scale-240.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\SplashScreen.scale-240.png">
       <PackagePath>Assets\SplashScreen.scale-240.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square150x150Logo.scale-240.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square150x150Logo.scale-240.png">
       <PackagePath>Assets\Square150x150Logo.scale-240.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square44x44Logo.scale-240.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square44x44Logo.scale-240.png">
       <PackagePath>Assets\Square44x44Logo.scale-240.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square71x71Logo.scale-240.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Square71x71Logo.scale-240.png">
       <PackagePath>Assets\Square71x71Logo.scale-240.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Wide310x150Logo.scale-240.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\Assets\Wide310x150Logo.scale-240.png">
       <PackagePath>Assets\Wide310x150Logo.scale-240.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Images\skulls-background-small-white.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Images\skulls-background-small-white.png">
       <PackagePath>Assets\Images\skulls-background-small-white.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Images\skulls-background-small.png">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Images\skulls-background-small.png">
       <PackagePath>Assets\Images\skulls-background-small.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Settings_min.json">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Settings_min.json">
       <PackagePath>Assets\Configuration\Settings_min.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Settings.json">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Settings.json">
       <PackagePath>Assets\Configuration\Settings.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Source.json">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Source.json">
       <PackagePath>Assets\Configuration\Source.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Source_min.json">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\Source_min.json">
       <PackagePath>Assets\Configuration\Source_min.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\WeatherFontMapping.json">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Configuration\WeatherFontMapping.json">
       <PackagePath>Assets\Configuration\WeatherFontMapping.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Fonts\owfont-regular.ttf">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.WinCommon\Assets\Fonts\owfont-regular.ttf">
       <PackagePath>Assets\Fonts\owfont-regular.ttf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\OfflineMedia.xr.xml">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\OfflineMedia.xr.xml">
       <PackagePath>OfflineMedia.xr.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\Converters.xaml">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\Converters.xaml">
       <PackagePath>Dictionaries\Converters.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\HelperDictionary.xaml">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\HelperDictionary.xaml">
       <PackagePath>Dictionaries\HelperDictionary.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\Converters.xbf">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\Converters.xbf">
       <PackagePath>Dictionaries\Converters.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\HelperDictionary.xbf">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\obj\x86\Debug\Dictionaries\HelperDictionary.xbf">
       <PackagePath>Dictionaries\HelperDictionary.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\famoser\Source\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\resources.pri">
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.UnitTestApp\buildoutput\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
