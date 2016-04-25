@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>DESKTOP-S57JIOF</Machine>
+    <Machine>DESKTOP-T84VM7H</Machine>
     <WindowsUser>famoser</WindowsUser>
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
     <TargetOsVersion>6.3</TargetOsVersion>
@@ -24,9 +24,6 @@
     <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.dll">
       <PackagePath>OfflineMedia.Business.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.dll">
-      <PackagePath>OfflineMedia.Common.dll</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.dll">
       <PackagePath>OfflineMedia.Data.dll</PackagePath>
     </AppxPackagedFile>
@@ -38,9 +35,6 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Business\bin\x86\Debug\OfflineMedia.Business.pdb">
       <PackagePath>OfflineMedia.Business.pdb</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Common\bin\x86\Debug\OfflineMedia.Common.pdb">
-      <PackagePath>OfflineMedia.Common.pdb</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Repos\OfflineMedia\OfflineMedia.Data\bin\x86\Debug\OfflineMedia.Data.pdb">
       <PackagePath>OfflineMedia.Data.pdb</PackagePath>
@@ -62,6 +56,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\WindowsPhoneApp\v8.1\ExtensionSDKs\MSTestFramework\14.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll">
       <PackagePath>Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\Famoser.FrameworkEssentials.2.0.1\lib\dotnet\Famoser.FrameworkEssentials.dll">
+      <PackagePath>Famoser.FrameworkEssentials.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Repos\OfflineMedia\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.dll">
       <PackagePath>GalaSoft.MvvmLight.dll</PackagePath>

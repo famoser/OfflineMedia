@@ -1,7 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Views;
 using OfflineMedia.Business.Enums;
+using OfflineMedia.WinUniversal;
 
-namespace OfflineMedia.WinUniversal.Platform
+namespace OfflineMedia.Platform
 {
     public static class NavigationHelper
     {

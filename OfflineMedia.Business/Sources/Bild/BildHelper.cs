@@ -34,7 +34,7 @@ namespace OfflineMedia.Business.Sources.Bild
                         {
                             foreach (var childNode in children.__childNodes__.Where(a => a.targetType == "article"))
                             {
-                                var article = await FeedToArticleModel(childNode, fcm);
+                                var article = FeedToArticleModel(childNode, fcm);
                                 if (article != null)
                                     articlelist.Add(article);
                             }
@@ -49,7 +49,7 @@ namespace OfflineMedia.Business.Sources.Bild
             return articlelist;
         }
 
-        private async Task<ArticleModel> FeedToArticleModel(ChildNode item, FeedConfigurationModel fcm)
+        private ArticleModel FeedToArticleModel(ChildNode item, FeedConfigurationModel fcm)
         {
             if (item == null || item.klub != null)
                 return null;

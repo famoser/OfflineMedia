@@ -28,7 +28,7 @@ namespace OfflineMedia.View.ViewModels
             }
         }
 
-        private async void EvaluateMessages(List<ArticleModel> obj)
+        private void EvaluateMessages(List<ArticleModel> obj)
         {
             var first = obj?.FirstOrDefault();
             if (Feed != null && first != null)

@@ -30,7 +30,7 @@
     <RootType FullName="OfflineMedia.DisplayHelper.Converter.MyDayConverter.DateToDayConverter" />
     <RootType FullName="OfflineMedia.DisplayHelper.Converter.SettingsPageConverter.ULongToByteConverter" />
     <RootType FullName="OfflineMedia.DisplayHelper.Converter.DebugConverters.PassAll" />
-    <RootType FullName="OfflineMedia.DisplayHelper.ResolutionHelper" />
+    <RootType FullName="OfflineMedia.WinCommon.DisplayHelper.ResolutionHelper" />
     <RootType FullName="OfflineMedia.DisplayHelper.StaticEnumHelper" />
   </Roots.RootTypes>
 </Roots>

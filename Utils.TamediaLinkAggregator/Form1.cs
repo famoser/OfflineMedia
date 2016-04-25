@@ -14,8 +14,7 @@ namespace Utils.TamediaLinkAggregator
         {
             InitializeComponent();
         }
-
-        private bool _stopped = false;
+        
         private void button1_Click(object sender, EventArgs e)
         {
             var sourceModel = JsonConvert.DeserializeObject<List<ShortSourceConfigurationModel>>(jsonInput.Text);
