@@ -153,10 +153,6 @@
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>OfflineMedia.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OfflineMedia.Common\OfflineMedia.Common.csproj">
-      <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
-      <Name>OfflineMedia.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OfflineMedia.Data\OfflineMedia.Data.csproj">
       <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
       <Name>OfflineMedia.Data</Name>
@@ -167,6 +163,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Famoser.FrameworkEssentials.2.0.1\lib\dotnet\Famoser.FrameworkEssentials.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\wpa81\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>

@@ -8,14 +8,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.ApplicationInsights;
 using OfflineMedia.Business.Enums;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Timer;
+using OfflineMedia.Business.Helpers;
 using OfflineMedia.Pages;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -186,7 +186,7 @@ namespace OfflineMedia
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var logs = LogHelper.Instance.GetAllLogs();
+            var logs = LogHelper.Instance.GetLogs();
             var client = new TelemetryClient();
             foreach (var logModel in logs)
             {
@@ -196,7 +196,7 @@ namespace OfflineMedia
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            LogHelper.Instance.Log(LogLevel.FatalError, this, unhandledExceptionEventArgs.Message, unhandledExceptionEventArgs.Exception);
+            LogHelper.Instance.Log(LogLevel.FatalError, unhandledExceptionEventArgs.Message, this, unhandledExceptionEventArgs.Exception);
             OnSuspending(null, null);
         }
     }

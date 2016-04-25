@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace OfflineMedia.Common.Framework.Services.Interfaces
+namespace OfflineMedia.Business.Services
 {
     public interface IVariaService
     {

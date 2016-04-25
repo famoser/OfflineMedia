@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Framework.Generic;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 
@@ -42,7 +41,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to Get Generic Type from Database. Id: '{0}', Entity Type: '{1}', Business Type: '{2}'", id, typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return null;
         }
@@ -58,7 +57,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to Delete Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }
@@ -85,7 +84,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to Get Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return new List<TBusiness>();
         }
@@ -112,7 +111,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to Get Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return new List<TBusiness>();
         }
@@ -126,7 +125,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to CountByCondition from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg,this, ex);
             }
             return 0;
         }
@@ -146,7 +145,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }
@@ -170,7 +169,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }
@@ -185,7 +184,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }
@@ -200,7 +199,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }
@@ -215,7 +214,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             catch (Exception ex)
             {
                 string errorMsg = String.Format("Exception Occured while trying to AddOrUpdate Generic Type from Database. Entity Type: '{0}', Business Type: '{1}'", typeof(TEntity), typeof(TBusiness));
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg, ex);
+                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this, ex);
             }
             return false;
         }

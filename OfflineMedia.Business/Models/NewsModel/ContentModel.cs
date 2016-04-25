@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Common.Framework;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {

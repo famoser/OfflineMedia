@@ -1,4 +1,4 @@
-﻿using OfflineMedia.Common.Framework;
+﻿using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel.NMModels
 {

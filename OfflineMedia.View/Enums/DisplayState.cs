@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Common.Enums.View
+﻿namespace OfflineMedia.View.Enums
 {
     public enum DisplayState
     {

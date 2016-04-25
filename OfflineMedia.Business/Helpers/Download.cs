@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using OfflineMedia.Common.Framework.Logs;
+using Famoser.FrameworkEssentials.Logging;
 
 namespace OfflineMedia.Business.Helpers
 {
@@ -47,7 +47,7 @@ namespace OfflineMedia.Business.Helpers
                 var res = await MakeBaseRequest(url);
                 if (res != null)
                 {
-                    LogHelper.Instance.Log(LogLevel.Info, "Download.cs", "DownloadStringAsync failed for url " + url + " but successfully recovered", ex);
+                    LogHelper.Instance.Log(LogLevel.Info,"DownloadStringAsync failed for url " + url + " but successfully recovered", "Download.cs", ex);
                     return res;
                 }
             }
@@ -80,7 +80,7 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "MakeBaseRequest failed: " + url.AbsoluteUri, ex);
+                LogHelper.Instance.Log(LogLevel.Warning, "MakeBaseRequest failed: " + url.AbsoluteUri, "Download.cs", ex);
             }
             return null;
         }
@@ -96,7 +96,7 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadStreamAsync failed: " + url, ex);
+                LogHelper.Instance.Log(LogLevel.Warning, "DownloadStreamAsync failed: " + url, "Download.cs", ex);
             }
             return null;
         }

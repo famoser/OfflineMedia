@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
+using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
-using OfflineMedia.Common.Framework.Timer;
-using OfflineMedia.Data;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Entities;
 
 namespace OfflineMedia.Business.Framework.Repositories
@@ -164,7 +163,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "SaveConfiguration", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SaveConfiguration", this, ex);
             }
             return false;
         }
@@ -192,7 +191,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "SaveConfiguration", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SaveConfiguration", this, ex);
             }
             return false;
         }
@@ -225,7 +224,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "SaveConfiguration", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SaveConfiguration", this, ex);
             }
             return false;
         }
@@ -361,7 +360,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Settings could not be read out", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "Settings could not be read out", this, ex);
             }
         }
 

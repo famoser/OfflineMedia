@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
-using OfflineMedia.Common.Enums.View;
+using OfflineMedia.Business.Enums;
+using OfflineMedia.View.Enums;
 
 namespace OfflineMedia.View.ViewModels.Global
 {

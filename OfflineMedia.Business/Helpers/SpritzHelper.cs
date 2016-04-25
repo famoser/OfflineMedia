@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework.Logs;
 
 namespace OfflineMedia.Business.Helpers
 {
-    public static class SpritzHelper
+    public class SpritzHelper
     {
         public static List<SpritzWord> GenerateList(List<ContentModel> contentModel)
         {
@@ -104,7 +104,7 @@ namespace OfflineMedia.Business.Helpers
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.FatalError, "SpritzHelper", "GenerateList failed", ex);
+                LogHelper.Instance.Log(LogLevel.FatalError, "GenerateList failed", "SpritzHelper", ex);
                 return null;
             }
 

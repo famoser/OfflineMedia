@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
-using OfflineMedia.Common.Framework.EqualityComparer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Repository.EqualityComparer;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {

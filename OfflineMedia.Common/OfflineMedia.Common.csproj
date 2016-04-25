@@ -229,36 +229,16 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugHelpers\Stoppwatch.cs" />
-    <Compile Include="Enums\FileKeys.cs" />
-    <Compile Include="Enums\Generic\EntityMappingProcedure.cs" />
-    <Compile Include="Enums\View\DisplayState.cs" />
-    <Compile Include="Enums\View\IndeterminateProgressKey.cs" />
-    <Compile Include="Framework\Attributes.cs" />
-    <Compile Include="Framework\Converters\DummyConverter.cs" />
-    <Compile Include="Framework\Converters\EnumConverter.cs" />
-    <Compile Include="Framework\Converters\IEntityValueConverter.cs" />
-    <Compile Include="Framework\Converters\StringBoolConverter.cs" />
-    <Compile Include="Framework\Converters\StringGuidConverter.cs" />
-    <Compile Include="Framework\Converters\StringUriConverter.cs" />
-    <Compile Include="Framework\EqualityComparer\IntEqualityComparer.cs" />
-    <Compile Include="Framework\Services\Interfaces\IApiService.cs" />
-    <Compile Include="Framework\Services\Interfaces\IProgressService.cs" />
-    <Compile Include="Framework\Services\Interfaces\IStorageService.cs" />
-    <Compile Include="Framework\Logs\LogHelper.cs" />
-    <Compile Include="Framework\Logs\LogLevel.cs" />
-    <Compile Include="Framework\Logs\LogModel.cs" />
-    <Compile Include="Framework\Services\Interfaces\IVariaService.cs" />
-    <Compile Include="Framework\Singleton\SingletonBase.cs" />
-    <Compile Include="Framework\Singleton\SingletonManager.cs" />
-    <Compile Include="Framework\Timer\TimerHelper.cs" />
-    <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Famoser.FrameworkEssentials.2.0.1\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wpa81\Nito.AsyncEx.dll</HintPath>
       <Private>True</Private>

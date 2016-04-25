@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.Tamedia;

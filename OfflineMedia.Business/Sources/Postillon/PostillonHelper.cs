@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Postillon
 {
@@ -48,7 +46,7 @@ namespace OfflineMedia.Business.Sources.Postillon
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "PostillonHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -88,7 +86,7 @@ namespace OfflineMedia.Business.Sources.Postillon
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "PostillonHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }
@@ -121,7 +119,7 @@ namespace OfflineMedia.Business.Sources.Postillon
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.EvaluateArticle failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "PostillonHelper.EvaluateArticle failed", this, ex);
             }
             return new Tuple<bool, ArticleModel>(false, am);
         }
@@ -159,7 +157,7 @@ namespace OfflineMedia.Business.Sources.Postillon
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "PostillonHelper.ArticleToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "PostillonHelper.ArticleToArticleModel failed", this, ex);
                 return false;
             }
         }

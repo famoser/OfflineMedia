@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
+using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Enums.View;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
-using OfflineMedia.Common.Framework.Timer;
+using OfflineMedia.Business.Services;
+using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
 
 namespace OfflineMedia.View.ViewModels
 {

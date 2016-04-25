@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Famoser.FrameworkEssentials.Singleton;
 using Lumia.Sense;
-using OfflineMedia.Common.Framework.Singleton;
 
 namespace OfflineMedia.MyDayHelpers
 {

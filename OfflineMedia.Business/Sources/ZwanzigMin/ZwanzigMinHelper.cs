@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
@@ -10,9 +11,6 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.ZwanzigMin.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.ZwanzigMin
 {
@@ -37,7 +35,7 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
 
                 var channel = (channel)serializer.Deserialize(reader);
                 if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
                 else
                 {
                     foreach (var item in channel.item)
@@ -53,7 +51,7 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -110,7 +108,7 @@ namespace OfflineMedia.Business.Sources.ZwanzigMin
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }

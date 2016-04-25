@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
@@ -8,9 +9,7 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Tamedia.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
+using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Sources.Tamedia
 {
@@ -47,7 +46,7 @@ namespace OfflineMedia.Business.Sources.Tamedia
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "TamediaHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "TamediaHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -71,10 +70,10 @@ namespace OfflineMedia.Business.Sources.Tamedia
 
         public override List<string> GetKeywords(ArticleModel articleModel)
         {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
+            var part1 = TextHelper.GetImportantWords(articleModel.Title);
             //var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
 
-            return TextHelper.Instance.FusionLists(part1);
+            return TextHelper.FusionLists(part1);
         }
 
         public async Task<ArticleModel> FeedToArticleModel(Article nfa, SourceConfigurationModel scm, FeedConfigurationModel feedConfigModel)
@@ -179,7 +178,7 @@ namespace OfflineMedia.Business.Sources.Tamedia
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "TamediaHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "TamediaHelper.FeedToArticleModel failed",this, ex);
                 return null;
             }
         }

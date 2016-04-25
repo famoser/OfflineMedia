@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Common.Framework;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {

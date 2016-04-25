@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
@@ -15,13 +13,9 @@ using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Business.Sources;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
-using OfflineMedia.Common.Framework.Timer;
-using OfflineMedia.Common.Helpers;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -341,7 +335,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 {
                     var str = article.Title + " " + article.SubTitle;
                     if (!string.IsNullOrWhiteSpace(str))
-                        keywords = TextHelper.Instance.GetImportantWords(str).ToArray();
+                        keywords = TextHelper.GetImportantWords(str).ToArray();
                 }
                 if (keywords != null)
                 {
@@ -429,7 +423,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "AddModels failed!", ex);
+                LogHelper.Instance.Log(LogLevel.Error,  "AddModels failed!",this, ex);
             }
             return model;
         }
@@ -516,7 +510,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be saved", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "Article cannot be saved", this, ex);
             }
         }
 

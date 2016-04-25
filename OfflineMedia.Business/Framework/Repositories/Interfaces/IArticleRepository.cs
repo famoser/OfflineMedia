@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Sources;
 
 namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {

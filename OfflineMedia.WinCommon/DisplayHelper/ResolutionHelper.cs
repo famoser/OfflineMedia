@@ -1,16 +1,15 @@
 ﻿using Windows.UI.Xaml;
-using OfflineMedia.Common.Framework.Singleton;
 
-namespace OfflineMedia.DisplayHelper
+namespace OfflineMedia.WinCommon.DisplayHelper
 {
-    public class ResolutionHelper : SingletonBase<ResolutionHelper>
+    public class ResolutionHelper
     {
-        public double WidthOfDevice
+        public static double WidthOfDevice
         {
             get { return Window.Current.Bounds.Width; }
         }
 
-        public double HeightOfDevice
+        public static double HeightOfDevice
         {
             get { return Window.Current.Bounds.Height; }
         }

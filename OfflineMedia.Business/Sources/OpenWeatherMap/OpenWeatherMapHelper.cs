@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Famoser.FrameworkEssentials.Logging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Models.WeatherModel;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
 
 namespace OfflineMedia.Business.Sources.OpenWeatherMap
 {
-    public class OpenWeatherMapHelper : SingletonBase<OpenWeatherMapHelper>
+    public class OpenWeatherMapHelper
     {
-        public Forecast EvaluateFeed(string feed, Dictionary<string, string> weatherFontMapping)
+        public static Forecast EvaluateFeed(string feed, Dictionary<string, string> weatherFontMapping)
         {
             var res = new Forecast();
             if (feed != null)
@@ -69,7 +68,7 @@ namespace OfflineMedia.Business.Sources.OpenWeatherMap
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateFeed failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Exception in EvaluateFeed", "OpenWeatherMapHelper",ex);
                 }
             }
             return res;

@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Common.Enums.View
+﻿namespace OfflineMedia.Business.Enums
 {
     public enum IndeterminateProgressKey
     {

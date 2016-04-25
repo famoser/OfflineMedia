@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Services
 {

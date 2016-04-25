@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
@@ -10,7 +9,6 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Welt.Models;
-using OfflineMedia.Common.Framework.Logs;
 
 namespace OfflineMedia.Business.Sources.Welt
 {
@@ -32,7 +30,7 @@ namespace OfflineMedia.Business.Sources.Welt
                 var channel = XmlHelper.Deserialize<Channel>(feed);
 
                 if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error, "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation", this);
                 else
                 {
                     foreach (var children in channel.Item)
@@ -45,7 +43,7 @@ namespace OfflineMedia.Business.Sources.Welt
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -83,7 +81,7 @@ namespace OfflineMedia.Business.Sources.Welt
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Famoser.FrameworkEssentials.Singleton;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework.Singleton;
 
 namespace OfflineMedia.SourceTests.Helpers
 {

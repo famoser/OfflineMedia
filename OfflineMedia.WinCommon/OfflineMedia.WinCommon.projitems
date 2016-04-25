@@ -38,8 +38,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\ResolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DispatchWinRtService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Mock\DesignDispatchService.cs" />

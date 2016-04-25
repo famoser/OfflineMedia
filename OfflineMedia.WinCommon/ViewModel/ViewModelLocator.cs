@@ -17,7 +17,6 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Common.Framework.Services.Interfaces;
 using OfflineMedia.Platform;
 using OfflineMedia.Services;
 using OfflineMedia.Services.Mock;

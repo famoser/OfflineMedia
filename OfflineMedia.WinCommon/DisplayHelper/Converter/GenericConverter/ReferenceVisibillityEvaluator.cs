@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
-using OfflineMedia.Common.Framework.Logs;
+using Famoser.FrameworkEssentials.Logging;
 
 namespace OfflineMedia.DisplayHelper.Converter.GenericConverter
 {
@@ -25,7 +25,7 @@ namespace OfflineMedia.DisplayHelper.Converter.GenericConverter
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ReferenceVisibillityEvaluator failed to convert! ", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ReferenceVisibillityEvaluator failed to convert!", this, ex);
                 return Visibility.Collapsed;
             }
         }

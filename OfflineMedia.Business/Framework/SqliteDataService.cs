@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Nito.AsyncEx;
-using OfflineMedia.Common.Enums;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Enums;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 using SQLite.Net;
@@ -102,7 +102,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.FatalError, this, "Datenbank konnte nicht initialisiert werden.", ex);
+                LogHelper.Instance.Log(LogLevel.FatalError, "Datenbank konnte nicht initialisiert werden.", this, ex);
             }
             return false;
         }
@@ -166,12 +166,12 @@ namespace OfflineMedia.Business.Framework
             {
                 if (ex.Message != "Sequence contains no elements")
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "GetById failed for " + typeof(T).Name + " with id " + id, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "GetById failed for " + typeof(T).Name + " with id " + id, this, ex);
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetById failed for " + typeof(T).Name + " with id " + id, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetById failed for " + typeof(T).Name + " with id " + id, this, ex);
             }
 
             return null;
@@ -191,12 +191,12 @@ namespace OfflineMedia.Business.Framework
             {
                 if (ex.Message != "Sequence contains no elements")
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "GetAllById failed for " + typeof(T).Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "GetAllById failed for " + typeof(T).Name, this, ex);
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetAllById failed for " + typeof(T).Name, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetAllById failed for " + typeof(T).Name, this, ex);
             }
 
             return null;
@@ -216,12 +216,12 @@ namespace OfflineMedia.Business.Framework
             {
                 if (ex.Message != "Sequence contains no elements")
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "GetAll failed for " + typeof(T).Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error,  "GetAll failed for " + typeof(T).Name,this, ex);
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetAll failed for " + typeof(T).Name, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetAll failed for " + typeof(T).Name, this,ex);
             }
             
             return null;
@@ -240,7 +240,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteAllById failed for " + typeof(T).Name, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "DeleteAllById failed for " + typeof(T).Name, this,ex);
             }
 
             return false;
@@ -262,7 +262,7 @@ namespace OfflineMedia.Business.Framework
                 //try again
                 int res = await Add(obj);
                 if (res == -1)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Update failed for " + obj.GetType().Name, this, ex);
                 else
                 {
                     return res;
@@ -291,7 +291,7 @@ namespace OfflineMedia.Business.Framework
                 //try again
                 var res = await AddAll(obj);
                 if (!res.Any())
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Update failed for " + obj.GetType().Name, this, ex);
                 else
                 {
                     return res;
@@ -316,7 +316,7 @@ namespace OfflineMedia.Business.Framework
             {
                 //try again
                 if (!await Update(obj))
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Update failed for " + obj.GetType().Name, this, ex);
                 else
                 {
                     return true;
@@ -344,7 +344,7 @@ namespace OfflineMedia.Business.Framework
             {
                 //try again
                 if (!await UpdateAll(obj))
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + obj.GetType().Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Update failed for " + obj.GetType().Name, this, ex);
                 else
                 {
                     return true;
@@ -373,7 +373,7 @@ namespace OfflineMedia.Business.Framework
                 //try again
                 int res = await GetHighestId<T>();
                 if (res == -1)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "Update failed for " + typeof(T).Name, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "Update failed for " + typeof(T).Name, this, ex);
                 else
                 {
                     return res;
@@ -398,8 +398,7 @@ namespace OfflineMedia.Business.Framework
                 
 
                 if (!await DeleteById<T>(id))
-                    LogHelper.Instance.Log(LogLevel.Error, this,
-                        "DeleteById failed for " + typeof(T).Name + " with id " + id, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "DeleteById failed for " + typeof(T).Name + " with id " + id, this, ex);
                 else
                 {
                     return true;
@@ -473,7 +472,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetByCondition failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetByCondition failed", this, ex);
             }
 
             
@@ -492,7 +491,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "CountByCondition failed for " + typeof(T).Name, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "CountByCondition failed for " + typeof(T).Name, this, ex);
             }
             
             return 0;
@@ -511,7 +510,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetByKeyword failed for " + keyword, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetByKeyword failed for " + keyword, this, ex);
             }
 
             
@@ -537,7 +536,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "DeleteArticlesById failed", this, ex);
             }
 
             
@@ -557,7 +556,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error,  "DeleteArticlesById failed", this, ex);
             }
 
             
@@ -578,7 +577,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteArticlesById failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "DeleteArticlesById failed", this, ex);
             }
 
             
@@ -601,7 +600,7 @@ namespace OfflineMedia.Business.Framework
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ResetLoadingEnum", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ResetLoadingEnum", this, ex);
             }
 
             return false;

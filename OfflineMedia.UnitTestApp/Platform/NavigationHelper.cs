@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Enums;
 
 namespace OfflineMedia.Platform
 {

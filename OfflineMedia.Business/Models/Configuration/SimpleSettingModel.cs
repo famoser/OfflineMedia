@@ -1,6 +1,6 @@
 ﻿using System;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.Configuration
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Common.Framework.EqualityComparer
+namespace OfflineMedia.Data.Repository.EqualityComparer
 {
     public class IntEqualityComparer : IEqualityComparer<int>
     {

@@ -2,8 +2,6 @@
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using System.Threading.Tasks;
-using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Business.Helpers
 {

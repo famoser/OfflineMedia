@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Framework.Communication;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {

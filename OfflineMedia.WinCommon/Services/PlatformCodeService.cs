@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Shapes;
 using Windows.Web.Http;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.DisplayHelper;
+using OfflineMedia.WinCommon.DisplayHelper;
 
 namespace OfflineMedia.Services
 {
@@ -32,15 +26,15 @@ namespace OfflineMedia.Services
                             IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
 
                             var decoder = await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
-                            if (decoder.OrientedPixelHeight > ResolutionHelper.Instance.HeightOfDevice ||
-                                decoder.OrientedPixelWidth > ResolutionHelper.Instance.WidthOfDevice)
+                            if (decoder.OrientedPixelHeight > ResolutionHelper.HeightOfDevice ||
+                                decoder.OrientedPixelWidth > ResolutionHelper.WidthOfDevice)
                             {
                                 var resizedStream = new InMemoryRandomAccessStream();
                                 BitmapEncoder encoder =
                                     await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                double widthRatio = ResolutionHelper.Instance.WidthOfDevice /
+                                double widthRatio = ResolutionHelper.WidthOfDevice /
                                                     decoder.OrientedPixelWidth;
-                                double heightRatio = ResolutionHelper.Instance.HeightOfDevice /
+                                double heightRatio = ResolutionHelper.HeightOfDevice /
                                                      decoder.OrientedPixelHeight;
 
                                 // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.

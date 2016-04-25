@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using OfflineMedia.Common.Enums.Generic;
-using OfflineMedia.Common.Framework.Converters;
+using OfflineMedia.Data.Enums;
+using OfflineMedia.Data.Repository.Converters;
 
-namespace OfflineMedia.Common.Framework
+namespace OfflineMedia.Data.Repository
 {
 
 

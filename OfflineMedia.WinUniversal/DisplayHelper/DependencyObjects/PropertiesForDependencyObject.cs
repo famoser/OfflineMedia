@@ -6,9 +6,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
+using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Framework.Logs;
 
 namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
 {
@@ -108,7 +108,7 @@ namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, "Html Dependency Object", "XAML Parse error in RichTextBox",ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "XAML Parse error in RichTextBox",null, ex);
                 }
             }
         }

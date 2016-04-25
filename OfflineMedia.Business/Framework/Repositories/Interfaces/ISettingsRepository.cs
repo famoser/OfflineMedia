@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Data;
 
 namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {

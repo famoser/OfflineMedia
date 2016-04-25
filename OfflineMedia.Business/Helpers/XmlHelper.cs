@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using OfflineMedia.Common.Framework.Logs;
+using Famoser.FrameworkEssentials.Logging;
 
 namespace OfflineMedia.Business.Helpers
 {
-    public static class XmlHelper
+    public class XmlHelper
     {
         public static List<string> GetNodes(string xml, string nodeName)
         {
@@ -60,8 +58,8 @@ namespace OfflineMedia.Business.Helpers
             {
                 var zeitFeed = (T)serializer.Deserialize(reader);
                 if (zeitFeed == null)
-                    LogHelper.Instance.Log(LogLevel.Error, "XmlDeserializer",
-                        "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error, 
+                        "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation", "XmlDeserializer");
                 else
                     return zeitFeed;
             }
@@ -99,7 +97,7 @@ namespace OfflineMedia.Business.Helpers
                 }
                 else
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, "XmlDeserializer", "XmlDeserializer failed: Exception occured for obj " + typeof(T).Name + " message: " + ex.Message);
+                    LogHelper.Instance.Log(LogLevel.Error, "XmlDeserializer failed: Exception occured for obj " + typeof(T).Name + " message: " + ex.Message, "XmlDeserializer");
                 }
             }
             return default(T);

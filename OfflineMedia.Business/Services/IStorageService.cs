@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using OfflineMedia.Common.Enums;
+using OfflineMedia.Business.Enums;
 
-namespace OfflineMedia.Common.Framework.Services.Interfaces
+namespace OfflineMedia.Business.Services
 {
     public interface IStorageService
     {

@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;

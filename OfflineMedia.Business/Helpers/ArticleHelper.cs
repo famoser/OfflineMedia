@@ -16,14 +16,13 @@ using OfflineMedia.Business.Sources.Tamedia;
 using OfflineMedia.Business.Sources.Welt;
 using OfflineMedia.Business.Sources.Zeit;
 using OfflineMedia.Business.Sources.ZwanzigMin;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
+using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Helpers
 {
-    public class ArticleHelper : SingletonBase<ArticleHelper>
+    public class ArticleHelper
     {
-        public void OptimizeArticle(ref ArticleModel article)
+        public static void OptimizeArticle(ref ArticleModel article)
         {
             if (article.Content == null || !article.Content.Any()) return;
             foreach (ContentModel cm in article.Content)
@@ -36,7 +35,7 @@ namespace OfflineMedia.Business.Helpers
             }
         }
 
-        public void InformArticlesAboutTheirPosition(ObservableCollection<ArticleModel> list)
+        public static void InformArticlesAboutTheirPosition(ObservableCollection<ArticleModel> list)
         {
             if (list != null && list.Count > 0)
             {
@@ -50,7 +49,7 @@ namespace OfflineMedia.Business.Helpers
             }
         }
 
-        public IMediaSourceHelper GetMediaSource(SourceEnum source)
+        public static IMediaSourceHelper GetMediaSource(SourceEnum source)
         {
             IMediaSourceHelper sh = null;
             if (source == SourceEnum.Nzz)
@@ -96,20 +95,20 @@ namespace OfflineMedia.Business.Helpers
             return sh;
         }
 
-        public IMediaSourceHelper GetMediaSource(ArticleModel am)
+        public static IMediaSourceHelper GetMediaSource(ArticleModel am)
         {
             if (am != null && am.FeedConfiguration != null && am.FeedConfiguration.SourceConfiguration != null)
                 return GetMediaSource(am.FeedConfiguration.SourceConfiguration.Source);
             return null;
         }
 
-        public List<string> GetKeywords(ArticleModel am)
+        public static List<string> GetKeywords(ArticleModel am)
         {
             IMediaSourceHelper sh = GetMediaSource(am);
             return sh != null ? sh.GetKeywords(am) : new List<string>();
         }
 
-        public void AddWordDumpFromFeed(ref List<ArticleModel> am)
+        public static void AddWordDumpFromFeed(ref List<ArticleModel> am)
         {
             if (am != null && am.Any())
             {
@@ -124,7 +123,7 @@ namespace OfflineMedia.Business.Helpers
             }
         }
 
-        public void AddWordDumpFromArticle2(ref ArticleModel am)
+        public static void AddWordDumpFromArticle2(ref ArticleModel am)
         {
             if (am!= null && am.Content != null)
             {
@@ -147,7 +146,7 @@ namespace OfflineMedia.Business.Helpers
                         if (contentModel.ContentType == ContentType.Html)
                             text += contentModel.Html;
                     }
-                    var keywords2 = TextHelper.Instance.GetImportantWords(text);
+                    var keywords2 = TextHelper.GetImportantWords(text);
 
                     foreach (var id in keywords2)
                     {

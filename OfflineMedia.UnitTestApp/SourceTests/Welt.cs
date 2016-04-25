@@ -1,14 +1,9 @@
-﻿using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Sources;
-using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.Business.Sources.Welt;
 using OfflineMedia.SourceTests.Helpers;
 

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
@@ -12,7 +8,6 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Business.Sources.Bild;
-using OfflineMedia.Business.Sources.Spiegel;
 using OfflineMedia.SourceTests.Helpers;
 
 namespace OfflineMedia.SourceTests

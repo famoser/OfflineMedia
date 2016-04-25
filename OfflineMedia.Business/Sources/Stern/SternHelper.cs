@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
@@ -9,8 +10,6 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Stern.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Stern
 {
@@ -36,7 +35,7 @@ namespace OfflineMedia.Business.Sources.Stern
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateFeed failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateFeed failed", this, ex);
                 }
             }
             return articlelist;
@@ -72,7 +71,7 @@ namespace OfflineMedia.Business.Sources.Stern
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "SternHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SternHelper.FeedToArticleModel failed",this, ex);
             }
             return null;
         }
@@ -89,7 +88,7 @@ namespace OfflineMedia.Business.Sources.Stern
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateArticle failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateArticle failed", this, ex);
             }
             return new Tuple<bool, ArticleModel>(false, am);
         }
@@ -129,7 +128,7 @@ namespace OfflineMedia.Business.Sources.Stern
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "SternHelper.ArticleToArticleModel deserialization failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "SternHelper.ArticleToArticleModel deserialization failed", this, ex);
                 }
             }
             return new Tuple<bool, ArticleModel>(false, am);

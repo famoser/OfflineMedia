@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
-using OfflineMedia.Common.Enums.Generic;
-using OfflineMedia.Common.Framework;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Enums;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Framework
 {

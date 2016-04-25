@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Common.Enums
+﻿namespace OfflineMedia.Business.Enums
 {
     public enum FileKeys
     {

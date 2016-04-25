@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
@@ -14,10 +11,7 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Sources.Blick.Models;
 using OfflineMedia.Business.Sources.Spiegel.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Spiegel
 {
@@ -37,7 +31,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
 
                 var channel = XmlHelper.Deserialize<Channel>(feed);
                 if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "SpiegelHelper.EvaluateFeed failed: channel is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error, "SpiegelHelper.EvaluateFeed failed: channel is null after deserialisation", this);
                 else
                 {
                     foreach (var item in channel.Item)
@@ -50,7 +44,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -105,7 +99,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }
@@ -139,7 +133,7 @@ namespace OfflineMedia.Business.Sources.Spiegel
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "EvaluateArticle failed for Spiegel", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "EvaluateArticle failed for Spiegel", this, ex);
                 return new Tuple<bool, ArticleModel>(false, am);
             }
             return new Tuple<bool, ArticleModel>(true, am);

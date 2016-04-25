@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using OfflineMedia.Common.Enums;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using Famoser.FrameworkEssentials.Logging;
+using OfflineMedia.Business.Enums;
+using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Services
 {
@@ -25,7 +25,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetTextOfFileByKey failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetTextOfFileByKey failed",this, ex);
             }
             return null;
         }
@@ -40,7 +40,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "SaveFileByKey failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SaveFileByKey failed", this, ex);
             }
             return false;
         }
@@ -54,7 +54,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetContentsOfAssetFile failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetContentsOfAssetFile failed", this, ex);
             }
             return null;
         }
@@ -102,7 +102,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ClearFiles failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ClearFiles failed", this, ex);
                 return false;
             }
         }
@@ -132,7 +132,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DeleteAll failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "DeleteAll failed",this, ex);
                 return false;
             }
         }
@@ -154,7 +154,7 @@ namespace OfflineMedia.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.FatalError, this, "GetFilePathByKey failed", ex);
+                LogHelper.Instance.Log(LogLevel.FatalError, "GetFilePathByKey failed",this, ex);
             }
             return null;
         }

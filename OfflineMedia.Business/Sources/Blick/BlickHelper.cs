@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
@@ -9,9 +10,6 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Blick.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Blick
 {
@@ -37,7 +35,7 @@ namespace OfflineMedia.Business.Sources.Blick
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.EvaluateFeed deserialization failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "BlickHelper.EvaluateFeed deserialization failed", this, ex);
             }
             return articlelist;
         }
@@ -60,7 +58,7 @@ namespace OfflineMedia.Business.Sources.Blick
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.FeedModelToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "BlickHelper.FeedModelToArticleModel failed", this, ex);
                 return null;
             }
         }
@@ -77,7 +75,7 @@ namespace OfflineMedia.Business.Sources.Blick
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.EvaluateArticle failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "BlickHelper.EvaluateArticle failed", this, ex);
             }
             return new Tuple<bool, ArticleModel>(false, am);
         }
@@ -137,7 +135,7 @@ namespace OfflineMedia.Business.Sources.Blick
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BlickHelper.ArticleToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "BlickHelper.ArticleToArticleModel failed", this, ex);
             }
             return new Tuple<bool, ArticleModel>(false, am);
         }

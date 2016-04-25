@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -12,16 +13,12 @@ using GalaSoft.MvvmLight.Threading;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Framework;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Sources;
-using OfflineMedia.Common.Enums.View;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Services;
 using OfflineMedia.View.Enums;
 
 namespace OfflineMedia.View.ViewModels
@@ -424,7 +421,7 @@ namespace OfflineMedia.View.ViewModels
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.FatalError, this, "Spritz failed", ex);
+                LogHelper.Instance.Log(LogLevel.FatalError, "Spritz failed",this, ex);
             }
         }
 

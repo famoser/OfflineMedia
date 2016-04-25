@@ -105,6 +105,7 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Platform\CustomNavigationService.cs" />
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\ArticleList.xaml.cs">
@@ -170,10 +171,6 @@
     <ProjectReference Include="..\OfflineMedia.Business\OfflineMedia.Business.csproj">
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>OfflineMedia.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OfflineMedia.Common\OfflineMedia.Common.csproj">
-      <Project>{c921bcb6-3453-451f-911d-99502dcf6152}</Project>
-      <Name>OfflineMedia.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\OfflineMedia.Data\OfflineMedia.Data.csproj">
       <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>

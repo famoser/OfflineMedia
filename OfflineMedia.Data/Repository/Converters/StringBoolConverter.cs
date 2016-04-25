@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Common.Framework.Converters
+﻿namespace OfflineMedia.Data.Repository.Converters
 {
     public class StringBoolConverter : IEntityValueConverter
     {

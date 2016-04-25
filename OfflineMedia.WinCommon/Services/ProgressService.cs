@@ -1,7 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Ioc;
-using OfflineMedia.Common.Enums.View;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Enums;
+using OfflineMedia.Business.Services;
 using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.Services

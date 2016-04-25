@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Common.Helpers;
+using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Sources
 {
@@ -29,10 +27,10 @@ namespace OfflineMedia.Business.Sources
 
         public virtual List<string> GetKeywords(ArticleModel articleModel)
         {
-            var part1 = TextHelper.Instance.GetImportantWords(articleModel.Title);
-            var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
+            var part1 = TextHelper.GetImportantWords(articleModel.Title);
+            var part2 = TextHelper.GetImportantWords(articleModel.SubTitle);
 
-            return TextHelper.Instance.FusionLists(part1, part2);
+            return TextHelper.FusionLists(part1, part2);
         }
     }
 }

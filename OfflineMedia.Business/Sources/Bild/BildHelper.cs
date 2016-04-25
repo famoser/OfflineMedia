@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.FrameworkEssentials.Logging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
-using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Bild.Models.Article;
 using OfflineMedia.Business.Sources.Bild.Models.Feed;
-using OfflineMedia.Business.Sources.ZwanzigMin.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Helpers;
 using ChildNode = OfflineMedia.Business.Sources.Bild.Models.Feed.ChildNode;
 
 namespace OfflineMedia.Business.Sources.Bild
@@ -31,7 +25,7 @@ namespace OfflineMedia.Business.Sources.Bild
                 var rootObj = JsonConvert.DeserializeObject<FeedRoot>(feed);
 
                 if (rootObj == null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error, "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation", this);
                 else
                 {
                     foreach (var children in rootObj.__childNodes__)
@@ -50,7 +44,7 @@ namespace OfflineMedia.Business.Sources.Bild
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZwanzigMinHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -83,7 +77,7 @@ namespace OfflineMedia.Business.Sources.Bild
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "BildHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "BildHelper.FeedToArticleModel failed", this, ex);
             }
             return null;
         }
@@ -97,8 +91,8 @@ namespace OfflineMedia.Business.Sources.Bild
                     var rootObj = JsonConvert.DeserializeObject<ArticleRoot>(article);
 
                     if (rootObj == null)
-                        LogHelper.Instance.Log(LogLevel.Error, this,
-                            "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation");
+                        LogHelper.Instance.Log(LogLevel.Error,
+                            "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation",this);
                     else
                     {
                         am.Content = new List<ContentModel>();

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfflineMedia.Common.Framework.Singleton;
+using Famoser.FrameworkEssentials.Singleton;
 
-namespace OfflineMedia.Common.Framework.Timer
+namespace OfflineMedia.Business.Helpers
 {
     public class TimerHelper : SingletonBase<TimerHelper>
     {

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
@@ -14,9 +12,6 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Zeit.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Zeit
 {
@@ -36,8 +31,8 @@ namespace OfflineMedia.Business.Sources.Zeit
 
                 var zeitFeed = XmlHelper.Deserialize<Feed>(feed);
                 if (zeitFeed == null)
-                    LogHelper.Instance.Log(LogLevel.Error, this,
-                        "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation");
+                    LogHelper.Instance.Log(LogLevel.Error,
+                        "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation", this);
                 else
                 {
                     foreach (var item in zeitFeed.Cluster)
@@ -57,7 +52,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZeitHelper.EvaluateFeed failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZeitHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
@@ -104,7 +99,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ZeitHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZeitHelper.FeedToArticleModel failed", ex);
                 return null;
             }
         }
@@ -137,7 +132,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "EvaluateArticle failed for Zeit", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "EvaluateArticle failed for Zeit", this, ex);
                 return new Tuple<bool, ArticleModel>(false, am);
             }
             return new Tuple<bool, ArticleModel>(true, am);
@@ -183,7 +178,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "RepairFeedXml in Zeit failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "RepairFeedXml in Zeit failed", this, ex);
                 return false;
             }
         }
@@ -217,7 +212,7 @@ namespace OfflineMedia.Business.Sources.Zeit
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetArticleDate in Zeit failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetArticleDate in Zeit failed", this, ex);
             }
             return null;
         }

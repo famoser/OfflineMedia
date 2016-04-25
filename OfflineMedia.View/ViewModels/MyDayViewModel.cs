@@ -11,7 +11,7 @@ using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.WeatherModel;
-using OfflineMedia.Common.Framework.Services.Interfaces;
+using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.View.ViewModels
 {

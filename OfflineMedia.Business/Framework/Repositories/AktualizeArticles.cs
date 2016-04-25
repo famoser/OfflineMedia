@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Messaging;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
@@ -11,12 +11,8 @@ using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources;
-using OfflineMedia.Common.Enums.View;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Timer;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
-using SQLite.Net.Attributes;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -154,7 +150,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error,"ActualizeArticle failed",this, ex);
                 _progressService.HidePercentageProgress();
                 _progressService.ShowDecentInformationMessage("Aktualisierung fehlgeschlagen", TimeSpan.FromSeconds(3));
             }
@@ -178,7 +174,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 var feed = _newFeedModels[0];
                 _newFeedModels.Remove(feed);
 
-                var newfeed = await FeedHelper.Instance.DownloadFeed(feed);
+                var newfeed = await FeedHelper.DownloadFeed(feed);
                 _progressService.IncrementProgress();
 
                 TimerHelper.Instance.Stop("Downloaded Feed, Inserting to Database", this, guid);
@@ -211,11 +207,11 @@ namespace OfflineMedia.Business.Framework.Repositories
                 //this comes from the cache, so its OK to use here
                 article.FeedConfiguration = await _settingsRepository.GetFeedConfigurationFor(article.FeedConfigurationId);
 
-                IMediaSourceHelper sh = ArticleHelper.Instance.GetMediaSource(article);
+                IMediaSourceHelper sh = ArticleHelper.GetMediaSource(article);
                 if (sh == null)
                 {
-                    LogHelper.Instance.Log(LogLevel.Warning, this,
-                        "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded");
+                    LogHelper.Instance.Log(LogLevel.Warning, 
+                        "ArticleHelper.DownloadArticle: Tried to Download Article which cannot be downloaded", this);
                     article.State = ArticleState.WrongSourceFaillure;
                     _toDatabaseFlatArticles.Add(article);
                     await ToDatabase();
@@ -344,7 +340,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Exception occured", ex);
+                LogHelper.Instance.Log(LogLevel.Error,"Exception occured", this, ex);
             }
             _feedToDatabaseRunning = false;
         }
@@ -357,7 +353,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be deleted", ex);
+                LogHelper.Instance.Log(LogLevel.Error,"Article cannot be deleted", this, ex);
             }
         }
 
@@ -459,7 +455,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Article cannot be saved", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "Article cannot be saved", this, ex);
             }
         }
 
@@ -494,15 +490,15 @@ namespace OfflineMedia.Business.Framework.Repositories
                     article.State = ArticleState.Loaded;
 
                 article.WordDump = string.Join(" ", sh.GetKeywords(article));
-                ArticleHelper.Instance.OptimizeArticle(ref article);
+                ArticleHelper.OptimizeArticle(ref article);
 
-                ArticleHelper.Instance.AddWordDumpFromArticle2(ref article);
+                ArticleHelper.AddWordDumpFromArticle2(ref article);
                 return article;
             }
             catch (Exception ex)
             {
                 if (article != null)
-                    LogHelper.Instance.Log(LogLevel.Error, this, "ActualizeArticle failed! Source: " + article.SourceConfigurationId + " URL: " + article.PublicUri, ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "ActualizeArticle failed! Source: " + article.SourceConfigurationId + " URL: " + article.PublicUri, this, ex);
             }
             return article;
         }

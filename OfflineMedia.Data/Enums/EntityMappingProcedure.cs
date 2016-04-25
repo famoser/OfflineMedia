@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Common.Enums.Generic
+﻿namespace OfflineMedia.Data.Enums
 {
     /// <summary>
     /// This enum is used inside the EntityMap Attribute, it defines for the converter how an Property of the entity is used in a business Object, and how it is written back to the entity

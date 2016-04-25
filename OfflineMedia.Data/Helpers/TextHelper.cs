@@ -2,33 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using OfflineMedia.Common.Framework.Singleton;
 
-namespace OfflineMedia.Common.Helpers
+namespace OfflineMedia.Data.Helpers
 {
-    public class TextHelper : SingletonBase<TextHelper>
+    public class TextHelper
     {
-        private readonly string _replaceRegex;
+        private const string ReplaceRegex = "\\bDer\\b|\\bDie\\b|\\bDas\\b";
 
-        public TextHelper()
-        {
-            var badWords = new List<string>()
-            {
-                "Der",
-                "Die",
-                "Das"
-            };
-            _replaceRegex = "\\b" + string.Join("\\b|\\b", badWords) + "\\b";
-        }
-
-        public List<string> GetImportantWords(string text)
+        public static List<string> GetImportantWords(string text)
         {
             if (text != null)
             {
                 Regex rgx = new Regex("[^a-zA-Z0-9äüößéèêëçàâæîïôœùûüÿ -]");
                 text = rgx.Replace(text, "");
 
-                text = Regex.Replace(text, _replaceRegex, "");
+                text = Regex.Replace(text, ReplaceRegex, "");
 
                 if (text.Contains(". "))
                 {
@@ -64,7 +52,7 @@ namespace OfflineMedia.Common.Helpers
             return new List<string>();
         }
 
-        public List<string> FusionLists(params List<string>[] lists)
+        public static List<string> FusionLists(params List<string>[] lists)
         {
             var dic = new Dictionary<string, int>();
             foreach (var list in lists)

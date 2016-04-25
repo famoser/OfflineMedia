@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
@@ -9,9 +10,6 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Sources.Nzz.Models;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
-using OfflineMedia.Common.Helpers;
 
 namespace OfflineMedia.Business.Sources.Nzz
 {
@@ -31,7 +29,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateFeed failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateFeed failed", this, ex);
                 }
             }
             return articlelist;
@@ -61,7 +59,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.FeedToArticleModel failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }
@@ -78,7 +76,7 @@ namespace OfflineMedia.Business.Sources.Nzz
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.EvaluateArticle failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateArticle failed", this, ex);
             }
             return new Tuple<bool, ArticleModel>(false, am);
         }
@@ -136,7 +134,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.ArticleToArticleModel deserialization failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.ArticleToArticleModel deserialization failed", this, ex);
                 }
             }
             return new Tuple<bool, ArticleModel>(false, am);
@@ -166,7 +164,7 @@ namespace OfflineMedia.Business.Sources.Nzz
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, this, "NzzHelper.LeadImageToImage deserialization failed", ex);
+                    LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.LeadImageToImage deserialization failed", this, ex);
                     return null;
                 }
             }

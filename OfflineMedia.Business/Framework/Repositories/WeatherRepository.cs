@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.WeatherModel;
+using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources.OpenWeatherMap;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Services.Interfaces;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -41,13 +41,13 @@ namespace OfflineMedia.Business.Framework.Repositories
                 string feedresult = await Download.DownloadStringAsync(url);
                 if (feedresult != null)
                 {
-                    var forecast = OpenWeatherMapHelper.Instance.EvaluateFeed(feedresult, _weatherFontMapping);
+                    var forecast = OpenWeatherMapHelper.EvaluateFeed(feedresult, _weatherFontMapping);
                     return forecast;
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "GetForecastFor failed", ex);
+                LogHelper.Instance.Log(LogLevel.Error, "GetForecastFor failed",this, ex);
             }
             return null;
         }

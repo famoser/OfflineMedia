@@ -17,7 +17,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using OfflineMedia.Business.Framework.Repositories;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
-using OfflineMedia.Common.Framework.Singleton;
 using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.View.ViewModels
@@ -26,7 +25,7 @@ namespace OfflineMedia.View.ViewModels
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    public class BaseViewModelLocator : SingletonBase<BaseViewModelLocator>
+    public class BaseViewModelLocator
     {
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.

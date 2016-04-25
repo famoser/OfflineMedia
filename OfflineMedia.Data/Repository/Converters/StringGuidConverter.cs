@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OfflineMedia.Common.Framework.Converters
+namespace OfflineMedia.Data.Repository.Converters
 {
     public class StringGuidConverter : IEntityValueConverter
     {

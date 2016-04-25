@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using OfflineMedia.Common.Enums.Generic;
-using OfflineMedia.Common.Framework;
-using OfflineMedia.Common.Framework.Logs;
-using OfflineMedia.Common.Framework.Singleton;
+using Famoser.FrameworkEssentials.Logging;
+using Famoser.FrameworkEssentials.Singleton;
+using OfflineMedia.Data.Enums;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Framework.Generic
 {
@@ -56,7 +56,7 @@ namespace OfflineMedia.Business.Framework.Generic
                                 //if Property not found on entity, but requested on business, we throw an error
                                 string errorMsg = String.Format("ConvertToBusiness(): Property '{0}' which should be mapped to '{1}' was not found on entity, but requested in the business object.", propertyInfo.Name, name);
                                 errorMsg += String.Format("typeof business: '{0}',  typeof entity: '{1}'", business.GetType(), entity.GetType());
-                                LogHelper.Instance.Log(LogLevel.Error,this, errorMsg);
+                                LogHelper.Instance.Log(LogLevel.Error, errorMsg, this);
                             }
                         }
                     }
@@ -155,7 +155,7 @@ namespace OfflineMedia.Business.Framework.Generic
                                                 propertyInfo.Name, name);
                                         errorMsg += String.Format("typeof business: '{0}',  typeof entity: '{1}'",
                                             business.GetType(), typeof(TE).FullName);
-                                        LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+                                        LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
                                     }
                                 }
                             }
@@ -250,7 +250,7 @@ namespace OfflineMedia.Business.Framework.Generic
                                     //if Property not found on entity, but requested on business, we throw an error
                                     string errorMsg = String.Format("ConvertToEntity(): Property '{0}' which should be mapped to '{1}' was not found on entity, but requested in the business object.", propertyInfo.Name, name);
                                     errorMsg += String.Format("typeof business: '{0}',  typeof entity: '{1}'", business.GetType(), entity.GetType());
-                                    LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+                                    LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
                                 }
                             }
                         }
@@ -300,7 +300,7 @@ namespace OfflineMedia.Business.Framework.Generic
                                 //if Property not found on entity, but requested on business, we throw an error
                                 string errorMsg = String.Format("FillProperties(): Property '{0}' which should be mapped to '{1}' was not found on entity, but requested in the business object.", propertyInfo.Name, name);
                                 errorMsg += String.Format("typeof business: '{0}',  typeof entity: '{1}'", business.GetType(), entity.GetType());
-                                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+                                LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
                             }
                         }
                     }
@@ -328,7 +328,7 @@ namespace OfflineMedia.Business.Framework.Generic
 
             //if Property not found on entity, but requested on business, we throw an error
             string errorMsg = String.Format("GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'", business.GetType());
-            LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+            LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
 
             return -1;
         }
@@ -360,7 +360,7 @@ namespace OfflineMedia.Business.Framework.Generic
                     String.Format(
                         "GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'",
                         business.GetType());
-                LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+                LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
             }
             return list;
 
@@ -384,7 +384,7 @@ namespace OfflineMedia.Business.Framework.Generic
 
             //if Property not found on entity, but requested on business, we throw an error
             string errorMsg = String.Format("GetPrimaryKey(): EntityPrimaryKeyAttribute was not found on business. typeof business: '{0}'", business.GetType());
-            LogHelper.Instance.Log(LogLevel.Error, this, errorMsg);
+            LogHelper.Instance.Log(LogLevel.Error,errorMsg, this);
 
             return true;
         }

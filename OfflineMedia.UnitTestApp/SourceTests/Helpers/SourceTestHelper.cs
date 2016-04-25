@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Famoser.FrameworkEssentials.Singleton;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources;
-using OfflineMedia.Business.Sources.OpenWeatherMap.Models;
-using OfflineMedia.Common.Framework.Singleton;
 using OfflineMedia.Fakes;
 
 namespace OfflineMedia.SourceTests.Helpers
