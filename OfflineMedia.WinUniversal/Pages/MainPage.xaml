@@ -11,17 +11,17 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot DataContext="{Binding Sources}" ItemsSource="{Binding }">
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-                <Pivot.ItemTemplate>
-                    <DataTemplate>
-                        <userControls:FeedList DataContext="{Binding }" />
-                    </DataTemplate>
-                </Pivot.ItemTemplate>
-            </Pivot>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding SourceConfiguration.SourceNameShort}" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <userControls:FeedList Margin="10,0" DataContext="{Binding }" />
+                </DataTemplate>
+            </Pivot.ItemTemplate>
+        </Pivot>
         <userControls:ProgressBar VerticalAlignment="Top" />
     </Grid>
 

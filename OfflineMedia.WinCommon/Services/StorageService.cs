@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Famoser.FrameworkEssentials.Logging;
@@ -55,6 +56,20 @@ namespace OfflineMedia.Services
             catch (Exception ex)
             {
                 LogHelper.Instance.Log(LogLevel.Error, "GetContentsOfAssetFile failed", this, ex);
+            }
+            return null;
+        }
+
+        public static async Task<IBuffer> GetImageFile(string fileName)
+        {
+            try
+            {
+                StorageFile file = (await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Images/" + fileName)).AsTask().ConfigureAwait(false));
+                return await FileIO.ReadBufferAsync(file).AsTask().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Log(LogLevel.Error, "GetContentsOfAssetFile failed", "SS", ex);
             }
             return null;
         }

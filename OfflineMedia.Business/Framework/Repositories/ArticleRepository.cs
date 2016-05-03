@@ -602,7 +602,8 @@ namespace OfflineMedia.Business.Framework.Repositories
                 Author = "Author Maximus",
                 LeadImage = new ImageModel() { Url = new Uri("http://images.nzz.ch/eos/v2/image/view/620/-/text/inset/353e98e8/1.18533711/1430496678/tunshikel-park-kathmandu-nepal.jpg") },
                 PublicationTime = DateTime.Now,
-                State = ArticleState.Loaded
+                State = ArticleState.Loaded,
+                Teaser = "Die Börsen sind gepannt auf die Entwicklung der strukturellen Verbesserung des isländischen Mondscheinmaterials"
             };
             return avm;
         }

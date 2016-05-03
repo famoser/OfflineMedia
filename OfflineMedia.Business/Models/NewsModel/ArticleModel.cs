@@ -11,6 +11,13 @@ namespace OfflineMedia.Business.Models.NewsModel
 {
     public class ArticleModel : BaseModel
     {
+        public ArticleModel()
+        {
+#if DEBUG
+            LeadImage = new ImageModel();
+#endif
+        }
+
         private string _title;
         [EntityMap]
         public string Title

@@ -67,6 +67,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\owfont-regular.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\placeholder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small-white.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small.png" />
   </ItemGroup>

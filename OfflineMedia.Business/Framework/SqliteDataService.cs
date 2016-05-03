@@ -21,7 +21,6 @@ namespace OfflineMedia.Business.Framework
         private readonly IStorageService _storageService;
         private readonly ISQLitePlatform _sqLitePlatform;
         private SQLiteAsyncConnection _asyncConnection;
-        private SQLiteConnection _connection;
 
         private static SqliteDataService _instance;
 
@@ -77,25 +76,6 @@ namespace OfflineMedia.Business.Framework
                     await _asyncConnection.CreateTableAsync<SettingEntity>();
 
                     await _asyncConnection.ExecuteAsync("PRAGMA synchronous = OFF");
-
-                    return true;
-                }
-                if (_connection == null)
-                {
-                    string databaseFile = await _storageService.GetFilePathByKey(FileKeys.Database);
-                    _connection = new SQLiteConnection(_sqLitePlatform, databaseFile);
-                    _connection.CreateTable<ArticleEntity>();
-                    _connection.CreateTable<ContentEntity>();
-                    _connection.CreateTable<GalleryEntity>();
-                    _connection.CreateTable<ImageEntity>();
-                    _connection.CreateTable<RelatedArticleRelations>();
-                    _connection.CreateTable<RelatedThemeRelations>();
-                    _connection.CreateTable<ThemeArticleRelations>();
-                    _connection.CreateTable<ThemeEntity>();
-
-                    _connection.CreateTable<SettingEntity>();
-
-                    //_connection.ExecuteAsync("PRAGMA synchronous = OFF");
 
                     return true;
                 }
