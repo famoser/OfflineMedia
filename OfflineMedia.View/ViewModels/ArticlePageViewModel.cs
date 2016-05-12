@@ -73,7 +73,7 @@ namespace OfflineMedia.View.ViewModels
                     IntValue = 350
                 };
 
-                Article = _articleRepository.GetInfoArticle();
+                //Article = _articleRepository.GetInfoArticle();
             }
             else
             {

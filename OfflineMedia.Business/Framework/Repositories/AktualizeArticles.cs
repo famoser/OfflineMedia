@@ -97,7 +97,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 }
 
                 TimerHelper.Instance.Stop("Waiting for Feed Tasks", this);
-                Task.WaitAll(_actualizeFeedsTasks.ToArray());
+                await Task.WhenAll(_actualizeFeedsTasks.ToArray());
 
                 TimerHelper.Instance.Stop("Saving forced to database", this);
                 _progressService.HidePercentageProgress();
@@ -141,7 +141,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     }
 
                     TimerHelper.Instance.Stop("Waiting for Tasks", this);
-                    Task.WaitAll(_aktualizeArticlesTasks.ToArray());
+                    await Task.WhenAll(_aktualizeArticlesTasks.ToArray());
                 }
                 TimerHelper.Instance.Stop("Finished", this);
 
@@ -174,7 +174,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                 var feed = _newFeedModels[0];
                 _newFeedModels.Remove(feed);
 
-                var newfeed = await FeedHelper.DownloadFeed(feed);
+                var newfeed = await FeedHelper.DownloadFeedAsync(feed);
                 _progressService.IncrementProgress();
 
                 TimerHelper.Instance.Stop("Downloaded Feed, Inserting to Database", this, guid);

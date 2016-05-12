@@ -60,12 +60,21 @@ namespace OfflineMedia.Services
             return null;
         }
 
+        private static IBuffer _fileTemp;
         public static async Task<IBuffer> GetImageFile(string fileName)
         {
             try
             {
-                StorageFile file = (await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Images/" + fileName)).AsTask().ConfigureAwait(false));
-                return await FileIO.ReadBufferAsync(file).AsTask().ConfigureAwait(false);
+                if (_fileTemp == null)
+                {
+                    StorageFile file =
+                        (await
+                            StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Images/" + fileName))
+                                .AsTask()
+                                .ConfigureAwait(false));
+                    _fileTemp = await FileIO.ReadBufferAsync(file).AsTask().ConfigureAwait(false);
+                }
+                return _fileTemp;
             }
             catch (Exception ex)
             {

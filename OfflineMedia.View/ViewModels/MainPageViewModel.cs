@@ -209,7 +209,7 @@ namespace OfflineMedia.View.ViewModels
             _refreshCommand.RaiseCanExecuteChanged();
 
             TimerHelper.Instance.Stop("Actualizing Articles", this);
-            //await _articleRepository.ActualizeArticles();
+            await _articleRepository.ActualizeArticles();
             TimerHelper.Instance.Stop("Uploading Stats", this);
             await _apiRepository.UploadStats();
 

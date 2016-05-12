@@ -48,7 +48,7 @@
             </StackPanel>
 
             <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceVisibillityEvaluator}}" HorizontalAlignment="Left" Background="{ThemeResource BackgroundThemeBrush}">
-                <Image Stretch="UniformToFill" Margin="0" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+                <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceVisibillityEvaluator}}" >
