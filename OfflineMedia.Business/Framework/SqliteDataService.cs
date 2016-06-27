@@ -10,6 +10,8 @@ using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Contents;
+using OfflineMedia.Data.Entities.Relations;
 using SQLite.Net;
 using SQLite.Net.Async;
 using SQLite.Net.Interop;
@@ -67,7 +69,7 @@ namespace OfflineMedia.Business.Framework
                     await _asyncConnection.CreateTableAsync<ArticleEntity>();
                     await _asyncConnection.CreateTableAsync<ContentEntity>();
                     await _asyncConnection.CreateTableAsync<GalleryEntity>();
-                    await _asyncConnection.CreateTableAsync<ImageEntity>();
+                    await _asyncConnection.CreateTableAsync<ImageContentEntity>();
                     await _asyncConnection.CreateTableAsync<RelatedArticleRelations>();
                     await _asyncConnection.CreateTableAsync<RelatedThemeRelations>();
                     await _asyncConnection.CreateTableAsync<ThemeArticleRelations>();

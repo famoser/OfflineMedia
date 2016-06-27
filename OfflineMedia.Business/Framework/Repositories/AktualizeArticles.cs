@@ -13,6 +13,7 @@ using OfflineMedia.Business.Services;
 using OfflineMedia.Business.Sources;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Contents;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -378,7 +379,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 
 
                     var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
+                    var imageRepo = new GenericRepository<ImageModel, ImageContentEntity>(dataService);
                     var galleryRepo = new GenericRepository<GalleryModel, GalleryEntity>(dataService);
                     var contentRepo = new GenericRepository<ContentModel, ContentEntity>(dataService);
 

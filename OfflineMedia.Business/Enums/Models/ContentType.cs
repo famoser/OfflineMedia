@@ -3,7 +3,7 @@
     public enum ContentType
     {
         None = 0,
-        Html = 1, 
+        Text = 1,
         Image = 2,
         Gallery = 3
     }

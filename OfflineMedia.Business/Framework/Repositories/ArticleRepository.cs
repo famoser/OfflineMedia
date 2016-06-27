@@ -15,6 +15,8 @@ using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Contents;
+using OfflineMedia.Data.Entities.Relations;
 using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Framework.Repositories
@@ -165,7 +167,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 if (am.LeadImage == null && am.LeadImageId > 0)
                 {
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(await unitOfWork.GetDataService());
+                    var imageRepo = new GenericRepository<ImageModel, ImageContentEntity>(await unitOfWork.GetDataService());
                     am.LeadImage = await imageRepo.GetById(am.LeadImageId);
                 }
                 if (content && am.Content == null)
@@ -392,7 +394,7 @@ namespace OfflineMedia.Business.Framework.Repositories
         {
             try
             {
-                var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
+                var imageRepo = new GenericRepository<ImageModel, ImageContentEntity>(dataService);
                 if (model.LeadImage == null)
                 {
                     model.LeadImage = await imageRepo.GetById(model.LeadImageId);
@@ -445,7 +447,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     var addrelationships = new List<ThemeArticleRelationModel>();
 
                     var articleRepo = new GenericRepository<ArticleModel, ArticleEntity>(dataService);
-                    var imageRepo = new GenericRepository<ImageModel, ImageEntity>(dataService);
+                    var imageRepo = new GenericRepository<ImageModel, ImageContentEntity>(dataService);
                     var galleryRepo = new GenericRepository<GalleryModel, GalleryEntity>(dataService);
                     var contentRepo = new GenericRepository<ContentModel, ContentEntity>(dataService);
                     var relationshipsRepo = new GenericRepository<ThemeArticleRelationModel, ThemeArticleRelations>(dataService);

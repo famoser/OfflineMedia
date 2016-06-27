@@ -7,6 +7,8 @@ using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Contents;
+using OfflineMedia.Data.Entities.Relations;
 using OfflineMedia.Data.Enums;
 using OfflineMedia.Data.Repository;
 
@@ -26,7 +28,7 @@ namespace OfflineMedia.Framework
 #pragma warning restore 618
                 {new ContentModel(),new ContentEntity()},
                 {new GalleryModel(),new GalleryEntity()},
-                {new ImageModel(),new ImageEntity()},
+                {new ImageModel(),new ImageContentEntity()},
                 {new RelatedArticleRelationModel(),new RelatedArticleRelations()},
                 //new History(),
                 {new RelatedThemeRelationModel(),new RelatedThemeRelations()},

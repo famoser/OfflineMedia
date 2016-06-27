@@ -6,7 +6,7 @@
     "Source": 1,
     "LogicBaseUrl": "http://headlines.nzz.ch/",
     "PublicBaseUrl": "http://nzz.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d",
         "Name": "Topthemen der Startseite",
@@ -81,7 +81,7 @@
     "Source": 2,
     "LogicBaseUrl": "http://feeds.20min-tv.ch/",
     "PublicBaseUrl": "http://20min.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "f91bf083-86ed-451c-8275-a011479e6a54",
         "Name": "Frontfeed",
@@ -166,7 +166,7 @@
     "Source": 3,
     "LogicBaseUrl": "http://blick.ch/",
     "PublicBaseUrl": "http://blick.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "abf693de-39aa-422e-9790-db2320cdba07",
         "Name": "Home",
@@ -236,7 +236,7 @@
     "Source": 4,
     "LogicBaseUrl": "http://blickamabend.ch/",
     "PublicBaseUrl": "http://blickamabend.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "4ef6fee3-4ce9-48f0-b5ed-32cff2e2971c",
         "Name": "Home",
@@ -271,7 +271,7 @@
     "Source": 20,
     "LogicBaseUrl": "http://mobile2.bazonline.ch/",
     "PublicBaseUrl": "http://bazonline.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "8d3f5780-f3db-4f45-ab5c-8d565901c9d4",
         "Name": "Basel",
@@ -341,7 +341,7 @@
     "Source": 21,
     "LogicBaseUrl": "http://mobile2.bernerzeitung.ch/",
     "PublicBaseUrl": "http://bernerzeitung.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "bd1b9aca-4234-4c23-96a5-3983a1c845a1",
         "Name": "Region",
@@ -411,7 +411,7 @@
     "Source": 22,
     "LogicBaseUrl": "http://mobile2.derbund.ch/",
     "PublicBaseUrl": "http://derbund.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "a61d9364-a2ef-41ac-aaec-6b62dfb4ff50",
         "Name": "Bern",
@@ -481,7 +481,7 @@
     "Source": 23,
     "LogicBaseUrl": "http://mobile2.tagesanzeiger.ch/",
     "PublicBaseUrl": "http://tagesanzeiger.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "fcd461bb-15bf-4b59-ac72-1a5fb7dd1777",
         "Name": "Schweiz",
@@ -551,7 +551,7 @@
     "Source": 5,
     "LogicBaseUrl": "http://www.der-postillon.com/",
     "PublicBaseUrl": "http://www.der-postillon.com/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "13085e17-a2a4-456a-ae5e-417e691bac9d",
         "Name": "Front",
@@ -601,7 +601,7 @@
     "Source": 8,
     "LogicBaseUrl": "http://xml.zeit.de/",
     "PublicBaseUrl": "http://zeit.de/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "2b4fc887-70f7-439e-b8d3-5974749281bd",
         "Name": "Startseite",
@@ -681,7 +681,7 @@
     "Source": 7,
     "LogicBaseUrl": "http://www.spiegel.de/",
     "PublicBaseUrl": "http://www.spiegel.de/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "cd5cdca8-a904-4e4b-abc3-0417902c57ed",
         "Name": "Topmeldungen",
@@ -741,7 +741,7 @@
     "Source": 10,
     "LogicBaseUrl": "http://www.welt.de/",
     "PublicBaseUrl": "http://www.welt.de/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "d150cc6f-30f1-4e20-acbc-362e99df4f6f",
         "Name": "Überblick",
@@ -776,7 +776,7 @@
     "Source": 6,
     "LogicBaseUrl": "http://mobile-feed.stern.de/android/",
     "PublicBaseUrl": "http://stern.de/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "f12a436a-28d7-477c-ad3d-4842678504c1",
         "Name": "Startseite",
@@ -856,7 +856,7 @@
     "Source": 9,
     "LogicBaseUrl": "http://json.bild.de/",
     "PublicBaseUrl": "http://bild.de/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "2f6da3e9-f4d8-4ce2-8056-97ad3b48f604",
         "Name": "News",
@@ -956,7 +956,7 @@
     "Source": 24,
     "LogicBaseUrl": "http://mobile2.24heures.ch/",
     "PublicBaseUrl": "http://24heures.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "a1adf518-f490-4496-ba60-7dd8ba3a5b85",
         "Name": "Accueil",
@@ -1026,7 +1026,7 @@
     "Source": 24,
     "LogicBaseUrl": "http://mobile2.lematin.ch/",
     "PublicBaseUrl": "http://lematin.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "ddcb897f-95e8-44b6-887e-c7f33f1285ff",
         "Name": "Accueil",
@@ -1096,7 +1096,7 @@
     "Source": 26,
     "LogicBaseUrl": "http://mobile2.tdg.ch/",
     "PublicBaseUrl": "http://tdg.ch/",
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "160dce96-7611-4f7e-81d4-bb89bb0ce9a4",
         "Name": "Accueil",
@@ -1171,7 +1171,7 @@
     "LogicBaseUrl": "http://mobile2.zsz.ch/",
     "PublicBaseUrl": "http://zsz.ch/",
     "Source": 27,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "a3fc7853-3bcf-4ad9-90a3-7e8319de2217",
         "Name": "Front",
@@ -1236,7 +1236,7 @@
     "LogicBaseUrl": "http://mobile2.landbote.ch/",
     "PublicBaseUrl": "http://landbote.ch/",
     "Source": 28,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "f63ca835-20fa-49f6-83e9-3e408201c66e",
         "Name": "Front",
@@ -1296,7 +1296,7 @@
     "LogicBaseUrl": "http://mobile2.zuonline.ch/",
     "PublicBaseUrl": "http://zuonline.ch/",
     "Source": 29,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "6d1c4bc2-8c58-4813-b7bf-1ebdf49b213c",
         "Name": "Front",
@@ -1356,7 +1356,7 @@
     "LogicBaseUrl": "http://mobile2.berneroberlaender.ch/",
     "PublicBaseUrl": "http://berneroberlaender.ch/",
     "Source": 30,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "b2bab0a1-1e93-400b-8416-ef8daead7cf0",
         "Name": "Front",
@@ -1461,7 +1461,7 @@
     "LogicBaseUrl": "http://mobile2.thunertagblatt.ch/",
     "PublicBaseUrl": "http://thunertagblatt.ch/",
     "Source": 31,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "731bcb4d-3066-4ee9-ab22-b86d226b45a4",
         "Name": "Front",
@@ -1566,7 +1566,7 @@
     "LogicBaseUrl": "http://mobile2.langenthalertagblatt.ch/",
     "PublicBaseUrl": "http://langenthalertagblatt.ch/",
     "Source": 32,
-    "FeedConfigurationModels": [
+    "Feeds": [
       {
         "Guid": "c8423681-3ce5-491e-977c-345534dcf932",
         "Name": "Front",

@@ -7,6 +7,7 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Relations;
 using OfflineMedia.Data.Repository.EqualityComparer;
 
 namespace OfflineMedia.Business.Framework.Repositories
