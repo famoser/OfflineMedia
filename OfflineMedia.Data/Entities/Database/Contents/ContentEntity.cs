@@ -1,4 +1,7 @@
-﻿namespace OfflineMedia.Data.Entities.Contents
+﻿using Famoser.SqliteWrapper.Attributes;
+using Famoser.SqliteWrapper.Entities;
+
+namespace OfflineMedia.Data.Entities.Contents
 {
     public class ContentEntity : EntityBase
     {

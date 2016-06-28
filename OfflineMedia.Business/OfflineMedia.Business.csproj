@@ -301,7 +301,6 @@
     <Compile Include="Helpers\Upload.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Models\Base\BaseIdModel.cs" />
-    <Compile Include="Models\Configuration\FeedConfigurationModel.cs" />
     <Compile Include="Models\Configuration\SettingModel.cs" />
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
@@ -313,13 +312,12 @@
     <Compile Include="Models\NewsModel\NMModels\RelatedArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\NMModels\RelatedThemeRelationModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
-    <Compile Include="Models\Configuration\SourceConfigurationModel.cs" />
     <Compile Include="Models\NewsModel\NMModels\ThemeArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\ThemeModel.cs" />
     <Compile Include="Models\SpritzWord.cs" />
     <Compile Include="Models\WeatherModel\Forecast.cs" />
     <Compile Include="Models\WeatherModel\ForecastItem.cs" />
-    <Compile Include="Models\WeatherModel\WeatherLevel.cs" />
+    <Compile Include="Enums\Models\WeatherLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IApiService.cs" />
     <Compile Include="Services\IDispatchService.cs" />
@@ -460,7 +458,9 @@
   <ItemGroup>
     <Compile Include="Sources\Stern\Models\Article.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\NewsModel\ContentModels\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

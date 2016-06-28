@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Famoser.SqliteWrapper.Attributes;
 using GalaSoft.MvvmLight.Ioc;
@@ -12,6 +13,8 @@ namespace OfflineMedia.Business.Models.NewsModel
 {
     public class ArticleModel : BaseIdModel
     {
+        public string Uri { get; set; }
+        
         private string _title;
         [EntityMap]
         public string Title
@@ -36,23 +39,6 @@ namespace OfflineMedia.Business.Models.NewsModel
             set { Set(ref _teaser, value); }
         }
 
-        [EntityMap]
-        [EntityConversion(typeof(string), typeof(Uri))]
-        public Uri PublicUri { get; set; }
-
-        [EntityMap]
-        [EntityConversion(typeof(string), typeof(Uri))]
-        public Uri LogicUri { get; set; }
-
-
-        private DateTime _publicationTime;
-        [EntityMap]
-        public DateTime PublicationTime
-        {
-            get { return _publicationTime; }
-            set { Set(ref _publicationTime, value); }
-        }
-
         private string _author;
         [EntityMap]
         public string Author
@@ -61,28 +47,37 @@ namespace OfflineMedia.Business.Models.NewsModel
             set { Set(ref _author, value); }
         }
 
-        private LoadingState _state;
+        [EntityMap]
+        public string PublicUri { get; set; }
+
+        [EntityMap]
+        public string LogicUri { get; set; }
+
+
+        private LoadingState _loadingState;
         [EntityMap]
         [EntityConversion(typeof(int), typeof(LoadingState))]
-        public LoadingState State
+        public LoadingState LoadingState
         {
-            get { return _state; }
-            set { Set(ref _state, value); }
+            get { return _loadingState; }
+            set { Set(ref _loadingState, value); }
         }
 
+        private DateTime _publishDateTime;
         [EntityMap]
-        public int LeadImageId { get; set; }
+        public DateTime PublishDateTime
+        {
+            get { return _publishDateTime; }
+            set { Set(ref _publishDateTime, value); }
+        }
 
+        private DateTime _downloadDateTime;
         [EntityMap]
-        [EntityConversion(typeof(string), typeof(Guid))]
-        public Guid FeedConfigurationId { get; set; }
-
-        [EntityMap]
-        [EntityConversion(typeof(string), typeof(Guid))]
-        public Guid SourceConfigurationId { get; set; }
-
-        [EntityMap]
-        public string WordDump { get; set; }
+        public DateTime DownloadDateTime
+        {
+            get { return _downloadDateTime; }
+            set { Set(ref _downloadDateTime, value); }
+        }
 
         private ImageModel _leadImage;
         public ImageModel LeadImage
@@ -90,101 +85,11 @@ namespace OfflineMedia.Business.Models.NewsModel
             get { return _leadImage; }
             set { Set(ref _leadImage, value); }
         }
-
-        private List<ThemeModel> _themes;
-        public List<ThemeModel> Themes
-        {
-            get { return _themes; }
-            set { Set(ref _themes, value); }
-        }
-
-        private List<ArticleModel> _relatedArticles;
-        public List<ArticleModel> RelatedArticles
-        {
-            get { return _relatedArticles; }
-            set { Set(ref _relatedArticles, value); }
-        }
-
-        private List<ContentModel> _content;
-        public List<ContentModel> Content
-        {
-            get { return _content; }
-            set
-            {
-                SimpleIoc.Default.GetInstance<IDispatchService>().CheckBeginInvokeOnUI(() =>
-                {
-                    Set(ref _content, value);
-                });
-            }
-        }
-
-        public FeedConfigurationModel FeedConfiguration { get; set; }
-
-        public ArticleModel LeftArticle { get; set; }
-
-        public ArticleModel RightArticle { get; set; }
-
-        public ArticleModel Link { get; set; }
-
-        [CallBeforeSave]
-        public void SetIds()
-        {
-            if (LeadImage != null)
-                LeadImageId = LeadImage.Id;
-            if (FeedConfiguration != null)
-            {
-                FeedConfigurationId = FeedConfiguration.Guid;
-                SourceConfigurationId = FeedConfiguration.SourceConfiguration.Guid;
-            }
-        }
-
-        public void PrepareForSave()
-        {
-            if (Content != null)
-                foreach (var contentModel in Content)
-                {
-                    contentModel.Article = this;
-                }
-        }
-
-        public bool IsLoadedCompletely()
-        {
-            return Content != null && Content.Any();
-        }
-
-        public bool IsInDatabase()
-        {
-            return Id != 0;
-        }
-
-        public bool IsStatic { get; set; }
-
-        public static ArticleModel Clone(ArticleModel model)
-        {
-            return new ArticleModel()
-            {
-                Author = model.Author,
-                Content = model.Content,
-                FeedConfiguration = model.FeedConfiguration,
-                FeedConfigurationId = model.FeedConfigurationId,
-                IsFavorite = model.IsFavorite,
-                IsStatic = model.IsStatic,
-                LeadImage = model.LeadImage,
-                LeadImageId = model.LeadImageId,
-                LeftArticle = model.LeftArticle,
-                LogicUri = model.LogicUri,
-                PublicUri = model.PublicUri,
-                PublicationTime = model.PublicationTime,
-                RelatedArticles = model.RelatedArticles,
-                RightArticle = model.RightArticle,
-                SourceConfigurationId = model.SourceConfigurationId,
-                State = model.State,
-                SubTitle = model.SubTitle,
-                Teaser = model.Teaser,
-                Themes = model.Themes,
-                Title = model.Title,
-                WordDump = model.WordDump
-            };
-        }
+        
+        public ObservableCollection<ThemeModel> Themes { get;  } = new ObservableCollection<ThemeModel>();
+        
+        public ObservableCollection<ArticleModel> RelatedArticles { get; } = new ObservableCollection<ArticleModel>();
+        
+        public ObservableCollection<ContentModel> Content { get; } = new ObservableCollection<ContentModel>();
     }
 }

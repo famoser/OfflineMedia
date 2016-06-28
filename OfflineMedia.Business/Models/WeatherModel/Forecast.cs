@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using OfflineMedia.Business.Models.NewsModel;
 
@@ -13,11 +14,9 @@ namespace OfflineMedia.Business.Models.WeatherModel
         {
             get
             {
-                if (ForecastItems == null || !ForecastItems.Any())
+                if (Forecasts == null || !Forecasts.Any() || ActiveIndex - 1 > Forecasts.Count)
                     return null;
-                if (ActiveIndex - 1 > ForecastItems.Count)
-                    ActiveIndex = 0;
-                return ForecastItems[ActiveIndex];
+                return Forecasts[ActiveIndex];
             }
         }
 
@@ -32,26 +31,26 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
-        public List<ForecastItem> ForecastItems { get; set; }
+        public ObservableCollection<ForecastItem> Forecasts { get; } = new ObservableCollection<ForecastItem>();
 
-        public void SetCurrentForecast()
-        {
-            ActiveIndex = GetCurrentForecast();
-        }
+        //public void SetCurrentForecast()
+        //{
+        //    ActiveIndex = GetCurrentForecast();
+        //}
 
-        private int GetCurrentForecast()
-        {
-            if (ForecastItems != null && ForecastItems.Any())
-            {
-                for (int i = 0; i < ForecastItems.Count; i++)
-                {
-                    if (ForecastItems[i].Date > DateTime.Now)
-                    {
-                        return i;
-                    }
-                }
-            }
-            return 0;
-        }
+        //private int GetCurrentForecast()
+        //{
+        //    if (ForecastItems != null && ForecastItems.Any())
+        //    {
+        //        for (int i = 0; i < ForecastItems.Count; i++)
+        //        {
+        //            if (ForecastItems[i].Date > DateTime.Now)
+        //            {
+        //                return i;
+        //            }
+        //        }
+        //    }
+        //    return 0;
+        //}
     }
 }

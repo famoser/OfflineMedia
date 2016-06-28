@@ -6,13 +6,12 @@ namespace OfflineMedia.Business.Models
 {
     public class SourceModel : BaseModel
     {
-        public SourceConfigurationModel SourceConfiguration { get; set; }
-
-        private ObservableCollection<FeedModel> _feedlist;
-        public ObservableCollection<FeedModel> FeedList
-        {
-            get { return _feedlist; }
-            set { Set(ref _feedlist, value); }
-        }
+        public string Name { get; set; }
+        public string Abbreviation { get; set; }
+        public Enums.Sources Source { get; set; }
+        public string LogicBaseUrl { get; set; }
+        public string PublicBaseUrl { get; set; }
+        
+        public ObservableCollection<FeedModel> FeedList { get; } = new ObservableCollection<FeedModel>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Famoser.SqliteWrapper.Entities;
 
 namespace OfflineMedia.Data.Entities
 {
