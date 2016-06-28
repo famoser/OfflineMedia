@@ -11,6 +11,7 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Entities;
+using ValueType = OfflineMedia.Business.Enums.Settings.ValueType;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {
@@ -49,27 +50,27 @@ namespace OfflineMedia.Business.Framework.Repositories
             var settings = new List<SettingModel>();
 
             var example1 = GetSampleSettingBase();
-            example1.ValueType = ValueTypeEnum.Free;
+            example1.ValueType = ValueType.Free;
             example1.Value = "Free Value type Value";
             settings.Add(example1);
 
             var example2 = GetSampleSettingBase();
-            example2.ValueType = ValueTypeEnum.Int;
+            example2.ValueType = ValueType.Int;
             example2.Value = "1";
             settings.Add(example2);
 
             var example3 = GetSampleSettingBase();
-            example3.ValueType = ValueTypeEnum.PossibleValues;
+            example3.ValueType = ValueType.PossibleValues;
             example3.Value = "Possible value 1";
             settings.Add(example3);
 
             var example4 = GetSampleSettingBase();
-            example4.ValueType = ValueTypeEnum.TrueOrFalse;
+            example4.ValueType = ValueType.TrueOrFalse;
             example4.Value = "True";
             settings.Add(example4);
 
             var example5 = GetSampleSettingBase();
-            example5.ValueType = ValueTypeEnum.TrueOrFalse;
+            example5.ValueType = ValueType.TrueOrFalse;
             example5.Value = "False";
             settings.Add(example5);
 

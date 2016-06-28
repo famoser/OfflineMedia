@@ -267,14 +267,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\FileKeys.cs" />
-    <Compile Include="Enums\IndeterminateProgressKey.cs" />
+    <Compile Include="Enums\Models\ContentTextType.cs" />
     <Compile Include="Enums\Models\ContentType.cs" />
-    <Compile Include="Enums\Messages.cs" />
     <Compile Include="Enums\Models\ImageState.cs" />
-    <Compile Include="Enums\PageKeys.cs" />
     <Compile Include="Enums\Settings\SettingKeys.cs" />
-    <Compile Include="Enums\SourceEnum.cs" />
-    <Compile Include="Enums\Settings\ValueTypeEnum.cs" />
+    <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Framework\Communication\ServerResponse.cs" />
     <Compile Include="Framework\Generic\EntityModelConverter.cs" />
     <Compile Include="Framework\Repositories\AktualizeArticles.cs" />
@@ -303,10 +300,11 @@
     <Compile Include="Helpers\TimerHelper.cs" />
     <Compile Include="Helpers\Upload.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
+    <Compile Include="Models\Base\BaseIdModel.cs" />
     <Compile Include="Models\Configuration\FeedConfigurationModel.cs" />
-    <Compile Include="Models\Configuration\SimpleSettingModel.cs" />
+    <Compile Include="Models\Configuration\SettingModel.cs" />
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
-    <Compile Include="Models\NewsModel\BaseModel.cs" />
+    <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\NewsModel\ContentModel.cs" />
     <Compile Include="Models\FeedModel.cs" />
     <Compile Include="Models\NewsModel\GalleryModel.cs" />
@@ -315,7 +313,6 @@
     <Compile Include="Models\NewsModel\NMModels\RelatedArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\NMModels\RelatedThemeRelationModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
-    <Compile Include="Models\Configuration\SettingModel.cs" />
     <Compile Include="Models\Configuration\SourceConfigurationModel.cs" />
     <Compile Include="Models\NewsModel\NMModels\ThemeArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\ThemeModel.cs" />
@@ -400,6 +397,10 @@
   <ItemGroup>
     <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Famoser.FrameworkEssentials.2.6.3\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Famoser.SqliteWrapper.1.0.4\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">

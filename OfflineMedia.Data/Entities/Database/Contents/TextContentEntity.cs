@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OfflineMedia.Data.Entities.Contents
 {
-    public class TextContentEntity : EntityIdBase
+    public class TextContentEntity : EntityBase
     {
         public string ContentJson { get; set; }
     }

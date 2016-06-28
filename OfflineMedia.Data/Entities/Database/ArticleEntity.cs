@@ -2,7 +2,7 @@
 
 namespace OfflineMedia.Data.Entities
 {
-    public class ArticleEntity : EntityIdBase
+    public class ArticleEntity : EntityBase
     {
         public string Uri { get; set; }
 

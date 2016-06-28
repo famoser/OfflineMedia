@@ -159,7 +159,7 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
-        public async Task<List<T>> GetAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new()
+        public async Task<List<T>> GetAllById<T>(IEnumerable<int> ids) where T : EntityBase, new()
         {
             try
             {
@@ -184,7 +184,7 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
-        public async Task<List<T>> GetAll<T>() where T : EntityIdBase, new()
+        public async Task<List<T>> GetAll<T>() where T : EntityBase, new()
         {
             try
             {
@@ -209,7 +209,7 @@ namespace OfflineMedia.Business.Framework
             return null;
         }
 
-        public async Task<bool> DeleteAllById<T>(IEnumerable<int> ids) where T : EntityIdBase, new()
+        public async Task<bool> DeleteAllById<T>(IEnumerable<int> ids) where T : EntityBase, new()
         {
             try
             {
@@ -228,7 +228,7 @@ namespace OfflineMedia.Business.Framework
             return false;
         }
 
-        public async Task<int> Add<T>(T obj) where T : EntityIdBase, new()
+        public async Task<int> Add<T>(T obj) where T : EntityBase, new()
         {
             try
             {
@@ -254,7 +254,7 @@ namespace OfflineMedia.Business.Framework
             return -1;
         }
 
-        public async Task<List<int>> AddAll<T>(IEnumerable<T> obj) where T : EntityIdBase, new()
+        public async Task<List<int>> AddAll<T>(IEnumerable<T> obj) where T : EntityBase, new()
         {
             try
             {
@@ -283,7 +283,7 @@ namespace OfflineMedia.Business.Framework
             return new List<int>();
         }
 
-        public async Task<bool> Update<T>(T obj) where T : EntityIdBase, new()
+        public async Task<bool> Update<T>(T obj) where T : EntityBase, new()
         {
             try
             {
@@ -308,7 +308,7 @@ namespace OfflineMedia.Business.Framework
             return false;
         }
 
-        public async Task<bool> UpdateAll<T>(IEnumerable<T> obj) where T : EntityIdBase, new()
+        public async Task<bool> UpdateAll<T>(IEnumerable<T> obj) where T : EntityBase, new()
         {
             try
             {
@@ -336,7 +336,7 @@ namespace OfflineMedia.Business.Framework
             return false;
         }
 
-        public async Task<int> GetHighestId<T>() where T : EntityIdBase, new()
+        public async Task<int> GetHighestId<T>() where T : EntityBase, new()
         {
             try
             {

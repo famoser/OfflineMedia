@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Famoser.SqliteWrapper.Attributes;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
@@ -9,15 +10,8 @@ using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {
-    public class ArticleModel : BaseModel
+    public class ArticleModel : BaseIdModel
     {
-        public ArticleModel()
-        {
-#if DEBUG
-            LeadImage = new ImageModel();
-#endif
-        }
-
         private string _title;
         [EntityMap]
         public string Title
@@ -67,18 +61,10 @@ namespace OfflineMedia.Business.Models.NewsModel
             set { Set(ref _author, value); }
         }
 
-        private bool _isFavorite;
+        private LoadingState _state;
         [EntityMap]
-        public bool IsFavorite
-        {
-            get { return _isFavorite; }
-            set { Set(ref _isFavorite, value); }
-        }
-
-        private ArticleState _state;
-        [EntityMap]
-        [EntityConversion(typeof(int), typeof(ArticleState))]
-        public ArticleState State
+        [EntityConversion(typeof(int), typeof(LoadingState))]
+        public LoadingState State
         {
             get { return _state; }
             set { Set(ref _state, value); }

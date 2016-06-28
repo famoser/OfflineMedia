@@ -214,6 +214,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\DisplayState.cs" />
+    <Compile Include="Enums\IndeterminateProgressKey.cs" />
+    <Compile Include="Enums\Messages.cs" />
+    <Compile Include="Enums\PageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ArticlePageViewModel.cs" />
     <Compile Include="ViewModels\FeedPageViewModel.cs" />

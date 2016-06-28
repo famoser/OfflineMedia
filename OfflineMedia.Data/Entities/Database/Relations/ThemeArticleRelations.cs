@@ -1,8 +1,8 @@
 ﻿namespace OfflineMedia.Data.Entities.Relations
 {
-    public class FeedArticleRelationEntity : EntityIdBase
+    public class ThemeArticleRelations : EntityBase
     {
+        public int ThemeId { get; set; }
         public int ArticleId { get; set; }
-        public string FeedGuid { get; set; }
     }
 }

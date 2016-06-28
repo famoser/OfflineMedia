@@ -1,6 +1,6 @@
 ﻿namespace OfflineMedia.Business.Enums
 {
-    public enum SourceEnum
+    public enum Sources
     {
         None = 0,
         Nzz = 1,

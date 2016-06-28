@@ -105,13 +105,13 @@ namespace OfflineMedia.View.ViewModels
                         item.PropertyChanged += CriticalPropertyChanged;
                     else
                         item.PropertyChanged += SomePropertyChanged;
-                    if (item.ValueType == ValueTypeEnum.TrueOrFalse)
+                    if (item.ValueType == ValueType.TrueOrFalse)
                         GeneralBoolSettings.Add(item);
-                    else if (item.ValueType == ValueTypeEnum.Free)
+                    else if (item.ValueType == ValueType.Free)
                         GeneralFreeSettings.Add(item);
-                    else if (item.ValueType == ValueTypeEnum.Int)
+                    else if (item.ValueType == ValueType.Int)
                         GeneralIntSettings.Add(item);
-                    else if (item.ValueType == ValueTypeEnum.PossibleValues)
+                    else if (item.ValueType == ValueType.PossibleValues)
                         GeneralPossibleValuesSettings.Add(item);
                 }
             }

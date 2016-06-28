@@ -1,23 +1,48 @@
-﻿using OfflineMedia.Business.Enums.Settings;
+﻿using System;
+using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.Configuration
 {
-    public class SettingModel : SimpleSettingModel
+    public class SettingModel : BaseModel
     {
-        public string DefaultValue { get; set; }
+        public Guid Guid { get; set; }
 
-        public SettingKeys Key { get; set; }
-        public ValueTypeEnum ValueType { get; set; }
-        public bool IsChangeable { get; set; }
-        public bool IsCriticalChange { get; set; }
+        private string _value;
+        public string Value
+        {
+            get { return _value; }
+            set { Set(ref _value, value); }
+        }
 
-        public string Description { get; set; }
+        private bool _boolValue;
+        public bool BoolValue
+        {
+            get
+            {
+                _boolValue = Convert.ToBoolean(Value);
+                return _boolValue;
+            }
+            set
+            {
+                Value = value.ToString();
+                Set(ref _boolValue, value);
+            }
+        }
 
-        /* FOR TYPE: PossibleValues */
-        public string[] PossibleValues { get; set; }
-
-        /* FOR TYPE: TrueOrFalse */
-        public string OnContent { get; set; }
-        public string OffContent { get; set; }
+        private int _intValue;
+        public int IntValue
+        {
+            get
+            {
+                _intValue =Convert.ToInt32(Value);
+                return _intValue;
+            }
+            set
+            {
+                Value = value.ToString();
+                Set(ref _intValue, value);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OfflineMedia.Business.Enums.Settings
 {
-    public enum ValueTypeEnum
+    public enum ValueType
     {
         TrueOrFalse = 0,
         Int = 1,

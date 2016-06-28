@@ -1,6 +1,6 @@
 ﻿namespace OfflineMedia.Data.Entities.Contents
 {
-    public class ImageContentEntity : EntityIdBase
+    public class ImageContentEntity : EntityBase
     {
         public string Url { get; set; }
         public int TextContentId { get; set; }
