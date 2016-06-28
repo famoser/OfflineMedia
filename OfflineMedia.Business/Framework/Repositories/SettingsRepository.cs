@@ -11,6 +11,8 @@ using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Entities;
+using OfflineMedia.Data.Entities.Storage;
+using OfflineMedia.Data.Enums;
 using ValueType = OfflineMedia.Business.Enums.Settings.ValueType;
 
 namespace OfflineMedia.Business.Framework.Repositories
@@ -136,7 +138,7 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         #endregion
 
-        public async Task<SettingModel> GetSettingByKey(SettingKeys key)
+        public async Task<SettingModel> GetSettingByKey(SettingKey key)
         {
             if (!_isInitialized)
                 await Initialize();
@@ -169,7 +171,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             return false;
         }
 
-        public async Task<bool> SaveSettingByKey(SettingKeys key, string value)
+        public async Task<bool> SaveSettingByKey(SettingKey key, string value)
         {
             try
             {

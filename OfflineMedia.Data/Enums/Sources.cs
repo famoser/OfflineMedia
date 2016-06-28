@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Enums
+﻿namespace OfflineMedia.Data.Enums
 {
     public enum Sources
     {

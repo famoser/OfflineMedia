@@ -16,7 +16,9 @@ using OfflineMedia.Business.Services;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 using OfflineMedia.Data.Entities.Contents;
-using OfflineMedia.Data.Entities.Relations;
+using OfflineMedia.Data.Entities.Database;
+using OfflineMedia.Data.Entities.Database.Contents;
+using OfflineMedia.Data.Entities.Database.Relations;
 using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Framework.Repositories

@@ -6,6 +6,7 @@ using Famoser.SqliteWrapper.Attributes;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Repository;
 
@@ -90,6 +91,6 @@ namespace OfflineMedia.Business.Models.NewsModel
         
         public ObservableCollection<ArticleModel> RelatedArticles { get; } = new ObservableCollection<ArticleModel>();
         
-        public ObservableCollection<ContentModel> Content { get; } = new ObservableCollection<ContentModel>();
+        public ObservableCollection<BaseContentModel> Content { get; } = new ObservableCollection<BaseContentModel>();
     }
 }

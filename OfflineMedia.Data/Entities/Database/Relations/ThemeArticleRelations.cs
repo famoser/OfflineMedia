@@ -1,4 +1,6 @@
-﻿namespace OfflineMedia.Data.Entities.Relations
+﻿using Famoser.SqliteWrapper.Entities;
+
+namespace OfflineMedia.Data.Entities.Database.Relations
 {
     public class ThemeArticleRelations : EntityBase
     {

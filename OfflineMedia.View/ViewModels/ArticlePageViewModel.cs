@@ -19,6 +19,7 @@ using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Services;
+using OfflineMedia.Data.Enums;
 using OfflineMedia.View.Enums;
 using ValueType = OfflineMedia.Business.Enums.Settings.ValueType;
 
@@ -140,12 +141,12 @@ namespace OfflineMedia.View.ViewModels
 
         private async void Initialize()
         {
-            _fontSize = await _settingsRepository.GetSettingByKey(SettingKeys.FontSize);
+            _fontSize = await _settingsRepository.GetSettingByKey(SettingKey.FontSize);
             RaisePropertyChanged(() => FontSize);
             _makeFontBiggerCommand.RaiseCanExecuteChanged();
             _makeFontSmallerCommand.RaiseCanExecuteChanged();
 
-            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKeys.WordsPerMinute);
+            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKey.WordsPerMinute);
             RaisePropertyChanged(() => ReadingSpeed);
             _increaseSpeedCommand.RaiseCanExecuteChanged();
             _decreaseSpeedCommand.RaiseCanExecuteChanged();

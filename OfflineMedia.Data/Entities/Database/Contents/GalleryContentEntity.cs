@@ -1,4 +1,6 @@
-﻿namespace OfflineMedia.Data.Entities.Contents
+﻿using Famoser.SqliteWrapper.Entities;
+
+namespace OfflineMedia.Data.Entities.Database.Contents
 {
     public class GalleryContentEntity : EntityBase
     {

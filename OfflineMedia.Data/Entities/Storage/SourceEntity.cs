@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Enums;
 using OfflineMedia.Data.Entities.Storage.Base;
+using OfflineMedia.Data.Enums;
 
 namespace OfflineMedia.Data.Entities.Storage
 {

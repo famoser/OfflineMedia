@@ -14,6 +14,8 @@ using OfflineMedia.Business.Sources;
 using OfflineMedia.Data;
 using OfflineMedia.Data.Entities;
 using OfflineMedia.Data.Entities.Contents;
+using OfflineMedia.Data.Entities.Database;
+using OfflineMedia.Data.Entities.Database.Contents;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {

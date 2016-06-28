@@ -239,6 +239,8 @@
     <Compile Include="Entities\Storage\FeedEntity.cs" />
     <Compile Include="Entities\Storage\SettingEntity.cs" />
     <Compile Include="Entities\Storage\SourceEntity.cs" />
+    <Compile Include="Enums\SettingKey.cs" />
+    <Compile Include="Enums\SettingValueType.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums\Sources.cs" />

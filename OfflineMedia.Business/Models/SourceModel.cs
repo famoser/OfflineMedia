@@ -8,7 +8,7 @@ namespace OfflineMedia.Business.Models
     {
         public string Name { get; set; }
         public string Abbreviation { get; set; }
-        public Enums.Sources Source { get; set; }
+        public Data.Enums.Sources Source { get; set; }
         public string LogicBaseUrl { get; set; }
         public string PublicBaseUrl { get; set; }
         

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Famoser.SqliteWrapper.Entities;
 
-namespace OfflineMedia.Data.Entities.Contents
+namespace OfflineMedia.Data.Entities.Database.Contents
 {
     public class TextContentEntity : EntityBase
     {

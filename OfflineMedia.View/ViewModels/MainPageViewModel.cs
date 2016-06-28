@@ -15,6 +15,7 @@ using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Services;
+using OfflineMedia.Data.Enums;
 using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
 
 namespace OfflineMedia.View.ViewModels
@@ -186,7 +187,7 @@ namespace OfflineMedia.View.ViewModels
                         feedModel.ArticleList.Add(_articleRepository.GetEmptyFeedArticle());
                 }
             }
-            _favorites = await _settingsRepository.GetSettingByKey(SettingKeys.FavoritesEnabled);
+            _favorites = await _settingsRepository.GetSettingByKey(SettingKey.FavoritesEnabled);
             if (_favorites != null && _favorites.BoolValue)
             {
                 TimerHelper.Instance.Stop("Got Feeds, Getting Favorites...", this);

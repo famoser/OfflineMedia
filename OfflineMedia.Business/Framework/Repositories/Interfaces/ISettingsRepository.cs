@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Data.Enums;
 
 namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {
@@ -16,11 +17,11 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 
         List<SourceConfigurationModel> GetSampleSourceConfiguration();
         
-        Task<SettingModel> GetSettingByKey(SettingKeys key);
+        Task<SettingModel> GetSettingByKey(SettingKey key);
 
         Task<bool> SaveSettings();
         Task<bool> SaveSetting(SimpleSettingModel ssm);
-        Task<bool> SaveSettingByKey(SettingKeys key, string value);
+        Task<bool> SaveSettingByKey(SettingKey key, string value);
 
         Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid);
     }

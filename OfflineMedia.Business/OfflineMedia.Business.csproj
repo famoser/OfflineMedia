@@ -270,7 +270,7 @@
     <Compile Include="Enums\Models\ContentTextType.cs" />
     <Compile Include="Enums\Models\ContentType.cs" />
     <Compile Include="Enums\Models\ImageState.cs" />
-    <Compile Include="Enums\Settings\SettingKeys.cs" />
+    <Compile Include="Enums\Models\TextType.cs" />
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Framework\Communication\ServerResponse.cs" />
     <Compile Include="Framework\Generic\EntityModelConverter.cs" />
@@ -304,15 +304,18 @@
     <Compile Include="Models\Configuration\SettingModel.cs" />
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
-    <Compile Include="Models\NewsModel\ContentModel.cs" />
+    <Compile Include="Models\NewsModel\RelationModels\ContentModel.cs" />
     <Compile Include="Models\FeedModel.cs" />
-    <Compile Include="Models\NewsModel\GalleryModel.cs" />
-    <Compile Include="Models\NewsModel\ImageModel.cs" />
+    <Compile Include="Models\NewsModel\ContentModels\BaseContentModel.cs" />
+    <Compile Include="Models\NewsModel\ContentModels\GalleryContentModel.cs" />
+    <Compile Include="Models\NewsModel\ContentModels\ImageContentModel.cs" />
+    <Compile Include="Models\NewsModel\ContentModels\TextContentModel.cs" />
+    <Compile Include="Models\NewsModel\ContentModels\TextModel.cs" />
     <Compile Include="Framework\Communication\ServerRequestObject.cs" />
-    <Compile Include="Models\NewsModel\NMModels\RelatedArticleRelationModel.cs" />
-    <Compile Include="Models\NewsModel\NMModels\RelatedThemeRelationModel.cs" />
+    <Compile Include="Models\NewsModel\RelationModels\RelatedArticleRelationModel.cs" />
+    <Compile Include="Models\NewsModel\RelationModels\RelatedThemeRelationModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
-    <Compile Include="Models\NewsModel\NMModels\ThemeArticleRelationModel.cs" />
+    <Compile Include="Models\NewsModel\RelationModels\ThemeArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\ThemeModel.cs" />
     <Compile Include="Models\SpritzWord.cs" />
     <Compile Include="Models\WeatherModel\Forecast.cs" />
@@ -458,9 +461,7 @@
   <ItemGroup>
     <Compile Include="Sources\Stern\Models\Article.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\NewsModel\ContentModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

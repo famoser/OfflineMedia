@@ -1,7 +1,6 @@
-﻿using Famoser.SqliteWrapper.Attributes;
-using Famoser.SqliteWrapper.Entities;
+﻿using Famoser.SqliteWrapper.Entities;
 
-namespace OfflineMedia.Data.Entities.Contents
+namespace OfflineMedia.Data.Entities.Database.Contents
 {
     public class ContentEntity : EntityBase
     {

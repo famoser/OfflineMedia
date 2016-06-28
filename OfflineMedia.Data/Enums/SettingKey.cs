@@ -1,6 +1,6 @@
-﻿namespace OfflineMedia.Business.Enums.Settings
+﻿namespace OfflineMedia.Data.Enums
 {
-    public enum SettingKeys
+    public enum SettingKey
     {
         WordsPerMinute = 1,
         FontSize = 2,

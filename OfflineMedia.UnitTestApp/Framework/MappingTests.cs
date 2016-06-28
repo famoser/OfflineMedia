@@ -8,7 +8,10 @@ using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Data.Entities;
 using OfflineMedia.Data.Entities.Contents;
-using OfflineMedia.Data.Entities.Relations;
+using OfflineMedia.Data.Entities.Database;
+using OfflineMedia.Data.Entities.Database.Contents;
+using OfflineMedia.Data.Entities.Database.Relations;
+using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Enums;
 using OfflineMedia.Data.Repository;
 

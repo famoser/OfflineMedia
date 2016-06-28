@@ -1,4 +1,5 @@
-﻿using OfflineMedia.Data.Repository;
+﻿using Famoser.SqliteWrapper.Attributes;
+using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {
