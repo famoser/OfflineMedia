@@ -329,19 +329,20 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\wpa81\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.4\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Lumia.Sense, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LumiaSensorCoreSDK.1.1.1.1\lib\portable-wpa81+wp81\x86\Lumia.Sense.winmd</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Windows, Version=1.1.0.1906, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsApps.1.1.0\lib\wpa81\Microsoft.ApplicationInsights.Extensibility.Windows.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Windows, Version=1.1.1.482, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsApps.1.1.1\lib\wpa81\Microsoft.ApplicationInsights.Extensibility.Windows.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights.PersistenceChannel, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

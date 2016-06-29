@@ -30,7 +30,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -2191,7 +2191,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -4426,7 +4426,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -6697,7 +6697,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -8941,7 +8941,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -11221,7 +11221,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -13465,7 +13465,7 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9": {
+      "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
         },
@@ -15750,12 +15750,12 @@
         "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll"
       ]
     },
-    "HtmlAgilityPack/1.4.9": {
-      "sha512": "anZIsi7bbHZ35ZZzvCA+gVWC/mEXVhcJjJvxr3wzUEDsOE4uk0Fa0ZiaxVn83AZpVKVO4RHyqamPkzzJbMUgmQ==",
+    "HtmlAgilityPack/1.4.9.4": {
+      "sha512": "p6Pn2eVAdEt9wK+fF6O65Rx1ddnfGMC9HI2W5V8MCOLr1jPBjXkIBs63LQbRLfuQveXa/qg+atl5N2njrJlrlw==",
       "type": "package",
       "files": [
         "HAPIcon.png",
-        "HtmlAgilityPack.1.4.9.nupkg.sha512",
+        "HtmlAgilityPack.1.4.9.4.nupkg.sha512",
         "HtmlAgilityPack.nuspec",
         "lib/Net20/HtmlAgilityPack.dll",
         "lib/Net20/HtmlAgilityPack.pdb",
@@ -15777,10 +15777,6 @@
         "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
-        "lib/sl3-wp/_._",
-        "lib/sl4/HtmlAgilityPack.XML",
-        "lib/sl4/HtmlAgilityPack.dll",
-        "lib/sl4/HtmlAgilityPack.pdb",
         "lib/sl5/HtmlAgilityPack.XML",
         "lib/sl5/HtmlAgilityPack.dll",
         "lib/sl5/HtmlAgilityPack.pdb",
@@ -22076,7 +22072,7 @@
     "": [
       "Famoser.FrameworkEssentials >= 2.6.3",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.1.2",
-      "HtmlAgilityPack >= 1.4.9",
+      "HtmlAgilityPack >= 1.4.9.4",
       "Microsoft.ApplicationInsights >= 2.1.0",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 1.2.3",
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",

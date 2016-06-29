@@ -2,7 +2,7 @@
 
 namespace OfflineMedia.Data.Entities.Database
 {
-    public class ThemeEntity : EntityBase
+    public class ThemeEntity : BaseEntity
     {
         public string Name { get; set; }
     }

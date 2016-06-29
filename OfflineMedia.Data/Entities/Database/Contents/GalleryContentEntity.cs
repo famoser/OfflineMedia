@@ -2,7 +2,7 @@
 
 namespace OfflineMedia.Data.Entities.Database.Contents
 {
-    public class GalleryContentEntity : EntityBase
+    public class GalleryContentEntity : BaseEntity
     {
         public string Url { get; set; }
         public int TextContentId { get; set; }

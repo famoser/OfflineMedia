@@ -273,20 +273,17 @@
     <Compile Include="Enums\Models\TextType.cs" />
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Framework\Communication\ServerResponse.cs" />
-    <Compile Include="Framework\Generic\EntityModelConverter.cs" />
     <Compile Include="Framework\Repositories\AktualizeArticles.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IApiRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IArticleRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\ISettingsRepository.cs" />
     <Compile Include="Framework\Repositories\ApiRepository.cs" />
     <Compile Include="Framework\Repositories\ArticleRepository.cs" />
-    <Compile Include="Framework\Repositories\GenericRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IThemeRepository.cs" />
     <Compile Include="Framework\Repositories\Interfaces\IWeatherRepository.cs" />
     <Compile Include="Framework\Repositories\SettingsRepository.cs" />
     <Compile Include="Framework\Repositories\ThemeRepository.cs" />
     <Compile Include="Framework\Repositories\WeatherRepository.cs" />
-    <Compile Include="Framework\SqliteDataService.cs" />
     <Compile Include="Framework\UnitOfWork.cs" />
     <Compile Include="Helpers\ArticleHelper.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
@@ -401,7 +398,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.SqliteWrapper.1.0.4\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
+      <HintPath>..\packages\Famoser.SqliteWrapper.1.1.0\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -412,8 +409,8 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10\GalaSoft.MvvmLight.Extras.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.4\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">

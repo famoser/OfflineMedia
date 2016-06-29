@@ -3,7 +3,7 @@ using Famoser.SqliteWrapper.Entities;
 
 namespace OfflineMedia.Data.Entities.Database
 {
-    public class ArticleEntity : EntityBase
+    public class ArticleEntity : BaseEntity
     {
         public string Uri { get; set; }
 

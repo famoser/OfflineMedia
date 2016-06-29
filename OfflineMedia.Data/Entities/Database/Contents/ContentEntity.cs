@@ -2,7 +2,7 @@
 
 namespace OfflineMedia.Data.Entities.Database.Contents
 {
-    public class ContentEntity : EntityBase
+    public class ContentEntity : BaseEntity
     {
         public int ArticleId { get; set; }
         public int Index { get; set; }
