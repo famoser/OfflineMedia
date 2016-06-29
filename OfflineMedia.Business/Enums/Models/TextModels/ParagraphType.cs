@@ -9,6 +9,7 @@ namespace OfflineMedia.Business.Enums.Models.TextModels
     public enum ParagraphType
     {
         Title,
-        Text
+        Text,
+        Quote
     }
 }

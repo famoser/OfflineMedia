@@ -9,7 +9,6 @@ namespace OfflineMedia.Business.Enums.Models
     public enum TextType
     {
         Normal,
-        Title,
         Hyperlink,
         Bold,
         Underline,
