@@ -11,7 +11,8 @@ namespace OfflineMedia.Business.Models
         public Data.Enums.Sources Source { get; set; }
         public string LogicBaseUrl { get; set; }
         public string PublicBaseUrl { get; set; }
-        
-        public ObservableCollection<FeedModel> FeedList { get; } = new ObservableCollection<FeedModel>();
+
+        public ObservableCollection<FeedModel> ActiveFeeds { get; } = new ObservableCollection<FeedModel>();
+        public ObservableCollection<FeedModel> AllFeeds { get; } = new ObservableCollection<FeedModel>();
     }
 }

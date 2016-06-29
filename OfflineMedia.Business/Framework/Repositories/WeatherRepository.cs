@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.WeatherModel;
+using OfflineMedia.Business.Newspapers.OpenWeatherMap;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Business.Sources.OpenWeatherMap;
 
 namespace OfflineMedia.Business.Framework.Repositories
 {

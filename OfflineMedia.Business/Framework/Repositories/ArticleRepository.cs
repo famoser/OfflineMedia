@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
+using OfflineMedia.Business.Enums.Models.TextModels;
 using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Helpers.Text;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
+using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data;
@@ -40,58 +44,22 @@ namespace OfflineMedia.Business.Framework.Repositories
             _platformCodeService = platformCodeService;
         }
 
-        public ObservableCollection<SourceModel> GetSampleArticles()
-        {
-            var oc = new ObservableCollection<SourceModel>();
-            for (int i = 0; i < 3; i++)
-            {
-                var sourceModel = new SourceModel()
-                {
-                    SourceConfiguration = new SourceConfigurationModel()
-                    {
-                        BoolValue = true,
-                        SourceNameLong = "Long Source Name",
-                        SourceNameShort = "Short Source Name"
-                    },
-                    FeedList = new ObservableCollection<FeedModel>()
-                };
-                for (int j = 0; j < 3; j++)
-                {
-                    var feedModel = new FeedModel()
-                    {
-                        ArticleList = new ObservableCollection<ArticleModel>()
-                        {
-                            GetSampleArticle(),
-                            GetSampleArticle(),
-                            GetSampleArticle(),
-                            GetSampleArticle(),
-                            GetSampleArticle(),
-                        },
-                        Source = sourceModel,
-                        FeedConfiguration = new FeedConfigurationModel()
-                        {
-                            Name = "Feed",
-                            BoolValue = true
-                        },
-                    };
-                    sourceModel.FeedList.Add(feedModel);
-                }
-                oc.Add(sourceModel);
-            }
-            return oc;
-        }
-
         public ArticleModel GetInfoArticle()
         {
-            return new ArticleModel()
+            var model = new ArticleModel()
             {
                 Author = "Florian Moser",
-                Content = new List<ContentModel>
-                {
-                    new ContentModel()
+                Title = "Info",
+                SubTitle = "Informationen über diese App",
+                Teaser = "OfflineMedia erlaubt das Lesen der öffentlichen Onlineausgabe von Zeitungen, auch wenn gerade kein Internet verfügbar ist.",
+                DownloadDateTime = DateTime.Now,
+                PublishDateTime = DateTime.Now,
+                LoadingState = LoadingState.Loaded,
+                PublicUri = "http://offlinemedia.florianalexandermoser.ch/"
+            };
+            model.Content.Add(new TextContentModel()
                     {
-                        ContentType = ContentType.Html,
-                        Html = "<h1>Über diese App</h1>" +
+                        Content = HtmlConverter.HtmlToParagraph("<h1>Über diese App</h1>" +
                                 "<p> " +
                                 "Die App versucht sich bei jedem Start zu aktualisieren. Ist kein Internet vorhanden, werden die Artikel des letzten Downloads angezeigt. " +
                                 "<br /><br />" +
@@ -113,20 +81,10 @@ namespace OfflineMedia.Business.Framework.Repositories
                                 "<p>Mein Name ist Florian Moser, ich bin ein Programmierer aus Allschwil, Schweiz. <br /><br />" +
                                 "Neben Apps entwickle ich auch Webseiten und Webapplikationen. Ein Kontaktformular und weitere Informationen über meine Projekte sind auf meiner Webseite zu finden.</p>" +
                                 "<p><b>Webseite:</b> florianalexandermoser.ch<br />" +
-                                "<b>E-Mail:</b> OfflineMedia@outlook.com</p>"
+                                "<b>E-Mail:</b> OfflineMedia@outlook.com</p>")
                     }
-                },
-                Title = "Info",
-                SubTitle = "Informationen über diese App",
-                Teaser = "OfflineMedia erlaubt das Lesen der öffentlichen Onlineausgabe von Zeitungen, auch wenn gerade kein Internet verfügbar ist.",
-                Themes = new List<ThemeModel>() { new ThemeModel() { Name = "Info" } },
-                ChangeDate = DateTime.Now,
-                CreateDate = DateTime.Now,
-                IsStatic = true,
-                PublicationTime = DateTime.Now,
-                State = ArticleState.Loaded,
-                PublicUri = new Uri("http://offlinemedia.florianalexandermoser.ch/")
-            };
+                );
+            return model;
         }
 
         public ArticleModel GetEmptyFeedArticle()
@@ -427,7 +385,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error,  "AddModels failed!",this, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "AddModels failed!", this, ex);
             }
             return model;
         }

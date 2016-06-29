@@ -6,8 +6,8 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Sources;
-using OfflineMedia.Business.Sources.Bild;
+using OfflineMedia.Business.Newspapers;
+using OfflineMedia.Business.Newspapers.Bild;
 using OfflineMedia.SourceTests.Helpers;
 
 namespace OfflineMedia.SourceTests

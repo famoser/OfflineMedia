@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Sources;
-using OfflineMedia.Business.Sources.Zeit;
+using OfflineMedia.Business.Newspapers;
+using OfflineMedia.Business.Newspapers.Zeit;
 using OfflineMedia.SourceTests.Helpers;
 
 namespace OfflineMedia.SourceTests

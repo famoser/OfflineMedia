@@ -3,9 +3,11 @@ using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {
-    public class ThemeModel : BaseModel
+    public class ThemeModel : BaseIdModel
     {
         [EntityMap]
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        [EntityMap]
+        public string SaveName { get; set; }
     }
 }

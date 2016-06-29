@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Sources.Bild.Models.Feed;
+using OfflineMedia.Business.Newspapers.Bild.Models.Feed;
 
 namespace Utils.BildLinkAggregator
 {

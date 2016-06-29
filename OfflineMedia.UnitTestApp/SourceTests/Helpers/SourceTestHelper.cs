@@ -9,7 +9,7 @@ using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Sources;
+using OfflineMedia.Business.Newspapers;
 using OfflineMedia.Fakes;
 
 namespace OfflineMedia.SourceTests.Helpers

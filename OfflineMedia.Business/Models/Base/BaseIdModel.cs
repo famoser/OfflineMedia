@@ -8,8 +8,7 @@ namespace OfflineMedia.Business.Models.NewsModel
 {
     public class BaseIdModel: BaseModel, ISqliteModel
     {
-        [EntityMap]
-        public int Id { get; set; }
+        private int Id { get; set; }
 
         public int GetId()
         {

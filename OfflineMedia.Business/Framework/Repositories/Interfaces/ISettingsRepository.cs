@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Enums.Settings;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Data.Enums;
 
@@ -9,20 +11,14 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {
     public interface ISettingsRepository
     {
-        Task<List<SourceConfigurationModel>> GetSourceConfigurations();
+        ObservableCollection<SettingModel> GetSettings();
 
-        Task<List<SettingModel>> GetAllSettings();
-
-        List<SettingModel> GetSampleSettings();
-
-        List<SourceConfigurationModel> GetSampleSourceConfiguration();
+        Task<SettingModel> GetSettingByKeyAsync(SettingKey key);
         
-        Task<SettingModel> GetSettingByKey(SettingKey key);
+        Task<bool> SaveSettingAsync(SettingKey ssm);
+        Task<bool> SetFeedActiveStateAsync(FeedModel feedModel, bool isActive);
+        Task<bool> SetSourceActiveStateAsync(SourceModel sourceModel, bool isActive);
 
-        Task<bool> SaveSettings();
-        Task<bool> SaveSetting(SimpleSettingModel ssm);
-        Task<bool> SaveSettingByKey(SettingKey key, string value);
-
-        Task<FeedConfigurationModel> GetFeedConfigurationFor(Guid guid);
+        ObservableCollection<SettingModel> GetSampleSettings();
     }
 }

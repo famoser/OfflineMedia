@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Attributes;
 using OfflineMedia.Business.Models.NewsModel.ContentModels;
+using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
 namespace OfflineMedia.Data.Entities.Contents
 {
@@ -13,6 +14,6 @@ namespace OfflineMedia.Data.Entities.Contents
     {
         [EntityMap]
         public string ContentJson { get; set; }
-        public ObservableCollection<TextModel> Content { get; set; }
+        public ObservableCollection<ParagraphModel> Content { get; set; }
     }
 }

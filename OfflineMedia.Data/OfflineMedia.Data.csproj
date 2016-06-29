@@ -232,7 +232,6 @@
     <Compile Include="Entities\Database\Contents\GalleryContentEntity.cs" />
     <Compile Include="Entities\Database\Relations\FeedArticleRelationEntity.cs" />
     <Compile Include="Entities\Database\Contents\ImageContentEntity.cs" />
-    <Compile Include="Entities\Database\Relations\RelatedThemeRelations.cs" />
     <Compile Include="Entities\Database\Relations\ThemeArticleRelations.cs" />
     <Compile Include="Entities\Database\ThemeEntity.cs" />
     <Compile Include="Entities\Storage\Base\StorageEntityBase.cs" />

@@ -8,14 +8,13 @@ using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Services;
+using OfflineMedia.Data.Entities.Contents;
 using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {
     public class ArticleModel : BaseIdModel
     {
-        public string Uri { get; set; }
-        
         private string _title;
         [EntityMap]
         public string Title
@@ -80,17 +79,18 @@ namespace OfflineMedia.Business.Models.NewsModel
             set { Set(ref _downloadDateTime, value); }
         }
 
-        private ImageModel _leadImage;
-        public ImageModel LeadImage
+        private ImageContentModel _leadImage;
+        public ImageContentModel LeadImage
         {
             get { return _leadImage; }
             set { Set(ref _leadImage, value); }
         }
         
         public ObservableCollection<ThemeModel> Themes { get;  } = new ObservableCollection<ThemeModel>();
-        
-        public ObservableCollection<ArticleModel> RelatedArticles { get; } = new ObservableCollection<ArticleModel>();
-        
+        public ObservableCollection<ArticleModel> RelatedThemesArticles { get; } = new ObservableCollection<ArticleModel>();
+        public ObservableCollection<ArticleModel> RelatedContentArticles { get; } = new ObservableCollection<ArticleModel>();
         public ObservableCollection<BaseContentModel> Content { get; } = new ObservableCollection<BaseContentModel>();
+
+        public FeedModel Feed { get; set; }
     }
 }

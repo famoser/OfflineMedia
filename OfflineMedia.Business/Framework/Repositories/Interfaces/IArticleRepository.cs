@@ -8,30 +8,28 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {
     public interface IArticleRepository
     {
-        Task<ObservableCollection<SourceModel>> GetSources();
-        Task<SourceModel> GetFavorites();
+        ObservableCollection<SourceModel> GetActiveSources();
+        ObservableCollection<SourceModel> GetAllSources();
 
+        Task<bool> LoadFullArticleAsync(ArticleModel am);
+        Task<bool> LoadFullFeedAsync(FeedModel fm);
+
+        Task<bool> ActualizeAllArticlesAsync();
+        Task<bool> ActualizeArticleAsync(ArticleModel am);
+
+        Task<bool> SetArticleFavoriteStateAsync(ArticleModel am, bool isFavorite);
+        Task<bool> MarkArticleAsReadAsync(ArticleModel am);
+
+        /// <summary>
+        /// Get article explaining what this application is
+        /// </summary>
+        /// <returns></returns>
         ArticleModel GetInfoArticle();
-        ArticleModel GetEmptyFeedArticle();
-
-        Task ActualizeArticles();
-        Task<bool> ActualizeArticle(ArticleModel am);
-
-        Task<bool> UpdateArticleState(ArticleModel am);
-
-        Task<bool> UpdateArticleFavorite(ArticleModel am);
-
-        Task LoadMoreArticleContent(ArticleModel am, bool content = false);
-
-        Task<ObservableCollection<ArticleModel>> GetArticlesByFeed(Guid feedId, int max = 0, int skip = 0);
-
-        Task<ObservableCollection<ArticleModel>> GetSimilarCathegoriesArticles(ArticleModel article, int max);
-        Task<ObservableCollection<ArticleModel>> GetSimilarTitlesArticles(ArticleModel article, int max);
 
         /// <summary>
         /// for design view
         /// </summary>
         /// <returns></returns>
-        ObservableCollection<SourceModel> GetSampleArticles();
+        ObservableCollection<SourceModel> GetSampleSources();
     }
 }
