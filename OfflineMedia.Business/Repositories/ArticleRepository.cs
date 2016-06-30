@@ -145,12 +145,12 @@ namespace OfflineMedia.Business.Repositories
             var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == feed.Guid.ToString(), s => s.Index, false, max, feed.ArticleList.Count);
             foreach (var feedArticleRelationEntity in relations)
             {
-                var article = await _articleGenericRepository.GetById(feedArticleRelationEntity.ArticleId);
+                var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
                 feed.ArticleList.Add(article);
                 var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == article.GetId() && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
                 if (contents?.FirstOrDefault() != null)
                 {
-                    var image = await _imageContentGenericRepository.GetById(contents.FirstOrDefault().ContentId);
+                    var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
                     article.LeadImage = image;
                 }
             }
@@ -167,26 +167,26 @@ namespace OfflineMedia.Business.Repositories
                     {
                         case (int)ContentType.Text:
                             {
-                                var text = await _textContentGenericRepository.GetById(contentEntity.ContentId);
+                                var text = await _textContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
                                 text.Content = JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(text.ContentJson);
                                 am.Content.Add(text);
                                 break;
                             }
                         case (int)ContentType.Image:
                             {
-                                var image = await _imageContentGenericRepository.GetById(contentEntity.ContentId);
+                                var image = await _imageContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
                                 am.Content.Add(image);
                                 break;
                             }
                         case (int)ContentType.Gallery:
                             {
                                 var galleryContents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == am.GetId(), s => s.Index, false, 0, 0);
-                                var gallery = await _galleryContentGenericRepository.GetById(contentEntity.ContentId);
+                                var gallery = await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
                                 am.Content.Add(gallery);
 
                                 foreach (var galleryContent in galleryContents.Where(g => g.ContentType == (int)ContentType.Image))
                                 {
-                                    var image = await _imageContentGenericRepository.GetById(galleryContent.ContentId);
+                                    var image = await _imageContentGenericRepository.GetByIdAsync(galleryContent.ContentId);
                                     gallery.Images.Add(image);
                                 }
                                 break;
@@ -214,7 +214,7 @@ namespace OfflineMedia.Business.Repositories
             return ExecuteSafe(async () =>
             {
                 am.IsFavorite = isFavorite;
-                return await _articleGenericRepository.Update(am);
+                return await _articleGenericRepository.UpdateAsyc(am);
             });
         }
 
@@ -223,7 +223,7 @@ namespace OfflineMedia.Business.Repositories
             return ExecuteSafe(async () =>
             {
                 am.IsRead = true;
-                return await _articleGenericRepository.Update(am);
+                return await _articleGenericRepository.UpdateAsyc(am);
             });
         }
 

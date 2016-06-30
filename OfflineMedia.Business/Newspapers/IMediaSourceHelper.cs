@@ -8,7 +8,7 @@ namespace OfflineMedia.Business.Newspapers
 {
     public interface IMediaSourceHelper
     {
-        Task<bool> EvaluateFeed(FeedModel feedModel);
+        Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel);
 
         Task<bool> EvaluateArticle(ArticleModel articleModel);
     }
