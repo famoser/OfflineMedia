@@ -11,6 +11,8 @@ namespace OfflineMedia.Data.Entities.Database
         public string SubTitle { get; set; }
         public string Teaser { get; set; }
         public string Author { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsFavorite { get; set; }
 
         public string LogicUri { get; set; }
         public string PublicUri { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Business.Helpers
+namespace OfflineMedia.Business.Helpers.Text
 {
     // ReSharper disable StringIndexOfIsCultureSpecific.1
     // ReSharper disable StringLastIndexOfIsCultureSpecific.1

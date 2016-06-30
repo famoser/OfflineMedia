@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Framework.Repositories.Interfaces
+namespace OfflineMedia.Business.Repositories.Interfaces
 {
     public interface ISettingsRepository
     {

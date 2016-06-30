@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfflineMedia.Business.Enums.Models;
+﻿using System.Collections.Generic;
+using OfflineMedia.Business.Enums.Models.TextModels;
 
-namespace OfflineMedia.Business.Models.NewsModel.ContentModels
+namespace OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels
 {
     public class TextModel
     {

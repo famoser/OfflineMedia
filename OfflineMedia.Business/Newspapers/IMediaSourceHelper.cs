@@ -8,8 +8,8 @@ namespace OfflineMedia.Business.Newspapers
 {
     public interface IMediaSourceHelper
     {
-        Task<bool> EvaluateFeed(Uri feed, FeedModel feedModel);
+        Task<bool> EvaluateFeed(FeedModel feedModel);
 
-        Task<bool> EvaluateArticle(Uri article, ArticleModel articleModel);
+        Task<bool> EvaluateArticle(ArticleModel articleModel);
     }
 }

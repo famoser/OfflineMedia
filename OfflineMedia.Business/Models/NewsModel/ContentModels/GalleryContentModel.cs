@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Famoser.SqliteWrapper.Attributes;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
 
-namespace OfflineMedia.Data.Entities.Contents
+namespace OfflineMedia.Business.Models.NewsModel.ContentModels
 {
     public class GalleryContentModel : BaseContentModel
     {

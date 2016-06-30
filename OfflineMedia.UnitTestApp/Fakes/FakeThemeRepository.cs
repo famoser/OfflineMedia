@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.NMModels;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Data;
 #pragma warning disable 1998
 

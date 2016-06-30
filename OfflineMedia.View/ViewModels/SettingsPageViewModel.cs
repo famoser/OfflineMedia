@@ -8,8 +8,9 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.Configuration.Base;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Business.Services;
 using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
 

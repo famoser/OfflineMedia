@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Models.WeatherModel
+﻿namespace OfflineMedia.Business.Enums.Models
 {
     public enum WeatherLevel
     {

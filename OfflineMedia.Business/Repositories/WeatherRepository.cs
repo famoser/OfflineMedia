@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Attributes;
+using Famoser.FrameworkEssentials.Helpers;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.FrameworkEssentials.Services;
+using Famoser.FrameworkEssentials.Services.Interfaces;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
-using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Models.WeatherModel;
 using OfflineMedia.Business.Newspapers.OpenWeatherMap;
-using OfflineMedia.Business.Services;
+using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Framework.Repositories
+namespace OfflineMedia.Business.Repositories
 {
     public class WeatherRepository : IWeatherRepository
     {
@@ -33,15 +36,16 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 if (_weatherFontMapping == null)
                 {
-                    var json = await _storageService.GetWeatherFontJson();
+                    var json = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.WeatherFontInformations).Description);
                     _weatherFontMapping = json != null ? JsonConvert.DeserializeObject<Dictionary<string, string>>(json) : new Dictionary<string, string>();
                 }
 
                 Uri url = GetApiUrl(cityName);
-                string feedresult = await Download.DownloadStringAsync(url);
-                if (feedresult != null)
+                var service = new HttpService();
+                var feedresult = await service.DownloadAsync(url);
+                if (feedresult.IsRequestSuccessfull)
                 {
-                    var forecast = OpenWeatherMapHelper.EvaluateFeed(feedresult, _weatherFontMapping);
+                    var forecast = OpenWeatherMapHelper.EvaluateFeed(await feedresult.GetResponseAsStringAsync(), _weatherFontMapping);
                     return forecast;
                 }
             }

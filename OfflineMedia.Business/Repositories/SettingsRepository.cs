@@ -7,25 +7,19 @@ using Famoser.FrameworkEssentials.Attributes;
 using Famoser.FrameworkEssentials.Helpers;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.Services.Interfaces;
-using Famoser.SqliteWrapper.Repositories;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
 using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
-using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Managers;
-using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Business.Repositories.Base;
-using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Entities;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Entities.Storage.Settings;
 using OfflineMedia.Data.Enums;
-using ValueType = OfflineMedia.Business.Enums.Settings.ValueType;
 
-namespace OfflineMedia.Business.Framework.Repositories
+namespace OfflineMedia.Business.Repositories
 {
     public class SettingsRepository : BaseRepository, ISettingsRepository
     {
@@ -74,7 +68,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                             await
                                 _storageService.GetCachedTextFileAsync(
                                     ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(
-                                        FileKeys.UserConfiguration).Description);
+                                        FileKeys.SettingsUserConfiguration).Description);
 
                         if (!string.IsNullOrEmpty(json))
                         {
@@ -111,7 +105,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             return ExecuteSafe(async () =>
             {
                 var json = JsonConvert.SerializeObject(SettingManager.GetSettingCache());
-                return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.UserConfiguration).Description, json);
+                return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description, json);
             });
         }
 

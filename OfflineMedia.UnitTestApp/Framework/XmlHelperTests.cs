@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Helpers.Text;
 
 namespace OfflineMedia.Framework
 {

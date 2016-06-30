@@ -1,7 +1,6 @@
 ﻿using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
 
-namespace OfflineMedia.Data.Entities.Contents
+namespace OfflineMedia.Business.Models.NewsModel.ContentModels
 {
     public class ImageContentModel : BaseContentModel
     {

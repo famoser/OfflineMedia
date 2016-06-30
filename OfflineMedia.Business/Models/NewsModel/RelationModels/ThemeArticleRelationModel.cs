@@ -1,7 +1,7 @@
 ﻿using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Data.Repository;
+using OfflineMedia.Business.Models.Base;
 
-namespace OfflineMedia.Business.Models.NewsModel.NMModels
+namespace OfflineMedia.Business.Models.NewsModel.RelationModels
 {
     public class ThemeArticleRelationModel : BaseModel
     {

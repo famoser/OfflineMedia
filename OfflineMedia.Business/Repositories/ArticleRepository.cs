@@ -13,30 +13,24 @@ using Newtonsoft.Json;
 using Nito.AsyncEx;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Enums.Models.TextModels;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Helpers.Text;
 using OfflineMedia.Business.Managers;
 using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
-using OfflineMedia.Business.Models.NewsModel.NMModels;
 using OfflineMedia.Business.Repositories.Base;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Data;
-using OfflineMedia.Data.Entities;
-using OfflineMedia.Data.Entities.Contents;
 using OfflineMedia.Data.Entities.Database;
 using OfflineMedia.Data.Entities.Database.Contents;
 using OfflineMedia.Data.Entities.Database.Relations;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Entities.Storage.Settings;
-using OfflineMedia.Data.Helpers;
+using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Framework.Repositories
+namespace OfflineMedia.Business.Repositories
 {
     public partial class ArticleRepository : BaseRepository, IArticleRepository
     {
@@ -49,6 +43,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         private readonly GenericRepository<ArticleModel, ArticleEntity> _articleGenericRepository;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _imageContentGenericRepository;
+        private readonly GenericRepository<TextContentModel, TextContentEntity> _textContentGenericRepository;
+        private readonly GenericRepository<GalleryContentModel, GalleryContentEntity> _galleryContentGenericRepository;
 
 #pragma warning disable 4014
         public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService, IPlatformCodeService platformCodeService, IStorageService storageService, ISqliteService sqliteService)
@@ -62,6 +58,8 @@ namespace OfflineMedia.Business.Framework.Repositories
 
             _articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(_sqliteService);
             _imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(_sqliteService);
+            _textContentGenericRepository = new GenericRepository<TextContentModel, TextContentEntity>(_sqliteService);
+            _galleryContentGenericRepository = new GenericRepository<GalleryContentModel, GalleryContentEntity>(_sqliteService);
 
             Initialize();
         }
@@ -91,12 +89,12 @@ namespace OfflineMedia.Business.Framework.Repositories
                     if (_isInitialized)
                         return;
 
-                    var jsonAssets = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsConfiguration).Description);
+                    var jsonAssets = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesConfiguration).Description);
                     var feeds = JsonConvert.DeserializeObject<List<SourceEntity>>(jsonAssets);
 
                     try
                     {
-                        var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.UserConfiguration).Description);
+                        var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description);
 
                         if (!string.IsNullOrEmpty(json))
                             _sourceCacheEntity = JsonConvert.DeserializeObject<SourceCacheEntity>(json);
@@ -133,6 +131,7 @@ namespace OfflineMedia.Business.Framework.Repositories
                     foreach (var feedModel in feedsToLoad)
                     {
                         //todo: remove await? not sure if sqlite is threadsafe
+                        //if so, remember to do LoadArticlesIntoToFeed Safe
                         await LoadArticlesIntoToFeed(feedModel, 5);
                     }
 
@@ -148,7 +147,7 @@ namespace OfflineMedia.Business.Framework.Repositories
             {
                 var article = await _articleGenericRepository.GetById(feedArticleRelationEntity.ArticleId);
                 feed.ArticleList.Add(article);
-                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ArticleId == article.GetId() && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
+                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == article.GetId() && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
                 if (contents?.FirstOrDefault() != null)
                 {
                     var image = await _imageContentGenericRepository.GetById(contents.FirstOrDefault().ContentId);
@@ -157,44 +156,98 @@ namespace OfflineMedia.Business.Framework.Repositories
             }
         }
 
-        public async Task<bool> LoadFullArticleAsync(ArticleModel am)
+        public Task<bool> LoadFullArticleAsync(ArticleModel am)
         {
-            throw new NotImplementedException();
+            return ExecuteSafe(async () =>
+            {
+                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == am.GetId(), s => s.Index, false, 0, 0);
+                foreach (var contentEntity in contents)
+                {
+                    switch (contentEntity.ContentType)
+                    {
+                        case (int)ContentType.Text:
+                            {
+                                var text = await _textContentGenericRepository.GetById(contentEntity.ContentId);
+                                text.Content = JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(text.ContentJson);
+                                am.Content.Add(text);
+                                break;
+                            }
+                        case (int)ContentType.Image:
+                            {
+                                var image = await _imageContentGenericRepository.GetById(contentEntity.ContentId);
+                                am.Content.Add(image);
+                                break;
+                            }
+                        case (int)ContentType.Gallery:
+                            {
+                                var galleryContents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == am.GetId(), s => s.Index, false, 0, 0);
+                                var gallery = await _galleryContentGenericRepository.GetById(contentEntity.ContentId);
+                                am.Content.Add(gallery);
+
+                                foreach (var galleryContent in galleryContents.Where(g => g.ContentType == (int)ContentType.Image))
+                                {
+                                    var image = await _imageContentGenericRepository.GetById(galleryContent.ContentId);
+                                    gallery.Images.Add(image);
+                                }
+                                break;
+                            }
+                    }
+                }
+
+
+                return true;
+            });
         }
 
         public Task<bool> LoadFullFeedAsync(FeedModel fm)
         {
-            throw new NotImplementedException();
-        }
+            return ExecuteSafe(async () =>
+            {
+                await LoadArticlesIntoToFeed(fm, 0);
 
-        public Task<bool> ActualizeAllArticlesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> ActualizeArticleAsync(ArticleModel am)
-        {
-            throw new NotImplementedException();
+                return true;
+            });
         }
 
         public Task<bool> SetArticleFavoriteStateAsync(ArticleModel am, bool isFavorite)
         {
-            throw new NotImplementedException();
+            return ExecuteSafe(async () =>
+            {
+                am.IsFavorite = isFavorite;
+                return await _articleGenericRepository.Update(am);
+            });
         }
 
         public Task<bool> MarkArticleAsReadAsync(ArticleModel am)
         {
-            throw new NotImplementedException();
+            return ExecuteSafe(async () =>
+            {
+                am.IsRead = true;
+                return await _articleGenericRepository.Update(am);
+            });
         }
 
         public Task<bool> SetFeedActiveStateAsync(FeedModel feedModel, bool isActive)
         {
-            throw new NotImplementedException();
+            SourceManager.SetFeedActiveState(feedModel, isActive);
+            _sourceCacheEntity.IsEnabledDictionary[feedModel.Guid] = isActive;
+            return SaveCache();
         }
 
         public Task<bool> SetSourceActiveStateAsync(SourceModel sourceModel, bool isActive)
         {
-            throw new NotImplementedException();
+            SourceManager.SetSourceActiveState(sourceModel, isActive);
+            _sourceCacheEntity.IsEnabledDictionary[sourceModel.Guid] = isActive;
+            return SaveCache();
+        }
+
+        private Task<bool> SaveCache()
+        {
+            return ExecuteSafe(async () =>
+            {
+                var json = JsonConvert.SerializeObject(_sourceCacheEntity);
+                return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description, json);
+            });
         }
 
         public ArticleModel GetInfoArticle()
@@ -242,7 +295,54 @@ namespace OfflineMedia.Business.Framework.Repositories
 
         public ObservableCollection<SourceModel> GetSampleSources()
         {
-            throw new NotImplementedException();
+            var article = GetSampleArticle();
+            var article2 = GetSampleArticle();
+            var sm = new SourceModel()
+            {
+                Abbreviation = "NZZ",
+                Guid = Guid.NewGuid(),
+                Source = Sources.Nzz,
+                Name = "Neue Zürcher Zeitung",
+                LogicBaseUrl = "http://api.nzz.ch/",
+                PublicBaseUrl = "http://nzz.ch/",
+
+            };
+            var fm = new FeedModel()
+            {
+                Name = "Home",
+                Guid = Guid.NewGuid(),
+                Source = sm,
+                Url = "home",
+                ArticleList =
+                {
+                    article,
+                    article2,
+                    article
+                }
+            };
+            var fm2 = new FeedModel()
+            {
+                Name = "Ausland",
+                Guid = Guid.NewGuid(),
+                Source = sm,
+                Url = "ausland",
+                ArticleList =
+                {
+                    article,
+                    article2,
+                    article
+                }
+            };
+            sm.ActiveFeeds.Add(fm);
+            sm.AllFeeds.Add(fm);
+            sm.AllFeeds.Add(fm2);
+            
+            return new ObservableCollection<SourceModel>()
+            {
+                sm,
+                sm,
+                sm
+            };
         }
 
         public ArticleModel GetEmptyFeedArticle()

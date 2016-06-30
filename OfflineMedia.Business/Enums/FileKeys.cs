@@ -6,11 +6,15 @@ namespace OfflineMedia.Business.Enums
     {
         [Description("database.sqlite3")]
         Database,
-        [Description("configuration.V1")]
-        UserConfiguration,
-        [Description("Assets/UserConfiguration/Settings_min.json")]
+        [Description("settings_configuration.V1")]
+        SettingsUserConfiguration,
+        [Description("sources_configuration.V1")]
+        SourcesUserConfiguration,
+        [Description("Assets/Configuration/Settings_min.json")]
         SettingsConfiguration,
-        [Description("Assets/UserConfiguration/Sources_min.json")]
-        SourcesConfiguration
+        [Description("Assets/Configuration/Sources_min.json")]
+        SourcesConfiguration,
+        [Description("Assets/Configuration/WeatherFontMapping.json")]
+        WeatherFontInformations
     }
 }

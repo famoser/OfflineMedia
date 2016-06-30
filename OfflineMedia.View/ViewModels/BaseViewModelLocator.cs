@@ -15,8 +15,8 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using OfflineMedia.Business.Framework.Repositories;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
+using OfflineMedia.Business.Repositories;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.View.ViewModels

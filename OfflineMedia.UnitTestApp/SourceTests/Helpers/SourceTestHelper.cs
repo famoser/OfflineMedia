@@ -5,11 +5,11 @@ using Windows.Storage;
 using Famoser.FrameworkEssentials.Singleton;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Newspapers;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Fakes;
 
 namespace OfflineMedia.SourceTests.Helpers
@@ -18,7 +18,7 @@ namespace OfflineMedia.SourceTests.Helpers
     {
         public async Task<List<SourceConfigurationModel>> GetSourceConfigs()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UserConfiguration/Source.json"));
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/SettingsUserConfiguration/Source.json"));
             var json = await FileIO.ReadTextAsync(file);
             var sc = JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
             foreach (var sourceConfigurationModel in sc)

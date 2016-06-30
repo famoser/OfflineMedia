@@ -5,9 +5,10 @@ using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
 using OfflineMedia.Business.Newspapers.Tamedia.Models;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Newspapers.Tamedia

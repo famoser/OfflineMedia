@@ -1,8 +1,6 @@
-﻿using System;
-using GalaSoft.MvvmLight;
-using OfflineMedia.Data.Repository;
+﻿using GalaSoft.MvvmLight;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace OfflineMedia.Business.Models.Base
 {
     public class BaseModel: ObservableObject
     {

@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Markup;
 using Famoser.FrameworkEssentials.Logging;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
 
 namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
 {

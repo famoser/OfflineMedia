@@ -6,6 +6,7 @@ using Famoser.FrameworkEssentials.Logging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
 using OfflineMedia.Business.Newspapers.Bild.Models.Article;
 using OfflineMedia.Business.Newspapers.Bild.Models.Feed;
 using ChildNode = OfflineMedia.Business.Newspapers.Bild.Models.Feed.ChildNode;

@@ -1,10 +1,6 @@
-﻿using System;
-using Famoser.SqliteWrapper.Attributes;
-using Famoser.SqliteWrapper.Models.Interfaces;
-using GalaSoft.MvvmLight;
-using OfflineMedia.Data.Repository;
+﻿using Famoser.SqliteWrapper.Models.Interfaces;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace OfflineMedia.Business.Models.Base
 {
     public class BaseIdModel: BaseModel, ISqliteModel
     {

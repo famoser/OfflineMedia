@@ -5,10 +5,10 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Repositories.Interfaces;
 
 namespace OfflineMedia.View.ViewModels
 {

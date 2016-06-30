@@ -5,10 +5,10 @@ using System.Linq;
 using Famoser.SqliteWrapper.Attributes;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
+using OfflineMedia.Business.Models.Base;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Entities.Contents;
 using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
@@ -45,6 +45,22 @@ namespace OfflineMedia.Business.Models.NewsModel
         {
             get { return _author; }
             set { Set(ref _author, value); }
+        }
+
+        private bool _isRead;
+        [EntityMap]
+        public bool IsRead
+        {
+            get { return _isRead; }
+            set { Set(ref _isRead, value); }
+        }
+
+        private bool _isFavorite;
+        [EntityMap]
+        public bool IsFavorite
+        {
+            get { return _isFavorite; }
+            set { Set(ref _isFavorite, value); }
         }
 
         [EntityMap]

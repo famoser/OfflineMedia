@@ -1,9 +1,7 @@
-﻿using System;
-using OfflineMedia.Business.Models.NewsModel;
+﻿using OfflineMedia.Business.Models.Base;
 using OfflineMedia.Data.Enums;
-using OfflineMedia.Data.Repository;
 
-namespace OfflineMedia.Business.Models.Configuration
+namespace OfflineMedia.Business.Models.Configuration.Base
 {
     public abstract class BaseSettingModel : BaseGuidModel
     {

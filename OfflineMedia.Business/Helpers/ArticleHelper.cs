@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Newspapers;
 using OfflineMedia.Business.Newspapers.Bild;
@@ -24,7 +25,7 @@ namespace OfflineMedia.Business.Helpers
 {
     public class ArticleHelper
     {
-        public static IMediaSourceHelper GetMediaSource(Sources source)
+        private static IMediaSourceHelper GetMediaSource(Sources source)
         {
             switch (source)
             {
@@ -75,6 +76,13 @@ namespace OfflineMedia.Business.Helpers
         {
             if (am.Feed?.Source != null)
                 return GetMediaSource(am.Feed.Source.Source);
+            return null;
+        }
+
+        public static IMediaSourceHelper GetMediaSource(FeedModel fm)
+        {
+            if (fm.Source != null)
+                return GetMediaSource(fm.Source.Source);
             return null;
         }
     }

@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Helpers.Text;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
 using OfflineMedia.Business.Newspapers.Welt.Models;
+using OfflineMedia.Business.Repositories.Interfaces;
 
 namespace OfflineMedia.Business.Newspapers.Welt
 {

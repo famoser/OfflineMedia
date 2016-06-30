@@ -6,8 +6,9 @@ using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.RelationModels;
+using OfflineMedia.Business.Repositories.Interfaces;
 
 namespace OfflineMedia.Business.Newspapers.Postillon
 {

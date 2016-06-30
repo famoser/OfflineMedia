@@ -8,9 +8,10 @@ using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Framework.Repositories.Interfaces;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Business.Models.WeatherModel;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Enums;
 

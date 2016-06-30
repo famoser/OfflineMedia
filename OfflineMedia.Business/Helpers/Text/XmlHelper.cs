@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Famoser.FrameworkEssentials.Logging;
 
-namespace OfflineMedia.Business.Helpers
+namespace OfflineMedia.Business.Helpers.Text
 {
     public class XmlHelper
     {

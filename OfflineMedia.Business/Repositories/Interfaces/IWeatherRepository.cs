@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using OfflineMedia.Business.Models.WeatherModel;
 
-namespace OfflineMedia.Business.Framework.Repositories.Interfaces
+namespace OfflineMedia.Business.Repositories.Interfaces
 {
     public interface IWeatherRepository
     {

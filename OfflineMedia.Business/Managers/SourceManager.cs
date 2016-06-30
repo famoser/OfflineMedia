@@ -42,16 +42,20 @@ namespace OfflineMedia.Business.Managers
             return AllSources;
         }
 
-        public static void MarkFeedActive(FeedModel fm)
+        public static void SetFeedActiveState(FeedModel fm, bool isActive)
         {
-            if (!fm.Source.ActiveFeeds.Contains(fm))
+            if (isActive && !fm.Source.ActiveFeeds.Contains(fm))
                 fm.Source.ActiveFeeds.Add(fm);
+            else if (!isActive && fm.Source.ActiveFeeds.Contains(fm))
+                fm.Source.ActiveFeeds.Remove(fm);
         }
 
-        public static void MarkFeedInActive(FeedModel fm)
+        public static void SetSourceActiveState(SourceModel sm, bool isActive)
         {
-            if (fm.Source.ActiveFeeds.Contains(fm))
-                fm.Source.ActiveFeeds.Remove(fm);
+            if (isActive && !ActiveSources.Contains(sm))
+                ActiveSources.Add(sm);
+            else if (!isActive && ActiveSources.Contains(sm))
+                ActiveSources.Remove(sm);
         }
     }
 }

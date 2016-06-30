@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight.Views;
 using Microsoft.ApplicationInsights;
 using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Helpers;
+using OfflineMedia.Business.Helpers.Debug;
 using OfflineMedia.Pages;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641

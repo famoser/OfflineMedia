@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Famoser.SqliteWrapper.Attributes;
+﻿using Famoser.SqliteWrapper.Attributes;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Data.Repository;
+using OfflineMedia.Business.Models.Base;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace OfflineMedia.Business.Models.NewsModel.RelationModels
 {
     public class ContentModel : BaseModel
     {

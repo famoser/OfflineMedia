@@ -1,8 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
-using OfflineMedia.Data.Repository;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace OfflineMedia.Business.Models.Base
 {
     public class BaseGuidModel: ObservableObject
     {

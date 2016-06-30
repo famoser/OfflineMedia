@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Entities.Storage.Settings;
 

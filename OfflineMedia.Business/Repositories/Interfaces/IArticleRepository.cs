@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.Business.Framework.Repositories.Interfaces
+namespace OfflineMedia.Business.Repositories.Interfaces
 {
     public interface IArticleRepository
     {
@@ -14,8 +13,8 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         Task<bool> LoadFullArticleAsync(ArticleModel am);
         Task<bool> LoadFullFeedAsync(FeedModel fm);
 
-        Task<bool> ActualizeAllArticlesAsync();
-        Task<bool> ActualizeArticleAsync(ArticleModel am);
+        Task ActualizeAllArticlesAsync();
+        Task ActualizeArticleAsync(ArticleModel am);
 
         Task<bool> SetArticleFavoriteStateAsync(ArticleModel am, bool isFavorite);
         Task<bool> MarkArticleAsReadAsync(ArticleModel am);
