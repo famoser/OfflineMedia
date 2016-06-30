@@ -5,7 +5,7 @@ namespace OfflineMedia.Business.Repositories.Interfaces
 {
     public interface IThemeRepository
     {
-        Task<bool> AddThemeToArticleAsync(ArticleModel article, string theme);
-        Task<bool> AddRelatedThemesArticlesAsync(ArticleModel article);
+        Task AddThemeToArticleAsync(ArticleModel article, string theme);
+        Task AddRelatedThemesArticlesAsync(ArticleModel article);
     }
 }

@@ -275,6 +275,7 @@
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Helpers\EntityModelConverter.cs" />
     <Compile Include="Managers\SettingManager.cs" />
+    <Compile Include="Managers\ThemeManager.cs" />
     <Compile Include="Models\Base\BaseGuidModel.cs" />
     <Compile Include="Models\Configuration\TextSettingModel.cs" />
     <Compile Include="Models\Configuration\IntSettingModel.cs" />
@@ -303,17 +304,13 @@
     <Compile Include="Models\NewsModel\ArticleModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\TextModels\ParagraphModel.cs" />
-    <Compile Include="Models\NewsModel\RelationModels\ContentModel.cs" />
     <Compile Include="Models\FeedModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\BaseContentModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\GalleryContentModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\ImageContentModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\TextContentModel.cs" />
     <Compile Include="Models\NewsModel\ContentModels\TextModels\TextModel.cs" />
-    <Compile Include="Models\NewsModel\RelationModels\RelatedArticleRelationModel.cs" />
-    <Compile Include="Models\NewsModel\RelationModels\RelatedThemeRelationModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
-    <Compile Include="Models\NewsModel\RelationModels\ThemeArticleRelationModel.cs" />
     <Compile Include="Models\NewsModel\ThemeModel.cs" />
     <Compile Include="Models\SpritzWord.cs" />
     <Compile Include="Models\WeatherModel\Forecast.cs" />

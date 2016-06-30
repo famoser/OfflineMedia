@@ -4,7 +4,7 @@ namespace OfflineMedia.Data.Entities.Database
 {
     public class ThemeEntity : BaseEntity
     {
-        public string DisplayName { get; set; }
-        public string SaveName { get; set; }
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
     }
 }
