@@ -240,7 +240,7 @@ namespace OfflineMedia.View.ViewModels
 
         #region Article View
 
-        private SettingModel _fontSize;
+        private BaseSettingModel _fontSize;
         public int FontSize
         {
             get { return (_fontSize == null || _fontSize.IntValue == 0) ? 15 : _fontSize.IntValue; }
@@ -308,7 +308,7 @@ namespace OfflineMedia.View.ViewModels
 
         #region Spritz View
 
-        private SettingModel _spritzSpeed;
+        private BaseSettingModel _spritzSpeed;
 
         public int ReadingSpeed
         {

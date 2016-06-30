@@ -11,14 +11,14 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
 {
     public interface ISettingsRepository
     {
-        ObservableCollection<SettingModel> GetSettings();
+        ObservableCollection<BaseSettingModel> GetSettings();
 
-        Task<SettingModel> GetSettingByKeyAsync(SettingKey key);
+        Task<BaseSettingModel> GetSettingByKeyAsync(SettingKey key);
         
-        Task<bool> SaveSettingAsync(SettingKey ssm);
+        Task<bool> SaveSettingsAsync();
         Task<bool> SetFeedActiveStateAsync(FeedModel feedModel, bool isActive);
         Task<bool> SetSourceActiveStateAsync(SourceModel sourceModel, bool isActive);
 
-        ObservableCollection<SettingModel> GetSampleSettings();
+        ObservableCollection<BaseSettingModel> GetSampleSettings();
     }
 }

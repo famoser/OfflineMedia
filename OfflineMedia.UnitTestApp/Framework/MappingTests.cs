@@ -35,7 +35,7 @@ namespace OfflineMedia.Framework
                 {new RelatedArticleRelationModel(),new RelatedArticleRelations()},
                 //new History(),
                 {new RelatedThemeRelationModel(),new RelatedThemeRelations()},
-                {new SettingModel(),new SettingEntity()},
+                {new BaseSettingModel(),new SettingEntity()},
                 {new ThemeArticleRelationModel(),new ThemeArticleRelations()},
                 {new ThemeModel(),new ThemeEntity()}
             };

@@ -4,7 +4,7 @@
     {
         TrueOrFalse = 0,
         Int = 1,
-        PossibleValues = 2,
-        Free = 3
+        Select = 2,
+        Text = 3
     }
 }

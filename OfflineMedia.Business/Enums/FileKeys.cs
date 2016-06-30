@@ -1,10 +1,16 @@
-﻿namespace OfflineMedia.Business.Enums
+﻿using Famoser.FrameworkEssentials.Attributes;
+
+namespace OfflineMedia.Business.Enums
 {
     public enum FileKeys
     {
-        Undefined = 0,
-        Database = 1,
-        SettingsJson = 2,
-        SourceJson = 3
+        [Description("database.sqlite3")]
+        Database,
+        [Description("configuration.V1")]
+        UserConfiguration,
+        [Description("Assets/UserConfiguration/Settings_min.json")]
+        SettingsConfiguration,
+        [Description("Assets/UserConfiguration/Sources_min.json")]
+        SourcesConfiguration
     }
 }

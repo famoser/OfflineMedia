@@ -215,7 +215,6 @@
   <ItemGroup>
     <Compile Include="Enums\DisplayState.cs" />
     <Compile Include="Enums\IndeterminateProgressKey.cs" />
-    <Compile Include="Enums\Messages.cs" />
     <Compile Include="Enums\PageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SpritzHelper.cs" />
@@ -226,8 +225,7 @@
     <Compile Include="ViewModels\MyDayViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModelLocator.cs" />
-    <Compile Include="Enums\DisplayShemata.cs" />
-    <Compile Include="Enums\SpritzStateEnum.cs" />
+    <Compile Include="Enums\SpritzState.cs" />
     <Compile Include="ViewModels\SimpleViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

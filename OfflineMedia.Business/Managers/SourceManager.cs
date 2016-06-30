@@ -10,17 +10,17 @@ namespace OfflineMedia.Business.Managers
 {
     public class SourceManager
     {
-        private static ObservableCollection<SourceModel> _allSources = new ObservableCollection<SourceModel>();
-        private static ObservableCollection<SourceModel> _activeSources = new ObservableCollection<SourceModel>();
+        private static readonly ObservableCollection<SourceModel> AllSources = new ObservableCollection<SourceModel>();
+        private static readonly ObservableCollection<SourceModel> ActiveSources = new ObservableCollection<SourceModel>();
 
         public static void AddSource(SourceModel model, bool isActive = false)
         {
-            if (!_allSources.Contains(model))
-                _allSources.Add(model);
-            if (isActive && !_activeSources.Contains(model))
-                _activeSources.Add(model);
-            if (!isActive && _activeSources.Contains(model))
-                _activeSources.Remove(model);
+            if (!AllSources.Contains(model))
+                AllSources.Add(model);
+            if (isActive && !ActiveSources.Contains(model))
+                ActiveSources.Add(model);
+            if (!isActive && ActiveSources.Contains(model))
+                ActiveSources.Remove(model);
         }
 
         public static void AddAllSources(IEnumerable<SourceModel> models, bool isActives = false)
@@ -33,12 +33,24 @@ namespace OfflineMedia.Business.Managers
 
         public static ObservableCollection<SourceModel> GetActiveSources()
         {
-            return _activeSources;
+            return ActiveSources;
         }
 
         public static ObservableCollection<SourceModel> GetAllSources()
         {
-            return _allSources;
+            return AllSources;
+        }
+
+        public static void MarkFeedActive(FeedModel fm)
+        {
+            if (!fm.Source.ActiveFeeds.Contains(fm))
+                fm.Source.ActiveFeeds.Add(fm);
+        }
+
+        public static void MarkFeedInActive(FeedModel fm)
+        {
+            if (fm.Source.ActiveFeeds.Contains(fm))
+                fm.Source.ActiveFeeds.Remove(fm);
         }
     }
 }

@@ -236,7 +236,9 @@
     <Compile Include="Entities\Database\ThemeEntity.cs" />
     <Compile Include="Entities\Storage\Base\StorageEntityBase.cs" />
     <Compile Include="Entities\Storage\FeedEntity.cs" />
-    <Compile Include="Entities\Storage\SettingEntity.cs" />
+    <Compile Include="Entities\Storage\Settings\SettingCacheEntity.cs" />
+    <Compile Include="Entities\Storage\Settings\SettingCacheItemEntity.cs" />
+    <Compile Include="Entities\Storage\Settings\SettingEntity.cs" />
     <Compile Include="Entities\Storage\SourceEntity.cs" />
     <Compile Include="Enums\SettingKey.cs" />
     <Compile Include="Enums\SettingValueType.cs" />

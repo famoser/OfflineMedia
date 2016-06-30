@@ -77,8 +77,8 @@ namespace OfflineMedia.View.ViewModels
                 RefreshWeather();
         }
 
-        private SettingModel _city1;
-        private SettingModel _city2;
+        private BaseSettingModel _city1;
+        private BaseSettingModel _city2;
         private async void Initialize()
         {
             _city1 = await _settingsRepository.GetSettingByKey(SettingKey.WeatherCity1);

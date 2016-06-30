@@ -59,8 +59,7 @@ namespace OfflineMedia.Business.Helpers.Text
                 if (text != null)
                     model.Children.Add(text);
             }
-
-
+            
             return model;
         }
 

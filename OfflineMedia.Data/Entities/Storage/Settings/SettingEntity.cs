@@ -12,6 +12,7 @@ namespace OfflineMedia.Data.Entities.Storage
         public SettingValueType SettingValueType { get; set; }
 
         public string Name { get; set; }
+        public bool IsImmutable { get; set; }
 
         /* FOR TYPE: TrueOrFalse */
         public string OnContent { get; set; }

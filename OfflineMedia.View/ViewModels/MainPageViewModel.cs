@@ -157,7 +157,7 @@ namespace OfflineMedia.View.ViewModels
 
         #endregion
 
-        private SettingModel _favorites;
+        private BaseSettingModel _favorites;
         public async void Initialize()
         {
             TimerHelper.Instance.Stop("Initilizing...", this);

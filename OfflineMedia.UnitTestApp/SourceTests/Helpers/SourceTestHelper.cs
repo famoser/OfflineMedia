@@ -18,7 +18,7 @@ namespace OfflineMedia.SourceTests.Helpers
     {
         public async Task<List<SourceConfigurationModel>> GetSourceConfigs()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/Source.json"));
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UserConfiguration/Source.json"));
             var json = await FileIO.ReadTextAsync(file);
             var sc = JsonConvert.DeserializeObject<List<SourceConfigurationModel>>(json);
             foreach (var sourceConfigurationModel in sc)

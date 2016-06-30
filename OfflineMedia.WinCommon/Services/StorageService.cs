@@ -50,7 +50,7 @@ namespace OfflineMedia.Services
         {
             try
             {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/" + fileName + ".json"));
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UserConfiguration/" + fileName + ".json"));
                 return await FileIO.ReadTextAsync(file);
             }
             catch (Exception ex)

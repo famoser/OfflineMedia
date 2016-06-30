@@ -17,35 +17,35 @@ namespace OfflineMedia.View.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        private List<SettingModel> _generalFreeSettings;
-        public List<SettingModel> GeneralFreeSettings
+        private List<BaseSettingModel> _generalFreeSettings;
+        public List<BaseSettingModel> GeneralFreeSettings
         {
             get { return _generalFreeSettings; }
             set { Set(ref _generalFreeSettings, value); }
         }
 
-        private List<SettingModel> _generalBoolSettings;
-        public List<SettingModel> GeneralBoolSettings
+        private List<BaseSettingModel> _generalBoolSettings;
+        public List<BaseSettingModel> GeneralBoolSettings
         {
             get { return _generalBoolSettings; }
             set { Set(ref _generalBoolSettings, value); }
         }
 
-        private List<SettingModel> _generalIntSettings;
-        public List<SettingModel> GeneralIntSettings
+        private List<BaseSettingModel> _generalIntSettings;
+        public List<BaseSettingModel> GeneralIntSettings
         {
             get { return _generalIntSettings; }
             set { Set(ref _generalIntSettings, value); }
         }
 
-        private List<SettingModel> _generalPossibleValuesSettings;
-        public List<SettingModel> GeneralPossibleValuesSettings
+        private List<BaseSettingModel> _generalPossibleValuesSettings;
+        public List<BaseSettingModel> GeneralPossibleValuesSettings
         {
             get { return _generalPossibleValuesSettings; }
             set { Set(ref _generalPossibleValuesSettings, value); }
         }
 
-        private List<SettingModel> _allSettings;
+        private List<BaseSettingModel> _allSettings;
 
         private List<SourceConfigurationModel> _sourceConfiguration;
         public List<SourceConfigurationModel> SourceConfiguration
@@ -92,10 +92,10 @@ namespace OfflineMedia.View.ViewModels
 
         private void SortOutSettings()
         {
-            GeneralFreeSettings = new List<SettingModel>();
-            GeneralBoolSettings = new List<SettingModel>();
-            GeneralIntSettings = new List<SettingModel>();
-            GeneralPossibleValuesSettings = new List<SettingModel>();
+            GeneralFreeSettings = new List<BaseSettingModel>();
+            GeneralBoolSettings = new List<BaseSettingModel>();
+            GeneralIntSettings = new List<BaseSettingModel>();
+            GeneralPossibleValuesSettings = new List<BaseSettingModel>();
 
             foreach (var item in _allSettings)
             {
