@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OfflineMedia.Business.Models.NewsModel.ContentModels
 {
-    public class BaseContentModel : BaseModel
+    public class BaseContentModel : BaseIdModel
     {
     }
 }

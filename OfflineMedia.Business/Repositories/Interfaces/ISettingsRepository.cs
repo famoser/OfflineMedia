@@ -16,8 +16,6 @@ namespace OfflineMedia.Business.Framework.Repositories.Interfaces
         Task<BaseSettingModel> GetSettingByKeyAsync(SettingKey key);
         
         Task<bool> SaveSettingsAsync();
-        Task<bool> SetFeedActiveStateAsync(FeedModel feedModel, bool isActive);
-        Task<bool> SetSourceActiveStateAsync(SourceModel sourceModel, bool isActive);
 
         ObservableCollection<BaseSettingModel> GetSampleSettings();
     }

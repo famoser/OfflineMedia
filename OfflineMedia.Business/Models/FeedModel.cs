@@ -4,7 +4,7 @@ using OfflineMedia.Business.Models.NewsModel;
 
 namespace OfflineMedia.Business.Models
 {
-    public class FeedModel : BaseModel
+    public class FeedModel : BaseGuidModel
     {
         public string Name { get; set; }
         public string Url { get; set; }

@@ -275,6 +275,7 @@
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Helpers\EntityModelConverter.cs" />
     <Compile Include="Managers\SettingManager.cs" />
+    <Compile Include="Models\Base\BaseGuidModel.cs" />
     <Compile Include="Models\Configuration\TextSettingModel.cs" />
     <Compile Include="Models\Configuration\IntSettingModel.cs" />
     <Compile Include="Models\Configuration\SelectSettingModel.cs" />

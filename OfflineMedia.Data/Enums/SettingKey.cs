@@ -7,5 +7,7 @@
         Font = 3,
         DisplayFavorites = 4,
         WeatherCities = 5,
+        ConcurrentThreads = 100,
+        FastLoadedFeedEntries = 101
     }
 }

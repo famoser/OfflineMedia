@@ -36,5 +36,21 @@
     "Value": "Basel, Zürich",
     "ValueType": 3,
     "Name": "Wetter folgender Städte anzeigen (Trennen durch Komma)"
+  },
+  {
+    "Guid": "d99f3fb1-1821-48d2-96c7-13e5d85fd094",
+    "SettingKey": 100,
+    "Value": "15",
+    "ValueType": 1,
+    "IsImmutable": true,
+    "Name": "Concurrent Threads"
+  },
+  {
+    "Guid": "f17ed818-11bb-4666-bd89-33733536bd32",
+    "SettingKey": 101,
+    "Value": "8",
+    "ValueType": 1,
+    "IsImmutable": true,
+    "Name": "Fast loaded feed entries"
   }
 ]

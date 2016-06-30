@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Helpers;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Enums;
@@ -43,6 +44,29 @@ namespace OfflineMedia.Business.Helpers
             model.Guid = entity.Guid;
             model.SettingKey = entity.SettingKey;
             model.Value = entity.Value;
+        }
+
+        public static SourceModel Convert(SourceEntity sourceEntity)
+        {
+            return new SourceModel()
+            {
+                Guid = sourceEntity.Guid,
+                Name = sourceEntity.Name,
+                Abbreviation = sourceEntity.Abbreviation,
+                LogicBaseUrl = sourceEntity.LogicBaseUrl,
+                PublicBaseUrl = sourceEntity.PublicBaseUrl
+            };
+        }
+
+        public static FeedModel Convert(FeedEntity feedEntity, SourceModel source, bool isActive)
+        {
+            return new FeedModel()
+            {
+                Guid = feedEntity.Guid,
+                Name = feedEntity.Name,
+                Source = source,
+                Url = feedEntity.Url
+            };
         }
     }
 }

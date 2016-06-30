@@ -5,9 +5,8 @@ using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.Configuration
 {
-    public abstract class BaseSettingModel : BaseModel
+    public abstract class BaseSettingModel : BaseGuidModel
     {
-        public Guid Guid { get; set; }
         public string Name { get; set; }
         public SettingKey SettingKey { get; set; }
 

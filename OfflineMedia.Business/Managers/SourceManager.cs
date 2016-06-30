@@ -11,6 +11,7 @@ namespace OfflineMedia.Business.Managers
     public class SourceManager
     {
         private static readonly ObservableCollection<SourceModel> AllSources = new ObservableCollection<SourceModel>();
+
         private static readonly ObservableCollection<SourceModel> ActiveSources = new ObservableCollection<SourceModel>();
 
         public static void AddSource(SourceModel model, bool isActive = false)
@@ -23,12 +24,12 @@ namespace OfflineMedia.Business.Managers
                 ActiveSources.Remove(model);
         }
 
-        public static void AddAllSources(IEnumerable<SourceModel> models, bool isActives = false)
+        public static void AddFeed(FeedModel fm, SourceModel source, bool isActive = false)
         {
-            foreach (var sourceModel in models)
-            {
-                AddSource(sourceModel, isActives);
-            }
+            fm.Source = source;
+            fm.Source.AllFeeds.Add(fm);
+            if (isActive)
+                fm.Source.ActiveFeeds.Add(fm);
         }
 
         public static ObservableCollection<SourceModel> GetActiveSources()

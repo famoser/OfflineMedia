@@ -3,8 +3,9 @@
     public enum ContentType
     {
         None = 0,
-        Text = 1,
-        Image = 2,
-        Gallery = 3
+        LeadImage = 1,
+        Text = 2,
+        Image = 3,
+        Gallery = 4
     }
 }
