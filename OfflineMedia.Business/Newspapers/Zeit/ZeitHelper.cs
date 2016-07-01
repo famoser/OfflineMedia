@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
@@ -8,30 +11,33 @@ using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers.Text;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
+using OfflineMedia.Business.Newspapers.Blick.Models;
 using OfflineMedia.Business.Newspapers.Zeit.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
+using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Newspapers.Zeit
 {
     public class ZeitHelper : BaseMediaSourceHelper
     {
-        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
+        public ZeitHelper(IThemeRepository themeRepository) : base(themeRepository)
         {
-            /*
-             * 
-                        var stream2 = await client.GetStreamAsync(url);
-                        using (var reader = new StreamReader(stream2, Encoding.GetEncoding("iso-8859-1")))
-                        {
-                            return reader.ReadToEnd();
-                        }
-                        */
+        }
 
-            var articlelist = new List<ArticleModel>();
-            if (feed == null) return articlelist;
 
-            try
+        public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
+        {
+            return ExecuteSafe(async () =>
             {
+                var feed = await DownloadAsync(feedModel);
+
+
+                var articlelist = new List<ArticleModel>();
+                if (feed == null) return articlelist;
+
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
                 if (!RepairFeedXml(ref feed))
@@ -50,103 +56,17 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                             foreach (var feedArticle in region.Container)
                             {
 
-                                var article = await FeedToArticleModel(feedArticle, fcm);
+                                var article = await FeedToArticleModel(feedArticle, feedModel);
                                 if (article != null)
                                     articlelist.Add(article);
                             }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "ZeitHelper.EvaluateFeed failed", this, ex);
-            }
-            return articlelist;
+                return articlelist;
+            });
         }
-
-        private async Task<ArticleModel> FeedToArticleModel(Container feedArticle, FeedConfigurationModel fcm)
-        {
-            if (feedArticle?.Block == null) return null;
-
-            //block articles from other domains and videos
-            if (!feedArticle.Block.Href.Contains("xml.zeit.de/") ||
-                feedArticle.Block.Href.Contains("zeit.de/video/"))
-                return null;
-
-
-            try
-            {
-                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
-                var link = "http://" + feedArticle.Block.Href.Trim().Substring(2);
-                var pubLink = link.Replace("xml.zeit.de", "zeit.de");
-                var a = new ArticleModel
-                {
-                    Title = feedArticle.Block.Title,
-                    SubTitle = feedArticle.Block.Supertitle,
-                    Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text,
-                    PublicationTime = DateTime.Now,
-                    PublicUri = new Uri(pubLink),
-                    LogicUri = new Uri(link),
-                    Themes = new List<ThemeModel>()
-                    {
-                        await repo.GetThemeModelFor(feedArticle.Block.Ressort)
-                    }
-                };
-
-                if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null && !string.IsNullOrEmpty(feedArticle.Block.Image.Type))
-                {
-                    var url = feedArticle.Block.Image.Baseid.Trim();
-                    if (url.Contains("//xml.zeit.de"))
-                    {
-                        a.LeadImage = new ImageModel() { Url = new Uri("http://" + url.Replace("//xml.zeit.de", "zeit.de") + "cinema__940x403") };
-                    }
-                }
-
-                return a;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "ZeitHelper.FeedToArticleModel failed", ex);
-                return null;
-            }
-        }
-
-        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
-        {
-            try
-            {
-                var date = GetArticleDate(article);
-                if (date != null)
-                    am.PublicationTime = date.Value;
-
-                article = article.Substring(article.IndexOf(">", StringComparison.Ordinal) + 1).Trim();
-                if (article.StartsWith("<gallery"))
-                {
-                    am.Content = new List<ContentModel> { new ContentModel { Html = "Bildergalerien werden leider nicht unterstützt.", ContentType = ContentType.Html } };
-                    return new Tuple<bool, ArticleModel>(true, am);
-                }
-
-                if (!RepairArticleXml(ref article))
-                    return new Tuple<bool, ArticleModel>(false, am);
-
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(article);
-
-                var content = doc.DocumentNode
-                    .Descendants("p");
-                var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
-                am.Content = new List<ContentModel> { new ContentModel() { Html = html, ContentType = ContentType.Html } };
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "EvaluateArticle failed for Zeit", this, ex);
-                return new Tuple<bool, ArticleModel>(false, am);
-            }
-            return new Tuple<bool, ArticleModel>(true, am);
-        }
-
-        public bool RepairFeedXml(ref string xml)
+        private bool RepairFeedXml(ref string xml)
         {
             try
             {
@@ -191,7 +111,45 @@ namespace OfflineMedia.Business.Newspapers.Zeit
             }
         }
 
-        public bool RepairArticleXml(ref string xml)
+        private async Task<ArticleModel> FeedToArticleModel(Container feedArticle, FeedModel fcm)
+        {
+            if (feedArticle?.Block == null) return null;
+
+            //block articles from other domains and videos
+            if (!feedArticle.Block.Href.Contains("xml.zeit.de/") ||
+                feedArticle.Block.Href.Contains("zeit.de/video/"))
+                return null;
+
+            var link = "http://" + feedArticle.Block.Href.Trim().Substring(2);
+            var pubLink = link.Replace("xml.zeit.de", "zeit.de");
+            var a = ConstructArticleModel(fcm);
+            a.Title = feedArticle.Block.Title;
+            a.SubTitle = feedArticle.Block.Supertitle;
+            a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
+            a.Author = feedArticle.Block._Author;
+            a.Content.Add(TextConverter.TextToTextModel(feedArticle.Block.Text));
+
+            DateTime dateTime;
+            if (DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime))
+                a.PublishDateTime = dateTime;
+
+            a.PublicUri = pubLink;
+            a.LogicUri = link;
+            await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
+
+            if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null && !string.IsNullOrEmpty(feedArticle.Block.Image.Type))
+            {
+                var url = feedArticle.Block.Image.Baseid.Trim();
+                if (url.Contains("//xml.zeit.de"))
+                {
+                    a.LeadImage = new ImageContentModel() { Url = "http://" + url.Replace("//xml.zeit.de", "zeit.de") + "cinema__940x403" };
+                }
+            }
+
+            return a;
+        }
+
+        private bool RepairArticleXml(ref string xml)
         {
             xml = XmlHelper.GetSingleNode(xml, "body");
             if (xml != null)
@@ -206,7 +164,7 @@ namespace OfflineMedia.Business.Newspapers.Zeit
             return false;
         }
 
-        public DateTime? GetArticleDate(string xml)
+        private DateTime? GetArticleDate(string xml)
         {
             try
             {
@@ -223,6 +181,53 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                 LogHelper.Instance.Log(LogLevel.Error, "GetArticleDate in Zeit failed", this, ex);
             }
             return null;
+        }
+
+        public override Task<bool> EvaluateArticle(ArticleModel articleModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+                articleModel.Content.Clear();
+
+                var article = await DownloadAsync(articleModel);
+                var date = GetArticleDate(article);
+                if (date != null)
+                    articleModel.PublishDateTime = date.Value;
+
+                article = article.Substring(article.IndexOf(">", StringComparison.Ordinal) + 1).Trim();
+                if (article.StartsWith("<gallery"))
+                {
+                    articleModel.Content.Add(TextConverter.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));
+                }
+
+                if (!RepairArticleXml(ref article))
+                    return false;
+
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(article);
+
+                var content = doc.DocumentNode
+                    .Descendants("p");
+                var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
+                articleModel.Content.Add(new TextContentModel()
+                    {
+                        Content = HtmlConverter.HtmlToParagraph(html)
+                    });
+
+                return true;
+            });
+        }
+
+        protected override async Task<string> DownloadAsync(Uri url)
+        {
+            using (var client = new HttpClient())
+            {
+                var stream = await client.GetStreamAsync(url);
+                using (var reader = new StreamReader(stream, Encoding.GetEncoding("iso-8859-1")))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
     }
 }

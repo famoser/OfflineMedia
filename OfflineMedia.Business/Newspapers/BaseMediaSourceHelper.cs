@@ -32,7 +32,7 @@ namespace OfflineMedia.Business.Newspapers
             return DownloadAsync(model.GetLogicUri());
         }
 
-        protected async Task<string> DownloadAsync(Uri url)
+        protected virtual async Task<string> DownloadAsync(Uri url)
         {
             var service = new HttpService();
             var response = await service.DownloadAsync(url);

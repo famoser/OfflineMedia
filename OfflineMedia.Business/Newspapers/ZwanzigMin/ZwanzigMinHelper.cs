@@ -28,7 +28,7 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
         private async Task<ArticleModel> FeedToArticleModel(item nfa, FeedModel fcm)
         {
             if (nfa == null) return null;
-            
+
             return await ExecuteSafe(async () =>
             {
                 var a = ConstructArticleModel(fcm);
@@ -57,15 +57,15 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
             });
         }
 
-        public override async Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
+        public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
         {
-            var articlelist = new List<ArticleModel>();
-            var feed = await DownloadAsync(feedModel);
-            if (feed == null)
-                return articlelist;
-
-            try
+            return ExecuteSafe(async () =>
             {
+                var articlelist = new List<ArticleModel>();
+                var feed = await DownloadAsync(feedModel);
+                if (feed == null)
+                    return articlelist;
+
                 //removes old header of xml
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
@@ -78,7 +78,8 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
 
                 var channel = (channel)serializer.Deserialize(reader);
                 if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
+                    LogHelper.Instance.Log(LogLevel.Error,
+                        "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
                 else
                 {
                     foreach (var item in channel.item)
@@ -91,12 +92,8 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
-            }
-            return articlelist;
+                return articlelist;
+            });
         }
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
