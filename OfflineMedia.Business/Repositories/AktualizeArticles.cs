@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Managers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Data.Entities.Database.Contents;
 using OfflineMedia.Data.Enums;
 
 namespace OfflineMedia.Business.Repositories
@@ -72,7 +69,7 @@ namespace OfflineMedia.Business.Repositories
                     if (media != null)
                     {
                         var articles = await media.EvaluateFeed(model);
-
+                        await FeedHelper.SaveFeed(model, articles, _sqliteService);
                     }
 
                     if (incrementProgress)
@@ -91,7 +88,7 @@ namespace OfflineMedia.Business.Repositories
                     var media = ArticleHelper.GetMediaSource(model);
                     if (media != null && await media.EvaluateArticle(model))
                     {
-                        await _articleGenericRepository.SaveAsyc(model);
+                        await ArticleHelper.SaveArticle(model, _sqliteService);
                         await ArticleHelper.SaveArticleLeadImage(model, _sqliteService);
                         await ArticleHelper.SaveArticleContent(model, _sqliteService);
                     }

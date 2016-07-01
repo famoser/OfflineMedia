@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Entities.Storage.Settings;

@@ -1,7 +1,6 @@
 ﻿using System;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Business.Models.NewsModel;
 
 namespace OfflineMedia.Business.Models.WeatherModel
 {

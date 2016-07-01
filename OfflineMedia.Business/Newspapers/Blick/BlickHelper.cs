@@ -7,7 +7,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.RelationModels;
 using OfflineMedia.Business.Newspapers.Blick.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
@@ -28,7 +27,7 @@ namespace OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                ThemeManager.AddThemes(await _themeGenericRepository.GetAll());
+                ThemeManager.AddThemes(await _themeGenericRepository.GetAllAsync());
             });
         }
 
@@ -47,14 +46,17 @@ namespace OfflineMedia.Business.Repositories
                         NormalizedName = normalizedTheme,
                         Name = theme
                     };
-                    await _themeGenericRepository.Add(themeModel);
+                    await _themeGenericRepository.AddAsync(themeModel);
                 }
+                if (article.Themes.Contains(themeModel))
+                    return;
 
-                return await _sqliteService.Add(new ThemeArticleRelations()
+                article.Themes.Add(themeModel);
+                await _sqliteService.Add(new ThemeArticleRelations()
                 {
                     ArticleId = article.GetId(),
                     ThemeId = themeModel.GetId()
-                }) == 1;
+                });
             });
         }
 

@@ -2,10 +2,10 @@
 {
     public enum TextType
     {
-        Normal,
-        Hyperlink,
-        Bold,
-        Underline,
-        Cursive
+        Normal = 0,
+        Bold = 1,
+        Underline = 2,
+        Cursive = 3,
+        Hyperlink = 4,
     }
 }

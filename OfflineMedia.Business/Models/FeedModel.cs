@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel;
 
 namespace OfflineMedia.Business.Models

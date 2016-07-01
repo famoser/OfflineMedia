@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
@@ -22,9 +19,9 @@ using OfflineMedia.Business.Newspapers.Tamedia;
 using OfflineMedia.Business.Newspapers.Welt;
 using OfflineMedia.Business.Newspapers.Zeit;
 using OfflineMedia.Business.Newspapers.ZwanzigMin;
+using OfflineMedia.Data.Entities.Database;
 using OfflineMedia.Data.Entities.Database.Contents;
 using OfflineMedia.Data.Enums;
-using OfflineMedia.Data.Helpers;
 
 namespace OfflineMedia.Business.Helpers
 {
@@ -91,10 +88,18 @@ namespace OfflineMedia.Business.Helpers
             return null;
         }
 
-        public static async Task SaveArticleLeadImage(ArticleModel model, ISqliteService service)
+        public static async Task SaveArticle(ArticleModel model, ISqliteService service)
+        {
+            var articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(service);
+            await articleGenericRepository.SaveAsyc(model);
+        }
+
+        public static async Task SaveArticleLeadImage(ArticleModel model, ISqliteService service, bool skipCleaning = false)
         {
             var imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(service);
-            var oldLeadImages = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && e.ContentType == (int)ContentType.LeadImage, null, false, 0, 0)).ToList();
+            List<ContentEntity> oldLeadImages = null;
+            if (!skipCleaning)
+                oldLeadImages = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && e.ContentType == (int)ContentType.LeadImage, null, false, 0, 0)).ToList();
 
             if (model.LeadImage != null)
             {
@@ -102,7 +107,7 @@ namespace OfflineMedia.Business.Helpers
                 {
                     var oldLeadImage = oldLeadImages.FirstOrDefault(o => o.ContentId == model.LeadImage.GetId());
                     if (oldLeadImage != null)
-                        oldLeadImages.Remove(oldLeadImage);
+                        oldLeadImages?.Remove(oldLeadImage);
 
                     await imageContentGenericRepository.SaveAsyc(model.LeadImage);
                 }
@@ -120,22 +125,36 @@ namespace OfflineMedia.Business.Helpers
                     await service.Add(entity);
                 }
             }
-            await service.DeleteAllById<ContentEntity>(oldLeadImages.Select(d => d.Id));
+
+            if (!skipCleaning)
+                await service.DeleteAllById<ContentEntity>(oldLeadImages.Select(d => d.Id));
         }
 
-        public static async Task SaveArticleContent(ArticleModel model, ISqliteService service)
+        public static async Task SaveArticleContent(ArticleModel model, ISqliteService service, bool skipCleaning = false)
         {
             var imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(service);
             var textContentGenericRepository = new GenericRepository<TextContentModel, TextContentEntity>(service);
             var galleryContentGenericRepository = new GenericRepository<GalleryContentModel, GalleryContentEntity>(service);
 
             var supportedContents = new[] { (int)ContentType.Text, (int)ContentType.Gallery, (int)ContentType.Image };
-            var oldModels = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && supportedContents.Any(s => s == e.ContentType), null, false, 0, 0)).ToList();
+            List<ContentEntity> oldModels = null;
+            if (!skipCleaning)
+                oldModels = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && supportedContents.Any(s => s == e.ContentType), null, false, 0, 0)).ToList();
+
             for (int i = 0; i < model.Content.Count; i++)
             {
                 var baseContentModel = model.Content[i];
 
-                var entity = new ContentEntity();
+                ContentEntity entity = null;
+                if (!skipCleaning)
+                {
+                    entity = oldModels.FirstOrDefault(m => m.ContentId == baseContentModel.GetId());
+                    oldModels.Remove(entity);
+                }
+
+                if (entity == null)
+                    entity = new ContentEntity();
+
                 if (baseContentModel is TextContentModel)
                 {
                     var text = (TextContentModel)baseContentModel;
@@ -182,16 +201,17 @@ namespace OfflineMedia.Business.Helpers
                 entity.ContentId = baseContentModel.GetId();
                 entity.ParentId = model.GetId();
                 entity.Index = i;
-                if (baseContentModel.GetId() == 0)
-                {
+                if (entity.Id == 0)
                     await service.Add(entity);
-                }
                 else
-                {
-                    var oldmodel = oldModels.FirstOrDefault(m => m.ContentId == baseContentModel.GetId());
-                    oldModels.Remove(oldmodel);
-                }
+                    await service.Update(entity);
             }
+
+            if (!skipCleaning && oldModels != null)
+                foreach (var contentEntity in oldModels)
+                {
+                    await service.DeleteById<ContentEntity>(contentEntity.Id);
+                }
         }
     }
 }

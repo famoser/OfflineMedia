@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Famoser.SqliteWrapper.Attributes;
-using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Repository;
 
 namespace OfflineMedia.Business.Models.NewsModel
 {

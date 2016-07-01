@@ -274,6 +274,8 @@
     <Compile Include="Enums\Models\TextModels\TextType.cs" />
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Helpers\EntityModelConverter.cs" />
+    <Compile Include="Helpers\FeedHelper.cs" />
+    <Compile Include="Helpers\Text\TextConverter.cs" />
     <Compile Include="Managers\SettingManager.cs" />
     <Compile Include="Managers\ThemeManager.cs" />
     <Compile Include="Models\Base\BaseGuidModel.cs" />

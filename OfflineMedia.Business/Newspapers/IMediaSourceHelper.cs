@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;

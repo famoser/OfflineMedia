@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Famoser.SqliteWrapper.Helpers;
-using OfflineMedia.Business.Models;
+﻿using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
 using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Data.Entities.Storage;

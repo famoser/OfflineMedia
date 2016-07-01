@@ -7,10 +7,8 @@ using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Helpers.Text;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.RelationModels;
 using OfflineMedia.Business.Newspapers.Spiegel.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
-using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Enums.Models.TextModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
 namespace OfflineMedia.Business.Helpers.Text

@@ -4,12 +4,11 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Helpers.Text;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.RelationModels;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Newspapers.ZwanzigMin.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 
@@ -17,10 +16,53 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
 {
     public class ZwanzigMinHelper : BaseMediaSourceHelper
     {
-        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
+        public ZwanzigMinHelper(IThemeRepository themeRepository) : base(themeRepository)
+        {
+        }
+
+        private bool CanConvert(item nfa)
+        {
+            return nfa.link != null;
+        }
+
+        private async Task<ArticleModel> FeedToArticleModel(item nfa, FeedModel fcm)
+        {
+            if (nfa == null) return null;
+            
+            return await ExecuteSafe(async () =>
+            {
+                var a = ConstructArticleModel(fcm);
+                a.Content.Add(
+                    new TextContentModel()
+                    {
+                        Content = HtmlConverter.HtmlToParagraph(nfa.text)
+                    });
+
+                a.LeadImage = new ImageContentModel()
+                {
+                    Url = nfa.pic_bigstory,
+                    Text = TextConverter.TextToTextModel(nfa.topelement_description)
+                };
+                a.PublicUri = nfa.link;
+                a.PublishDateTime = DateTime.Parse(nfa.pubDate);
+                a.SubTitle = nfa.oberzeile;
+                a.Teaser = nfa.lead;
+                a.Title = nfa.title;
+                a.Author = nfa.author;
+                await AddThemesAsync(a, new[] { nfa.category });
+
+                a.LoadingState = LoadingState.Loaded;
+
+                return a;
+            });
+        }
+
+        public override async Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
         {
             var articlelist = new List<ArticleModel>();
-            if (feed == null) return articlelist;
+            var feed = await DownloadAsync(feedModel);
+            if (feed == null)
+                return articlelist;
 
             try
             {
@@ -36,14 +78,14 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
 
                 var channel = (channel)serializer.Deserialize(reader);
                 if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
+                    LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
                 else
                 {
                     foreach (var item in channel.item)
                     {
                         if (CanConvert(item))
                         {
-                            var model = await FeedToArticleModel(item, fcm);
+                            var model = await FeedToArticleModel(item, feedModel);
                             if (model != null)
                                 articlelist.Add(model);
                         }
@@ -52,66 +94,14 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.EvaluateFeed failed", this, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
             }
             return articlelist;
         }
 
-        public override bool NeedsToEvaluateArticle()
-        {
-            return false;
-        }
-
-        public bool CanConvert(item nfa)
-        {
-            return nfa.link != null;
-        }
-
-        public override Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        public override Task<bool> EvaluateArticle(ArticleModel articleModel)
         {
             throw new NotImplementedException();
-        }
-
-        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task<ArticleModel> FeedToArticleModel(item nfa, FeedConfigurationModel fcm)
-        {
-            if (nfa == null) return null;
-
-            try
-            {
-                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
-                var a = new ArticleModel
-                {
-                    Content = new List<ContentModel> { new ContentModel() { Html = nfa.text, ContentType = ContentType.Html } },
-                    LeadImage = new ImageModel()
-                    {
-                        Html = nfa.topelement_description,
-                        Url = new Uri(nfa.pic_bigstory)
-                    },
-                    PublicUri = new Uri(nfa.link),
-                    PublicationTime = DateTime.Parse(nfa.pubDate),
-                    SubTitle = nfa.oberzeile,
-                    Teaser = nfa.lead,
-                    Title = nfa.title,
-                    Author = nfa.author,
-                    Themes = new List<ThemeModel>()
-                    {
-                        await repo.GetThemeModelFor(nfa.category),
-                        await repo.GetThemeModelFor(fcm.Name)
-                    }
-                };
-
-                return a;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error,"ZwanzigMinHelper.FeedToArticleModel failed", this, ex);
-                return null;
-            }
         }
     }
 }
