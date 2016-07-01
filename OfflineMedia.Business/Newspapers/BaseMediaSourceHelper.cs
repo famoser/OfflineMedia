@@ -48,14 +48,15 @@ namespace OfflineMedia.Business.Newspapers
             };
         }
 
-        protected async Task AddThemesAsync(ArticleModel model, string[] themes)
+        protected async Task AddThemesAsync(ArticleModel model, string[] themes = null)
         {
             if (model.GetId() == 0)
                 return;
-            foreach (var theme in themes)
-            {
-                await _themeRepository.AddThemeToArticleAsync(model, theme);
-            }
+            if (themes != null)
+                foreach (var theme in themes)
+                {
+                    await _themeRepository.AddThemeToArticleAsync(model, theme);
+                }
             await _themeRepository.AddThemeToArticleAsync(model, model.Feed.Name);
         }
     }

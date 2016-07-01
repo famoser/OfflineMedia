@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using HtmlAgilityPack;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Helpers.Text;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Newspapers.Spiegel.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 
@@ -16,127 +19,47 @@ namespace OfflineMedia.Business.Newspapers.Spiegel
 {
     public class SpiegelHelper : BaseMediaSourceHelper
     {
-        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scf, FeedConfigurationModel fcm)
-        {
-            var articlelist = new List<ArticleModel>();
-            if (feed == null) return articlelist;
-
-            try
-            {
-                feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
-                feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
-                feed = HtmlHelper.RemoveXmlLvl(feed);
-                feed = feed.Replace("content:encoded", "content");
-
-                var channel = XmlHelper.Deserialize<Channel>(feed);
-                if (channel == null)
-                    LogHelper.Instance.Log(LogLevel.Error, "SpiegelHelper.EvaluateFeed failed: channel is null after deserialisation", this);
-                else
-                {
-                    foreach (var item in channel.Item)
-                    {
-                        var article = await FeedToArticleModel(item, fcm);
-                        if (article != null)
-                            articlelist.Add(article);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.EvaluateFeed failed", this, ex);
-            }
-            return articlelist;
-        }
-
-        public async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedConfigurationModel fcm)
+        public async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedModel feedModel)
         {
             if (nfa == null || nfa.Link.Contains("/video/video"))
                 return null;
 
-            try
-            {
-                var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
-                var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
-                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
-                var link = nfa.Link;
-                if (link.Contains("#ref=rss"))
-                    link = link.Replace("#ref=rss", "");
-                var a = new ArticleModel
-                {
-                    Title = title,
-                    SubTitle = subTitle,
-                    Teaser = nfa.Description,
-                    PublicationTime = DateTime.Parse(nfa.PubDate),
-                    PublicUri = new Uri(nfa.Link),
-                    LogicUri = new Uri(link),
-                    Themes = new List<ThemeModel>
-                    {
-                        await repo.GetThemeModelFor(nfa.Category)
-                    }
-                };
+            var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
+            var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
+            var link = nfa.Link;
+            if (link.Contains("#ref=rss"))
+                link = link.Replace("#ref=rss", "");
+            var a = ConstructArticleModel(feedModel);
+            a.Title = title;
+            a.SubTitle = subTitle;
+            a.Teaser = nfa.Description;
+            a.PublishDateTime = DateTime.Parse(nfa.PubDate);
+            a.PublicUri = nfa.Link;
+            a.LogicUri = link;
 
-                if (nfa.Enclosure != null && nfa.Enclosure.Type != null && nfa.Enclosure.Type.Contains("image"))
+
+            if (nfa.Enclosure != null && nfa.Enclosure.Type != null && nfa.Enclosure.Type.Contains("image"))
+            {
+                var url = nfa.Enclosure.Url;
+                if (url.Contains("thumbsmall"))
                 {
-                    var url = nfa.Enclosure.Url;
-                    if (url.Contains("thumbsmall"))
+                    var newurl = url.Replace("thumbsmall", "panoV9free");
+                    HttpRequestMessage ms = new HttpRequestMessage(HttpMethod.Head, newurl);
+                    using (var client = new HttpClient())
                     {
-                        var newurl = url.Replace("thumbsmall", "panoV9free");
-                        HttpRequestMessage ms = new HttpRequestMessage(HttpMethod.Head, newurl);
-                        using (var client = new HttpClient())
-                        {
-                            var res = await client.SendAsync(ms);
-                            if (res.IsSuccessStatusCode)
-                                url = newurl;
-                            else
-                                url = url.Replace("thumbsmall", "thumb");
-                        }
+                        var res = await client.SendAsync(ms);
+                        if (res.IsSuccessStatusCode)
+                            url = newurl;
+                        else
+                            url = url.Replace("thumbsmall", "thumb");
                     }
-                    a.LeadImage = new ImageModel { Url = new Uri(url) };
                 }
+                a.LeadImage = new ImageContentModel { Url = url };
+            }
 
-                return a;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "ZwanzigMinHelper.FeedToArticleModel failed", this, ex);
-                return null;
-            }
+            return a;
         }
 
-        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
-        {
-            try
-            {
-                await Task.Run(() =>
-                {
-                    var doc = new HtmlDocument();
-                    doc.LoadHtml(article);
-
-                    var articleColumn = doc.DocumentNode
-                        .Descendants("div")
-                        .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
-                                             o.GetAttributeValue("id", null).Contains("js-article-column"));
-
-                    var content = articleColumn
-                        .Descendants("p");
-
-                    if (content != null)
-                    {
-                        var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
-                        am.Content = new List<ContentModel>
-                        {
-                            new ContentModel {Html = CleanHtml(html), ContentType = ContentType.Html}
-                        };
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "EvaluateArticle failed for Spiegel", this, ex);
-                return new Tuple<bool, ArticleModel>(false, am);
-            }
-            return new Tuple<bool, ArticleModel>(true, am);
-        }
 
         private string CleanHtml(string html)
         {
@@ -174,6 +97,73 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                 html = part1 + part2;
             }
             return html;
+        }
+
+        public SpiegelHelper(IThemeRepository themeRepository) : base(themeRepository)
+        {
+        }
+
+        public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+
+                var articlelist = new List<ArticleModel>();
+                var feed = await DownloadAsync(feedModel);
+                if (feed == null) return articlelist;
+
+                feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
+                feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
+                feed = HtmlHelper.RemoveXmlLvl(feed);
+                feed = feed.Replace("content:encoded", "content");
+
+                var channel = XmlHelper.Deserialize<Channel>(feed);
+                if (channel == null)
+                    LogHelper.Instance.Log(LogLevel.Error,
+                        "SpiegelHelper.EvaluateFeed failed: channel is null after deserialisation", this);
+                else
+                {
+                    foreach (var item in channel.Item)
+                    {
+                        var article = await FeedToArticleModel(item, feedModel);
+                        if (article != null)
+                            articlelist.Add(article);
+                    }
+                }
+
+                return articlelist;
+            });
+        }
+
+        public override Task<bool> EvaluateArticle(ArticleModel articleModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+                //await AddThemesAsync(nfa.Category);
+
+                var article = await DownloadAsync(articleModel);
+                var doc = new HtmlDocument();
+                doc.LoadHtml(article);
+
+                var articleColumn = doc.DocumentNode
+                    .Descendants("div")
+                    .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
+                                         o.GetAttributeValue("id", null).Contains("js-article-column"));
+
+                var content = articleColumn
+                    .Descendants("p");
+
+                if (content != null)
+                {
+                    var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
+                    articleModel.Content.Add(new TextContentModel()
+                    {
+                        Content = HtmlConverter.HtmlToParagraph(CleanHtml(html))
+                    });
+                    return true;
+                }
+                return false;
+            });
         }
     }
 }

@@ -6,7 +6,10 @@ using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
+using OfflineMedia.Business.Helpers.Text;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Newspapers.Stern.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 
@@ -14,31 +17,6 @@ namespace OfflineMedia.Business.Newspapers.Stern
 {
     public class SternHelper : BaseMediaSourceHelper
     {
-#pragma warning disable 1998
-        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel fcm)
-#pragma warning restore 1998
-        {
-            var articlelist = new List<ArticleModel>();
-            if (feed != null)
-            {
-                try
-                {
-                    var f = JsonConvert.DeserializeObject<SternFeed>(feed);
-                    foreach (var entry in f.entries)
-                    {
-                        if (entry.type == "teaserlist")
-                        {
-                            articlelist.AddRange(entry.entries.Select(rawarticles => FeedToArticleModel(rawarticles, scm)).Where(article => article != null));
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateFeed failed", this, ex);
-                }
-            }
-            return articlelist;
-        }
 
         public ArticleModel FeedToArticleModel(Entry2 nfa, SourceConfigurationModel scm)
         {
@@ -70,7 +48,7 @@ namespace OfflineMedia.Business.Newspapers.Stern
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, "SternHelper.FeedToArticleModel failed",this, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "SternHelper.FeedToArticleModel failed", this, ex);
             }
             return null;
         }
@@ -100,28 +78,23 @@ namespace OfflineMedia.Business.Newspapers.Stern
             return true;
         }
 
-        public async Task<Tuple<bool, ArticleModel>> ArticleToArticleModel(SternArticle na, ArticleModel am)
+        private async Task<Tuple<bool, ArticleModel>> ArticleToArticleModel(SternArticle na, ArticleModel am)
         {
             if (na != null)
             {
                 try
                 {
-                    am.Content = new List<ContentModel>()
+                    am.Content.Add(new TextContentModel()
                     {
-                        new ContentModel()
-                        {
-                            ContentType = ContentType.Html,
-                            Html = GetHtml(na.content)
-                        }
-                    };
+                        Content = HtmlConverter.HtmlToParagraph(GetHtml(na.content))
+                    });
 
                     if (na.head != null && na.head.credits != null)
                     {
                         am.Author = na.head.credits.author;
                     }
-                   
-                    var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
-                    am.Themes = new List<ThemeModel> {await repo.GetThemeModelFor(am.FeedConfiguration.Name)};
+                    
+                    await AddThemesAsync(am, null);
 
                     return new Tuple<bool, ArticleModel>(true, am);
                 }
@@ -171,6 +144,40 @@ namespace OfflineMedia.Business.Newspapers.Stern
 
 
             return res;
+        }
+
+        public SternHelper(IThemeRepository themeRepository) : base(themeRepository)
+        {
+        }
+
+        public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+
+                var articlelist = new List<ArticleModel>();
+                var feed = await DownloadAsync(feedModel);
+                if (feed != null)
+                {
+                    var f = JsonConvert.DeserializeObject<SternFeed>(feed);
+                    foreach (var entry in f.entries)
+                    {
+                        if (entry.type == "teaserlist")
+                        {
+                            articlelist.AddRange(
+                                entry.entries.Select(rawarticles => FeedToArticleModel(rawarticles, scm))
+                                    .Where(article => article != null));
+                        }
+                    }
+                }
+                return articlelist;
+
+            });
+        }
+
+        public override Task<bool> EvaluateArticle(ArticleModel articleModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

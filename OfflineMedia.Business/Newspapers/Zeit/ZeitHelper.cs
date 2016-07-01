@@ -56,7 +56,7 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                             foreach (var feedArticle in region.Container)
                             {
 
-                                var article = await FeedToArticleModel(feedArticle, feedModel);
+                                var article = FeedToArticleModel(feedArticle, feedModel);
                                 if (article != null)
                                     articlelist.Add(article);
                             }
@@ -111,42 +111,48 @@ namespace OfflineMedia.Business.Newspapers.Zeit
             }
         }
 
-        private async Task<ArticleModel> FeedToArticleModel(Container feedArticle, FeedModel fcm)
+        private ArticleModel FeedToArticleModel(Container feedArticle, FeedModel fcm)
         {
-            if (feedArticle?.Block == null) return null;
-
-            //block articles from other domains and videos
-            if (!feedArticle.Block.Href.Contains("xml.zeit.de/") ||
-                feedArticle.Block.Href.Contains("zeit.de/video/"))
-                return null;
-
-            var link = "http://" + feedArticle.Block.Href.Trim().Substring(2);
-            var pubLink = link.Replace("xml.zeit.de", "zeit.de");
-            var a = ConstructArticleModel(fcm);
-            a.Title = feedArticle.Block.Title;
-            a.SubTitle = feedArticle.Block.Supertitle;
-            a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
-            a.Author = feedArticle.Block._Author;
-            a.Content.Add(TextConverter.TextToTextModel(feedArticle.Block.Text));
-
-            DateTime dateTime;
-            if (DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime))
-                a.PublishDateTime = dateTime;
-
-            a.PublicUri = pubLink;
-            a.LogicUri = link;
-            await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
-
-            if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null && !string.IsNullOrEmpty(feedArticle.Block.Image.Type))
+            return ExecuteSafe(() =>
             {
-                var url = feedArticle.Block.Image.Baseid.Trim();
-                if (url.Contains("//xml.zeit.de"))
-                {
-                    a.LeadImage = new ImageContentModel() { Url = "http://" + url.Replace("//xml.zeit.de", "zeit.de") + "cinema__940x403" };
-                }
-            }
+                if (feedArticle?.Block == null) return null;
 
-            return a;
+                //block articles from other domains and videos
+                if (!feedArticle.Block.Href.Contains("xml.zeit.de/") ||
+                    feedArticle.Block.Href.Contains("zeit.de/video/"))
+                    return null;
+
+                var link = "http://" + feedArticle.Block.Href.Trim().Substring(2);
+                var pubLink = link.Replace("xml.zeit.de", "zeit.de");
+                var a = ConstructArticleModel(fcm);
+                a.Title = feedArticle.Block.Title;
+                a.SubTitle = feedArticle.Block.Supertitle;
+                a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
+                a.Author = feedArticle.Block._Author;
+                a.Content.Add(TextConverter.TextToTextModel(feedArticle.Block.Text));
+
+                DateTime dateTime;
+                if (DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime))
+                    a.PublishDateTime = dateTime;
+
+                a.PublicUri = pubLink;
+                a.LogicUri = link;
+
+                if (feedArticle.Block.Image != null && feedArticle.Block.Image.Baseid != null &&
+                    !string.IsNullOrEmpty(feedArticle.Block.Image.Type))
+                {
+                    var url = feedArticle.Block.Image.Baseid.Trim();
+                    if (url.Contains("//xml.zeit.de"))
+                    {
+                        a.LeadImage = new ImageContentModel()
+                        {
+                            Url = "http://" + url.Replace("//xml.zeit.de", "zeit.de") + "cinema__940x403"
+                        };
+                    }
+                }
+
+                return a;
+            });
         }
 
         private bool RepairArticleXml(ref string xml)
@@ -213,6 +219,8 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                     {
                         Content = HtmlConverter.HtmlToParagraph(html)
                     });
+                
+                await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
 
                 return true;
             });

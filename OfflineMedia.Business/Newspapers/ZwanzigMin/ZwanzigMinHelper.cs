@@ -29,8 +29,9 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
         {
             if (nfa == null) return null;
 
-            return await ExecuteSafe(async () =>
+            ExecuteSafe(() =>
             {
+
                 var a = ConstructArticleModel(fcm);
                 a.Content.Add(
                     new TextContentModel()
@@ -49,7 +50,6 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.Teaser = nfa.lead;
                 a.Title = nfa.title;
                 a.Author = nfa.author;
-                await AddThemesAsync(a, new[] { nfa.category });
 
                 a.LoadingState = LoadingState.Loaded;
 
@@ -98,7 +98,11 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
         {
-            throw new NotImplementedException();
+            return ExecuteSafe(async () =>
+            {
+                await AddThemesAsync(articleModel, new[] {nfa.category});
+                return true;
+            });
         }
     }
 }

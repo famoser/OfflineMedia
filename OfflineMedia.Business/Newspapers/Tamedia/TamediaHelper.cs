@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight.Ioc;
+using HtmlAgilityPack;
 using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
+using OfflineMedia.Business.Helpers.Text;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.NewsModel;
+using OfflineMedia.Business.Models.NewsModel.ContentModels;
 using OfflineMedia.Business.Newspapers.Tamedia.Models;
 using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Data.Helpers;
@@ -14,96 +18,23 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
 {
     public class TamediaHelper : BaseMediaSourceHelper
     {
-        public override async Task<List<ArticleModel>> EvaluateFeed(string feed, SourceConfigurationModel scm, FeedConfigurationModel feeedConfigModel)
-        {
-            var articlelist = new List<ArticleModel>();
-            if (feed == null) return articlelist;
-
-            try
-            {
-                Feed f = JsonConvert.DeserializeObject<Feed>(feed);
-                if (f.category != null && f.category.page_elements != null)
-                    foreach (var page in f.category.page_elements)
-                    {
-                        foreach (var article in page.articles)
-                        {
-                            var am = await FeedToArticleModel(article, scm, feeedConfigModel);
-                            if (am != null)
-                                articlelist.Add(am);
-                        }
-                    }
-                if (f.list != null && f.list.page_elements != null)
-                    foreach (var page in f.list.page_elements)
-                    {
-                        foreach (var article in page.articles)
-                        {
-                            var am = await FeedToArticleModel(article, scm, feeedConfigModel);
-                            if (am != null)
-                                articlelist.Add(am);
-                        }
-                    }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "TamediaHelper.EvaluateFeed failed", this, ex);
-            }
-            return articlelist;
-        }
-
-        public override bool NeedsToEvaluateArticle()
-        {
-            return false;
-        }
-
-#pragma warning disable 1998
-        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
-#pragma warning restore 1998
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override List<string> GetKeywords(ArticleModel articleModel)
-        {
-            var part1 = TextHelper.GetImportantWords(articleModel.Title);
-            //var part2 = TextHelper.Instance.GetImportantWords(articleModel.SubTitle);
-
-            return TextHelper.FusionLists(part1);
-        }
-
-        public async Task<ArticleModel> FeedToArticleModel(Article nfa, SourceConfigurationModel scm, FeedConfigurationModel feedConfigModel)
+        private ArticleModel FeedToArticleModel(Article nfa, FeedModel feedModel)
         {
             if (nfa == null) return null;
 
             try
             {
-                var a = new ArticleModel
-                {
-                    PublicationTime = GetCShartTimestamp(nfa.first_published_at),
-                    Title = nfa.title,
-                    SubTitle = null,
-                    Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", ""),
-                    LogicUri = new Uri(scm.LogicBaseUrl + "api/articles/" + nfa.id),
-                    PublicUri = new Uri(scm.PublicBaseUrl + nfa.legacy_id),
-                };
-
-                var repo = SimpleIoc.Default.GetInstance<IThemeRepository>();
-
-
-                //TODO: How to classify?
-                a.Themes = new List<ThemeModel>
-                {
-                    await repo.GetThemeModelFor(feedConfigModel.Name)
-                };
-
+                var a = ConstructArticleModel(feedModel);
+                a.PublishDateTime = GetCShartTimestamp(nfa.first_published_at);
+                a.Title = nfa.title;
+                a.SubTitle = null;
+                a.Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", "");
+                a.LogicUri = feedModel.Source.LogicBaseUrl + "api/articles/" + nfa.id;
+                a.PublicUri = feedModel.Source.LogicBaseUrl + nfa.legacy_id;
                 
                 if (a.LeadImage == null && nfa.picture_medium_url != null)
                 {
-                    a.LeadImage = new ImageModel() { Url = new Uri(nfa.picture_medium_url) };
+                    a.LeadImage = new ImageContentModel() { Url = nfa.picture_medium_url };
                 }
                 if (nfa.authors != null)
                 {
@@ -130,14 +61,10 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
                     else
                         a.Author += " " + nfa.source;
                 }
-
-                a.Content = new List<ContentModel>
+                a.Content.Add(new TextContentModel()
                 {
-                    new ContentModel() {
-                        Html = nfa.text,
-                        ContentType = ContentType.Html
-                    }
-                };
+                    Content = HtmlConverter.HtmlToParagraph(nfa.text)
+                });
                 if (nfa.article_elements != null)
                 {
                     foreach (var elemnt in nfa.article_elements)
@@ -177,7 +104,7 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, "TamediaHelper.FeedToArticleModel failed",this, ex);
+                LogHelper.Instance.Log(LogLevel.Error, "TamediaHelper.FeedToArticleModel failed", this, ex);
                 return null;
             }
         }
@@ -196,5 +123,53 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
             return dt;
         }
         #endregion
+
+        public TamediaHelper(IThemeRepository themeRepository) : base(themeRepository)
+        {
+        }
+
+        public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+                var articlelist = new List<ArticleModel>();
+                var feed = await DownloadAsync(feedModel);
+                if (feed == null) return articlelist;
+
+                Feed f = JsonConvert.DeserializeObject<Feed>(feed);
+                if (f.category != null && f.category.page_elements != null)
+                    foreach (var page in f.category.page_elements)
+                    {
+                        foreach (var article in page.articles)
+                        {
+                            var am = FeedToArticleModel(article, feedModel);
+                            if (am != null)
+                                articlelist.Add(am);
+                        }
+                    }
+                if (f.list != null && f.list.page_elements != null)
+                    foreach (var page in f.list.page_elements)
+                    {
+                        foreach (var article in page.articles)
+                        {
+                            var am = FeedToArticleModel(article, feedModel);
+                            if (am != null)
+                                articlelist.Add(am);
+                        }
+                    }
+
+                return articlelist;
+
+            });
+        }
+
+        public override Task<bool> EvaluateArticle(ArticleModel articleModel)
+        {
+            return ExecuteSafe(async () =>
+            {
+                await AddThemesAsync(articleModel);
+                return true;
+            });
+        }
     }
 }

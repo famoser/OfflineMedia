@@ -20,7 +20,7 @@ namespace OfflineMedia.Business.Newspapers.OpenWeatherMap
                     res.City = f.city.name;
                     if (!string.IsNullOrEmpty(f.city.country))
                         res.City += " (" + f.city.country + ")";
-                    res.ForecastItems = new List<ForecastItem>();
+                    res.Forecasts.Clear();
                     foreach (var entry in f.list)
                     {
                         var item = new ForecastItem { Date = ConvertFromUnixTimestamp(entry.dt) };
@@ -62,7 +62,7 @@ namespace OfflineMedia.Business.Newspapers.OpenWeatherMap
                             item.RainVolume = entry.snow._3h;
                         }
 
-                        res.ForecastItems.Add(item);
+                        res.Forecasts.Add(item);
                     }
 
                 }
