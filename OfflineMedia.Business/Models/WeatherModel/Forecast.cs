@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Newtonsoft.Json;
 using OfflineMedia.Business.Models.Base;
 
 namespace OfflineMedia.Business.Models.WeatherModel
@@ -8,6 +9,9 @@ namespace OfflineMedia.Business.Models.WeatherModel
     {
         public string City { get; set; }
 
+        public ObservableCollection<ForecastItem> Forecasts { get; } = new ObservableCollection<ForecastItem>();
+
+        [JsonIgnore]
         public ForecastItem CurrentForecast
         {
             get
@@ -19,6 +23,7 @@ namespace OfflineMedia.Business.Models.WeatherModel
         }
 
         private int _activeIndex;
+        [JsonIgnore]
         public int ActiveIndex
         {
             get { return _activeIndex; }
@@ -29,7 +34,6 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
-        public ObservableCollection<ForecastItem> Forecasts { get; } = new ObservableCollection<ForecastItem>();
 
         //public void SetCurrentForecast()
         //{

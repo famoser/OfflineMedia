@@ -70,6 +70,7 @@ namespace OfflineMedia.Business.Repositories
                     {
                         var articles = await media.EvaluateFeed(model);
                         await FeedHelper.SaveFeed(model, articles, _sqliteService);
+                        _imageDownloadService.Download(model);
                     }
 
                     if (incrementProgress)
@@ -91,6 +92,7 @@ namespace OfflineMedia.Business.Repositories
                         await ArticleHelper.SaveArticle(model, _sqliteService);
                         await ArticleHelper.SaveArticleLeadImage(model, _sqliteService);
                         await ArticleHelper.SaveArticleContent(model, _sqliteService);
+                        _imageDownloadService.Download(model);
                     }
 
                     if (incrementProgress)

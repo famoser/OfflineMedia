@@ -1,4 +1,5 @@
 ﻿using Famoser.SqliteWrapper.Attributes;
+using OfflineMedia.Business.Enums.Models;
 
 namespace OfflineMedia.Business.Models.NewsModel.ContentModels
 {
@@ -6,8 +7,8 @@ namespace OfflineMedia.Business.Models.NewsModel.ContentModels
     {
         [EntityMap]
         public string Url { get; set; }
-        [EntityMap]
-        public int LoadingState { get; set; }
+        [EntityMap, EntityConversion(typeof(int), typeof(LoadingState))]
+        public LoadingState LoadingState { get; set; }
         
         [EntityMap]
         public byte[] Image { get; set; }

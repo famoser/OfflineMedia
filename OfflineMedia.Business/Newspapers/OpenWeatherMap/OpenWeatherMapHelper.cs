@@ -9,69 +9,56 @@ namespace OfflineMedia.Business.Newspapers.OpenWeatherMap
 {
     public class OpenWeatherMapHelper
     {
-        public static Forecast EvaluateFeed(string feed, Dictionary<string, string> weatherFontMapping)
+        public static void EvaluateFeed(string feed, Dictionary<string, string> weatherFontMapping, Forecast forecast)
         {
-            var res = new Forecast();
-            if (feed != null)
+            forecast.Forecasts.Clear();
+            var f = JsonConvert.DeserializeObject<Models.Forecast.RootObject>(feed);
+            forecast.City = f.city.name;
+            if (!string.IsNullOrEmpty(f.city.country))
+                forecast.City += " (" + f.city.country + ")";
+            foreach (var entry in f.list)
             {
-                try
+                var item = new ForecastItem { Date = ConvertFromUnixTimestamp(entry.dt) };
+
+                if (entry.main != null)
                 {
-                    var f = JsonConvert.DeserializeObject<Models.Forecast.RootObject>(feed);
-                    res.City = f.city.name;
-                    if (!string.IsNullOrEmpty(f.city.country))
-                        res.City += " (" + f.city.country + ")";
-                    res.Forecasts.Clear();
-                    foreach (var entry in f.list)
-                    {
-                        var item = new ForecastItem { Date = ConvertFromUnixTimestamp(entry.dt) };
-
-                        if (entry.main != null)
-                        {
-                            item.HumidityPercentage = entry.main.humidity;
-                            item.PressurehPa = entry.main.pressure;
-                            item.TemperatureKelvin = entry.main.temp;
-                        }
-
-                        if (entry.weather != null && entry.weather.Any())
-                        {
-                            var weather = entry.weather.FirstOrDefault();
-                            item.ConditionId = weather.id;
-                            if (weatherFontMapping.ContainsKey(weather.id.ToString()))
-                                item.ConditionFontIcon = ((char)int.Parse(weatherFontMapping[weather.id.ToString()], System.Globalization.NumberStyles.HexNumber)).ToString();
-                            item.Description = weather.description;
-                        }
-
-                        if (entry.clouds != null)
-                        {
-                            item.CloudinessPercentage = entry.clouds.all;
-                        }
-
-                        if (entry.wind != null)
-                        {
-                            item.WindDegreee = entry.wind.deg;
-                            item.WindSpeed = entry.wind.speed;
-                        }
-
-                        if (entry.rain != null)
-                        {
-                            item.RainVolume = entry.rain._3h;
-                        }
-
-                        if (entry.snow != null)
-                        {
-                            item.RainVolume = entry.snow._3h;
-                        }
-
-                        res.Forecasts.Add(item);
-                    }
-
+                    item.HumidityPercentage = entry.main.humidity;
+                    item.PressurehPa = entry.main.pressure;
+                    item.TemperatureKelvin = entry.main.temp;
                 }
-                catch (Exception ex)
+
+                if (entry.weather != null && entry.weather.Any())
                 {
-                    LogHelper.Instance.Log(LogLevel.Error, "Exception in EvaluateFeed", "OpenWeatherMapHelper",ex);
+                    var weather = entry.weather.FirstOrDefault();
+                    item.ConditionId = weather.id;
+                    if (weatherFontMapping.ContainsKey(weather.id.ToString()))
+                        item.ConditionFontIcon = ((char)int.Parse(weatherFontMapping[weather.id.ToString()], System.Globalization.NumberStyles.HexNumber)).ToString();
+                    item.Description = weather.description;
                 }
+
+                if (entry.clouds != null)
+                {
+                    item.CloudinessPercentage = entry.clouds.all;
+                }
+
+                if (entry.wind != null)
+                {
+                    item.WindDegreee = entry.wind.deg;
+                    item.WindSpeed = entry.wind.speed;
+                }
+
+                if (entry.rain != null)
+                {
+                    item.RainVolume = entry.rain._3h;
+                }
+
+                if (entry.snow != null)
+                {
+                    item.RainVolume = entry.snow._3h;
+                }
+
+                forecast.Forecasts.Add(item);
             }
-            return res;
         }
 
         private static DateTime ConvertFromUnixTimestamp(int timestamp)

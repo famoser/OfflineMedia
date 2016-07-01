@@ -275,6 +275,9 @@
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Helpers\EntityModelConverter.cs" />
     <Compile Include="Helpers\FeedHelper.cs" />
+    <Compile Include="Managers\ForecastManager.cs" />
+    <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
+    <Compile Include="Services\ImageDownloadService.cs" />
     <Compile Include="Helpers\Text\TextConverter.cs" />
     <Compile Include="Managers\SettingManager.cs" />
     <Compile Include="Managers\ThemeManager.cs" />

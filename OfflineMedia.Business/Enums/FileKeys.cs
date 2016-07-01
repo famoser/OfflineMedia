@@ -10,6 +10,8 @@ namespace OfflineMedia.Business.Enums
         SettingsUserConfiguration,
         [Description("sources_configuration.V1")]
         SourcesUserConfiguration,
+        [Description("weather_cache.V1")]
+        WeatherCache,
         [Description("Assets/Configuration/Settings_min.json")]
         SettingsConfiguration,
         [Description("Assets/Configuration/Sources_min.json")]

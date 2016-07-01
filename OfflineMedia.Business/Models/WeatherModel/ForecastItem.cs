@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Base;
 
@@ -18,6 +19,13 @@ namespace OfflineMedia.Business.Models.WeatherModel
         public int HumidityPercentage { get; set; }
         public int CloudinessPercentage { get; set; }
 
+        public double WindSpeed { get; set; }
+        public double WindDegreee { get; set; }
+
+        public double RainVolume { get; set; }
+        public double SnowVolume { get; set; }
+
+        [JsonIgnore]
         public WeatherLevel RainLevel
         {
             get
@@ -40,6 +48,7 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
+        [JsonIgnore]
         public WeatherLevel SnowLevel
         {
             get
@@ -62,6 +71,7 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
+        [JsonIgnore]
         public WeatherLevel WindLevel
         {
             get
@@ -84,6 +94,7 @@ namespace OfflineMedia.Business.Models.WeatherModel
             }
         }
 
+        [JsonIgnore]
         public string WindDirection
         {
             get
@@ -98,11 +109,5 @@ namespace OfflineMedia.Business.Models.WeatherModel
                 return res;
             }
         }
-
-        public double WindSpeed { get; set; }
-        public double WindDegreee { get; set; }
-
-        public double RainVolume { get; set; }
-        public double SnowVolume { get; set; }
     }
 }

@@ -28,6 +28,7 @@ using OfflineMedia.Data.Entities.Database.Contents;
 using OfflineMedia.Data.Entities.Database.Relations;
 using OfflineMedia.Data.Entities.Storage;
 using OfflineMedia.Data.Entities.Storage.Settings;
+using OfflineMedia.Data.Entities.Storage.Sources;
 using OfflineMedia.Data.Enums;
 
 namespace OfflineMedia.Business.Repositories
@@ -35,11 +36,11 @@ namespace OfflineMedia.Business.Repositories
     public partial class ArticleRepository : BaseRepository, IArticleRepository
     {
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IThemeRepository _themeRepository;
         private readonly IProgressService _progressService;
-        private readonly IPlatformCodeService _platformCodeService;
         private readonly IStorageService _storageService;
         private readonly ISqliteService _sqliteService;
+        private readonly IPlatformCodeService _platformCodeService;
+        private readonly ImageDownloadService _imageDownloadService;
 
         private readonly GenericRepository<ArticleModel, ArticleEntity> _articleGenericRepository;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _imageContentGenericRepository;
@@ -47,19 +48,19 @@ namespace OfflineMedia.Business.Repositories
         private readonly GenericRepository<GalleryContentModel, GalleryContentEntity> _galleryContentGenericRepository;
 
 #pragma warning disable 4014
-        public ArticleRepository(ISettingsRepository settingsRepository, IThemeRepository themeRepository, IProgressService progressService, IPlatformCodeService platformCodeService, IStorageService storageService, ISqliteService sqliteService)
+        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IPlatformCodeService platformCodeService)
         {
             _settingsRepository = settingsRepository;
-            _themeRepository = themeRepository;
             _progressService = progressService;
-            _platformCodeService = platformCodeService;
             _storageService = storageService;
             _sqliteService = sqliteService;
+            _platformCodeService = platformCodeService;
 
             _articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(_sqliteService);
             _imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(_sqliteService);
             _textContentGenericRepository = new GenericRepository<TextContentModel, TextContentEntity>(_sqliteService);
             _galleryContentGenericRepository = new GenericRepository<GalleryContentModel, GalleryContentEntity>(_sqliteService);
+            _imageDownloadService = new ImageDownloadService(_platformCodeService, _sqliteService);
 
             Initialize();
         }

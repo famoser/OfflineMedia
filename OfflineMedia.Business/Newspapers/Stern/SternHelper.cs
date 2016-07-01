@@ -18,92 +18,51 @@ namespace OfflineMedia.Business.Newspapers.Stern
     public class SternHelper : BaseMediaSourceHelper
     {
 
-        public ArticleModel FeedToArticleModel(Entry2 nfa, SourceConfigurationModel scm)
+        public ArticleModel FeedToArticleModel(Entry2 nfa, FeedModel scm)
         {
             if (nfa == null) return null;
 
-            try
+            return ExecuteSafe(() =>
             {
                 if (nfa.articleType == "standard-article")
                 {
-                    var a = new ArticleModel
-                    {
-                        PublicationTime = DateTime.Parse(nfa.timestamp),
-                        Title = nfa.kicker,
-                        SubTitle = nfa.headline,
-                        Teaser = nfa.teaser,
-                    };
+                    var a = ConstructArticleModel(scm);
+                    a.PublishDateTime = DateTime.Parse(nfa.timestamp);
+                    a.Title = nfa.kicker;
+                    a.SubTitle = nfa.headline;
+                    a.Teaser = nfa.teaser;
+
 
                     if (nfa.images != null && nfa.images.Count > 3)
-                        a.LeadImage = new ImageModel()
+                        a.LeadImage = new ImageContentModel()
                         {
-                            Url = new Uri(nfa.images[3].src)
+                            Url = nfa.images[3].src
                         };
 
-                    a.LogicUri = new Uri(scm.LogicBaseUrl + nfa.contentId + ".json");
-                    a.PublicUri = new Uri(scm.PublicBaseUrl + nfa.contentId);
+                    a.LogicUri = scm.Source.LogicBaseUrl + nfa.contentId + ".json";
+                    a.PublicUri = scm.Source.PublicBaseUrl + nfa.contentId;
 
                     return a;
                 }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "SternHelper.FeedToArticleModel failed", this, ex);
-            }
-            return null;
+                return null;
+            });
         }
 
-        public override async Task<Tuple<bool, ArticleModel>> EvaluateArticle(string article, ArticleModel am)
+        private async Task<bool> ArticleToArticleModel(SternArticle na, ArticleModel am)
         {
-            if (article == null) return new Tuple<bool, ArticleModel>(false, am);
-
-            try
+            am.Content.Add(new TextContentModel()
             {
-                article = article.Replace("[[]]", "[]");
-                var a = JsonConvert.DeserializeObject<SternArticle>(article);
-                return await ArticleToArticleModel(a, am);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Instance.Log(LogLevel.Error, "NzzHelper.EvaluateArticle failed", this, ex);
-            }
-            return new Tuple<bool, ArticleModel>(false, am);
-        }
+                Content = HtmlConverter.HtmlToParagraph(GetHtml(na.content))
+            });
 
-        public override bool WriteProperties(ref ArticleModel original, ArticleModel evaluatedArticle)
-        {
-            original.Content = evaluatedArticle.Content;
-            original.Author = evaluatedArticle.Author;
-            original.Themes = evaluatedArticle.Themes;
+            if (na.head != null && na.head.credits != null)
+            {
+                am.Author = na.head.credits.author;
+            }
+
+            await AddThemesAsync(am);
+
             return true;
-        }
-
-        private async Task<Tuple<bool, ArticleModel>> ArticleToArticleModel(SternArticle na, ArticleModel am)
-        {
-            if (na != null)
-            {
-                try
-                {
-                    am.Content.Add(new TextContentModel()
-                    {
-                        Content = HtmlConverter.HtmlToParagraph(GetHtml(na.content))
-                    });
-
-                    if (na.head != null && na.head.credits != null)
-                    {
-                        am.Author = na.head.credits.author;
-                    }
-                    
-                    await AddThemesAsync(am, null);
-
-                    return new Tuple<bool, ArticleModel>(true, am);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Instance.Log(LogLevel.Error, "SternHelper.ArticleToArticleModel deserialization failed", this, ex);
-                }
-            }
-            return new Tuple<bool, ArticleModel>(false, am);
         }
 
         private string GetHtml(List<Content> children)
@@ -165,7 +124,7 @@ namespace OfflineMedia.Business.Newspapers.Stern
                         if (entry.type == "teaserlist")
                         {
                             articlelist.AddRange(
-                                entry.entries.Select(rawarticles => FeedToArticleModel(rawarticles, scm))
+                                entry.entries.Select(rawarticles => FeedToArticleModel(rawarticles, feedModel))
                                     .Where(article => article != null));
                         }
                     }
@@ -177,7 +136,14 @@ namespace OfflineMedia.Business.Newspapers.Stern
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
         {
-            throw new NotImplementedException();
+            return ExecuteSafe(async () =>
+            {
+                var article = await DownloadAsync(articleModel);
+
+                article = article.Replace("[[]]", "[]");
+                var a = JsonConvert.DeserializeObject<SternArticle>(article);
+                return await ArticleToArticleModel(a, articleModel);
+            });
         }
     }
 }

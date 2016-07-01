@@ -12,7 +12,7 @@ namespace OfflineMedia.Data.Entities.Storage
     {
         public string Name { get; set; }
         public string Abbreviation { get; set; }
-        public Sources Source { get; set; }
+        public Enums.Sources Source { get; set; }
         public string LogicBaseUrl { get; set; }
         public string PublicBaseUrl { get; set; }
 

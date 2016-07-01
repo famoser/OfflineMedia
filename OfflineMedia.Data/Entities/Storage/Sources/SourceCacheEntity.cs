@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OfflineMedia.Data.Entities.Storage.Settings
+namespace OfflineMedia.Data.Entities.Storage.Sources
 {
     public class SourceCacheEntity
     {

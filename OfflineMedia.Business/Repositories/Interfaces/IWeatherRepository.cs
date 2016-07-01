@@ -6,6 +6,8 @@ namespace OfflineMedia.Business.Repositories.Interfaces
 {
     public interface IWeatherRepository
     {
-        Task<ObservableCollection<Forecast>> GetForecasts();
+        ObservableCollection<Forecast> GetForecasts();
+
+        Task<bool> ActualizeAsync();
     }
 }
