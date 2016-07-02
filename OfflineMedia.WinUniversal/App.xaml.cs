@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using OfflineMedia.WinUniversal.Pages;
 
 namespace OfflineMedia.WinUniversal
 {

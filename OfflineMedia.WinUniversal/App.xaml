@@ -2,8 +2,7 @@
     x:Class="OfflineMedia.WinUniversal.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:OfflineMedia.WinUniversal"
-    xmlns:viewModel="using:OfflineMedia.ViewModel"
+    xmlns:viewModel="using:OfflineMedia.WinUniversal.ViewModel"
     RequestedTheme="Light">
 
     <Application.Resources>

@@ -1,20 +1,20 @@
-﻿using Famoser.FrameworkEssentials.UniversalWindows.Platform;
+﻿using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.View.Enums;
-using GalaSoft.MvvmLight.Views;
-using OfflineMedia.WinUniversal;
+using OfflineMedia.WinUniversal.Pages;
 
-namespace OfflineMedia.Platform
+namespace OfflineMedia.WinUniversal.Platform
 {
     public static class NavigationHelper
     {
-        public static INavigationService CreateNavigationService()
+        public static IHistoryNavigationService CreateNavigationService()
         {
-            var navigationService = new CustomNavigationService();
+            var navigationService = new HistoryNavigationServices();
 
-            navigationService.Implementation.Configure(PageKeys.Main.ToString(), typeof(MainPage));
-            //navigationService.Configure(PageKeys.Feed.ToString(), typeof(FeedPage));
-            //navigationService.Configure(PageKeys.Article.ToString(), typeof(NewArticlePage));
-            //navigationService.Configure(PageKeys.Settings.ToString(), typeof(SettingsPage));
+            navigationService.Configure(PageKeys.Main.ToString(), typeof(MainPage));
+            navigationService.Configure(PageKeys.Feed.ToString(), typeof(FeedPage));
+            navigationService.Configure(PageKeys.Article.ToString(), typeof(NewArticlePage));
+            navigationService.Configure(PageKeys.Settings.ToString(), typeof(SettingsPage));
 
             return navigationService;
         }

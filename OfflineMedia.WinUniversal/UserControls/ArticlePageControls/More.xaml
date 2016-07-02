@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="OfflineMedia.WinUniversal.UserControls.ArticlePageControls.More"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:OfflineMedia.WinUniversal.UserControls"
+    mc:Ignorable="d"
+    d:DesignHeight="1200"
+    d:DesignWidth="600"
+    DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
+
+    <StackPanel>
+        <Grid Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--<Button Grid.Column="0" Command="{Binding ReloadArticleCommand}" Style="{ThemeResource Button}">
+                <Button.Content>
+                    <SymbolIcon Symbol="Refresh" />
+                </Button.Content>
+            </Button>-->
+            <Button Grid.Column="2" Command="{Binding FavoriteCommand}" Style="{ThemeResource Button}">
+                <Button.Content>
+                    <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
+                </Button.Content>
+            </Button>
+            <Button Grid.Column="3"  Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource Button}">
+                <Button.Content>
+                    <SymbolIcon Symbol="World" />
+                </Button.Content>
+            </Button>
+        </Grid>
+
+        <StackPanel Background="{ThemeResource BackgroundThemeBrush}">
+            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
+            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
+        </StackPanel>
+
+        <Grid Margin="0,4,0,4" Background="{ThemeResource BackgroundThemeBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="5">
+                <TextBlock Text="Veröffentlichungsdatum" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.PublicationTime, Converter={StaticResource DetailedDateTimeConverter}}" />
+                <TextBlock Text="Author" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Author}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5">
+                <TextBlock Text="heruntergeladen am" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.CreateDate, Converter={StaticResource DetailedDateTimeConverter}}" />
+                <TextBlock Text="Quelle" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.FeedConfiguration.SourceConfiguration.SourceNameLong}" />
+            </StackPanel>
+        </Grid>
+        <StackPanel Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
+            <StackPanel Margin="5">
+                <TextBlock Text="Themen:" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" FontSize="16" Text="{Binding Article.Themes, Converter={StaticResource ThemeConverter}}" />
+                <TextBlock Text="Stichworte:" />
+                <TextBlock Style="{ThemeResource OptionsSettingsTextBlock}" TextWrapping="Wrap" FontSize="16" Text="{Binding Article.WordDump}" />
+            </StackPanel>
+        </StackPanel>
+        <userControls:ArticleList Margin="0,0,0,10" DataContext="{Binding SimilarCathegoriesArticles}" />
+        <userControls:ArticleList Margin="0,0,0,-4" DataContext="{Binding SimilarTitlesArticles}" />
+    </StackPanel>
+</UserControl>

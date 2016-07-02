@@ -1,8 +1,10 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.Phone.UI.Input;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace OfflineMedia.WinUniversal
+namespace OfflineMedia.WinUniversal.Pages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -11,7 +13,31 @@ namespace OfflineMedia.WinUniversal
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (!e.Handled)
+            { 
+                if (_open)
+                {
+                    Button_Tapped(null, null);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private bool _open;
+        private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (_open)
+                Close.Begin();
+            else
+                Open.Begin();
+            _open = !_open;
         }
     }
 }

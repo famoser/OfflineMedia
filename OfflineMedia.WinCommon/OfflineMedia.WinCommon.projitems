@@ -9,7 +9,6 @@
     <Import_RootNamespace>OfflineMedia.WinCommon</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\PullToRefreshListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DetailedDateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
@@ -43,31 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Mock\DesignNavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformCodeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\StorageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Settings_min.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Sources.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\Sources_min.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Configuration\WeatherFontMapping.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\owfont-regular.ttf" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\placeholder.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small-white.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\skulls-background-small.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Dictionaries\Converters.xaml">

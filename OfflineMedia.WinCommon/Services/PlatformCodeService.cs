@@ -3,8 +3,11 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Services;
@@ -86,6 +89,34 @@ namespace OfflineMedia.Services
         public async Task<bool> OpenInBrowser(Uri url)
         {
             return await Launcher.LaunchUriAsync(url);
+        }
+
+        public async Task<ulong> GetFileSizes()
+        {
+            ulong totalsize = 0;
+            foreach (var fil in await ApplicationData.Current.LocalFolder.GetFilesAsync())
+            {
+                var props = await fil.GetBasicPropertiesAsync();
+                totalsize += props.Size;
+            }
+            return totalsize;
+        }
+
+        public async void CommandHandlers(IUICommand commandLabel)
+        {
+            var actions = commandLabel.Label;
+            switch (actions)
+            {
+                //Okay Button.
+                case "abbrechen":
+                    break;
+                //Quit Button.
+                case "zurücksetzten":
+                    await ApplicationData.Current.LocalFolder.CreateFileAsync("DELETEALL");
+                    Application.Current.Exit();
+                    break;
+                    //end.
+            }
         }
     }
 }

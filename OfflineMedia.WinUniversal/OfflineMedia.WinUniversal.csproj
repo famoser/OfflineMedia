@@ -92,27 +92,93 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Configuration\Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Configuration\Settings_min.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Configuration\Sources.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Configuration\Sources_min.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Configuration\WeatherFontMapping.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\owfont-regular.ttf" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticleListConverter\DetailedDateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticleListConverter\ShortDateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\FavoriteIconConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\LeadFontSizeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\SpritzStateIconConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\ThemeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\GenericConverter\ArrayToStringConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\GenericConverter\IntToIntConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\GenericConverter\ListToStringConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\GenericConverter\ListVisibillityEvaluator.cs" />
+    <Compile Include="DisplayHelper\Converter\MainPageConverter\HoverDivStoryboardConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\MyDayConverter\DateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\MyDayConverter\DateToDayConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\MyDayConverter\EnumToIntConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
+    <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
+    <Compile Include="Pages\FeedPage.xaml.cs">
+      <DependentUpon>FeedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Platform\CustomNavigationService.cs" />
+    <Compile Include="Pages\NewArticlePage.xaml.cs">
+      <DependentUpon>NewArticlePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Mock\HistoryNavigationServiceMock.cs" />
+    <Compile Include="Services\PlatformCodeService.cs" />
     <Compile Include="UserControls\ArticleList.xaml.cs">
       <DependentUpon>ArticleList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ArticlePageControls\More.xaml.cs">
+      <DependentUpon>More.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ArticlePageControls\Read.xaml.cs">
+      <DependentUpon>Read.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ArticlePageControls\Spritz.xaml.cs">
+      <DependentUpon>Spritz.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FeedList.xaml.cs">
       <DependentUpon>FeedList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MyDay.xaml.cs">
+      <DependentUpon>MyDay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MyDayControls\DataSlider.xaml.cs">
+      <DependentUpon>DataSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MyDayControls\Forecast.xaml.cs">
+      <DependentUpon>Forecast.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -120,6 +186,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\placeholder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\skulls-background-small-white.png" />
+    <Content Include="Assets\Images\skulls-background-small.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -134,7 +205,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\FeedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NewArticlePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -142,9 +225,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ArticlePageControls\More.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ArticlePageControls\Read.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ArticlePageControls\Spritz.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\FeedList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MyDay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MyDayControls\DataSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MyDayControls\Forecast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\ProgressBar.xaml">
       <SubType>Designer</SubType>
@@ -176,7 +283,6 @@
       <Name>Famoser.OfflineMedia.View</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\OfflineMedia.WinCommon\OfflineMedia.WinCommon.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
