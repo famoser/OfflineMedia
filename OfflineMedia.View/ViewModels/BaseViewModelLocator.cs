@@ -16,6 +16,10 @@ using Famoser.FrameworkEssentials.Services;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.View.Mocks;
+using Famoser.OfflineMedia.View.Mocks.Repositories;
+using Famoser.SqliteWrapper.Services;
+using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -39,6 +43,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
             SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
             SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
             SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
+            
+            SimpleIoc.Default.Register<ISqliteService, SqliteService>();
+            SimpleIoc.Default.Register<IProgressService, ProgressService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

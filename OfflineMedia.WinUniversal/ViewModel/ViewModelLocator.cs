@@ -20,6 +20,7 @@ using Famoser.OfflineMedia.View.ViewModels;
 using Famoser.OfflineMedia.WinUniversal.Platform;
 using Famoser.OfflineMedia.WinUniversal.Services;
 using Famoser.OfflineMedia.WinUniversal.Services.Mock;
+using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
@@ -43,12 +44,12 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             // Create design time view services and models
-            SimpleIoc.Default.Register<IProgressService, ProgressService>();
-            SimpleIoc.Default.Register<IStorageService, StorageService >();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
-
+            SimpleIoc.Default.Register<IStorageService>(() => new StorageService());
+            
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
+            SimpleIoc.Default.Register<ISqliteServiceSettingsProvider, SqliteServiceSettingsProvider>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -56,8 +57,7 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
             }
             else
             {
-                var navigationService = NavigationHelper.CreateNavigationService();
-                SimpleIoc.Default.Register(() => navigationService);
+                SimpleIoc.Default.Register<IHistoryNavigationService>(NavigationHelper.CreateNavigationService);
             }
         }
     }

@@ -14,11 +14,11 @@ namespace Famoser.OfflineMedia.View.ViewModels
     public class SettingsPageViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
-        private readonly INavigationService _navigationService;
+        private readonly IHistoryNavigationService _navigationService;
         private readonly IArticleRepository _articleRepository;
         private readonly IProgressService _progressService;
 
-        public SettingsPageViewModel(ISettingsRepository settingsRepository,INavigationService navigationService, IArticleRepository articleRepository, IProgressService progressService)
+        public SettingsPageViewModel(ISettingsRepository settingsRepository, IHistoryNavigationService navigationService, IArticleRepository articleRepository, IProgressService progressService)
         {
             _settingsRepository = settingsRepository;
             _navigationService = navigationService;

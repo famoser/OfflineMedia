@@ -19,13 +19,13 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{StaticResource FamoserRootGrid}">
+    <Grid Style="{StaticResource RootGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
-        <Pivot Grid.Row="1">
+        <Pivot Grid.Row="1" Style="{StaticResource FamoserPivot}">
             <PivotItem>
                 <PivotItem.Header>
                     <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="Einstellungen" />

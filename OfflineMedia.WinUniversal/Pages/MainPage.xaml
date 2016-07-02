@@ -19,7 +19,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{StaticResource FamoserRootGrid}">
+    <Grid Style="{StaticResource RootGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
@@ -32,7 +32,7 @@
             </Pivot.RenderTransform>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <ContentControl Style="{ThemeResource FamoserPi}" Content="{Binding Abbreviation}" />
+                    <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="{Binding Abbreviation}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>

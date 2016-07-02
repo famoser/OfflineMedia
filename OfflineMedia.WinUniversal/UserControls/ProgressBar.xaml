@@ -7,17 +7,16 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    Height="30">
+    Height="30"
+    DataContext="{Binding ProgressService, Source={StaticResource Locator}}">
 
     <Grid>
         <Border BorderThickness="15" BorderBrush="{ThemeResource AkzentBackgroundThemeBrush}" />
-        <Grid Background="White" Visibility="{Binding ProgressService.AnyProgressActive, Source={StaticResource Locator}, Converter={StaticResource BoolVisibilityEvaluator}}">
+        <Grid Background="White" Visibility="{Binding AnyProgressActive, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <!--<Grid Height="30" Grid.Column="0" Opacity="1" Background="{StaticResource AkzentBackgroundThemeBrush}" />-->
-            <!--<ProgressBar Background="{ThemeResource AkzentLightBackgroundThemeBrush}" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" IsIndeterminate="False" Value="{Binding ProgressViewModel.ActiveProgressValue, Source={StaticResource Locator}, Mode=TwoWay}" Maximum="{Binding ProgressViewModel.MaxProgressValue, Source={StaticResource Locator}}" Height="30" />
-            <TextBlock FontSize="12" Text="{Binding ProgressService..ProgressMessage, Source={StaticResource Locator}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource BackgroundThemeBrush}" />-->
+            <ProgressBar Background="{ThemeResource AkzentLightBackgroundThemeBrush}" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" IsIndeterminate="False" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="30" />
         </Grid>
     </Grid>
 </UserControl>

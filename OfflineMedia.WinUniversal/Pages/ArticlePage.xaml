@@ -20,14 +20,14 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{StaticResource FamoserRootGrid}">
+    <Grid Style="{StaticResource RootGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" >
+        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource FamoserPivot}">
             <Pivot.Items>
                 <PivotItem>
                     <PivotItem.Header>

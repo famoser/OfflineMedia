@@ -217,6 +217,12 @@
     <Compile Include="Enums\IndeterminateProgressKey.cs" />
     <Compile Include="Enums\Messages.cs" />
     <Compile Include="Enums\PageKeys.cs" />
+    <Compile Include="Mocks\Repositories\ArticleRepositoryMock.cs" />
+    <Compile Include="Mocks\ProgressServiceMock.cs" />
+    <Compile Include="Mocks\Repositories\SettingsRepositoryMock.cs" />
+    <Compile Include="Mocks\Repositories\ThemeRepositoryMock.cs" />
+    <Compile Include="Mocks\Repositories\WeatherRepositoryMock.cs" />
+    <Compile Include="Mocks\SqliteServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SpritzHelper.cs" />
     <Compile Include="ViewModels\ArticlePageViewModel.cs" />

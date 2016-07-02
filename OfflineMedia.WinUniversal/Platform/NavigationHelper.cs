@@ -7,7 +7,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
 {
     public static class NavigationHelper
     {
-        public static IHistoryNavigationService CreateNavigationService()
+        public static HistoryNavigationServices CreateNavigationService()
         {
             var navigationService = new HistoryNavigationServices();
 

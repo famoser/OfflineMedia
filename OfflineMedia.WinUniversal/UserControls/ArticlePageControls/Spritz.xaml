@@ -18,17 +18,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,10" Background="{ThemeResource BackgroundThemeBrush}">
+        <Grid Grid.Row="0" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Speed: " Style="{ThemeResource OptionsSettingsTextBlock}" />
-                <TextBlock Text="{Binding ReadingSpeed}"  Style="{ThemeResource OptionsSettingsTextBlock}" />
+                <TextBlock Text="Speed: " Style="{ThemeResource FamoserBodyTextBlock}" />
+                <TextBlock Text="{Binding ReadingSpeed}"  Style="{ThemeResource FamoserBodyTextBlock}" />
             </StackPanel>
-            <Button Grid.Column="1" Margin="-10" Style="{ThemeResource Button}" Command="{Binding IncreaseSpeedCommand}" >
+            <Button Grid.Column="1" Margin="-10" Style="{ThemeResource FamoserDefaultButton}" Command="{Binding IncreaseSpeedCommand}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />
                 </Button.Content>
@@ -40,19 +40,18 @@
             </Button>
         </Grid>
 
-        <StackPanel Grid.Row="1" Background="{ThemeResource BackgroundThemeBrush}">
-            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource ArticleTitleTextBlock}" />
-            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource ArticleTitleTextBlock}" />
+        <StackPanel Grid.Row="1" >
+            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" />
+            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource FamoserSubTitleTextBlock}" />
         </StackPanel>
 
-        <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal"  Background="{ThemeResource BackgroundThemeBrush}">
-            <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource OptionsSettingsTextBlock}" />
-            <TextBlock Text="/" Style="{ThemeResource OptionsSettingsTextBlock}" />
-            <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource OptionsSettingsTextBlock}" />
-            <TextBlock Text="Worte" Style="{ThemeResource OptionsSettingsTextBlock}" />
+        <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource FamoserBodyTextBlock}" />
+            <TextBlock Text="/" Style="{ThemeResource FamoserBodyTextBlock}" />
+            <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource FamoserBodyTextBlock}" />
+            <TextBlock Text="Worte" Style="{ThemeResource FamoserBodyTextBlock}" />
         </StackPanel>
-        <Grid Background="{ThemeResource BackgroundThemeBrush}" Grid.Row="3" />
-        <Grid Grid.Row="3" Background="{ThemeResource BackgroundThemeBrush}" VerticalAlignment="Center" Margin="10,0,10,0">
+        <Grid Grid.Row="3" VerticalAlignment="Center" Margin="10,0,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -88,22 +87,22 @@
                 <Border Background="White" Grid.Row="0" Height="54" Width="80" HorizontalAlignment="Left"/>
             </Grid>
 
-            <Button Grid.Row="3" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource Button}" >
+            <Button Grid.Row="3" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource FamoserDefaultButton}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Refresh" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource Button}" >
+            <Button Grid.Row="3" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource FamoserDefaultButton}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Remove" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource Button}" >
+            <Button Grid.Row="3" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource FamoserDefaultButton}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource Button}" >
+            <Button Grid.Row="3" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource FamoserDefaultButton}" >
                 <Button.Content>
                     <SymbolIcon Symbol="{Binding SpritzState, Converter={StaticResource SpritzStateIconConverter}}" />
                 </Button.Content>

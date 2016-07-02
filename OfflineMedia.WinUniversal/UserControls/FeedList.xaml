@@ -4,13 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:OfflineMedia.WinCommon.Controls"
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{Binding MainPageViewModel.Sources[0], Source={StaticResource Locator}}">
     <UserControl.Resources>
-
-
 
         <Style x:Key="ListViewStyle1" TargetType="ListView">
             <Setter Property="IsTabStop" Value="False"/>
@@ -62,17 +59,12 @@
                   ScrollViewer.VerticalScrollMode="Enabled" 
                   SelectionMode="None" 
                   ItemsSource="{Binding ActiveFeeds}" 
-                  Style="{StaticResource ListViewStyle1}">
+                  ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}">
             <ListView.FooterTemplate>
                 <DataTemplate>
                     <TextBlock Height="25" />
                 </DataTemplate>
             </ListView.FooterTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <userControls:ArticleList Margin="0,0,0,10" DataContext="{Binding }" />

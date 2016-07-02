@@ -21,9 +21,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private IDialogService _dialogService;
         private const int MaxArticlesPerFeed = 5;
 
-        private INavigationService _navigationService;
+        private IHistoryNavigationService _navigationService;
 
-        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, INavigationService navigationService, IDialogService dialogService)
+        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, IHistoryNavigationService navigationService, IDialogService dialogService)
         {
             _progressService = progressService;
             _articleRepository = articleRepository;

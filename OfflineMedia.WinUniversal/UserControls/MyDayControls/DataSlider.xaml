@@ -11,38 +11,38 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <StackPanel Margin="0,0,10,0" Style="{StaticResource WeatherLevelGrid}">
-                <TextBlock Text="wind" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
+            <StackPanel Margin="0,0,10,0">
+                <TextBlock Text="wind" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Center" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="{Binding CurrentForecast.WindLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                    <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding CurrentForecast.WindLevel}" Style="{StaticResource FamoserHeaderTextBlock}" />
+                    <TextBlock Text="\6" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                <TextBlock Text="richtung" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
-                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentForecast.WindDirection}" Style="{StaticResource WeatherBigText}" Margin="0" FontSize="50" />
+            <StackPanel>
+                <TextBlock Text="richtung" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Center" />
+                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentForecast.WindDirection}" Style="{StaticResource FamoserHeaderTextBlock}" Margin="0" FontSize="50" />
             </StackPanel>
 
-            <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                <TextBlock Text="regen" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
+            <StackPanel>
+                <TextBlock Text="regen" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Center" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="{Binding CurrentForecast.RainLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                    <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding CurrentForecast.RainLevel}" Style="{StaticResource FamoserHeaderTextBlock}" />
+                    <TextBlock Text="\6" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Style="{StaticResource WeatherLevelGrid}">
-                <TextBlock Text="schnee" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Center" />
+            <StackPanel>
+                <TextBlock Text="schnee" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Center" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="{Binding CurrentForecast.SnowLevel, Converter={StaticResource EnumToIntConverter}}" Style="{StaticResource WeatherBigText}" />
-                    <TextBlock Text="\6" Style="{StaticResource WeatherSmallText}" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding CurrentForecast.SnowLevel}" Style="{StaticResource FamoserHeaderTextBlock}" />
+                    <TextBlock Text="\6" Style="{StaticResource FamoserBodyTextBlock}" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Margin="10,0,0,0"  Style="{StaticResource WeatherLevelGrid}">
-                <TextBlock Text="luftdruck" Style="{StaticResource WeatherSmallText}" />
-                <TextBlock Style="{StaticResource WeatherBigText}" Text="{Binding CurrentForecast.PressurehPa}" />
+            <StackPanel Margin="10,0,0,0">
+                <TextBlock Text="luftdruck" Style="{StaticResource FamoserBodyTextBlock}" />
+                <TextBlock Style="{StaticResource FamoserHeaderTextBlock}" Text="{Binding CurrentForecast.PressurehPa}" />
             </StackPanel>
         </StackPanel>
     </Grid>
