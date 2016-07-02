@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Utils.TamediaLinkAggregator.Properties {
+namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

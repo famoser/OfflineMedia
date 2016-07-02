@@ -407,17 +407,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OfflineMedia.Business\OfflineMedia.Business.csproj">
+    <ProjectReference Include="..\OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj">
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
-      <Name>OfflineMedia.Business</Name>
+      <Name>Famoser.OfflineMedia.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OfflineMedia.Data\OfflineMedia.Data.csproj">
+    <ProjectReference Include="..\OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj">
       <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
-      <Name>OfflineMedia.Data</Name>
+      <Name>Famoser.OfflineMedia.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OfflineMedia.View\OfflineMedia.View.csproj">
+    <ProjectReference Include="..\OfflineMedia.View\Famoser.OfflineMedia.View.csproj">
       <Project>{cccb6bc7-83b4-4342-a5ad-c8f23cb4d0b0}</Project>
-      <Name>OfflineMedia.View</Name>
+      <Name>Famoser.OfflineMedia.View</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

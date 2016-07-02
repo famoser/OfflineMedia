@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Utils.WeatherFontJsonUtil.Properties {
+namespace Famoser.OfflineMedia.Utils.WeatherFontJsonUtil.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Utils.WeatherFontJsonUtil.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Utils.WeatherFontJsonUtil.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Famoser.OfflineMedia.Utils.WeatherFontJsonUtil.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
