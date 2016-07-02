@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Famoser.OfflineMedia.View.Enums;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter
 {
     public class SpritzStateIconConverter : IValueConverter
     {

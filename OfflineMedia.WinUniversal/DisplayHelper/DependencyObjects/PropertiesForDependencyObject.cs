@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependencyObjects
 {
     public class Properties : DependencyObject
     {

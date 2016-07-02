@@ -7,12 +7,12 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Famoser.OfflineMedia.WinUniversal.Pages;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using OfflineMedia.WinUniversal.Pages;
 
-namespace OfflineMedia.WinUniversal
+namespace Famoser.OfflineMedia.WinUniversal
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

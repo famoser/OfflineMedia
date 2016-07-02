@@ -14,7 +14,7 @@ using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
 using Famoser.OfflineMedia.Business.Services;
 using GalaSoft.MvvmLight.Threading;
 
-namespace OfflineMedia.WinUniversal.Services
+namespace Famoser.OfflineMedia.WinUniversal.Services
 {
     public class PlatformCodeService : IPlatformCodeService
     {

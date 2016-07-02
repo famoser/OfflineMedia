@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="OfflineMedia.WinUniversal.App"
+    x:Class="Famoser.OfflineMedia.WinUniversal.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModel="using:OfflineMedia.WinUniversal.ViewModel"
+    xmlns:viewModel="using:Famoser.OfflineMedia.WinUniversal.ViewModel"
     RequestedTheme="Light">
 
     <Application.Resources>

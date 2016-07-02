@@ -2,7 +2,7 @@
 using System.Linq;
 using Windows.UI.Xaml.Data;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter
 {
     public class ArrayToStringConverter : IValueConverter
     {

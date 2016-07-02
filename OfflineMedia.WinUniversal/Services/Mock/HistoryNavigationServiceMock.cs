@@ -2,7 +2,7 @@
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Interfaces;
 
-namespace OfflineMedia.WinUniversal.Services.Mock
+namespace Famoser.OfflineMedia.WinUniversal.Services.Mock
 {
     public class HistoryNavigationServiceMock : IHistoryNavigationService
     {

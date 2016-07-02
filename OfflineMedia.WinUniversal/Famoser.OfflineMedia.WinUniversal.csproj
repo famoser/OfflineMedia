@@ -7,8 +7,8 @@
     <ProjectGuid>{610194D2-B335-4B17-8B0D-38980AC839AE}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OfflineMedia.WinUniversal</RootNamespace>
-    <AssemblyName>OfflineMedia.WinUniversal</AssemblyName>
+    <RootNamespace>Famoser.OfflineMedia.WinUniversal</RootNamespace>
+    <AssemblyName>Famoser.OfflineMedia.WinUniversal</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>

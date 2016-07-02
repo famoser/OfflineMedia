@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.SettingsPageConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.SettingsPageConverter
 {
     public class ULongToByteConverter : IValueConverter
     {

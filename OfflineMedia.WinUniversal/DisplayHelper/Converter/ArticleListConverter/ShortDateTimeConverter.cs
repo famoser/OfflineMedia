@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter
 {
     public class ShortDateTimeConverter : IValueConverter
     {

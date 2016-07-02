@@ -4,7 +4,7 @@ using System.Linq;
 using Windows.UI.Xaml.Data;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter
 {
     public class ThemeConverter : IValueConverter
     {

@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.BildLinkAggregator", "Utils.BildLinkAggregator\Famoser.OfflineMedia.Utils.BildLinkAggregator.csproj", "{3434474D-C4B4-4EB9-B8B3-C1BAD5AC323E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineMedia.WinUniversal", "OfflineMedia.WinUniversal\OfflineMedia.WinUniversal.csproj", "{610194D2-B335-4B17-8B0D-38980AC839AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.WinUniversal", "OfflineMedia.WinUniversal\Famoser.OfflineMedia.WinUniversal.csproj", "{610194D2-B335-4B17-8B0D-38980AC839AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.UnitTests", "Famoser.OfflineMedia.UnitTests\Famoser.OfflineMedia.UnitTests.csproj", "{51C48B89-3E05-436D-81DA-A2FA44573AC8}"
 EndProject

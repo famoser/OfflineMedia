@@ -2,7 +2,7 @@
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace OfflineMedia.WinUniversal.UserControls.ArticlePageControls
+namespace Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls
 {
     public sealed partial class More : UserControl
     {

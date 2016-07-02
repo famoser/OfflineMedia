@@ -1,9 +1,9 @@
 ﻿using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.View.Enums;
-using OfflineMedia.WinUniversal.Pages;
+using Famoser.OfflineMedia.WinUniversal.Pages;
 
-namespace OfflineMedia.WinUniversal.Platform
+namespace Famoser.OfflineMedia.WinUniversal.Platform
 {
     public static class NavigationHelper
     {

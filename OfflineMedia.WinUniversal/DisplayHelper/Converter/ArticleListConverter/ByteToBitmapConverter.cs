@@ -3,7 +3,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter
 {
     public class ByteToBitmapConverter : IValueConverter
     {

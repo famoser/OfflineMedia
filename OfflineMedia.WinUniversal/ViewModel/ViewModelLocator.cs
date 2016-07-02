@@ -17,17 +17,17 @@ using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.View.ViewModels;
+using Famoser.OfflineMedia.WinUniversal.Platform;
+using Famoser.OfflineMedia.WinUniversal.Services;
+using Famoser.OfflineMedia.WinUniversal.Services.Mock;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
-using OfflineMedia.WinUniversal.Platform;
-using OfflineMedia.WinUniversal.Services;
-using OfflineMedia.WinUniversal.Services.Mock;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 
-namespace OfflineMedia.WinUniversal.ViewModel
+namespace Famoser.OfflineMedia.WinUniversal.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

@@ -3,7 +3,7 @@ using System.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter
 {
     public class ListVisibillityEvaluator : IValueConverter
     {

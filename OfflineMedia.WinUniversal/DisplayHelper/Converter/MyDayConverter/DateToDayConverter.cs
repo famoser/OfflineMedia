@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace OfflineMedia.WinUniversal.DisplayHelper.Converter.MyDayConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.MyDayConverter
 {
     class DateToDayConverter : IValueConverter
     {

@@ -2,7 +2,7 @@
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace OfflineMedia.WinUniversal.UserControls.MyDayControls
+namespace Famoser.OfflineMedia.WinUniversal.UserControls.MyDayControls
 {
     public sealed partial class DataSlider : UserControl
     {
