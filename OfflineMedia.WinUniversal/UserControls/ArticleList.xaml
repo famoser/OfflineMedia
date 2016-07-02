@@ -4,20 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     d:DesignHeight="1200"
     d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="ArticleDataTemplate">
+            <StackPanel HorizontalAlignment="Stretch" Opacity="{Binding Converter={StaticResource IsReadConverter}}">
+
+                <TextBlock Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                <TextBlock Margin="10,4,10,4" TextTrimming="WordEllipsis" Foreground="{ThemeResource TextForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="18" Text="{Binding Title}" />
+                <TextBlock Margin="10,10,10,20" TextTrimming="WordEllipsis" FontFamily="Segoe UI Semilight" Foreground="{ThemeResource ForegroundThemeBrush}" FontSize="14" TextWrapping="Wrap" Text="{Binding SubTitle}" />
+
+                <Image Margin="0,-10,0,0" MaxHeight="150" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+
+                <TextBlock Margin="10,10,10,20" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource TextBackgroundThemeBrush}" Grid.Row="0" Margin="0,0,0,4">
-            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FeedTitleTextBlock}"  />
+        <Grid Grid.Row="0" Margin="0,0,0,4">
+            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
         <ListView 
                   IsItemClickEnabled="True"
@@ -25,7 +38,7 @@
                   Grid.Row="1"
                   IsHoldingEnabled="True" 
                   ItemsSource="{Binding ArticleList}"
-                  ItemTemplate="{StaticResource ArticleListItemTemplate}" 
+                  ItemTemplate="{StaticResource ArticleDataTemplate}" 
                   Margin="0,0,-1,-4">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>

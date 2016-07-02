@@ -1,0 +1,32 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:articleListConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter"
+    xmlns:articlePageConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter"
+    xmlns:genericConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter"
+    xmlns:dateTime="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.DateTime"
+    xmlns:untiConversion="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.UntiConversion">
+
+    <articleListConverter:ByteToBitmapConverter x:Key="ByteToBitmapConverter" />
+    <articleListConverter:IsReadConverter x:Key="IsReadConverter" />
+    
+    <dateTime:DateTimeConverter x:Key="DetailedDateTimeConverter" />
+    <dateTime:DateTimeToDateConverter x:Key="DateTimeConverter" />
+    <dateTime:DateTimeToDayConverter x:Key="DateTimeToDayConverter" />
+    <dateTime:DateTimeToTimeConverter x:Key="DateTimeToTimeConverter" />
+
+    <articlePageConverter:FavoriteIconConverter x:Key="FavoriteIconConverter" />
+    <articlePageConverter:LeadFontSizeConverter x:Key="LeadFontSizeConverter" />
+    <articlePageConverter:SpritzStateIconConverter x:Key="SpritzStateIconConverter" />
+    <articlePageConverter:ThemeConverter x:Key="ThemeConverter" />
+
+    <genericConverter:ArrayToStringConverter x:Key="ArrayToStringConverter" />
+    <genericConverter:IntToIntConverter x:Key="IntToIntConverter" />
+    <genericConverter:ListToStringConverter x:Key="ListToStringConverter" />
+    <genericConverter:ListVisibillityEvaluator x:Key="ListVisibillityEvaluator" />
+
+
+    <untiConversion:KelvinToCelciusConverter x:Key="KelvinToCelciusConverter" />
+    <untiConversion:ULongToByteConverter x:Key="ULongToByteConverter" />
+
+</ResourceDictionary>

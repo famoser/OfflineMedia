@@ -18,16 +18,17 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
-    <Grid Style="{ThemeResource RootGridStyle}">
+
+    <Grid Style="{StaticResource FamoserRootGrid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <userControls:ProgressBar Grid.Row="0" />
+
         <ScrollViewer Grid.Row="1">
             <userControls:ArticleList Margin="0,0,0,-4" DataContext="{Binding Feed}" />
         </ScrollViewer>
-        <userControls:ProgressBar Grid.Row="0" />
         <Grid.Background>
             <ImageBrush ImageSource="../Assets/Images/skulls-background-small.png" Stretch="None" />
         </Grid.Background>

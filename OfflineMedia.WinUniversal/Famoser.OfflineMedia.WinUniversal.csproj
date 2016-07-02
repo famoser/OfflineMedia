@@ -115,10 +115,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\ArticleListConverter\DateTimeConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\ArticleListConverter\DetailedDateTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDateConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\DateTime\DateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\ArticleListConverter\ShortDateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticlePageConverter\FavoriteIconConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticlePageConverter\LeadFontSizeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticlePageConverter\SpritzStateIconConverter.cs" />
@@ -127,13 +126,10 @@
     <Compile Include="DisplayHelper\Converter\GenericConverter\IntToIntConverter.cs" />
     <Compile Include="DisplayHelper\Converter\GenericConverter\ListToStringConverter.cs" />
     <Compile Include="DisplayHelper\Converter\GenericConverter\ListVisibillityEvaluator.cs" />
-    <Compile Include="DisplayHelper\Converter\MainPageConverter\HoverDivStoryboardConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\MyDayConverter\DateTimeConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\MyDayConverter\DateToDayConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\MyDayConverter\EnumToIntConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToTimeConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDayConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\UntiConversion\KelvinToCelciusConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\UntiConversion\ULongToByteConverter.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
     <Compile Include="Pages\FeedPage.xaml.cs">
       <DependentUpon>FeedPage.xaml</DependentUpon>
@@ -141,8 +137,8 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\NewArticlePage.xaml.cs">
-      <DependentUpon>NewArticlePage.xaml</DependentUpon>
+    <Compile Include="Pages\ArticlePage.xaml.cs">
+      <DependentUpon>ArticlePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -205,6 +201,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dictionaries\FamoserControlStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dictionaries\FamoserConverters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dictionaries\FamoserStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dictionaries\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Pages\FeedPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -213,7 +226,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\NewArticlePage.xaml">
+    <Page Include="Pages\ArticlePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -283,6 +296,7 @@
       <Name>Famoser.OfflineMedia.View</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

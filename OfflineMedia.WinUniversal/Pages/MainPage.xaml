@@ -19,19 +19,20 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{ThemeResource RootGridStyle}">
+    <Grid Style="{StaticResource FamoserRootGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Margin="0,0,0,-30" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
+        <Pivot Style="{StaticResource FamoserPivot}" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
             </Pivot.RenderTransform>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <ContentControl Style="{ThemeResource PivotHeader}" Content="{Binding Abbreviation}" />
+                    <ContentControl Style="{ThemeResource FamoserPi}" Content="{Binding Abbreviation}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
@@ -40,7 +41,6 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
-        <userControls:ProgressBar Grid.Row="0" />
     </Grid>
 
     <Page.BottomAppBar>

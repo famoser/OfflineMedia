@@ -1,16 +1,16 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.DateTime
 {
-    public class ShortDateTimeConverter : IValueConverter
+    public class DateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            DateTime dt = (DateTime)value;
-            if (dt < DateTime.MinValue + TimeSpan.FromDays(1))
+            System.DateTime dt = (System.DateTime)value;
+            if (dt < System.DateTime.MinValue + TimeSpan.FromDays(1))
                 return "";
-            return dt.ToString("dd.MM.yyyy");
+            return dt.ToString("dd.MM.yyyy HH:mm");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -18,4 +18,5 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticleListC
             return null;
         }
     }
+
 }

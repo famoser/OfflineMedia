@@ -7,9 +7,9 @@ namespace Famoser.OfflineMedia.WinUniversal.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NewArticlePage : Page
+    public sealed partial class ArticlePage : Page
     {
-        public NewArticlePage()
+        public ArticlePage()
         {
             this.InitializeComponent();
         }

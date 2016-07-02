@@ -1,0 +1,132 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="FamoserApprooveGreen" Color="#4CAF50" />
+            <SolidColorBrush x:Key="FamoserSomeApprooveOrange" Color="#f1bc00" />
+            <SolidColorBrush x:Key="FamoserDisApprooveRed" Color="#F44336" />
+
+            <SolidColorBrush x:Key="FamoserTextForeground" Color="#4C4C4C" />
+            <SolidColorBrush x:Key="FamoserTextOverAccentForeground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="FamoserBackground" Color="#FDFDFD" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <Style x:Key="FamoserRootGrid" TargetType="Grid">
+        <Setter Property="Background" Value="{ThemeResource FamoserBackground}" />
+        <Setter Property="Margin" Value="10" />
+    </Style>
+
+    <Style x:Key="FamoserButton" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource FamoserTextOverAccentForeground}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Padding" Value="10,5" />
+    </Style>
+
+    <Style x:Key="FamoserTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Foreground" Value="{ThemeResource FamoserTextForeground}" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="Margin" Value="10,5" />
+    </Style>
+
+    <Style x:Key="FamoserTextBlock" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Foreground" Value="{ThemeResource FamoserTextForeground}" />
+        <Setter Property="Margin" Value="10,5" />
+    </Style>
+
+    <Style x:Key="FamoserPasswordBox" TargetType="PasswordBox">
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="PlaceholderText" Value="masterpassword" />
+        <Setter Property="IsPasswordRevealButtonEnabled" Value="True" />
+        <Setter Property="PasswordRevealMode" Value="Peek" />
+    </Style>
+
+    <Style x:Key="FamoserHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
+        <Setter Property="FontSize" Value="46" />
+        <Setter Property="LineHeight" Value="56" />
+        <Setter Property="FontWeight" Value="Light" />
+    </Style>
+
+    <Style x:Key="FamoserSubHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="LineHeight" Value="40" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Margin" Value="10,5,10,20" />
+    </Style>
+
+    <Style x:Key="FamoserTitleTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="LineHeight" Value="28" />
+        <Setter Property="FontWeight" Value="SemiLight" />
+    </Style>
+
+    <Style x:Key="FamoserSubTitleTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="24" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style x:Key="FamoserInfoTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserSubTitleTextBlock}">
+        <Setter Property="Opacity" Value="0.8" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="FamoserBodyTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="FamoserMultiLineTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserBodyTextBlock}">
+    </Style>
+
+
+    <Style x:Key="FamoserDefaultButton" TargetType="Button" BasedOn="{StaticResource FamoserButton}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiLight" />
+    </Style>
+
+    <Style x:Key="FamoserHeaderTextBox" TargetType="TextBox" BasedOn="{StaticResource FamoserTextBox}">
+        <Setter Property="FontSize" Value="46" />
+        <Setter Property="FontWeight" Value="Light" />
+    </Style>
+
+    <Style x:Key="FamoserMultiLineTextBox" TargetType="TextBox" BasedOn="{StaticResource FamoserDefaultTextBox}">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+    </Style>
+
+    <Style x:Key="FamoserDefaultTextBox" TargetType="TextBox" BasedOn="{StaticResource FamoserTextBox}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Light" />
+    </Style>
+    <Style x:Key="FamoserDefaultTextBoxDescriptionTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserBodyTextBlock}" />
+
+    <Style x:Key="FamoserDefaultSymbolIcon" TargetType="SymbolIcon">
+        <Setter Property="Margin" Value="20,0"></Setter>
+    </Style>
+
+    <Style x:Key="FamoserSymbolIconAccept" TargetType="SymbolIcon" BasedOn="{StaticResource FamoserDefaultSymbolIcon}">
+        <Setter Property="Foreground" Value="{ThemeResource FamoserApprooveGreen}" />
+        <Setter Property="Symbol" Value="Accept" />
+    </Style>
+
+    <Style x:Key="FamoserSymbolIconEdit" TargetType="SymbolIcon" BasedOn="{StaticResource FamoserDefaultSymbolIcon}">
+        <Setter Property="Symbol" Value="Edit" />
+    </Style>
+
+    <Style x:Key="FamoserSymbolIconCopy" TargetType="SymbolIcon" BasedOn="{StaticResource FamoserDefaultSymbolIcon}">
+        <Setter Property="Symbol" Value="Copy" />
+    </Style>
+
+    <Style x:Key="FamoserSymbolIconSave" TargetType="SymbolIcon" BasedOn="{StaticResource FamoserDefaultSymbolIcon}">
+        <Setter Property="Symbol" Value="Save" />
+    </Style>
+</ResourceDictionary>

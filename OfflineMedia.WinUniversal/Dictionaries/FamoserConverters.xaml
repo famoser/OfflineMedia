@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Famoser.FrameworkEssentials.UniversalWindows.Converters.Controls"
+    xmlns:visibility="using:Famoser.FrameworkEssentials.UniversalWindows.Converters.Visibility">
+
+    <controls:RadioConverter x:Key="RadioConverter" />
+    <visibility:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <visibility:DateTimeToVisibilityConverter x:Key="DateTimeToVisibilityConverter" />
+    <visibility:ListToVisibilityConverter x:Key="ListToVisibilityConverter" />
+    <visibility:ReferenceToVisibilityConverter x:Key="ReferenceToVisibilityConverter" />
+    <visibility:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+</ResourceDictionary>

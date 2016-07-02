@@ -13,7 +13,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
 
             navigationService.Configure(PageKeys.Main.ToString(), typeof(MainPage));
             navigationService.Configure(PageKeys.Feed.ToString(), typeof(FeedPage));
-            navigationService.Configure(PageKeys.Article.ToString(), typeof(NewArticlePage));
+            navigationService.Configure(PageKeys.Article.ToString(), typeof(ArticlePage));
             navigationService.Configure(PageKeys.Settings.ToString(), typeof(SettingsPage));
 
             return navigationService;

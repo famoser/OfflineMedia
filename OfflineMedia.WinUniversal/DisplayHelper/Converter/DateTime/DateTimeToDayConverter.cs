@@ -1,18 +1,18 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.MyDayConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.DateTime
 {
-    class DateToDayConverter : IValueConverter
+    class DateTimeToDayConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            DateTime dt = (DateTime)value;
-            if (dt.Date == DateTime.Today)
+            System.DateTime dt = (System.DateTime)value;
+            if (dt.Date == System.DateTime.Today)
                 return "heute";
-            if (dt.Date.Subtract(TimeSpan.FromDays(1)) == DateTime.Today)
+            if (dt.Date.Subtract(TimeSpan.FromDays(1)) == System.DateTime.Today)
                 return "morgen";
-            if (dt.Date.AddDays(1) == DateTime.Today)
+            if (dt.Date.AddDays(1) == System.DateTime.Today)
                 return "gestern";
             return dt.ToString("dd. MM.");
         }

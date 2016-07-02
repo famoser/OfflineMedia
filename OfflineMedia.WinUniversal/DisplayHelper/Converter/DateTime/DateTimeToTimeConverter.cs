@@ -1,13 +1,13 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.MyDayConverter
+namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.DateTime
 {
-    public class DateTimeConverter : IValueConverter
+    public class DateTimeToTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            DateTime dt = (DateTime)value;
+            System.DateTime dt = (System.DateTime)value;
             return dt.ToString("HH:mm");
         }
 
