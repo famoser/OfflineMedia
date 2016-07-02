@@ -8,6 +8,7 @@ namespace OfflineMedia.Business.Repositories.Interfaces
     public interface ISettingsRepository
     {
         ObservableCollection<BaseSettingModel> GetSettings();
+        ObservableCollection<BaseSettingModel> GetEditSettings();
 
         Task<BaseSettingModel> GetSettingByKeyAsync(SettingKey key);
         

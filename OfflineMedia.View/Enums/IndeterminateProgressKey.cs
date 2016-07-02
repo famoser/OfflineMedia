@@ -2,9 +2,8 @@
 {
     public enum IndeterminateProgressKey
     {
-        SavingSettings = 0,
-        ReadingOutArticles = 1,
-        ClearSave = 2,
-        FeedSaveToDatabase = 3,
+        RefreshingArticles,
+        RefreshingWeather,
+        SavingSettings
     }
 }

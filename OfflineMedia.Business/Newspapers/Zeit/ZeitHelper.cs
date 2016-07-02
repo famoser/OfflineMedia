@@ -27,7 +27,6 @@ namespace OfflineMedia.Business.Newspapers.Zeit
         {
         }
 
-
         public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
         {
             return ExecuteSafe(async () =>
@@ -66,6 +65,7 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                 return articlelist;
             });
         }
+
         private bool RepairFeedXml(ref string xml)
         {
             try
@@ -151,6 +151,11 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                     }
                 }
 
+                a.AfterSaveFunc = async () =>
+                {
+                    await AddThemesAsync(a, new[] {feedArticle.Block.Ressort, feedArticle.Block.Genre});
+                };
+
                 return a;
             });
         }
@@ -220,7 +225,6 @@ namespace OfflineMedia.Business.Newspapers.Zeit
                         Content = HtmlConverter.HtmlToParagraph(html)
                     });
                 
-                await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
 
                 return true;
             });

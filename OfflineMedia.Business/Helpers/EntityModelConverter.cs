@@ -39,6 +39,7 @@ namespace OfflineMedia.Business.Helpers
             model.Guid = entity.Guid;
             model.SettingKey = entity.SettingKey;
             model.Value = entity.Value;
+            model.IsImmutable = entity.IsImmutable;
         }
 
         public static SourceModel Convert(SourceEntity sourceEntity)

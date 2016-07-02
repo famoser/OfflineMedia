@@ -65,7 +65,7 @@ namespace OfflineMedia.Business.Repositories
                 FeedModel model;
                 while (queue.TryDequeue(out model))
                 {
-                    var media = ArticleHelper.GetMediaSource(model);
+                    var media = ArticleHelper.GetMediaSource(model,_themeRepository);
                     if (media != null)
                     {
                         var articles = await media.EvaluateFeed(model);
@@ -86,7 +86,7 @@ namespace OfflineMedia.Business.Repositories
                 ArticleModel model;
                 while (stack.TryPop(out model))
                 {
-                    var media = ArticleHelper.GetMediaSource(model);
+                    var media = ArticleHelper.GetMediaSource(model, _themeRepository);
                     if (media != null && await media.EvaluateArticle(model))
                     {
                         await ArticleHelper.SaveArticle(model, _sqliteService);

@@ -7,22 +7,16 @@ using System.Windows.Input;
 using Famoser.FrameworkEssentials.Logging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
-using OfflineMedia.Business.Enums;
 using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Enums.Settings;
 using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Business.Models.NewsModel;
 using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Business.Services;
 using OfflineMedia.Data.Enums;
 using OfflineMedia.View.Enums;
-using ValueType = OfflineMedia.Business.Enums.Settings.ValueType;
 
 namespace OfflineMedia.View.ViewModels
 {
@@ -30,13 +24,13 @@ namespace OfflineMedia.View.ViewModels
     {
         private readonly ISettingsRepository _settingsRepository;
         private readonly IArticleRepository _articleRepository;
-        private readonly IVariaService _variaService;
+        private readonly IPlatformCodeService _platformCodeService;
 
-        public ArticlePageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IVariaService variaService)
+        public ArticlePageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IPlatformCodeService platformCodeService)
         {
             _settingsRepository = settingsRepository;
             _articleRepository = articleRepository;
-            _variaService = variaService;
+            _platformCodeService = platformCodeService;
 
             _setDisplayState = new RelayCommand<DisplayState>(SetDisplayState);
 
@@ -57,26 +51,13 @@ namespace OfflineMedia.View.ViewModels
 
             if (IsInDesignMode)
             {
-                _displayState = DisplayState.Spritz;
-                _article = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0].ArticleList[0];
-                _similarCathegoriesArticles = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0];
-                _similarTitlesArticles = SimpleIoc.Default.GetInstance<IArticleRepository>().GetSampleArticles()[0].FeedList[0];
+                DisplayState = DisplayState.Article;
+                Article = _articleRepository.GetSampleSources()[0].ActiveFeeds[0].ArticleList[0];
 
-                _fontSize = new SettingModel()
-                {
-                    Description = "Font Size",
-                    ValueType = ValueType.Int,
-                    IntValue = 15
-                };
-
-                _spritzSpeed = new SettingModel()
-                {
-                    Description = "Spritz Speed",
-                    ValueType = ValueType.Int,
-                    IntValue = 350
-                };
-
-                //Article = _articleRepository.GetInfoArticle();
+                FontSize = 20;
+                ReadingSpeed = 300;
+                
+                Article = _articleRepository.GetInfoArticle();
             }
             else
             {
@@ -94,66 +75,18 @@ namespace OfflineMedia.View.ViewModels
         private async void SelectArticle(ArticleModel am)
         {
             SetDisplayState(DisplayState.Article);
-            if (!am.IsStatic && am.IsInDatabase())
-            {
-                Article = am;
-                if (Article.State == ArticleState.New)
-                {
-                    _articleRepository.ActualizeArticle(Article);
-                }
-                else
-                {
-                    if (!Article.IsLoadedCompletely())
-                    {
-                        await _articleRepository.LoadMoreArticleContent(Article, true);
-                    }
-                    if (Article.State == ArticleState.Loaded)
-                    {
-                        Article.State = ArticleState.Read;
-                        _reloadArticleCommand.RaiseCanExecuteChanged();
-
-                        await _articleRepository.UpdateArticleState(Article);
-                    }
-                    SimilarCathegoriesArticles =
-                        new FeedModel()
-                        {
-                            CustomTitle = "Ähnliche Kategorien"
-                        };
-
-                    SimilarTitlesArticles =
-                        new FeedModel()
-                        {
-                            CustomTitle = "Ähnlicher Inhalt"
-                        };
-
-                    SimilarCathegoriesArticles.ArticleList =
-                        await _articleRepository.GetSimilarCathegoriesArticles(Article, 5);
-
-                    SimilarTitlesArticles.ArticleList = await _articleRepository.GetSimilarTitlesArticles(Article, 5);
-                }
-            }
-            else
-            {
-                Article = am;
-            }
-
+            Article = am;
+            await _articleRepository.LoadFullArticleAsync(am);
             InitializeSpritz();
         }
 
         private async void Initialize()
         {
-            _fontSize = await _settingsRepository.GetSettingByKey(SettingKey.FontSize);
-            RaisePropertyChanged(() => FontSize);
-            _makeFontBiggerCommand.RaiseCanExecuteChanged();
-            _makeFontSmallerCommand.RaiseCanExecuteChanged();
-
-            _spritzSpeed = await _settingsRepository.GetSettingByKey(SettingKey.WordsPerMinute);
-            RaisePropertyChanged(() => ReadingSpeed);
-            _increaseSpeedCommand.RaiseCanExecuteChanged();
-            _decreaseSpeedCommand.RaiseCanExecuteChanged();
+            var fontSizeSetting = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.FontSize)) as IntSettingModel;
+            FontSize = fontSizeSetting?.IntValue ?? 20;
             
-            RaisePropertyChanged(() => FontSize);
-            RaisePropertyChanged(() => ReadingSpeed);
+            var wordsPerMinute = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.WordsPerMinute)) as IntSettingModel;
+            ReadingSpeed = wordsPerMinute?.IntValue ?? 20;
         }
 
         private ArticleModel _article;
@@ -178,9 +111,8 @@ namespace OfflineMedia.View.ViewModels
 
         private void ArticleOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == "Content")
-                //fix failed redering of Content
-                RaisePropertyChanged(() => Article);
+            if (propertyChangedEventArgs.PropertyName == "LoadingState")
+                _reloadArticleCommand.RaiseCanExecuteChanged();
         }
 
 
@@ -212,96 +144,79 @@ namespace OfflineMedia.View.ViewModels
 
         #region SetStateCommand
         private readonly RelayCommand<DisplayState> _setDisplayState;
-        public ICommand SetDisplayStateCommand
-        {
-            get { return _setDisplayState; }
-        }
+        public ICommand SetDisplayStateCommand => _setDisplayState;
 
         private void SetDisplayState(DisplayState state)
         {
             DisplayState = state;
         }
 
-        public DisplayState DisplayStateArticle
-        {
-            get { return DisplayState.Article; }
-        }
+        public DisplayState DisplayStateArticle => DisplayState.Article;
 
-        public DisplayState DisplayStateSpritz
-        {
-            get { return DisplayState.Spritz; }
-        }
+        public DisplayState DisplayStateSpritz => DisplayState.Spritz;
 
-        public DisplayState DisplayStateInfo
-        {
-            get { return DisplayState.Info; }
-        }
+        public DisplayState DisplayStateInfo => DisplayState.Info;
 
         #endregion
 
         #region Article View
 
-        private BaseSettingModel _fontSize;
+        private int _fontSize;
         public int FontSize
         {
-            get { return (_fontSize == null || _fontSize.IntValue == 0) ? 15 : _fontSize.IntValue; }
+            get { return _fontSize; }
+            set
+            {
+                if (Set(ref _fontSize, value))
+                {
+                    SafeFontSize();
+                    _makeFontBiggerCommand.RaiseCanExecuteChanged();
+                    _makeFontSmallerCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        private async void SafeFontSize()
+        {
+            var setting = await _settingsRepository.GetSettingByKeyAsync(SettingKey.FontSize) as IntSettingModel;
+            if (setting != null)
+            {
+                setting.IntValue = FontSize;
+                await _settingsRepository.SaveSettingsAsync();
+            }
         }
 
         #region MakeFontBiggerCommand
         private readonly RelayCommand _makeFontBiggerCommand;
-        public ICommand MakeFontBiggerCommand
-        {
-            get { return _makeFontBiggerCommand; }
-        }
+        public ICommand MakeFontBiggerCommand => _makeFontBiggerCommand;
 
-        private bool CanMakeFontBigger
-        {
-            get { return FontSize < 40; }
-        }
+        private bool CanMakeFontBigger => FontSize < 40;
 
         private void MakeFontBigger()
         {
-            _fontSize.IntValue += 2;
-            RaisePropertyChanged(() => FontSize);
-            _settingsRepository.SaveSetting(_fontSize);
-            _makeFontBiggerCommand.RaiseCanExecuteChanged();
-            _makeFontSmallerCommand.RaiseCanExecuteChanged();
+            FontSize += 2;
         }
         #endregion
 
         #region MakeFontSmallerCommand
         private readonly RelayCommand _makeFontSmallerCommand;
-        public ICommand MakeFontSmallerCommand
-        {
-            get { return _makeFontSmallerCommand; }
-        }
+        public ICommand MakeFontSmallerCommand => _makeFontSmallerCommand;
 
-        private bool CanMakeFontSmaller
-        {
-            get { return FontSize > 5; }
-        }
+        private bool CanMakeFontSmaller => FontSize > 5;
 
         private void MakeFontSmaller()
         {
-            _fontSize.IntValue -= 2;
-            RaisePropertyChanged(() => FontSize);
-            _settingsRepository.SaveSetting(_fontSize);
-            _makeFontBiggerCommand.RaiseCanExecuteChanged();
-            _makeFontSmallerCommand.RaiseCanExecuteChanged();
+            FontSize -= 2;
         }
         #endregion
 
         #region FavoriteCommand
         private readonly RelayCommand _favoriteCommand;
-        public ICommand FavoriteCommand
-        {
-            get { return _favoriteCommand; }
-        }
+        public ICommand FavoriteCommand => _favoriteCommand;
 
         private void Favorite()
         {
-            Article.IsFavorite = !Article.IsFavorite;
-            _articleRepository.UpdateArticleFavorite(Article);
+            _articleRepository.SetArticleFavoriteStateAsync(Article, !Article.IsFavorite);
         }
         #endregion
 
@@ -309,11 +224,29 @@ namespace OfflineMedia.View.ViewModels
 
         #region Spritz View
 
-        private BaseSettingModel _spritzSpeed;
-
+        private int _readingSpeed;
         public int ReadingSpeed
         {
-            get { return _spritzSpeed != null ? _spritzSpeed.IntValue : 300; }
+            get { return _readingSpeed; }
+            set
+            {
+                if (Set(ref _readingSpeed, value))
+                {
+                    SafeReadingSpeed();
+                    _decreaseSpeedCommand.RaiseCanExecuteChanged();
+                    _increaseSpeedCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        private async void SafeReadingSpeed()
+        {
+            var setting = await _settingsRepository.GetSettingByKeyAsync(SettingKey.WordsPerMinute) as IntSettingModel;
+            if (setting != null)
+            {
+                setting.IntValue = ReadingSpeed;
+                await _settingsRepository.SaveSettingsAsync();
+            }
         }
 
         private string _beforeText = "S";
@@ -339,7 +272,7 @@ namespace OfflineMedia.View.ViewModels
 
         public void DisplayWord(SpritzWord sw)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            _platformCodeService.CheckBeginInvokeOnUi(() =>
             {
                 BeforeText = sw.Before;
                 MiddleText = sw.Middle;
@@ -361,15 +294,9 @@ namespace OfflineMedia.View.ViewModels
                 }
             }
         }
-        public int ActiveWord
-        {
-            get { return _spritzWords != null ? _activeIndexSave + 1 : 0; }
-        }
+        public int ActiveWord => _spritzWords != null ? _activeIndexSave + 1 : 0;
 
-        public int TotalWords
-        {
-            get { return _spritzWords != null ? _spritzWords.Count : 0; }
-        }
+        public int TotalWords => _spritzWords?.Count ?? 0;
 
         private List<SpritzWord> _spritzWords;
         private void InitializeSpritz()
@@ -388,7 +315,7 @@ namespace OfflineMedia.View.ViewModels
                     Middle = 'a',
                     Lenght = 1000
                 });
-                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                _platformCodeService.CheckBeginInvokeOnUi(() =>
                 {
                     _goLeftCommand.RaiseCanExecuteChanged();
                     _goRightCommand.RaiseCanExecuteChanged();
@@ -405,7 +332,7 @@ namespace OfflineMedia.View.ViewModels
                     //prepare User Interface
                     if (_spritzWords != null && _spritzWords.Count > 0)
                     {
-                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                        _platformCodeService.CheckBeginInvokeOnUi(() =>
                         {
                             _goLeftCommand.RaiseCanExecuteChanged();
                             _goRightCommand.RaiseCanExecuteChanged();
@@ -415,7 +342,7 @@ namespace OfflineMedia.View.ViewModels
                         DisplayWord(_spritzWords[0]);
 
                         _isSpritzReady = true;
-                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                        _platformCodeService.CheckBeginInvokeOnUi(() =>
                         {
                             _startCommand.RaiseCanExecuteChanged();
                         });
@@ -424,7 +351,7 @@ namespace OfflineMedia.View.ViewModels
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.FatalError, "Spritz failed",this, ex);
+                LogHelper.Instance.Log(LogLevel.FatalError, "Spritz failed", this, ex);
             }
         }
 
@@ -454,15 +381,9 @@ namespace OfflineMedia.View.ViewModels
 
         #region Go ToStart Button
         private readonly RelayCommand _goToStartCommand;
-        public ICommand GoToStartCommand
-        {
-            get { return _goToStartCommand; }
-        }
+        public ICommand GoToStartCommand => _goToStartCommand;
 
-        private bool CanGoToStart
-        {
-            get { return ActiveIndex > 0 && SpritzState != SpritzState.Running; }
-        }
+        private bool CanGoToStart => ActiveIndex > 0 && SpritzState != SpritzState.Running;
 
         private void GoToStart()
         {
@@ -477,15 +398,9 @@ namespace OfflineMedia.View.ViewModels
 
         #region Go Left Button
         private readonly RelayCommand _goLeftCommand;
-        public ICommand GoLeftCommand
-        {
-            get { return _goLeftCommand; }
-        }
+        public ICommand GoLeftCommand => _goLeftCommand;
 
-        private bool CanGoLeft
-        {
-            get { return ActiveIndex > 0 && SpritzState != SpritzState.Running; }
-        }
+        private bool CanGoLeft => ActiveIndex > 0 && SpritzState != SpritzState.Running;
 
         private void GoLeft()
         {
@@ -505,19 +420,10 @@ namespace OfflineMedia.View.ViewModels
 
         #region Go Right Button
         private readonly RelayCommand _goRightCommand;
-        public ICommand GoRightCommand
-        {
-            get { return _goRightCommand; }
-        }
+        public ICommand GoRightCommand => _goRightCommand;
 
-        private bool CanGoRight
-        {
-            get
-            {
-                return _spritzWords != null && ActiveIndex < _spritzWords.Count - 1 &&
-                       SpritzState != SpritzState.Running;
-            }
-        }
+        private bool CanGoRight => _spritzWords != null && ActiveIndex < _spritzWords.Count - 1 &&
+                                   SpritzState != SpritzState.Running;
 
         private void GoRight()
         {
@@ -537,99 +443,58 @@ namespace OfflineMedia.View.ViewModels
 
         #region Open In Browser Button
         private readonly RelayCommand _reloadArticleCommand;
-        public ICommand ReloadArticleCommand
-        {
-            get { return _reloadArticleCommand; }
-        }
+        public ICommand ReloadArticleCommand => _reloadArticleCommand;
 
-        private bool CanReloadArticle
-        {
-            get { return Article.State == ArticleState.Loaded || Article.State == ArticleState.Read; }
-        }
+        private bool CanReloadArticle => Article.LoadingState != LoadingState.Loading;
 
         private void ReloadArticle()
         {
-            Article.State = ArticleState.New;
-            _reloadArticleCommand.RaiseCanExecuteChanged();
-            _articleRepository.UpdateArticleState(Article);
+            _articleRepository.ActualizeArticleAsync(Article);
         }
         #endregion
 
         #region Open In Browser Button
         private readonly RelayCommand _openInBrowserCommand;
-        public ICommand OpenInBrowserCommand
-        {
-            get { return _openInBrowserCommand; }
-        }
+        public ICommand OpenInBrowserCommand => _openInBrowserCommand;
 
-        private bool CanOpenInBrowser
-        {
-            get { return Article != null && Article.PublicUri != null; }
-        }
+        private bool CanOpenInBrowser => Article != null && Article.PublicUri != null;
 
         private void OpenInBrowser()
         {
-            _variaService.OpenInBrowser(Article.PublicUri);
+            _platformCodeService.OpenInBrowser(new Uri(Article.PublicUri));
         }
         #endregion
 
         #region Increase Speed Button
         private readonly RelayCommand _increaseSpeedCommand;
-        public ICommand IncreaseSpeedCommand
-        {
-            get { return _increaseSpeedCommand; }
-        }
+        public ICommand IncreaseSpeedCommand => _increaseSpeedCommand;
 
-        private bool CanIncreaseSpeed
-        {
-            get { return ReadingSpeed < 2000; }
-        }
+        private bool CanIncreaseSpeed => ReadingSpeed < 2000;
 
         private void IncreaseSpeed()
         {
-            _spritzSpeed.IntValue += 50;
-            RaisePropertyChanged(() => ReadingSpeed);
-            _settingsRepository.SaveSetting(_spritzSpeed);
-
-            _decreaseSpeedCommand.RaiseCanExecuteChanged();
-            _increaseSpeedCommand.RaiseCanExecuteChanged();
+            ReadingSpeed += 50;
         }
         #endregion
 
         #region Decrease Speed Button
         private readonly RelayCommand _decreaseSpeedCommand;
-        public ICommand DecreaseSpeedCommand
-        {
-            get { return _decreaseSpeedCommand; }
-        }
+        public ICommand DecreaseSpeedCommand => _decreaseSpeedCommand;
 
-        private bool CanDecreaseSpeed
-        {
-            get { return ReadingSpeed > 50; }
-        }
+        private bool CanDecreaseSpeed => ReadingSpeed > 50;
 
         private void DecreaseSpeed()
         {
-            _spritzSpeed.IntValue -= 50;
-            RaisePropertyChanged(() => ReadingSpeed);
-            _settingsRepository.SaveSetting(_spritzSpeed);
+            ReadingSpeed -= 50;
 
-            _decreaseSpeedCommand.RaiseCanExecuteChanged();
-            _increaseSpeedCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
         #region Start Button
         private readonly RelayCommand _startCommand;
-        public ICommand StartCommand
-        {
-            get { return _startCommand; }
-        }
+        public ICommand StartCommand => _startCommand;
 
-        private bool CanStart
-        {
-            get { return _isSpritzReady; }
-        }
+        private bool CanStart => _isSpritzReady;
 
         private SpritzState _spritzState;
         public SpritzState SpritzState
@@ -664,24 +529,6 @@ namespace OfflineMedia.View.ViewModels
         #endregion
 
         #endregion
-
-        #endregion
-
-        #region Info View
-
-        private FeedModel _similarCathegoriesArticles;
-        public FeedModel SimilarCathegoriesArticles
-        {
-            get { return _similarCathegoriesArticles; }
-            set { Set(ref _similarCathegoriesArticles, value); }
-        }
-
-        private FeedModel _similarTitlesArticles;
-        public FeedModel SimilarTitlesArticles
-        {
-            get { return _similarTitlesArticles; }
-            set { Set(ref _similarTitlesArticles, value); }
-        }
 
         #endregion
 

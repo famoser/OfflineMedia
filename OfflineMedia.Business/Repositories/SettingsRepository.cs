@@ -41,6 +41,12 @@ namespace OfflineMedia.Business.Repositories
             Initialize();
             return SettingManager.GetAllSettings();
         }
+
+        public ObservableCollection<BaseSettingModel> GetEditSettings()
+        {
+            Initialize();
+            return SettingManager.GetEditableSettings();
+        }
 #pragma warning restore 4014
 
         private bool _isInitialized;

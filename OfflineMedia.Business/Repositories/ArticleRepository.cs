@@ -40,6 +40,7 @@ namespace OfflineMedia.Business.Repositories
         private readonly IStorageService _storageService;
         private readonly ISqliteService _sqliteService;
         private readonly IPlatformCodeService _platformCodeService;
+        private readonly IThemeRepository _themeRepository;
         private readonly ImageDownloadService _imageDownloadService;
 
         private readonly GenericRepository<ArticleModel, ArticleEntity> _articleGenericRepository;
@@ -48,13 +49,14 @@ namespace OfflineMedia.Business.Repositories
         private readonly GenericRepository<GalleryContentModel, GalleryContentEntity> _galleryContentGenericRepository;
 
 #pragma warning disable 4014
-        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IPlatformCodeService platformCodeService)
+        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IPlatformCodeService platformCodeService, IThemeRepository themeRepository)
         {
             _settingsRepository = settingsRepository;
             _progressService = progressService;
             _storageService = storageService;
             _sqliteService = sqliteService;
             _platformCodeService = platformCodeService;
+            _themeRepository = themeRepository;
 
             _articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(_sqliteService);
             _imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(_sqliteService);

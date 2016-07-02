@@ -30,6 +30,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -404,6 +418,18 @@
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
         }
       },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        }
+      },
       "runtime.native.System.Security.Cryptography/4.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
@@ -425,6 +451,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -2191,6 +2228,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -2513,6 +2564,18 @@
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
         }
       },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        }
+      },
       "runtime.any.System.Collections/4.0.11": {
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -2808,6 +2871,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -4426,6 +4500,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -4747,6 +4835,18 @@
           "lib/windows81/GalaSoft.MvvmLight.Extras.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.Platform.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
+        }
+      },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.0.10": {
@@ -5079,6 +5179,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -6697,6 +6808,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -7023,6 +7148,18 @@
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
         }
       },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        }
+      },
       "runtime.any.System.Collections/4.0.11": {
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -7323,6 +7460,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -8941,6 +9089,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -9266,6 +9428,18 @@
           "lib/windows81/GalaSoft.MvvmLight.Extras.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.Platform.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
+        }
+      },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.0.10": {
@@ -9603,6 +9777,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -11221,6 +11406,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -11547,6 +11746,18 @@
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
         }
       },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        }
+      },
       "runtime.any.System.Collections/4.0.11": {
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -11847,6 +12058,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -13465,6 +13687,20 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.SqliteWrapper/1.1.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.4.3",
+          "Nito.AsyncEx": "3.0.1",
+          "SQLite.Net.Async-PCL": "3.1.1",
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -13790,6 +14026,18 @@
           "lib/windows81/GalaSoft.MvvmLight.Extras.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.Platform.dll": {},
           "lib/windows81/GalaSoft.MvvmLight.dll": {}
+        }
+      },
+      "Nito.AsyncEx/3.0.1": {
+        "compile": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
+        },
+        "runtime": {
+          "lib/netcore45/Nito.AsyncEx.Concurrent.dll": {},
+          "lib/netcore45/Nito.AsyncEx.Enlightenment.dll": {},
+          "lib/netcore45/Nito.AsyncEx.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.0.10": {
@@ -14127,6 +14375,17 @@
         },
         "runtime": {
           "lib/Windows8/SQLite.Net.Platform.WinRT.dll": {}
+        }
+      },
+      "SQLite.Net.Async-PCL/3.1.1": {
+        "dependencies": {
+          "SQLite.Net.Core-PCL": "3.1.1"
+        },
+        "compile": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll": {}
         }
       },
       "SQLite.Net.Core-PCL/3.1.1": {
@@ -15750,8 +16009,19 @@
         "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll"
       ]
     },
+    "Famoser.SqliteWrapper/1.1.2": {
+      "sha512": "1865fJYq4d5ORHCVGss2B+K4dft9kHZYEWXSIF9ndhzWsYJHtoGDYt1y7cKoh+m26p44943tg8IKz4pNCr0lsQ==",
+      "type": "package",
+      "files": [
+        "Famoser.SqliteWrapper.1.1.2.nupkg.sha512",
+        "Famoser.SqliteWrapper.nuspec",
+        "lib/Famoser.SqliteWrapper.dll",
+        "lib/dotnet/Famoser.SqliteWrapper.dll",
+        "lib/portable-net45+win8+wpa81+wp8/Famoser.SqliteWrapper.dll"
+      ]
+    },
     "HtmlAgilityPack/1.4.9.4": {
-      "sha512": "e0NyiQpHveUzZbMY7I1GCh2Pkzh8Kf3kg4bIgDpWOeHvzloHSnkSccGpnb53Eq4uWxYE/wrRzS3jV56ZkAF2pg==",
+      "sha512": "p6Pn2eVAdEt9wK+fF6O65Rx1ddnfGMC9HI2W5V8MCOLr1jPBjXkIBs63LQbRLfuQveXa/qg+atl5N2njrJlrlw==",
       "type": "package",
       "files": [
         "HAPIcon.png",
@@ -16408,6 +16678,86 @@
         "lib/xamarin.ios10/GalaSoft.MvvmLight.XML",
         "lib/xamarin.ios10/GalaSoft.MvvmLight.dll",
         "lib/xamarin.ios10/GalaSoft.MvvmLight.pdb"
+      ]
+    },
+    "Nito.AsyncEx/3.0.1": {
+      "sha512": "JSypx/S4sBY1+0wrXcSqcdV6p5nVNFeCfIVyC9LAy69hrle/bxMJf9oZsi5UDxZl7Bsq/bD2XwxMFFOx7zVPag==",
+      "type": "package",
+      "files": [
+        "Nito.AsyncEx.3.0.1.nupkg.sha512",
+        "Nito.AsyncEx.nuspec",
+        "lib/MonoAndroid/Nito.AsyncEx.Concurrent.dll",
+        "lib/MonoAndroid/Nito.AsyncEx.Concurrent.xml",
+        "lib/MonoAndroid/Nito.AsyncEx.Enlightenment.dll",
+        "lib/MonoAndroid/Nito.AsyncEx.Enlightenment.xml",
+        "lib/MonoAndroid/Nito.AsyncEx.dll",
+        "lib/MonoAndroid/Nito.AsyncEx.xml",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.Concurrent.dll",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.Concurrent.xml",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.Enlightenment.dll",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.Enlightenment.xml",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.dll",
+        "lib/Xamarin.Mac20/Nito.AsyncEx.xml",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.Concurrent.dll",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.Concurrent.xml",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.Enlightenment.dll",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.Enlightenment.xml",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.dll",
+        "lib/Xamarin.iOS10/Nito.AsyncEx.xml",
+        "lib/net40/Nito.AsyncEx.Concurrent.dll",
+        "lib/net40/Nito.AsyncEx.Concurrent.xml",
+        "lib/net40/Nito.AsyncEx.Enlightenment.dll",
+        "lib/net40/Nito.AsyncEx.Enlightenment.xml",
+        "lib/net40/Nito.AsyncEx.dll",
+        "lib/net40/Nito.AsyncEx.xml",
+        "lib/net45/Nito.AsyncEx.Concurrent.dll",
+        "lib/net45/Nito.AsyncEx.Concurrent.xml",
+        "lib/net45/Nito.AsyncEx.Enlightenment.dll",
+        "lib/net45/Nito.AsyncEx.Enlightenment.xml",
+        "lib/net45/Nito.AsyncEx.dll",
+        "lib/net45/Nito.AsyncEx.xml",
+        "lib/netcore45/Nito.AsyncEx.Concurrent.dll",
+        "lib/netcore45/Nito.AsyncEx.Concurrent.xml",
+        "lib/netcore45/Nito.AsyncEx.Enlightenment.dll",
+        "lib/netcore45/Nito.AsyncEx.Enlightenment.xml",
+        "lib/netcore45/Nito.AsyncEx.dll",
+        "lib/netcore45/Nito.AsyncEx.xml",
+        "lib/portable-net40+netcore45+sl4+wp71/Nito.AsyncEx.dll",
+        "lib/portable-net40+netcore45+sl4+wp71/Nito.AsyncEx.xml",
+        "lib/portable-net40+netcore45+sl5+wp8+wpa81/Nito.AsyncEx.dll",
+        "lib/portable-net40+netcore45+sl5+wp8+wpa81/Nito.AsyncEx.xml",
+        "lib/portable-net40+netcore45/Nito.AsyncEx.Concurrent.dll",
+        "lib/portable-net40+netcore45/Nito.AsyncEx.Concurrent.xml",
+        "lib/portable-net40+netcore45/Nito.AsyncEx.dll",
+        "lib/portable-net40+netcore45/Nito.AsyncEx.xml",
+        "lib/portable-net45+netcore45+wp8+wpa81/Nito.AsyncEx.dll",
+        "lib/portable-net45+netcore45+wp8+wpa81/Nito.AsyncEx.xml",
+        "lib/portable-net45+netcore45+wpa81/Nito.AsyncEx.Concurrent.dll",
+        "lib/portable-net45+netcore45+wpa81/Nito.AsyncEx.Concurrent.xml",
+        "lib/portable-net45+netcore45+wpa81/Nito.AsyncEx.dll",
+        "lib/portable-net45+netcore45+wpa81/Nito.AsyncEx.xml",
+        "lib/sl4/Nito.AsyncEx.Enlightenment.dll",
+        "lib/sl4/Nito.AsyncEx.Enlightenment.xml",
+        "lib/sl4/Nito.AsyncEx.dll",
+        "lib/sl4/Nito.AsyncEx.xml",
+        "lib/sl5/Nito.AsyncEx.Enlightenment.dll",
+        "lib/sl5/Nito.AsyncEx.Enlightenment.xml",
+        "lib/sl5/Nito.AsyncEx.dll",
+        "lib/sl5/Nito.AsyncEx.xml",
+        "lib/wp71/Nito.AsyncEx.Enlightenment.dll",
+        "lib/wp71/Nito.AsyncEx.Enlightenment.xml",
+        "lib/wp71/Nito.AsyncEx.dll",
+        "lib/wp71/Nito.AsyncEx.xml",
+        "lib/wp8/Nito.AsyncEx.Enlightenment.dll",
+        "lib/wp8/Nito.AsyncEx.Enlightenment.xml",
+        "lib/wp8/Nito.AsyncEx.dll",
+        "lib/wp8/Nito.AsyncEx.xml",
+        "lib/wpa81/Nito.AsyncEx.Concurrent.dll",
+        "lib/wpa81/Nito.AsyncEx.Concurrent.xml",
+        "lib/wpa81/Nito.AsyncEx.Enlightenment.dll",
+        "lib/wpa81/Nito.AsyncEx.Enlightenment.xml",
+        "lib/wpa81/Nito.AsyncEx.dll",
+        "lib/wpa81/Nito.AsyncEx.xml"
       ]
     },
     "runtime.any.System.Collections/4.0.11": {
@@ -17256,6 +17606,15 @@
         "lib/portable-win81+wpa81/SQLite.Net.Platform.WinRT.dll",
         "lib/windowsphone8/ARM/SQLite.Net.Platform.WindowsPhone8.dll",
         "lib/windowsphone8/x86/SQLite.Net.Platform.WindowsPhone8.dll"
+      ]
+    },
+    "SQLite.Net.Async-PCL/3.1.1": {
+      "sha512": "K4wJtiKhh5wdWgBT6oVCtwbCnrOxbt9xwooKqSIyaw0jRxR4SO3mV9Ju4ayYiOFMI/e/wzMc+AAIjtbVHFOENA==",
+      "type": "package",
+      "files": [
+        "SQLite.Net.Async-PCL.3.1.1.nupkg.sha512",
+        "SQLite.Net.Async-PCL.nuspec",
+        "lib/portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1/SQLite.Net.Async.dll"
       ]
     },
     "SQLite.Net.Core-PCL/3.1.1": {
@@ -22072,6 +22431,7 @@
     "": [
       "Famoser.FrameworkEssentials >= 2.6.3",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.1.2",
+      "Famoser.SqliteWrapper >= 1.1.2",
       "HtmlAgilityPack >= 1.4.9.4",
       "Microsoft.ApplicationInsights >= 2.1.0",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 1.2.3",

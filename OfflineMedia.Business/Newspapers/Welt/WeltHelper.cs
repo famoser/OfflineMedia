@@ -42,6 +42,8 @@ namespace OfflineMedia.Business.Newspapers.Welt
                 if (children.Enclosure != null)
                     a.LeadImage = new ImageContentModel() { Url = children.Enclosure.Url };
 
+                a.AfterSaveFunc = () => AddThemesAsync(a, new[] {children.Category});
+
                 return a;
             });
         }
@@ -100,7 +102,6 @@ namespace OfflineMedia.Business.Newspapers.Welt
                    Content = HtmlConverter.HtmlToParagraph(body)
                });
                
-               await AddThemesAsync(a, new[] { children.Category });
                return true;
            });
         }

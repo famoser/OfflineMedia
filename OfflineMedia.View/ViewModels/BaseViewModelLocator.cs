@@ -17,7 +17,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using OfflineMedia.Business.Repositories;
 using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.View.ViewModels
 {
@@ -37,7 +36,6 @@ namespace OfflineMedia.View.ViewModels
             SimpleIoc.Default.Register<IArticleRepository, ArticleRepository>();
             SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
             SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
-            SimpleIoc.Default.Register<IApiRepository, ApiRepository>();
             SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
 
             if (ViewModelBase.IsInDesignModeStatic)
@@ -53,47 +51,25 @@ namespace OfflineMedia.View.ViewModels
             SimpleIoc.Default.Register<FeedPageViewModel>();
             SimpleIoc.Default.Register<ArticlePageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
-            SimpleIoc.Default.Register<SimpleViewModel>();
             SimpleIoc.Default.Register<MyDayViewModel>();
 
             SimpleIoc.Default.Register<ProgressViewModel>();
         }
 
-        public MainPageViewModel MainPageViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<MainPageViewModel>(); }
-        }
+        public MainPageViewModel MainPageViewModel => ServiceLocator.Current.GetInstance<MainPageViewModel>();
 
-        public FeedPageViewModel FeedPageViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<FeedPageViewModel>(); }
-        }
+        public FeedPageViewModel FeedPageViewModel => ServiceLocator.Current.GetInstance<FeedPageViewModel>();
 
-        public ArticlePageViewModel ArticlePageViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<ArticlePageViewModel>(); }
-        }
+        public ArticlePageViewModel ArticlePageViewModel => ServiceLocator.Current.GetInstance<ArticlePageViewModel>();
 
-        public SettingsPageViewModel SettingsPageViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<SettingsPageViewModel>(); }
-		}
+        public SettingsPageViewModel SettingsPageViewModel => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
 
-		public ProgressViewModel ProgressViewModel
-		{
-			get { return ServiceLocator.Current.GetInstance<ProgressViewModel>(); }
-        }
+        public ProgressViewModel ProgressViewModel => ServiceLocator.Current.GetInstance<ProgressViewModel>();
 
-        public SimpleViewModel SimpleViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<SimpleViewModel>(); }
-        }
+        public SimpleViewModel SimpleViewModel => ServiceLocator.Current.GetInstance<SimpleViewModel>();
 
-        public MyDayViewModel MyDayViewModel
-        {
-            get { return ServiceLocator.Current.GetInstance<MyDayViewModel>(); }
-        }
-        
+        public MyDayViewModel MyDayViewModel => ServiceLocator.Current.GetInstance<MyDayViewModel>();
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

@@ -1,230 +1,82 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Famoser.FrameworkEssentials.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Models.Configuration;
+using OfflineMedia.Business.Models;
 using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Business.Services;
 using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
 
 namespace OfflineMedia.View.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        private List<BaseSettingModel> _generalFreeSettings;
-        public List<BaseSettingModel> GeneralFreeSettings
-        {
-            get { return _generalFreeSettings; }
-            set { Set(ref _generalFreeSettings, value); }
-        }
-
-        private List<BaseSettingModel> _generalBoolSettings;
-        public List<BaseSettingModel> GeneralBoolSettings
-        {
-            get { return _generalBoolSettings; }
-            set { Set(ref _generalBoolSettings, value); }
-        }
-
-        private List<BaseSettingModel> _generalIntSettings;
-        public List<BaseSettingModel> GeneralIntSettings
-        {
-            get { return _generalIntSettings; }
-            set { Set(ref _generalIntSettings, value); }
-        }
-
-        private List<BaseSettingModel> _generalPossibleValuesSettings;
-        public List<BaseSettingModel> GeneralPossibleValuesSettings
-        {
-            get { return _generalPossibleValuesSettings; }
-            set { Set(ref _generalPossibleValuesSettings, value); }
-        }
-
-        private List<BaseSettingModel> _allSettings;
-
-        private List<SourceConfigurationModel> _sourceConfiguration;
-        public List<SourceConfigurationModel> SourceConfiguration
-        {
-            get { return _sourceConfiguration; }
-            set { Set(ref _sourceConfiguration, value); }
-        }
-
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IProgressService _progressService;
         private readonly INavigationService _navigationService;
-        private readonly IStorageService _storageService;
-        public SettingsPageViewModel(ISettingsRepository settingsRepository, IProgressService progressService, INavigationService navigationService, IStorageService storageService)
+        private readonly IArticleRepository _articleRepository;
+        private readonly IProgressService _progressService;
+
+        public SettingsPageViewModel(ISettingsRepository settingsRepository,INavigationService navigationService, IArticleRepository articleRepository, IProgressService progressService)
         {
             _settingsRepository = settingsRepository;
-            _progressService = progressService;
             _navigationService = navigationService;
-            _storageService = storageService;
+            _articleRepository = articleRepository;
+            _progressService = progressService;
 
             if (IsInDesignMode)
             {
-                _allSettings = settingsRepository.GetSampleSettings();
-                _sourceConfiguration = settingsRepository.GetSampleSourceConfiguration();
-                _totalFileSize = 10000000;
-                SortOutSettings();
+                Sources = _articleRepository.GetSampleSources();
+                Settings = _settingsRepository.GetSampleSettings();
             }
             else
-                Initialize();
+            {
+                Sources = _articleRepository.GetAllSources();
+                Settings = _settingsRepository.GetEditSettings();
+            }
 
             _saveCommand = new RelayCommand(Save, () => CanSave);
-            _clearSaveCommand = new RelayCommand(ClearSave, () => CanClearSave);
         }
 
-        public async void Initialize()
+        private ObservableCollection<BaseSettingModel> _settings;
+        public ObservableCollection<BaseSettingModel> Settings
         {
-                _allSettings = await _settingsRepository.GetAllSettings();
-                _sourceConfiguration = await _settingsRepository.GetSourceConfigurations();
-            
-
-            SortOutSettings();
-
-            TotalFileSize = await _storageService.GetFileSizes();
+            get { return _settings; }
+            set { Set(ref _settings, value); }
         }
 
-        private void SortOutSettings()
+        private ObservableCollection<SourceModel> _sources;
+        public ObservableCollection<SourceModel> Sources
         {
-            GeneralFreeSettings = new List<BaseSettingModel>();
-            GeneralBoolSettings = new List<BaseSettingModel>();
-            GeneralIntSettings = new List<BaseSettingModel>();
-            GeneralPossibleValuesSettings = new List<BaseSettingModel>();
-
-            foreach (var item in _allSettings)
-            {
-                if (item.IsChangeable)
-                {
-                    if (item.IsCriticalChange)
-                        item.PropertyChanged += CriticalPropertyChanged;
-                    else
-                        item.PropertyChanged += SomePropertyChanged;
-                    if (item.ValueType == ValueType.TrueOrFalse)
-                        GeneralBoolSettings.Add(item);
-                    else if (item.ValueType == ValueType.Free)
-                        GeneralFreeSettings.Add(item);
-                    else if (item.ValueType == ValueType.Int)
-                        GeneralIntSettings.Add(item);
-                    else if (item.ValueType == ValueType.PossibleValues)
-                        GeneralPossibleValuesSettings.Add(item);
-                }
-            }
-
-            foreach (var sourceConfigurationModel in _sourceConfiguration)
-            {
-                sourceConfigurationModel.PropertyChanged += CriticalPropertyChanged;
-                foreach (var feedConfigurationModel in sourceConfigurationModel.FeedConfigurationModels)
-                {
-                    feedConfigurationModel.PropertyChanged += CriticalPropertyChanged;
-                }
-            }
+            get { return _sources; }
+            set { Set(ref _sources, value); }
         }
 
-        private bool _propHasBeenChanged;
-        private void SomePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!_propHasBeenChanged)
-            {
-                _propHasBeenChanged = true;
-                _saveCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        private bool _criticalChangeHasHappened;
-        private void CriticalPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!_propHasBeenChanged)
-            {
-                _criticalChangeHasHappened = true;
-                _propHasBeenChanged = true;
-                _saveCommand.RaiseCanExecuteChanged();
-            }
-        }
 
         #region save
 
         private RelayCommand _saveCommand;
-        public ICommand SaveCommand
-        {
-            get { return _saveCommand; }
-        }
+        public ICommand SaveCommand => _saveCommand;
 
-        private bool CanSave
-        {
-            get { return _propHasBeenChanged && !_isSaving; }
-        }
+        private bool CanSave => !_isSaving;
 
         private bool _isSaving;
         private async void Save()
         {
             _isSaving = true;
-            _propHasBeenChanged = false;
             _saveCommand.RaiseCanExecuteChanged();
 
-            _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.SavingSettings);
+            _progressService.StartIndeterminateProgress(IndeterminateProgressKey.SavingSettings);
 
-            await _settingsRepository.SaveSettings();
+            await _settingsRepository.SaveSettingsAsync();
+            _progressService.StopIndeterminateProgress(IndeterminateProgressKey.SavingSettings);
 
             _isSaving = false;
             _saveCommand.RaiseCanExecuteChanged();
-
-            if (_criticalChangeHasHappened)
-            {
-                SimpleIoc.Default.Unregister(SimpleIoc.Default.GetInstance<MainPageViewModel>());
-                Messenger.Default.Send(PageKeys.Main, Messages.ReloadGoBackPage);
-
-                _criticalChangeHasHappened = false;
-            }
-
-            _progressService.HideIndeterminateProgress(IndeterminateProgressKey.SavingSettings);
+            
         }
 
         #endregion
-
-        #region clear save
-
-        private bool _isClearingSave;
-        private RelayCommand _clearSaveCommand;
-        public ICommand ClearSaveCommand
-        {
-            get { return _clearSaveCommand; }
-        }
-
-        private bool CanClearSave
-        {
-            get { return !_isClearingSave; }
-        }
-
-        private async void ClearSave()
-        {
-            _isClearingSave = true;
-            _progressService.ShowIndeterminateProgress(IndeterminateProgressKey.ClearSave);
-            _clearSaveCommand.RaiseCanExecuteChanged();
-            
-            await _storageService.ClearFiles();
-
-            _navigationService.GoBack();
-            _navigationService.GoBack();
-            _navigationService.GoBack();
-            _navigationService.GoBack();
-            
-            _progressService.HideIndeterminateProgress(IndeterminateProgressKey.ClearSave);
-        }
-
-        #endregion
-        
-        private ulong _totalFileSize;
-        public ulong TotalFileSize
-        {
-            get { return _totalFileSize; }
-            set { Set(ref _totalFileSize, value); }
-        }
     }
 }

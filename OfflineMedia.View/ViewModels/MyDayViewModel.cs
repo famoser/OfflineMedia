@@ -1,204 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Famoser.FrameworkEssentials.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using Newtonsoft.Json;
 using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Enums.Settings;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.Configuration.Base;
 using OfflineMedia.Business.Models.WeatherModel;
 using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Enums;
 
 namespace OfflineMedia.View.ViewModels
 {
     public class MyDayViewModel : ViewModelBase
     {
         private IWeatherRepository _weatherRepository;
-        private ISettingsRepository _settingsRepository;
-        private IStorageService _storageService;
+        private readonly IProgressService _progressService;
 
-        public MyDayViewModel(IWeatherRepository weatherRepository, ISettingsRepository settingsRepository, IStorageService storageService)
+        public MyDayViewModel(IWeatherRepository weatherRepository, IProgressService progressService)
         {
             _weatherRepository = weatherRepository;
-            _settingsRepository = settingsRepository;
-            _storageService = storageService;
-            _addNewToDo = new RelayCommand(AddNewToDo, () => CanAddNewToDo);
-            _removeToDo = new RelayCommand<string>(RemoveToDo);
+            _progressService = progressService;
+
+            _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
 
             if (IsInDesignMode)
             {
-                Forecast1 = new Forecast
-                {
-                    ForecastItems = new List<ForecastItem>(),
-                    City = "Basel (CH)"
-                };
-                for (int i = 0; i < 3; i++)
-                {
-                    Forecast1.ForecastItems.Add(new ForecastItem()
-                    {
-                        Description = "ein bisschen wolkig",
-                        ConditionId = 801,
-                        ConditionFontIcon = ((char)int.Parse("EB48", System.Globalization.NumberStyles.HexNumber)).ToString(),
-                        CloudinessPercentage = 80,
-                        HumidityPercentage = 16,
-                        WindDegreee = 310,
-                        WindSpeed = 12,
-                        TemperatureKelvin = 287,
-                        PressurehPa = 1300,
-                        Date = DateTime.Now,
-                        RainVolume = 0,
-                        SnowVolume = 0
-                    });
-                }
-
-                _toDos = new ObservableCollection<string>()
-                {
-                    "Clean files",
-                    "Do other stuff",
-                    "Look up lady gaga long story short and all the other stuff",
-                    "Another very long text to observe: Another very long text to observe: Another very long text to observe",
-                    "lorem ipsum",
-                };
-            }
-            else
-                Initialize();
-
-            Messenger.Default.Register<Messages>(this, EvaluateMessages);
-        }
-
-        private void EvaluateMessages(Messages obj)
-        {
-            if (obj == Messages.RefreshWeather)
-                RefreshWeather();
-        }
-
-        private BaseSettingModel _city1;
-        private BaseSettingModel _city2;
-        private async void Initialize()
-        {
-            _city1 = await _settingsRepository.GetSettingByKey(SettingKey.WeatherCity1);
-            _city2 = await _settingsRepository.GetSettingByKey(SettingKey.WeatherCity2);
-
-            var todos = await _settingsRepository.GetSettingByKey(SettingKey.ToDoList);
-            ToDos = JsonConvert.DeserializeObject<ObservableCollection<string>>(todos.Value);
-
-            RefreshWeather();
-        }
-
-
-        private async void RefreshWeather()
-        {
-            if (_city1 != null && _city1.Value != "")
-                Forecast1 = await _weatherRepository.GetForecastFor(_city1.Value);
-            if (Forecast1 == null)
-            {
-                var citycontent1 = await _settingsRepository.GetSettingByKey(SettingKey.WeatherCity1Content);
-                if (citycontent1 != null)
-                    Forecast1 = JsonConvert.DeserializeObject<Forecast>(citycontent1.Value);
+                Forecasts = _weatherRepository.GetSampleForecasts();
             }
             else
             {
-                var json = JsonConvert.SerializeObject(Forecast1);
-                await _settingsRepository.SaveSettingByKey(SettingKey.WeatherCity1Content, json);
+                Forecasts = _weatherRepository.GetForecasts();
+                Refresh();
             }
-
-            Forecast1?.SetCurrentForecast();
-            
-            if (_city2 != null && _city2.Value != "")
-                Forecast2 = await _weatherRepository.GetForecastFor(_city2.Value);
-
-            if (Forecast2 == null)
-            {
-                var citycontent2 = await _settingsRepository.GetSettingByKey(SettingKey.WeatherCity2Content);
-                if (citycontent2 != null)
-                    Forecast2 = JsonConvert.DeserializeObject<Forecast>(citycontent2.Value);
-            }
-            else
-            {
-                var json = JsonConvert.SerializeObject(Forecast2);
-                await _settingsRepository.SaveSettingByKey(SettingKey.WeatherCity2Content, json);
-            }
-            
-            Forecast2?.SetCurrentForecast();
-        }
-
-        private Forecast _forecast1;
-        public Forecast Forecast1
-        {
-            get { return _forecast1; }
-            set { Set(ref _forecast1, value); }
-        }
-
-        private Forecast _forecast2;
-        public Forecast Forecast2
-        {
-            get { return _forecast2; }
-            set { Set(ref _forecast2, value); }
         }
         
-        private string _newToDo;
-        public string NewToDo
+
+        private ObservableCollection<Forecast> _forecasts;
+        public ObservableCollection<Forecast> Forecasts
         {
-            get { return _newToDo; }
-            set { if (Set(ref _newToDo, value))
-                    _addNewToDo.RaiseCanExecuteChanged(); }
+            get { return _forecasts; }
+            set { Set(ref _forecasts, value); }
         }
 
-        private ObservableCollection<string> _toDos; 
-        public ObservableCollection<string> ToDos
+        #region refresh
+        private RelayCommand _refreshCommand;
+        public ICommand RefreshCommand => _refreshCommand;
+
+        private bool CanRefresh => !_isActualizing;
+
+        private bool _isActualizing;
+        private async void Refresh()
         {
-            get { return _toDos; }
-            set { Set(ref _toDos, value); }
+            if (_isActualizing)
+                return;
+
+            _isActualizing = true;
+            _refreshCommand.RaiseCanExecuteChanged();
+            _progressService.StartIndeterminateProgress(IndeterminateProgressKey.RefreshingWeather);
+            
+            await _weatherRepository.ActualizeAsync();
+
+            _progressService.StopIndeterminateProgress(IndeterminateProgressKey.RefreshingWeather);
+            _isActualizing = false;
+            _refreshCommand.RaiseCanExecuteChanged();
         }
 
-        #region Add new ToDo
-        private readonly RelayCommand _addNewToDo;
-        public ICommand AddNewToDoCommand
-        {
-            get { return _addNewToDo; }
-        }
-
-        private bool CanAddNewToDo
-        {
-            get { return !string.IsNullOrEmpty(_newToDo); }
-        }
-
-        private void AddNewToDo()
-        {
-            _toDos.Add(NewToDo);
-            NewToDo = "";
-            ToDoChanged();
-        }
         #endregion
-
-        #region Remove new ToDo
-        private readonly RelayCommand<string> _removeToDo;
-        public ICommand RemoveToDoCommand
-        {
-            get { return _removeToDo; }
-        }
-
-        private void RemoveToDo(string item)
-        {
-            if (_toDos.Contains(item))
-                _toDos.Remove(item);
-            ToDoChanged();
-        }
-        #endregion
-
-        private async void ToDoChanged()
-        {
-            RaisePropertyChanged(() => ToDos);
-            var todos = JsonConvert.SerializeObject(ToDos);
-            await _settingsRepository.SaveSettingByKey(SettingKey.ToDoList, todos);
-        }
-
-        public string HalloWelt { get { return "hallo welt"; } }
     }
 }

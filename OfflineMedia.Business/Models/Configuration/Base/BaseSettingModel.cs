@@ -7,6 +7,7 @@ namespace OfflineMedia.Business.Models.Configuration.Base
     {
         public string Name { get; set; }
         public SettingKey SettingKey { get; set; }
+        public bool IsImmutable { get; set; }
 
         private string _value;
         public string Value

@@ -301,7 +301,6 @@
     <Compile Include="Helpers\Text\HtmlHelper.cs" />
     <Compile Include="Helpers\Comparisation\IntEqualityComparer.cs" />
     <Compile Include="Helpers\Text\HtmlConverter.cs" />
-    <Compile Include="Helpers\Debug\TimerHelper.cs" />
     <Compile Include="Helpers\Text\XmlHelper.cs" />
     <Compile Include="Managers\SourceManager.cs" />
     <Compile Include="Models\Base\BaseIdModel.cs" />

@@ -317,6 +317,10 @@
       <HintPath>..\packages\Famoser.FrameworkEssentials.2.6.3\lib\dotnet\Famoser.FrameworkEssentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Famoser.SqliteWrapper.1.1.2\lib\dotnet\Famoser.SqliteWrapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\wpa81\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>

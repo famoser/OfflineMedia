@@ -31,7 +31,7 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
                 a.Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", "");
                 a.LogicUri = feedModel.Source.LogicBaseUrl + "api/articles/" + nfa.id;
                 a.PublicUri = feedModel.Source.LogicBaseUrl + nfa.legacy_id;
-                
+
                 if (a.LeadImage == null && nfa.picture_medium_url != null)
                 {
                     a.LeadImage = new ImageContentModel() { Url = nfa.picture_medium_url };
@@ -100,6 +100,9 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
                     }
                 }
 
+                a.AfterSaveFunc = () => AddThemesAsync(a);
+                a.LoadingState = LoadingState.Loaded;
+
                 return a;
             }
             catch (Exception ex)
@@ -165,11 +168,7 @@ namespace OfflineMedia.Business.Newspapers.Tamedia
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
         {
-            return ExecuteSafe(async () =>
-            {
-                await AddThemesAsync(articleModel);
-                return true;
-            });
+            throw new NotImplementedException();
         }
     }
 }

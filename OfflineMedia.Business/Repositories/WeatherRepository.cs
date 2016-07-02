@@ -37,13 +37,49 @@ namespace OfflineMedia.Business.Repositories
 
         private Uri GetApiUrl(Forecast forecast)
         {
-            return new Uri(Uri.EscapeUriString(_apiUrl.Replace("{city}",  forecast.City)));
+            return new Uri(Uri.EscapeUriString(_apiUrl.Replace("{city}", forecast.City)));
         }
 
         public ObservableCollection<Forecast> GetForecasts()
         {
             Initialize();
             return ForecastManager.GetForecasts();
+        }
+
+        public ObservableCollection<Forecast> GetSampleForecasts()
+        {
+            var forecasts = new ObservableCollection<Forecast>();
+            for (int i = 0; i < 3; i++)
+            {
+                var forecast = new Forecast()
+                {
+                    City = "City " + i
+                };
+
+                for (int j = 0; j < 3; j++)
+                {
+                    forecast.Forecasts.Add(new ForecastItem()
+                    {
+                        Description = "ein bisschen wolkig",
+                        ConditionId = 801,
+                        ConditionFontIcon =
+                            ((char)int.Parse("EB48", System.Globalization.NumberStyles.HexNumber)).ToString(),
+                        CloudinessPercentage = 80,
+                        HumidityPercentage = 16,
+                        WindDegreee = 310,
+                        WindSpeed = 12,
+                        TemperatureKelvin = 287,
+                        PressurehPa = 1300,
+                        Date = DateTime.Now,
+                        RainVolume = 0,
+                        SnowVolume = 0
+                    });
+                }
+
+                forecasts.Add(forecast);
+            }
+
+            return forecasts;
         }
 
         private bool _isInitialized;
@@ -103,9 +139,9 @@ namespace OfflineMedia.Business.Repositories
                 {
                     localVal = localVal.Replace("  ", " ");
                 }
-                return localVal.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+                return localVal.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             }
-            return new[] {cities.Value.Trim()};
+            return new[] { cities.Value.Trim() };
         }
 
 

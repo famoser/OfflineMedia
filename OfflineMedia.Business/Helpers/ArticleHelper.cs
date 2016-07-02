@@ -19,6 +19,7 @@ using OfflineMedia.Business.Newspapers.Tamedia;
 using OfflineMedia.Business.Newspapers.Welt;
 using OfflineMedia.Business.Newspapers.Zeit;
 using OfflineMedia.Business.Newspapers.ZwanzigMin;
+using OfflineMedia.Business.Repositories.Interfaces;
 using OfflineMedia.Data.Entities.Database;
 using OfflineMedia.Data.Entities.Database.Contents;
 using OfflineMedia.Data.Enums;
@@ -27,29 +28,29 @@ namespace OfflineMedia.Business.Helpers
 {
     public class ArticleHelper
     {
-        private static IMediaSourceHelper GetMediaSource(Sources source)
+        private static IMediaSourceHelper GetMediaSource(Sources source, IThemeRepository themeRepository)
         {
             switch (source)
             {
                 case Sources.Nzz:
-                    return new NzzHelper();
+                    return new NzzHelper(themeRepository);
                 case Sources.Blick:
                 case Sources.BlickAmAbend:
-                    return new BlickHelper();
+                    return new BlickHelper(themeRepository);
                 case Sources.Postillon:
-                    return new PostillonHelper();
+                    return new PostillonHelper(themeRepository);
                 case Sources.ZwanzigMin:
-                    return new ZwanzigMinHelper();
+                    return new ZwanzigMinHelper(themeRepository);
                 case Sources.Stern:
-                    return new SternHelper();
+                    return new SternHelper(themeRepository);
                 case Sources.Spiegel:
-                    return new SpiegelHelper();
+                    return new SpiegelHelper(themeRepository);
                 case Sources.Bild:
-                    return new BildHelper();
+                    return new BildHelper(themeRepository);
                 case Sources.Zeit:
-                    return new ZeitHelper();
+                    return new ZeitHelper(themeRepository);
                 case Sources.Welt:
-                    return new WeltHelper();
+                    return new WeltHelper(themeRepository);
 
                 case Sources.BaslerZeitung:
                 case Sources.BernerZeitung:
@@ -64,7 +65,7 @@ namespace OfflineMedia.Business.Helpers
                 case Sources.BernerOeberlaender:
                 case Sources.ThunerTagblatt:
                 case Sources.LangenthalerTagblatt:
-                    return new TamediaHelper();
+                    return new TamediaHelper(themeRepository);
                 case Sources.None:
                     return null;
                 case Sources.Favorites:
@@ -74,17 +75,17 @@ namespace OfflineMedia.Business.Helpers
             }
         }
 
-        public static IMediaSourceHelper GetMediaSource(ArticleModel am)
+        public static IMediaSourceHelper GetMediaSource(ArticleModel am, IThemeRepository themeRepository)
         {
             if (am.Feed?.Source != null)
-                return GetMediaSource(am.Feed.Source.Source);
+                return GetMediaSource(am.Feed.Source.Source, themeRepository);
             return null;
         }
 
-        public static IMediaSourceHelper GetMediaSource(FeedModel fm)
+        public static IMediaSourceHelper GetMediaSource(FeedModel fm, IThemeRepository themeRepository)
         {
             if (fm.Source != null)
-                return GetMediaSource(fm.Source.Source);
+                return GetMediaSource(fm.Source.Source, themeRepository);
             return null;
         }
 
@@ -92,6 +93,12 @@ namespace OfflineMedia.Business.Helpers
         {
             var articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(service);
             await articleGenericRepository.SaveAsyc(model);
+            if (model.AfterSaveFunc != null)
+            {
+                var func = model.AfterSaveFunc;
+                model.AfterSaveFunc = null;
+                await func();
+            }
         }
 
         public static async Task SaveArticleLeadImage(ArticleModel model, ISqliteService service, bool skipCleaning = false)

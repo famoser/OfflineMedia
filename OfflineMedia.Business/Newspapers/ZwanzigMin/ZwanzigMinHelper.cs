@@ -25,11 +25,11 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
             return nfa.link != null;
         }
 
-        private async Task<ArticleModel> FeedToArticleModel(item nfa, FeedModel fcm)
+        private ArticleModel FeedToArticleModel(item nfa, FeedModel fcm)
         {
             if (nfa == null) return null;
 
-            ExecuteSafe(() =>
+            return ExecuteSafe(() =>
             {
 
                 var a = ConstructArticleModel(fcm);
@@ -50,6 +50,11 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.Teaser = nfa.lead;
                 a.Title = nfa.title;
                 a.Author = nfa.author;
+                
+                a.AfterSaveFunc = async () =>
+                {
+                    await AddThemesAsync(a, new[] { nfa.category });
+                };
 
                 a.LoadingState = LoadingState.Loaded;
 
@@ -86,23 +91,20 @@ namespace OfflineMedia.Business.Newspapers.ZwanzigMin
                     {
                         if (CanConvert(item))
                         {
-                            var model = await FeedToArticleModel(item, feedModel);
+                            var model = FeedToArticleModel(item, feedModel);
                             if (model != null)
                                 articlelist.Add(model);
                         }
                     }
                 }
+
                 return articlelist;
             });
         }
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
         {
-            return ExecuteSafe(async () =>
-            {
-                await AddThemesAsync(articleModel, new[] {nfa.category});
-                return true;
-            });
+            throw new NotImplementedException();
         }
     }
 }

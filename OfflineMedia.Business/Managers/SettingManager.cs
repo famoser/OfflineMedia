@@ -10,10 +10,13 @@ namespace OfflineMedia.Business.Managers
     public class SettingManager
     {
         private static readonly ObservableCollection<BaseSettingModel> AllSettings = new ObservableCollection<BaseSettingModel>();
+        private static readonly ObservableCollection<BaseSettingModel> EditableSettings = new ObservableCollection<BaseSettingModel>();
 
         public static void AddSetting(BaseSettingModel model)
         {
             AllSettings.Add(model);
+            if (!model.IsImmutable)
+                EditableSettings.Add(model);
         }
 
         public static void AddSetting(SettingEntity entity)
@@ -33,6 +36,11 @@ namespace OfflineMedia.Business.Managers
         public static ObservableCollection<BaseSettingModel> GetAllSettings()
         {
             return AllSettings;
+        }
+
+        public static ObservableCollection<BaseSettingModel> GetEditableSettings()
+        {
+            return EditableSettings;
         }
 
         public static SettingCacheEntity GetSettingCache()

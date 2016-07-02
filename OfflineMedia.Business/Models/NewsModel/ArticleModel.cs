@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Attributes;
 using OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.Base;
@@ -102,5 +103,7 @@ namespace OfflineMedia.Business.Models.NewsModel
         public ObservableCollection<BaseContentModel> Content { get; } = new ObservableCollection<BaseContentModel>();
 
         public FeedModel Feed { get; set; }
+        
+        public Func<Task> AfterSaveFunc { get; set; }
     }
 }
