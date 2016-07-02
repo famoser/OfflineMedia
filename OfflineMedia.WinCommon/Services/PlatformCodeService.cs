@@ -4,9 +4,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Services;
+using GalaSoft.MvvmLight.Threading;
 using OfflineMedia.WinCommon.DisplayHelper;
 
 namespace OfflineMedia.Services
@@ -74,6 +76,16 @@ namespace OfflineMedia.Services
                 }
             }
             return null;
+        }
+
+        public void CheckBeginInvokeOnUi(Action action)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(action);
+        }
+
+        public async Task<bool> OpenInBrowser(Uri url)
+        {
+            return await Launcher.LaunchUriAsync(url);
         }
     }
 }

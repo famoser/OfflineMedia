@@ -43,7 +43,7 @@
       <FontFamily x:Key="WeatherIconFont">/Assets/Fonts/owfont-regular.ttf#owf-regular</FontFamily>
       <DataTemplate x:Key="ArticleListItemTemplate">
         <Grid Margin="0,0,0,4">
-          <StackPanel Background="{ThemeResource TextBackgroundThemeBrush}" HorizontalAlignment="Stretch" Opacity="{Binding State, Converter={StaticResource IsReadConverter}}">
+                    <StackPanel Background="{ThemeResource TextBackgroundThemeBrush}" HorizontalAlignment="Stretch" Opacity="{Binding IsFavorite, Converter={StaticResource IsReadConverter}}">
             <TextBlock HorizontalAlignment="Right" Margin="0,4,4,0" FontFamily="Segoe UI" FontSize="9" TextWrapping="Wrap" Foreground="{ThemeResource TextForegroundThemeBrush}" Text="{Binding PublicationTime, Converter={StaticResource DateTimeConverter}}" />
             <TextBlock Margin="10,4,10,4" TextTrimming="WordEllipsis" Foreground="{ThemeResource TextForegroundThemeBrush}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" FontSize="18" Text="{Binding Title}" />
             <TextBlock Margin="10,10,10,20" TextTrimming="WordEllipsis" FontFamily="Segoe UI Semilight" Foreground="{ThemeResource ForegroundThemeBrush}" FontSize="14" TextWrapping="Wrap" Text="{Binding SubTitle}" />

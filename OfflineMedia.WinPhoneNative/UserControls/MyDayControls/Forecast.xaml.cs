@@ -4,9 +4,9 @@
 
 namespace OfflineMedia.UserControls.MyDayControls
 {
-    public sealed partial class Forecast : UserControl
+    public sealed partial class ForecastNew : UserControl
     {
-        public Forecast()
+        public ForecastNew()
         {
             this.InitializeComponent();
         }

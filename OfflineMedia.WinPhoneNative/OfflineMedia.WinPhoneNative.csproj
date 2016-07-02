@@ -243,10 +243,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DisplayHelper\DependencyObjects\CustomGrid.cs" />
-    <Compile Include="DisplayHelper\DependencyObjects\HtmlManager.cs" />
-    <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
-    <Compile Include="DisplayHelper\DependencyObjects\TagDefinition.cs" />
     <Compile Include="MyDayHelpers\StepHelper.cs" />
     <Compile Include="Pages\FeedPage.xaml.cs">
       <DependentUpon>FeedPage.xaml</DependentUpon>
@@ -283,23 +279,15 @@
     <Compile Include="UserControls\MyDayControls\DataSlider.xaml.cs">
       <DependentUpon>DataSlider.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MyDayControls\ForecastNew.xaml.cs">
-      <DependentUpon>ForecastNew.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MyDayControls\Forecast.xaml.cs">
       <DependentUpon>Forecast.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MyDayControls\Steps.xaml.cs">
       <DependentUpon>Steps.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MyDayControls\ToDo.xaml.cs">
-      <DependentUpon>ToDo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -465,19 +453,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MyDayControls\ForecastNew.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UserControls\MyDayControls\Forecast.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\MyDayControls\Steps.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MyDayControls\ToDo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,7 +473,7 @@
     <SDKReference Include="Microsoft.VCLibs, version=12.0">
       <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Phone</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.WP81, Version=3.12.2">
+    <SDKReference Include="SQLite.WP81, Version=3.13.0">
       <Name>SQLite for Windows Phone 8.1</Name>
     </SDKReference>
   </ItemGroup>

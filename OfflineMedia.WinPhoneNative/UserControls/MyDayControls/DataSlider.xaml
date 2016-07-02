@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DesignWidth="320"
     d:DesignHeight="100"
-    d:DataContext="{Binding MyDayViewModel.Forecast1, Source={StaticResource Locator}}">
+    d:DataContext="{Binding MyDayViewModel.Forecasts[0], Source={StaticResource Locator}}">
 
     <Grid>
         <StackPanel Orientation="Horizontal">

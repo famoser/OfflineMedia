@@ -14,16 +14,6 @@ namespace OfflineMedia.UserControls
         public FeedList()
         {
             this.InitializeComponent();
-            _navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
-        }
-
-        private readonly INavigationService _navigationService;
-
-        private void FeedList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var feed = e.ClickedItem as FeedModel;
-            _navigationService.NavigateTo(PageKeys.Feed.ToString());
-            Messenger.Default.Send(feed, Messages.Select);
         }
     }
 }

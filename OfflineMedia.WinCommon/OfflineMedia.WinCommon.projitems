@@ -38,16 +38,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\FullDateTimeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\MyDayConverter\KelvinToCelciusConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\Converter\SettingsPageConverter\ULongToByteConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\ResolutionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayHelper\StaticEnumHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ApiService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DispatchWinRtService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Mock\DesignDispatchService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Mock\DesignNavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformCodeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ProgressService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StorageService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\VariaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>

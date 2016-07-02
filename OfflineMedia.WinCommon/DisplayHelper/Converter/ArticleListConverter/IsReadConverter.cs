@@ -1,6 +1,5 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
-using OfflineMedia.Business.Enums.Models;
 
 namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
 {
@@ -8,8 +7,8 @@ namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var dt = (ArticleState)value;
-            if (dt == ArticleState.Read)
+            var dt = (bool)value;
+            if (dt)
                 return 0.8;
 
             return 1;

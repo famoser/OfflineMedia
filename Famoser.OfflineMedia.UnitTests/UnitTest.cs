@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Famoser.OfflineMedia.UnitTests
 {

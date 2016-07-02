@@ -1,4 +1,5 @@
-﻿using Famoser.OfflineMedia.View.Enums;
+﻿using Famoser.FrameworkEssentials.UniversalWindows.Platform;
+using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight.Views;
 using OfflineMedia.WinUniversal;
 

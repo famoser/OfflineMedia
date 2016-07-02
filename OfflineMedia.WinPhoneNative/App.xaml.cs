@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight.Ioc;
@@ -15,7 +16,6 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.ApplicationInsights;
-using OfflineMedia.Business.Helpers.Debug;
 using OfflineMedia.Pages;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -42,52 +42,14 @@ namespace OfflineMedia
             UnhandledException += OnUnhandledException;
 
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-
-            Messenger.Default.Register<PageKeys>(this, Messages.ReloadGoBackPage, EvaluateReloadGoBackPageMessages);
-        }
-
-        private PageKeys _burnNextGoBack;
-        private void EvaluateReloadGoBackPageMessages(PageKeys obj)
-        {
-            _burnNextGoBack = obj;
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             if (!e.Handled)
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-
-                if (rootFrame != null && rootFrame.CanGoBack)
-                {
-                    if (_burnNextGoBack != PageKeys.Undefined)
-                    {
-                        var nav = SimpleIoc.Default.GetInstance<INavigationService>();
-                        nav.GoBack();
-                        nav.GoBack();
-                        nav.NavigateTo(_burnNextGoBack.ToString());
-
-                        _burnNextGoBack = PageKeys.Undefined;
-                    }
-                    else
-                    {
-                        rootFrame.GoBack();
-                        if (_burnNextGoBack != PageKeys.Undefined)
-                        {
-                            var nav = SimpleIoc.Default.GetInstance<INavigationService>();
-                            nav.NavigateTo(_burnNextGoBack.ToString());
-                            rootFrame.BackStack.RemoveAt(rootFrame.BackStackDepth - 1);
-
-                            _burnNextGoBack = PageKeys.Undefined;
-                        }
-                    }
-                    e.Handled = true;
-                }
-                else
-                {
-                    //handled in MainPage
-                    //Current.Exit();
-                }
+                var nav = SimpleIoc.Default.GetInstance<INavigationService>();
+                nav.GoBack();
             }
         }
 
@@ -118,7 +80,7 @@ namespace OfflineMedia
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-                
+
                 rootFrame.CacheSize = 1;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

@@ -56,7 +56,7 @@
             </Grid>
 
             <Grid Background="{ThemeResource BackgroundThemeBrush}" >
-                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" dependencyObjects:Properties.Html="{Binding Article.Content}" dependencyObjects:Properties.FontSize="{Binding FontSize}"/>
+                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False" Style="{StaticResource HtmlRichTextBlock}" />
             </Grid>
 
             <Grid Margin="0,4,0,0">
@@ -69,7 +69,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid Margin="4,0,0,0" Height="40" Grid.Column="1" Grid.Row="1" >
-                    <Button Margin="0,4,0,-10" Background="{ThemeResource BackgroundThemeBrush}" Tapped="UIElement_OnTapped" Style="{ThemeResource GoToTopButton}" >
+                    <Button Margin="0,4,0,-10" Background="{ThemeResource BackgroundThemeBrush}" Style="{ThemeResource GoToTopButton}" >
                         <Button.Content>
                             <SymbolIcon Margin="0,7,0,0" Symbol="Up" />
                         </Button.Content>

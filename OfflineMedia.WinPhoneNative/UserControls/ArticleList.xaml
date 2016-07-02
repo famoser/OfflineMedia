@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     d:DesignHeight="1200"
     d:DesignWidth="400"
-    d:DataContext="{Binding MainPageViewModel.Sources[0].FeedList[0], Source={StaticResource Locator}}">
+    d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource TextBackgroundThemeBrush}" Grid.Row="0" Margin="0,0,0,4">
-            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Tapped="UIElement_OnTapped" Style="{ThemeResource FeedTitleTextBlock}"  />
+            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FeedTitleTextBlock}"  />
         </Grid>
         <ListView 
                   IsItemClickEnabled="True"
@@ -25,7 +25,6 @@
                   Grid.Row="1"
                   IsHoldingEnabled="True" 
                   ItemsSource="{Binding ArticleList}"
-                  ItemClick="ArticleList_ItemClick" 
                   ItemTemplate="{StaticResource ArticleListItemTemplate}" 
                   Margin="0,0,-1,-4">
             <ListView.ItemContainerTransitions>

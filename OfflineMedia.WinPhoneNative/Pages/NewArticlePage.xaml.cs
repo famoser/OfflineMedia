@@ -1,6 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight.Messaging;
-using OfflineMedia.Business.Enums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -14,13 +13,6 @@ namespace OfflineMedia.Pages
         public NewArticlePage()
         {
             this.InitializeComponent();
-            Messenger.Default.Register<Messages>(this, ScrollToTop);
-        }
-
-        private void ScrollToTop(Messages msg)
-        {
-            if (msg == Messages.ScrollToTop)
-                ReadScrollViewer.ChangeView(null, 0, null);
         }
     }
 }

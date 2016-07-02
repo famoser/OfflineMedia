@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using GalaSoft.MvvmLight.Ioc;
 using OfflineMedia.Services;
-using OfflineMedia.View.ViewModels;
 
 namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
 {
@@ -16,12 +12,7 @@ namespace OfflineMedia.DisplayHelper.Converter.ArticleListConverter
         {
             if (!(value is byte[]))
             {
-#if DEBUG
-                var bufferTask = StorageService.GetImageFile("placeholder.png");
-                value = bufferTask.Result.ToArray();
-#else
-            return null;
-#endif
+                return null;
             }
 
             using (InMemoryRandomAccessStream ms = new InMemoryRandomAccessStream())

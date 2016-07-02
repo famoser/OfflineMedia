@@ -30,7 +30,7 @@ namespace OfflineMedia.Pages
             }
         }
 
-        private bool _open = false;
+        private bool _open;
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (_open)

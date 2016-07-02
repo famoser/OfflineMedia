@@ -12,6 +12,8 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using Famoser.FrameworkEssentials.Services;
+using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using GalaSoft.MvvmLight;
@@ -63,6 +65,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
         public SettingsPageViewModel SettingsPageViewModel => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
 
         public MyDayViewModel MyDayViewModel => ServiceLocator.Current.GetInstance<MyDayViewModel>();
+
+        public ProgressService ProgressService => ServiceLocator.Current.GetInstance<IProgressService>() as ProgressService;
 
         public static void Cleanup()
         {
