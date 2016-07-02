@@ -52,8 +52,6 @@ namespace OfflineMedia.View.ViewModels
             SimpleIoc.Default.Register<ArticlePageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<MyDayViewModel>();
-
-            SimpleIoc.Default.Register<ProgressViewModel>();
         }
 
         public MainPageViewModel MainPageViewModel => ServiceLocator.Current.GetInstance<MainPageViewModel>();
@@ -63,10 +61,6 @@ namespace OfflineMedia.View.ViewModels
         public ArticlePageViewModel ArticlePageViewModel => ServiceLocator.Current.GetInstance<ArticlePageViewModel>();
 
         public SettingsPageViewModel SettingsPageViewModel => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
-
-        public ProgressViewModel ProgressViewModel => ServiceLocator.Current.GetInstance<ProgressViewModel>();
-
-        public SimpleViewModel SimpleViewModel => ServiceLocator.Current.GetInstance<SimpleViewModel>();
 
         public MyDayViewModel MyDayViewModel => ServiceLocator.Current.GetInstance<MyDayViewModel>();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OfflineMedia.Business.Enums;
 
 namespace Utils.Common.Models
@@ -14,7 +15,7 @@ namespace Utils.Common.Models
         public string LogicBaseUrl { get; set; }
         public string PublicBaseUrl { get; set; }
 
-        public SourceEnum Source { get; set; }
+        public Sources Source { get; set; }
 
         public List<ShortFeedConfigurationModel> FeedConfigurationModels { get; set; }
     }

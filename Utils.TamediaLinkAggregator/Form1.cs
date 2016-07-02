@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
-using Utils.Common.Models;
+using OfflineMedia.Data.Entities.Storage;
 
 namespace Utils.TamediaLinkAggregator
 {
@@ -17,7 +17,7 @@ namespace Utils.TamediaLinkAggregator
         
         private void button1_Click(object sender, EventArgs e)
         {
-            var sourceModel = JsonConvert.DeserializeObject<List<ShortSourceConfigurationModel>>(jsonInput.Text);
+            var sourceModel = JsonConvert.DeserializeObject<List<SourceEntity>>(jsonInput.Text);
 
             foreach (var sourceConfigurationModel in sourceModel)
             {
@@ -44,13 +44,13 @@ namespace Utils.TamediaLinkAggregator
                         var a = menuItem.Descendants("a").FirstOrDefault();
                         if (a != null)
                         {
-                            var feedModel = new ShortFeedConfigurationModel()
+                            var feedModel = new FeedEntity()
                             {
                                 Url = sourceConfigurationModel.LogicBaseUrl + "api" + a.GetAttributeValue("href", null),
                                 Name = a.InnerText,
                                 Guid = Guid.NewGuid()
                             };
-                            sourceConfigurationModel.FeedConfigurationModels.Add(feedModel);
+                            sourceConfigurationModel.Feeds.Add(feedModel);
                         }
                     }
                 }

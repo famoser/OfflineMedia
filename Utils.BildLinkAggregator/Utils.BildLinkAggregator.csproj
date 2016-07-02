@@ -74,10 +74,6 @@
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>OfflineMedia.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utils.Common\Utils.Common.csproj">
-      <Project>{75597757-9a16-46d3-84fe-7e0b584ec996}</Project>
-      <Name>Utils.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
