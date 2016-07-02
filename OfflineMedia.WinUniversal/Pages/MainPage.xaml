@@ -26,25 +26,25 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Style="{StaticResource FamoserPivot}" Grid.Row="1" DataContext="{Binding Sources}" ItemsSource="{Binding }">
+        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
             </Pivot.RenderTransform>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="{Binding Abbreviation}" />
+                    <ContentControl Content="{Binding Abbreviation}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <userControls:FeedList DataContext="{Binding }" />
+                    <userControls:FeedList />
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar Opacity="0.6" ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Minimal">
             <AppBarButton Label="neu laden" Icon="Refresh" Command="{Binding RefreshCommand}" />
             <AppBarButton Label="einstellen" Icon="Setting" Command="{Binding OpenSettingsCommand}"/>
             <AppBarButton Label="über" Icon="ContactInfo" Command="{Binding OpenInfoCommand}"/>

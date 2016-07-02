@@ -40,9 +40,16 @@ namespace Famoser.OfflineMedia.Business.Managers
         public static void SetFeedActiveState(FeedModel fm, bool isActive)
         {
             if (isActive && !fm.Source.ActiveFeeds.Contains(fm))
+            {
                 fm.Source.ActiveFeeds.Add(fm);
+                SetSourceActiveState(fm.Source, true);
+            }
             else if (!isActive && fm.Source.ActiveFeeds.Contains(fm))
+            {
                 fm.Source.ActiveFeeds.Remove(fm);
+                if (fm.Source.ActiveFeeds.Count == 0)
+                    SetSourceActiveState(fm.Source, false);
+            }
         }
 
         public static void SetSourceActiveState(SourceModel sm, bool isActive)

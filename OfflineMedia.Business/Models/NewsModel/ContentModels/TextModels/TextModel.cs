@@ -7,6 +7,6 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModel
     {
         public string Text { get; set; }
         public TextType TextType { get; set; }
-        public List<TextModel> Children { get; set; }
+        public List<TextModel> Children { get; set; } = new List<TextModel>();
     }
 }

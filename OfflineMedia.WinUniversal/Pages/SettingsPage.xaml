@@ -55,7 +55,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar Opacity="0.6">
+        <CommandBar>
             <AppBarButton Label="Speichern" Icon="Save" Command="{Binding SaveCommand}" />
         </CommandBar>
     </Page.BottomAppBar>

@@ -86,9 +86,8 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
         private static bool ParseInnerText(TextModel model, string content)
         {
-
-            //return true if has content (children or text)
-            return true;
+            //todo
+            return false;
         }
     }
 }

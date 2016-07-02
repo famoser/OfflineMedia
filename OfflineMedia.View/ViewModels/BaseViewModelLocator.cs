@@ -46,16 +46,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             
             SimpleIoc.Default.Register<ISqliteService, SqliteService>();
             SimpleIoc.Default.Register<IProgressService, ProgressService>();
-
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                // Create design time view services and models
-            }
-            else
-            {
-                // Create run time view services and models
-            }
-
+            
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<FeedPageViewModel>();
             SimpleIoc.Default.Register<ArticlePageViewModel>();

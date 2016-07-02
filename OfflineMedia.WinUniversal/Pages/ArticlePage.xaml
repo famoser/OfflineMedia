@@ -66,4 +66,10 @@
             </Pivot.Items>
         </Pivot>
     </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Speichern" Icon="Save" Command="{Binding ReloadArticleCommand}" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

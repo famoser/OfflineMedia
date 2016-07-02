@@ -6,6 +6,6 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModel
     public class ParagraphModel
     {
         public ParagraphType ParagraphType { get; set; }
-        public List<TextModel> Children { get; set; }
+        public List<TextModel> Children { get; set; } = new List<TextModel>();
     }
 }
