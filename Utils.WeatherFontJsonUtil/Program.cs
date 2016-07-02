@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Utils.WeatherFontJsonUtil
+namespace Famoser.OfflineMedia.Utils.WeatherFontJsonUtil
 {
     static class Program
     {

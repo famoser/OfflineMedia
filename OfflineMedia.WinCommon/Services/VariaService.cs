@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.System;
-using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.Services
 {

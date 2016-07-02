@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Repositories.Base;
-using OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Repositories.Base;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers
+namespace Famoser.OfflineMedia.Business.Newspapers
 {
     public abstract class BaseMediaSourceHelper : BaseRepository, IMediaSourceHelper
     {

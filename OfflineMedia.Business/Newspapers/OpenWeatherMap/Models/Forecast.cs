@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace OfflineMedia.Business.Newspapers.OpenWeatherMap.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.OpenWeatherMap.Models
 {
     public class Forecast
     {

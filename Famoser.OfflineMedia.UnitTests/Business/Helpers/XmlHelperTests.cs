@@ -1,8 +1,7 @@
-﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Helpers.Text;
+﻿using Famoser.OfflineMedia.Business.Helpers.Text;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace OfflineMedia.Framework
+namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
 {
     [TestClass]
     public class XmlHelperTests

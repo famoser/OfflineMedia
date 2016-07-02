@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.Base;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.Business.Models
+namespace Famoser.OfflineMedia.Business.Models
 {
     public class FeedModel : BaseGuidModel
     {

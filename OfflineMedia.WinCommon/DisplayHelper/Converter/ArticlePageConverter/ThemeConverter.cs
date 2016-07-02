@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Data;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 
 namespace OfflineMedia.DisplayHelper.Converter.ArticlePageConverter
 {

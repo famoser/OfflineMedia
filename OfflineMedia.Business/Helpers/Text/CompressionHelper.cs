@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace OfflineMedia.Business.Helpers.Text
+namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
     public class CompressionHelper
     {

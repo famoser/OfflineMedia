@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OfflineMedia.Data.Entities.Storage.Sources
+namespace Famoser.OfflineMedia.Data.Entities.Storage.Sources
 {
     public class SourceCacheEntity
     {

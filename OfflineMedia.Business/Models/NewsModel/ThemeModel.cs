@@ -1,7 +1,7 @@
-﻿using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Business.Models.Base;
+﻿using Famoser.OfflineMedia.Business.Models.Base;
+using Famoser.SqliteWrapper.Attributes;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace Famoser.OfflineMedia.Business.Models.NewsModel
 {
     public class ThemeModel : BaseIdModel
     {

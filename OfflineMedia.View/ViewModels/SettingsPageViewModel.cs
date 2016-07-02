@@ -1,15 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.Configuration.Base;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration.Base;
-using OfflineMedia.Business.Repositories.Interfaces;
-using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
+using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {

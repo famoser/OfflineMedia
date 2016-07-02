@@ -1,11 +1,11 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

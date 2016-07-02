@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfflineMedia.Data.Entities.Storage.Base;
-using OfflineMedia.Data.Enums;
+﻿using System.Collections.Generic;
+using Famoser.OfflineMedia.Data.Entities.Storage.Base;
 
-namespace OfflineMedia.Data.Entities.Storage
+namespace Famoser.OfflineMedia.Data.Entities.Storage.Sources
 {
     public class SourceEntity : StorageEntityBase
     {

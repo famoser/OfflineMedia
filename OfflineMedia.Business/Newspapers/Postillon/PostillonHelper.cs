@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using HtmlAgilityPack;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
-using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers.Postillon
+namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
 {
     public class PostillonHelper : BaseMediaSourceHelper
     {

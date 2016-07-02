@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Data.Entities.Storage.Settings
+namespace Famoser.OfflineMedia.Data.Entities.Storage.Settings
 {
     public class SettingCacheEntity
     {

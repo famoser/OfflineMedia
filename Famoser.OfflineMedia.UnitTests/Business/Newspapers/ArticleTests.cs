@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using OfflineMedia.Business.Newspapers;
-using OfflineMedia.Business.Newspapers.Spiegel;
-using OfflineMedia.SourceTests.Helpers;
 
 namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 {

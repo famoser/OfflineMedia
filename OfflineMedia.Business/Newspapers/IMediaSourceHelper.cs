@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.Business.Newspapers
+namespace Famoser.OfflineMedia.Business.Newspapers
 {
     public interface IMediaSourceHelper
     {

@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers;
+using Famoser.OfflineMedia.Business.Newspapers.Bild;
+using Famoser.OfflineMedia.Business.Newspapers.Blick;
+using Famoser.OfflineMedia.Business.Newspapers.Nzz;
+using Famoser.OfflineMedia.Business.Newspapers.Postillon;
+using Famoser.OfflineMedia.Business.Newspapers.Spiegel;
+using Famoser.OfflineMedia.Business.Newspapers.Stern;
+using Famoser.OfflineMedia.Business.Newspapers.Tamedia;
+using Famoser.OfflineMedia.Business.Newspapers.Welt;
+using Famoser.OfflineMedia.Business.Newspapers.Zeit;
+using Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Data.Entities.Database;
+using Famoser.OfflineMedia.Data.Entities.Database.Contents;
+using Famoser.OfflineMedia.Data.Enums;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers;
-using OfflineMedia.Business.Newspapers.Bild;
-using OfflineMedia.Business.Newspapers.Blick;
-using OfflineMedia.Business.Newspapers.Nzz;
-using OfflineMedia.Business.Newspapers.Postillon;
-using OfflineMedia.Business.Newspapers.Spiegel;
-using OfflineMedia.Business.Newspapers.Stern;
-using OfflineMedia.Business.Newspapers.Tamedia;
-using OfflineMedia.Business.Newspapers.Welt;
-using OfflineMedia.Business.Newspapers.Zeit;
-using OfflineMedia.Business.Newspapers.ZwanzigMin;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Entities.Database;
-using OfflineMedia.Data.Entities.Database.Contents;
-using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Helpers
+namespace Famoser.OfflineMedia.Business.Helpers
 {
     public class ArticleHelper
     {

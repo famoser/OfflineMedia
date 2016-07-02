@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Data.Entities.Database.Relations;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Data.Entities.Database.Relations;
 
-namespace OfflineMedia.Business.Helpers
+namespace Famoser.OfflineMedia.Business.Helpers
 {
     public class FeedHelper
     {

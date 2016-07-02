@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Enums.Settings
+﻿namespace Famoser.OfflineMedia.Business.Enums.Settings
 {
     public enum ValueType
     {

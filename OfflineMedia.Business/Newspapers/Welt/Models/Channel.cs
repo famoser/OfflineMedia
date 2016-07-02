@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace OfflineMedia.Business.Newspapers.Welt.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Welt.Models
 {
     [XmlRoot(ElementName = "channel")]
     public class Channel

@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.View.Enums
+﻿namespace Famoser.OfflineMedia.View.Enums
 {
     public enum Messages
     {

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace OfflineMedia.Business.Newspapers.Spiegel.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel.Models
 {
     [XmlRoot(ElementName = "rss")]
     public class Rss

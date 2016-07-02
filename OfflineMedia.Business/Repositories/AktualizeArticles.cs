@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Managers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Data.Enums;
+using Famoser.OfflineMedia.Business.Helpers;
+using Famoser.OfflineMedia.Business.Managers;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.Configuration;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Repositories
+namespace Famoser.OfflineMedia.Business.Repositories
 {
     public partial class ArticleRepository
     {

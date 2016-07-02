@@ -7,8 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
 using Famoser.FrameworkEssentials.Logging;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Enums.Models;
 using OfflineMedia.Business.Models.NewsModel.RelationModels;
 
 namespace OfflineMedia.DisplayHelper.DependencyObjects

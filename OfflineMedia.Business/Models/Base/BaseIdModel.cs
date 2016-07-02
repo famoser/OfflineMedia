@@ -1,6 +1,6 @@
 ﻿using Famoser.SqliteWrapper.Models.Interfaces;
 
-namespace OfflineMedia.Business.Models.Base
+namespace Famoser.OfflineMedia.Business.Models.Base
 {
     public class BaseIdModel: BaseModel, ISqliteModel
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models.Base;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
 
-namespace OfflineMedia.Business.Models.NewsModel
+namespace Famoser.OfflineMedia.Business.Models.NewsModel
 {
     public class ArticleModel : BaseIdModel
     {

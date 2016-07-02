@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using OfflineMedia.Business.Enums.Models.TextModels;
+using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 
-namespace OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels
+namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels
 {
     public class ParagraphModel
     {

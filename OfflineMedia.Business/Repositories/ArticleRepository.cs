@@ -7,31 +7,29 @@ using Famoser.FrameworkEssentials.Attributes;
 using Famoser.FrameworkEssentials.Helpers;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Enums;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Helpers;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Managers;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Famoser.OfflineMedia.Business.Repositories.Base;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Data.Entities.Database;
+using Famoser.OfflineMedia.Data.Entities.Database.Contents;
+using Famoser.OfflineMedia.Data.Entities.Database.Relations;
+using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
+using Famoser.OfflineMedia.Data.Enums;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Managers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
-using OfflineMedia.Business.Repositories.Base;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Entities.Database;
-using OfflineMedia.Data.Entities.Database.Contents;
-using OfflineMedia.Data.Entities.Database.Relations;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.Data.Entities.Storage.Settings;
-using OfflineMedia.Data.Entities.Storage.Sources;
-using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Repositories
+namespace Famoser.OfflineMedia.Business.Repositories
 {
     public partial class ArticleRepository : BaseRepository, IArticleRepository
     {

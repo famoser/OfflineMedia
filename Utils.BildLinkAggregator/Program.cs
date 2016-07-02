@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
+using Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Feed;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Newspapers.Bild.Models.Feed;
 
-namespace Utils.BildLinkAggregator
+namespace Famoser.OfflineMedia.Utils.BildLinkAggregator
 {
     class Program
     {

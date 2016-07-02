@@ -1,7 +1,5 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Ioc;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Services;
 using OfflineMedia.View.ViewModels.Global;
 
 namespace OfflineMedia.Services

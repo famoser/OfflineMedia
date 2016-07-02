@@ -1,6 +1,5 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Threading;
-using OfflineMedia.Business.Services;
 
 namespace OfflineMedia.WinCommon.Services
 {

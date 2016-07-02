@@ -6,7 +6,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
-using OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Services;
 using OfflineMedia.WinCommon.DisplayHelper;
 
 namespace OfflineMedia.Services

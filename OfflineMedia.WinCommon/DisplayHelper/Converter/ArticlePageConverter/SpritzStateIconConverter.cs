@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using OfflineMedia.View.Enums;
+using Famoser.OfflineMedia.View.Enums;
 
 namespace OfflineMedia.DisplayHelper.Converter.ArticlePageConverter
 {

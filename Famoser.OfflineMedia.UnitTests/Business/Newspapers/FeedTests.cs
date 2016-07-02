@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
+using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
+using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.SourceTests.Helpers;
 
-namespace OfflineMedia.SourceTests
+namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 {
     [TestClass]
     public class FeedTests

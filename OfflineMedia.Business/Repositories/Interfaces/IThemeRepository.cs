@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.Business.Repositories.Interfaces
+namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
 {
     public interface IThemeRepository
     {

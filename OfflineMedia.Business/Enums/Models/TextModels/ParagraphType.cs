@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Enums.Models.TextModels
+﻿namespace Famoser.OfflineMedia.Business.Enums.Models.TextModels
 {
     public enum ParagraphType
     {

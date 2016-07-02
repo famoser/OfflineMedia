@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace OfflineMedia.Data.Helpers
+namespace Famoser.OfflineMedia.Data.Helpers
 {
     public class TextHelper
     {

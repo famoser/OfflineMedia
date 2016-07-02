@@ -1,6 +1,6 @@
 ﻿using Famoser.SqliteWrapper.Entities;
 
-namespace OfflineMedia.Data.Entities.Database.Relations
+namespace Famoser.OfflineMedia.Data.Entities.Database.Relations
 {
     public class FeedArticleRelationEntity : BaseEntity
     {

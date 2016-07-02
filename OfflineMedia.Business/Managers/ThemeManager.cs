@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.Business.Managers
+namespace Famoser.OfflineMedia.Business.Managers
 {
     public class ThemeManager
     {

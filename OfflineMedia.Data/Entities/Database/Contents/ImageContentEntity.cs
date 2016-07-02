@@ -1,6 +1,6 @@
 ﻿using Famoser.SqliteWrapper.Entities;
 
-namespace OfflineMedia.Data.Entities.Database.Contents
+namespace Famoser.OfflineMedia.Data.Entities.Database.Contents
 {
     public class ImageContentEntity : BaseEntity
     {

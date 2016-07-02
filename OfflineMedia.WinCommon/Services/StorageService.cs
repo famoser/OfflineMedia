@@ -7,8 +7,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Famoser.FrameworkEssentials.Logging;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Enums;
 
 namespace OfflineMedia.Services
 {

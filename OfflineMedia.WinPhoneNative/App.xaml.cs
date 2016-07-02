@@ -9,13 +9,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.ApplicationInsights;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Helpers;
 using OfflineMedia.Business.Helpers.Debug;
 using OfflineMedia.Pages;
 

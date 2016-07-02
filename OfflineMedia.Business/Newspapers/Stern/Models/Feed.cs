@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Business.Newspapers.Stern.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Stern.Models
 {
     public class Image
     {

@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Famoser.FrameworkEssentials.Singleton;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Newspapers;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Entities.Storage;
 
-namespace OfflineMedia.SourceTests.Helpers
+namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 {
     public class SourceTestHelper : SingletonBase<SourceTestHelper>
     {

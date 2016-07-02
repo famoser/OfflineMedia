@@ -1,7 +1,7 @@
 ﻿using System;
-using OfflineMedia.Business.Models.Configuration.Base;
+using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 
-namespace OfflineMedia.Business.Models.Configuration
+namespace Famoser.OfflineMedia.Business.Models.Configuration
 {
     public class TrueOrFalseSettingModel : BaseSettingModel
     {

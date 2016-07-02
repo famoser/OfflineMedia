@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Data.Entities.Database;
+using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.SqliteWrapper.Attributes;
 using Famoser.SqliteWrapper.Enums;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.Configuration.Base;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Data.Entities;
-using OfflineMedia.Data.Entities.Database;
-using OfflineMedia.Data.Entities.Database.Contents;
-using OfflineMedia.Data.Entities.Database.Relations;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Framework
+namespace Famoser.OfflineMedia.UnitTests.Business
 {
     [TestClass]
     public class MappingTests

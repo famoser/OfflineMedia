@@ -1,9 +1,9 @@
 ﻿using System;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models.Base;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models.Base;
 
-namespace OfflineMedia.Business.Models.WeatherModel
+namespace Famoser.OfflineMedia.Business.Models.WeatherModel
 {
     public class ForecastItem : BaseModel
     {

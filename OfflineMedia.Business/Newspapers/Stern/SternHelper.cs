@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.Stern.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.Stern.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers.Stern
+namespace Famoser.OfflineMedia.Business.Newspapers.Stern
 {
     public class SternHelper : BaseMediaSourceHelper
     {

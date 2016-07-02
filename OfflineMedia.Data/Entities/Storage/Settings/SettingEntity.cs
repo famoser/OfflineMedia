@@ -1,7 +1,7 @@
 ﻿using System;
-using OfflineMedia.Data.Enums;
+using Famoser.OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Data.Entities.Storage
+namespace Famoser.OfflineMedia.Data.Entities.Storage.Settings
 {
     public class SettingEntity
     {

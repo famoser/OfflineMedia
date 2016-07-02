@@ -12,13 +12,13 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using Famoser.OfflineMedia.Business.Repositories;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using OfflineMedia.Business.Repositories;
-using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     /// <summary>
     /// This class contains static references to all the view models in the

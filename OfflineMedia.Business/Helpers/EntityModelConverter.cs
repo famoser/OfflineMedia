@@ -1,10 +1,11 @@
-﻿using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.Configuration.Base;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.Data.Enums;
+﻿using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.Configuration;
+using Famoser.OfflineMedia.Business.Models.Configuration.Base;
+using Famoser.OfflineMedia.Data.Entities.Storage.Settings;
+using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
+using Famoser.OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Helpers
+namespace Famoser.OfflineMedia.Business.Helpers
 {
     public class EntityModelConverter
     {

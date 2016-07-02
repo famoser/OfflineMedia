@@ -12,11 +12,11 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using Famoser.OfflineMedia.Business.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
-using OfflineMedia.Business.Services;
 using OfflineMedia.Platform;
 using OfflineMedia.Services;
 using OfflineMedia.Services.Mock;

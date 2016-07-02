@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.Spiegel.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using HtmlAgilityPack;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.Spiegel.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers.Spiegel
+namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 {
     public class SpiegelHelper : BaseMediaSourceHelper
     {

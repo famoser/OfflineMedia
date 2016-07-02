@@ -1,7 +1,7 @@
 ﻿using System;
 using Famoser.FrameworkEssentials.Logging;
 
-namespace OfflineMedia.Business.Repositories.Base
+namespace Famoser.OfflineMedia.Business.Repositories.Base
 {
     public class BaseRepository
     {

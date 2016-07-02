@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace OfflineMedia.Business.Newspapers.Zeit.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Zeit.Models
 {
     [XmlRoot(ElementName = "block")]
     public class Block

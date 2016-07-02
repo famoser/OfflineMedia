@@ -5,20 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.Configuration;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Data.Enums;
+using Famoser.OfflineMedia.View.Enums;
+using Famoser.OfflineMedia.View.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.Configuration;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Business.Services;
-using OfflineMedia.Data.Enums;
-using OfflineMedia.View.Enums;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class ArticlePageViewModel : ViewModelBase
     {

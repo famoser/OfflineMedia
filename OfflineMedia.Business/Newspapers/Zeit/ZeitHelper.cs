@@ -7,19 +7,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.Zeit.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using HtmlAgilityPack;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.Blick.Models;
-using OfflineMedia.Business.Newspapers.Zeit.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Helpers;
 
-namespace OfflineMedia.Business.Newspapers.Zeit
+namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
 {
     public class ZeitHelper : BaseMediaSourceHelper
     {

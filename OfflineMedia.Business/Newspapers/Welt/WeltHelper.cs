@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
-using GalaSoft.MvvmLight.Ioc;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.Blick.Models;
-using OfflineMedia.Business.Newspapers.Welt.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Entities.Database.Contents;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.Welt.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers.Welt
+namespace Famoser.OfflineMedia.Business.Newspapers.Welt
 {
     public class WeltHelper : BaseMediaSourceHelper
     {

@@ -1,7 +1,7 @@
-﻿using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Business.Enums.Models;
+﻿using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.SqliteWrapper.Attributes;
 
-namespace OfflineMedia.Business.Models.NewsModel.ContentModels
+namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels
 {
     public class ImageContentModel : BaseContentModel
     {

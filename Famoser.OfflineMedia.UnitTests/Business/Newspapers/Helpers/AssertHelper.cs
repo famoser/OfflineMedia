@@ -1,9 +1,8 @@
 ﻿using System.Linq;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models.NewsModel;
 
-namespace OfflineMedia.SourceTests.Helpers
+namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 {
     public class AssertHelper
     {

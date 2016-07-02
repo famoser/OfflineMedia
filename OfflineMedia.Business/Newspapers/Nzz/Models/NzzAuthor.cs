@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Newspapers.Nzz.Models
+﻿namespace Famoser.OfflineMedia.Business.Newspapers.Nzz.Models
 {
     public class NzzAuthor
     {

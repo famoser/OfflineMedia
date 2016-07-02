@@ -1,7 +1,7 @@
-﻿using OfflineMedia.Business.Models.Base;
-using OfflineMedia.Data.Enums;
+﻿using Famoser.OfflineMedia.Business.Models.Base;
+using Famoser.OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Models.Configuration.Base
+namespace Famoser.OfflineMedia.Business.Models.Configuration.Base
 {
     public abstract class BaseSettingModel : BaseGuidModel
     {

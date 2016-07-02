@@ -23,8 +23,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OfflineMedia.WinCommon", "O
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{5267727B-1490-4FB3-871A-EB3803F8DD41}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{F29B8634-A98F-44AB-8F53-BD287D0FAEA0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.TamediaLinkAggregator", "Utils.TamediaLinkAggregator\Famoser.OfflineMedia.Utils.TamediaLinkAggregator.csproj", "{CC259042-05A6-4591-8F25-92BF0F425063}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.BildLinkAggregator", "Utils.BildLinkAggregator\Famoser.OfflineMedia.Utils.BildLinkAggregator.csproj", "{3434474D-C4B4-4EB9-B8B3-C1BAD5AC323E}"

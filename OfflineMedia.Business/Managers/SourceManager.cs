@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models;
 
-namespace OfflineMedia.Business.Managers
+namespace Famoser.OfflineMedia.Business.Managers
 {
     public class SourceManager
     {

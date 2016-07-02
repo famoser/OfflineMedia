@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using OfflineMedia.Business.Helpers;
-using OfflineMedia.Business.Models.Configuration.Base;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.Data.Entities.Storage.Settings;
+using Famoser.OfflineMedia.Business.Helpers;
+using Famoser.OfflineMedia.Business.Models.Configuration.Base;
+using Famoser.OfflineMedia.Data.Entities.Storage.Settings;
 
-namespace OfflineMedia.Business.Managers
+namespace Famoser.OfflineMedia.Business.Managers
 {
     public class SettingManager
     {

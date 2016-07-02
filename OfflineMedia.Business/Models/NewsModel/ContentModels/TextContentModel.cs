@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using Famoser.SqliteWrapper.Attributes;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
-namespace OfflineMedia.Business.Models.NewsModel.ContentModels
+namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels
 {
     public class TextContentModel : BaseContentModel
     {

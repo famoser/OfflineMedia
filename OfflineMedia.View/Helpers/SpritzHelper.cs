@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using Famoser.FrameworkEssentials.Logging;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
-namespace OfflineMedia.Business.Helpers
+namespace Famoser.OfflineMedia.View.Helpers
 {
     public class SpritzHelper
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using OfflineMedia.Business.Models.Configuration.Base;
-using OfflineMedia.Data.Enums;
+using Famoser.OfflineMedia.Business.Models.Configuration.Base;
+using Famoser.OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Repositories.Interfaces
+namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
 {
     public interface ISettingsRepository
     {

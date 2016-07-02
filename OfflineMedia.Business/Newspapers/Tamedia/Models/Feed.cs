@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Business.Newspapers.Tamedia.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia.Models
 {
     public class Feed
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OfflineMedia.Business.Newspapers.Blick.Models
+namespace Famoser.OfflineMedia.Business.Newspapers.Blick.Models
 {
     public class articlefeeditem
     {

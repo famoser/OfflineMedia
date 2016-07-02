@@ -1,4 +1,4 @@
-namespace OfflineMedia.Business.Newspapers.Bild.Models.Feed
+namespace Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Feed
 {
     public class Images
     {

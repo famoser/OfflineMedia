@@ -3,15 +3,15 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Data.Entities.Database.Contents;
 
-namespace OfflineMedia.Business.Services
+namespace Famoser.OfflineMedia.Business.Services
 {
     public class ImageDownloadService
     {

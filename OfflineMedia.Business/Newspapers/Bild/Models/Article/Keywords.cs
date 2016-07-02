@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace OfflineMedia.Business.Newspapers.Bild.Models.Article
+namespace Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Article
 {
     public class Keywords
     {

@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Enums
+﻿namespace Famoser.OfflineMedia.View.Enums
 {
     public enum PageKeys
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
-using OfflineMedia.Data.Entities.Storage;
 
-namespace Utils.TamediaLinkAggregator
+namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
 {
     public partial class Form1 : Form
     {

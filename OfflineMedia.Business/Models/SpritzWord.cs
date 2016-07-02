@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Models
+﻿namespace Famoser.OfflineMedia.Business.Models
 {
     public class SpritzWord
     {

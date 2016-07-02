@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Data.Enums
+﻿namespace Famoser.OfflineMedia.Data.Enums
 {
     public enum Sources
     {

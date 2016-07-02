@@ -4,15 +4,15 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Famoser.FrameworkEssentials.Logging;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.ZwanzigMin.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.Business.Newspapers.ZwanzigMin
+namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 {
     public class ZwanzigMinHelper : BaseMediaSourceHelper
     {

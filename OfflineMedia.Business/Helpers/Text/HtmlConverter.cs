@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using HtmlAgilityPack;
-using OfflineMedia.Business.Enums.Models.TextModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
-namespace OfflineMedia.Business.Helpers.Text
+namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
     public class HtmlConverter
     {

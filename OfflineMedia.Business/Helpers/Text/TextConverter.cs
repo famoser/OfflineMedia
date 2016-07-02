@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
-namespace OfflineMedia.Business.Helpers.Text
+namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
     public class TextConverter
     {

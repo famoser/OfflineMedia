@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Helpers.Text;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Article;
+using Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Feed;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Enums.Models;
-using OfflineMedia.Business.Helpers.Text;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Models.NewsModel.ContentModels;
-using OfflineMedia.Business.Newspapers.Bild.Models.Article;
-using OfflineMedia.Business.Newspapers.Bild.Models.Feed;
-using OfflineMedia.Business.Repositories.Interfaces;
-using ChildNode = OfflineMedia.Business.Newspapers.Bild.Models.Feed.ChildNode;
+using ChildNode = Famoser.OfflineMedia.Business.Newspapers.Bild.Models.Feed.ChildNode;
 
-namespace OfflineMedia.Business.Newspapers.Bild
+namespace Famoser.OfflineMedia.Business.Newspapers.Bild
 {
     public class BildHelper : BaseMediaSourceHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OfflineMedia.Business.Helpers.Comparisation
+namespace Famoser.OfflineMedia.Business.Helpers.Comparisation
 {
     public class IntEqualityComparer : IEqualityComparer<int>
     {

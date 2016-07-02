@@ -5,22 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Attributes;
 using Famoser.FrameworkEssentials.Helpers;
-using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.Services;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Enums;
+using Famoser.OfflineMedia.Business.Managers;
+using Famoser.OfflineMedia.Business.Models.WeatherModel;
+using Famoser.OfflineMedia.Business.Newspapers.OpenWeatherMap;
+using Famoser.OfflineMedia.Business.Repositories.Base;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Data.Enums;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Managers;
-using OfflineMedia.Business.Models.WeatherModel;
-using OfflineMedia.Business.Newspapers.OpenWeatherMap;
-using OfflineMedia.Business.Repositories.Base;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Entities.Storage;
-using OfflineMedia.Data.Entities.Storage.Settings;
-using OfflineMedia.Data.Enums;
 
-namespace OfflineMedia.Business.Repositories
+namespace Famoser.OfflineMedia.Business.Repositories
 {
     public class WeatherRepository : BaseRepository, IWeatherRepository
     {

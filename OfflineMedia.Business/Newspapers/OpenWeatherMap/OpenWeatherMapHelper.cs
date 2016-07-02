@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Models.WeatherModel;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Models.WeatherModel;
 
-namespace OfflineMedia.Business.Newspapers.OpenWeatherMap
+namespace Famoser.OfflineMedia.Business.Newspapers.OpenWeatherMap
 {
     public class OpenWeatherMapHelper
     {

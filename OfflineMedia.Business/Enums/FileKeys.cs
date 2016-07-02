@@ -1,6 +1,6 @@
 ﻿using Famoser.FrameworkEssentials.Attributes;
 
-namespace OfflineMedia.Business.Enums
+namespace Famoser.OfflineMedia.Business.Enums
 {
     public enum FileKeys
     {

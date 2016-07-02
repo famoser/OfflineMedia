@@ -1,7 +1,7 @@
 ﻿using System;
 using Famoser.SqliteWrapper.Entities;
 
-namespace OfflineMedia.Data.Entities.Database
+namespace Famoser.OfflineMedia.Data.Entities.Database
 {
     public class ArticleEntity : BaseEntity
     {

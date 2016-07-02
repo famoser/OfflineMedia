@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Models.WeatherModel;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Models.WeatherModel;
-using OfflineMedia.Business.Repositories.Interfaces;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MyDayViewModel : ViewModelBase
     {

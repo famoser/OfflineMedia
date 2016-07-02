@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfflineMedia.Business.Models.WeatherModel;
+﻿using System.Collections.ObjectModel;
+using Famoser.OfflineMedia.Business.Models.WeatherModel;
 
-namespace OfflineMedia.Business.Managers
+namespace Famoser.OfflineMedia.Business.Managers
 {
     public class ForecastManager
     {

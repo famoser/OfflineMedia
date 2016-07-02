@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Utils.TamediaLinkAggregator
+namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
 {
     static class Program
     {

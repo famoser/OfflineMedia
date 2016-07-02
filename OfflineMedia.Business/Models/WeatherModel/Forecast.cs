@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Famoser.OfflineMedia.Business.Models.Base;
 using Newtonsoft.Json;
-using OfflineMedia.Business.Models.Base;
 
-namespace OfflineMedia.Business.Models.WeatherModel
+namespace Famoser.OfflineMedia.Business.Models.WeatherModel
 {
     public class Forecast : BaseModel
     {

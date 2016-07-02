@@ -2,17 +2,16 @@
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Enums;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.View.Enums;
-using IndeterminateProgressKey = OfflineMedia.Business.Enums.IndeterminateProgressKey;
+using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {

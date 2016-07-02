@@ -1,6 +1,6 @@
-﻿using OfflineMedia.Business.Models.Base;
+﻿using Famoser.OfflineMedia.Business.Models.Base;
 
-namespace OfflineMedia.Business.Models.NewsModel.ContentModels
+namespace Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels
 {
     public class BaseContentModel : BaseIdModel
     {

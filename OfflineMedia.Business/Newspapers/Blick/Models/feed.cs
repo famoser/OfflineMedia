@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Newspapers.Blick.Models
+﻿namespace Famoser.OfflineMedia.Business.Newspapers.Blick.Models
 {
     // ReSharper disable InconsistentNaming
     public class feed

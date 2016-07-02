@@ -1,5 +1,5 @@
-﻿using GalaSoft.MvvmLight.Views;
-using OfflineMedia.Business.Enums;
+﻿using Famoser.OfflineMedia.View.Enums;
+using GalaSoft.MvvmLight.Views;
 using OfflineMedia.Pages;
 
 namespace OfflineMedia.Platform

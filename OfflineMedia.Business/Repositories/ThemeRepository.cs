@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Managers;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Repositories.Base;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Data.Entities.Database;
+using Famoser.OfflineMedia.Data.Entities.Database.Relations;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using OfflineMedia.Business.Managers;
-using OfflineMedia.Business.Models.NewsModel;
-using OfflineMedia.Business.Repositories.Base;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.Data.Entities.Database;
-using OfflineMedia.Data.Entities.Database.Relations;
 
-namespace OfflineMedia.Business.Repositories
+namespace Famoser.OfflineMedia.Business.Repositories
 {
     public class ThemeRepository : BaseRepository, IThemeRepository
     {

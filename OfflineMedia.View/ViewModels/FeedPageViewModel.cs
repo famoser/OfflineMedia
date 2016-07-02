@@ -1,10 +1,10 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.View.Enums;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using OfflineMedia.Business.Models;
-using OfflineMedia.Business.Repositories.Interfaces;
-using OfflineMedia.View.Enums;
 
-namespace OfflineMedia.View.ViewModels
+namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class FeedPageViewModel : ViewModelBase
     {

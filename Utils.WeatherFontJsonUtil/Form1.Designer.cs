@@ -1,4 +1,4 @@
-﻿namespace Utils.WeatherFontJsonUtil
+﻿namespace Famoser.OfflineMedia.Utils.WeatherFontJsonUtil
 {
     partial class Form1
     {

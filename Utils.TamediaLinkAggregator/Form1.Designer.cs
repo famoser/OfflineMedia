@@ -1,4 +1,4 @@
-﻿namespace Utils.TamediaLinkAggregator
+﻿namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
 {
     partial class Form1
     {

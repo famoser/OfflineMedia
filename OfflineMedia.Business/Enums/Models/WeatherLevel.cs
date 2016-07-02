@@ -1,4 +1,4 @@
-﻿namespace OfflineMedia.Business.Enums.Models
+﻿namespace Famoser.OfflineMedia.Business.Enums.Models
 {
     public enum WeatherLevel
     {

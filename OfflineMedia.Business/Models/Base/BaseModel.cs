@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 
-namespace OfflineMedia.Business.Models.Base
+namespace Famoser.OfflineMedia.Business.Models.Base
 {
     public class BaseModel: ObservableObject
     {
