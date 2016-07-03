@@ -28,7 +28,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
 {
     public class ArticleHelper
     {
-        private static IMediaSourceHelper GetMediaSource(Sources source, IThemeRepository themeRepository)
+        public static IMediaSourceHelper GetMediaSource(Sources source, IThemeRepository themeRepository)
         {
             switch (source)
             {

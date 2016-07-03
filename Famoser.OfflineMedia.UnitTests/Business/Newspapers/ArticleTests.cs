@@ -1,34 +1,66 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Helpers;
+using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Data.Enums;
+using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
+using Famoser.OfflineMedia.UnitTests.Helpers;
+using Famoser.OfflineMedia.UnitTests.Helpers.Models;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Logger = Famoser.OfflineMedia.UnitTests.Helpers.Logger;
 
 namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 {
-    class ArticleTests
+    [TestClass]
+    public class ArticleTests
     {
         [TestMethod]
-        public async Task SpiegelGetFeedArticle()
+        public void AllMediaSourceHelpers()
         {
-            /*
-            SourceTestHelper.Instance.PrepareTests();
+            IocHelper.InitializeContainer();
+            var values = Enum.GetValues(typeof(Sources));
 
-            //arrange
-            var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
-            var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
-
-            //act
-            var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
-
-            //assert
-            Assert.IsTrue(feed.Any(), "No items in feed");
-            foreach (var articleModel in feed)
+            foreach (var value in values)
             {
-                //teaser is freiwillig
-                articleModel.Teaser = "a";
-                AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
+                var enu = (Sources)value;
+                Assert.IsNotNull(ArticleHelper.GetMediaSource(enu, SimpleIoc.Default.GetInstance<IThemeRepository>()), "media source not found for source " + enu);
             }
-            */
+        }
+
+        [TestMethod]
+        public async Task GetFeedArticle()
+        {
+            var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
+            IocHelper.InitializeContainer();
+            var log = new List<string>();
+
+            using (var logger = new Logger("get_feed_article"))
+            {
+                foreach (var sourceEntity in configmodels)
+                {
+                    var sourceModel = EntityModelConverter.Convert(sourceEntity);
+                    var sourceLogEntry = new LogEntry()
+                    {
+                        Content = "Testing " + sourceModel.Name
+                    };
+                    var msh = ArticleHelper.GetMediaSource(sourceEntity.Source,
+                        SimpleIoc.Default.GetInstance<IThemeRepository>());
+                    foreach (var feedEntity in sourceEntity.Feeds)
+                    {
+                        var fm = EntityModelConverter.Convert(feedEntity, sourceModel, true);
+                        var feedLogEntry = new LogEntry()
+                        {
+                            Content = "Testing " + feedEntity.Name
+                        };
+
+                        var newArticles = await msh.EvaluateFeed(fm);
+                    }
+                    logger.AddLog(sourceLogEntry);
+                }
+            }
         }
 
         [TestMethod]

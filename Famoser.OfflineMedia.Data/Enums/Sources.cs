@@ -2,7 +2,6 @@
 {
     public enum Sources
     {
-        None = 0,
         Nzz = 1,
         ZwanzigMin = 2,
         Blick = 3,
@@ -25,7 +24,6 @@
         Spiegel = 7,
         Zeit = 8,
         Bild = 9,
-        Welt = 10,
-        Favorites = 100
+        Welt = 10
     }
 }
