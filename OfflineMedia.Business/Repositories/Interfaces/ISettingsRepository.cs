@@ -13,7 +13,5 @@ namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
         Task<BaseSettingModel> GetSettingByKeyAsync(SettingKey key);
         
         Task<bool> SaveSettingsAsync();
-
-        ObservableCollection<BaseSettingModel> GetSampleSettings();
     }
 }

@@ -113,43 +113,5 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description, json);
             });
         }
-
-        public ObservableCollection<BaseSettingModel> GetSampleSettings()
-        {
-            return new ObservableCollection<BaseSettingModel>()
-            {
-                new IntSettingModel()
-                {
-                    Guid = Guid.NewGuid(),
-                    SettingKey = SettingKey.FontSize,
-                    Name = "Int Setting",
-                    IntValue = 3,
-                },
-                new SelectSettingModel()
-                {
-                    Guid = Guid.NewGuid(),
-                    SettingKey = SettingKey.Font,
-                    Name = "Select Font",
-                    Value = "Times New Roman",
-                    PossibleValues = new [] {"Times New Roman", "Segoe UI"}
-                },
-                new  TextSettingModel()
-                {
-                    Guid = Guid.NewGuid(),
-                    SettingKey = SettingKey.WeatherCities,
-                    Name = "Text Setting",
-                    Value = "Basel, Zürich"
-                },
-                new TrueOrFalseSettingModel()
-                {
-                    Guid = Guid.NewGuid(),
-                    SettingKey = SettingKey.DisplayFavorites,
-                    Name = "True or False Setting",
-                    BoolValue = true,
-                    OnContent = "On Content",
-                    OffContent = "Off Content"
-                },
-            };
-        }
     }
 }
