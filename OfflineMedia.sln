@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{E5CC83CC-D113-4751-AE3A-2D07D8C3B804}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable", "Portable", "{E5CC83CC-D113-4751-AE3A-2D07D8C3B804}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.View", "OfflineMedia.View\Famoser.OfflineMedia.View.csproj", "{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.View", "Famoser.OfflineMedia.View\Famoser.OfflineMedia.View.csproj", "{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Business", "OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj", "{518680BC-9186-4710-B944-5F596137D47C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Business", "Famoser.OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj", "{518680BC-9186-4710-B944-5F596137D47C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Data", "OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj", "{48AA60FF-9377-4BA5-81D7-C0488BFC529A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Data", "Famoser.OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj", "{48AA60FF-9377-4BA5-81D7-C0488BFC529A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D04929DB-27BB-4A64-8A1E-413EB30F1C87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{3707BB0A-973A-451E-9B45-AC9DA4DF6D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.WeatherFontJsonUtil", "Utils.WeatherFontJsonUtil\Famoser.OfflineMedia.Utils.WeatherFontJsonUtil.csproj", "{9E6FF729-C942-4FC1-8454-23523499D683}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.WeatherFontJsonUtil", "Famoser.OfflineMedia.Utils.WeatherFontJsonUtil\Famoser.OfflineMedia.Utils.WeatherFontJsonUtil.csproj", "{9E6FF729-C942-4FC1-8454-23523499D683}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{5267727B-1490-4FB3-871A-EB3803F8DD41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.TamediaLinkAggregator", "Utils.TamediaLinkAggregator\Famoser.OfflineMedia.Utils.TamediaLinkAggregator.csproj", "{CC259042-05A6-4591-8F25-92BF0F425063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.TamediaLinkAggregator", "Famoser.OfflineMedia.Utils.TamediaLinkAggregator\Famoser.OfflineMedia.Utils.TamediaLinkAggregator.csproj", "{CC259042-05A6-4591-8F25-92BF0F425063}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.BildLinkAggregator", "Utils.BildLinkAggregator\Famoser.OfflineMedia.Utils.BildLinkAggregator.csproj", "{3434474D-C4B4-4EB9-B8B3-C1BAD5AC323E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.Utils.BildLinkAggregator", "Famoser.OfflineMedia.Utils.BildLinkAggregator\Famoser.OfflineMedia.Utils.BildLinkAggregator.csproj", "{3434474D-C4B4-4EB9-B8B3-C1BAD5AC323E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.WinUniversal", "OfflineMedia.WinUniversal\Famoser.OfflineMedia.WinUniversal.csproj", "{610194D2-B335-4B17-8B0D-38980AC839AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.WinUniversal", "Famoser.OfflineMedia.WinUniversal\Famoser.OfflineMedia.WinUniversal.csproj", "{610194D2-B335-4B17-8B0D-38980AC839AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Famoser.OfflineMedia.UnitTests", "Famoser.OfflineMedia.UnitTests\Famoser.OfflineMedia.UnitTests.csproj", "{51C48B89-3E05-436D-81DA-A2FA44573AC8}"
 EndProject

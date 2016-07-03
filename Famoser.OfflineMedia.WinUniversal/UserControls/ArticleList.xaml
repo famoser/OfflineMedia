@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="Famoser.OfflineMedia.WinUniversal.UserControls.ArticleList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="1200"
+    d:DesignWidth="400"
+    d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="ArticleDataTemplate">
+            <StackPanel HorizontalAlignment="Stretch" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
+
+                <TextBlock Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                <TextBlock Margin="10,4,10,4" Style="{StaticResource FamoserSubTitleTextBlock}" Text="{Binding Title}" />
+                <TextBlock Margin="10,10,10,20" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding SubTitle}" />
+
+                <Image Margin="0,-10,0,0" MaxHeight="150" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+
+                <TextBlock Margin="10,10,10,20" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,4">
+            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+        </Grid>
+        <ListView
+                  Grid.Row="1"
+                  ItemsSource="{Binding ArticleList}"
+                  ItemTemplate="{StaticResource ArticleDataTemplate}" 
+            Style="{StaticResource ListViewStyle}"
+            ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}">
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition/>
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
+            <ListView.FooterTemplate>
+                <DataTemplate>
+                    <TextBlock Height="4" />
+                </DataTemplate>
+            </ListView.FooterTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+    </Grid>
+</UserControl>

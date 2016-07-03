@@ -1,3 +1,0 @@
-MainPackage=D:\Repos\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.49_ARM.appx
-SymbolPackage=D:\Repos\OfflineMedia\OfflineMedia.WinPhoneNative\AppPackages\OfflineMedia.WinPhoneNative_2015.832.0.49_Test\OfflineMedia.WinPhoneNative_2015.832.0.49_ARM.appxsym
-ResourcePack=D:\Repos\OfflineMedia\OfflineMedia.WinPhoneNative\bin\ARM\Release\OfflineMedia.WinPhoneNative_2015.832.0.49_language-de.appx

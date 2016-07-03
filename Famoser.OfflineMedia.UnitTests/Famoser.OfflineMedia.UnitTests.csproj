@@ -131,11 +131,11 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj">
+    <ProjectReference Include="..\Famoser.OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj">
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>Famoser.OfflineMedia.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj">
+    <ProjectReference Include="..\Famoser.OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj">
       <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
       <Name>Famoser.OfflineMedia.Data</Name>
     </ProjectReference>

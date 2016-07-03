@@ -1,2 +1,0 @@
-MainPackage=F:\Sync\Programmierung\Windows Phone\Projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\bin\Release\OfflineMediaV3.PresentationWinPhone_3.0.1.5_Bundle\OfflineMediaV3.PresentationWinPhone_3.0.1.5_AnyCPU.appx
-SymbolPackage=F:\Sync\Programmierung\Windows Phone\Projekte\OfflineMediaV3\OfflineMediaV3.PresentationWinPhone\AppPackages\OfflineMediaV3.PresentationWinPhone_3.0.1.5_Test\OfflineMediaV3.PresentationWinPhone_3.0.1.5_AnyCPU.appxsym

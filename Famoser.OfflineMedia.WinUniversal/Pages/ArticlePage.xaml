@@ -1,0 +1,77 @@
+﻿<Page
+    x:Class="Famoser.OfflineMedia.WinUniversal.Pages.ArticlePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:articlePageControls="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
+    xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Style="{StaticResource RootGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <userControls:ProgressBar Grid.Row="0" />
+
+        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource FamoserPivot}">
+            <Pivot.Items>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="lesen" />
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <Grid>
+                            <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                                <articlePageControls:Read DataContext="{Binding }" />
+                            </ScrollViewer>
+                        </Grid>
+                    </PivotItem.Content>
+                </PivotItem>
+
+                <PivotItem>
+                    <PivotItem.Header>
+                        <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="spritz" />
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                            <articlePageControls:Spritz DataContext="{Binding }" />
+                        </ScrollViewer>
+                    </PivotItem.Content>
+                </PivotItem>
+
+                <PivotItem>
+                    <PivotItem.Header>
+                        <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="more" />
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                            <articlePageControls:More DataContext="{Binding }"/>
+                        </ScrollViewer>
+                    </PivotItem.Content>
+                </PivotItem>
+            </Pivot.Items>
+        </Pivot>
+    </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Speichern" Icon="Save" Command="{Binding ReloadArticleCommand}" />
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>
