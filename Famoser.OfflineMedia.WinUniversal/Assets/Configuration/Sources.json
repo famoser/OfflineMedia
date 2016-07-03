@@ -13,6 +13,11 @@
         "Url": "startseite"
       },
       {
+        "Guid": "d18c160e-a46a-4519-b265-5e8cedbee73d",
+        "Name": "Meinung",
+        "Url": "meinung"
+      },
+      {
         "Guid": "5aae7274-aa91-4992-8203-94419e850e8e",
         "Name": "International",
         "Url": "international"
@@ -33,14 +38,14 @@
         "Url": "schweiz"
       },
       {
+        "Guid": "97253f3b-1a8d-4113-9b8f-27a9a588ac91",
+        "Name": "Feuilleton",
+        "Url": "feuilleton"
+      },
+      {
         "Guid": "e843b7eb-d728-45fe-ad66-fcfd2a8892a8",
         "Name": "Zürich",
         "Url": "zuerich"
-      },
-      {
-        "Guid": "d18c160e-a46a-4519-b265-5e8cedbee73d",
-        "Name": "Meinung",
-        "Url": "meinung"
       },
       {
         "Guid": "3422af04-c9c4-46b7-9025-e2940d25de97",
@@ -48,14 +53,14 @@
         "Url": "sport"
       },
       {
-        "Guid": "97253f3b-1a8d-4113-9b8f-27a9a588ac91",
-        "Name": "Feuilleton",
-        "Url": "feuilleton"
-      },
-      {
         "Guid": "c366bdb7-31c8-416b-a90b-f1173a3c90da",
         "Name": "Wissenschaft",
         "Url": "wissenschaft"
+      },
+      {
+        "Guid": "01428c0f-6cd9-4d26-a8b7-e47a942e19b2",
+        "Name": "Gesellschaft",
+        "Url": "gesellschaft"
       },
       {
         "Guid": "07458c0f-6cd9-4d26-a8b7-e47a972e19b2",
@@ -63,14 +68,14 @@
         "Url": "panorama"
       },
       {
-        "Guid": "56df41fc-cd46-4761-8558-cb0443d8e328",
-        "Name": "Lebensart",
-        "Url": "lebensart"
-      },
-      {
         "Guid": "033f78fa-fe92-4d29-b58e-c8677cdfd7f4",
         "Name": "Digital",
         "Url": "digital"
+      },
+      {
+        "Guid": "033f78fa-fe92-4d29-b58e-c8677cdfd7f4",
+        "Name": "Mobilität",
+        "Url": "mobilitaet"
       }
     ]
   },
@@ -1160,7 +1165,7 @@
       {
         "Guid": "a63c6964-69f3-4f5f-8b7c-c903514b08c8",
         "Name": "Grand format",
-        "Url": "5524ed78ab5c37d01b000001"
+        "Url": "categories/5524ed78ab5c37d01b000001"
       },
       {
         "Guid": "87622673-b00c-4147-a2ac-89faa8e2dc42",
@@ -1395,17 +1400,17 @@
       {
         "Guid": "36d85890-3ec6-4da3-b749-4625e0e520b9",
         "Name": "Region",
-        "Url": "558d5aba87da8b2fb9000b21"
+        "Url": "categories/558d5aba87da8b2fb9000b21"
       },
       {
         "Guid": "8678db1c-86d8-4c39-ad1f-3077bddcad13",
         "Name": "Oberland",
-        "Url": "558d5aba87da8b2fb9000b21"
+        "Url": "categories/558d5aba87da8b2fb9000b21"
       },
       {
         "Guid": "8e73ae14-d3ec-426a-bed3-daf35fd276b6",
         "Name": "Thun",
-        "Url": "558d5aba87da8b2fb9000b20"
+        "Url": "categories/558d5aba87da8b2fb9000b20"
       },
       {
         "Guid": "137cd332-ef90-4327-bfa2-56808cda9e6b",
@@ -1415,12 +1420,12 @@
       {
         "Guid": "093a86e8-e883-447e-9f61-eeb9463a9a17",
         "Name": "Emmental",
-        "Url": "558d5aba87da8b2fb9000b22"
+        "Url": "categories/558d5aba87da8b2fb9000b22"
       },
       {
         "Guid": "95446888-3353-465b-8c46-cb2bb16c4068",
         "Name": "Oberaargau",
-        "Url": "558d5aba87da8b2fb9000b23"
+        "Url": "categories/558d5aba87da8b2fb9000b23"
       },
       {
         "Guid": "f742ee42-cdf1-42a2-8405-1a4027f57dd2",
@@ -1500,17 +1505,17 @@
       {
         "Guid": "c6e924ca-644d-4cb0-8576-d6fa0532ecb3",
         "Name": "Region",
-        "Url": "558d5aba87da8b2fb9000b1e"
+        "Url": "categories/558d5aba87da8b2fb9000b1e"
       },
       {
         "Guid": "288e719d-3625-4678-b4a6-1f3ee87e6d55",
         "Name": "Thun",
-        "Url": "558d5aba87da8b2fb9000b20"
+        "Url": "categories/558d5aba87da8b2fb9000b20"
       },
       {
         "Guid": "661bd15a-3671-4bae-9474-1859ee92c1e3",
         "Name": "Oberland",
-        "Url": "558d5aba87da8b2fb9000b21"
+        "Url": "categories/558d5aba87da8b2fb9000b21"
       },
       {
         "Guid": "2c9d473e-eecb-46fc-aeb0-fef494fa51d0",
@@ -1520,12 +1525,12 @@
       {
         "Guid": "c74bbdc8-e3a6-4a17-a727-ebf262e549ff",
         "Name": "Emmental",
-        "Url": "558d5aba87da8b2fb9000b22"
+        "Url": "categories/558d5aba87da8b2fb9000b22"
       },
       {
         "Guid": "c6022d6f-8482-4022-9732-f690820f97f4",
         "Name": "Oberaargau",
-        "Url": "558d5aba87da8b2fb9000b23"
+        "Url": "categories/558d5aba87da8b2fb9000b23"
       },
       {
         "Guid": "5a8d92b3-03df-4752-bf40-17d3ade58c46",
@@ -1605,17 +1610,17 @@
       {
         "Guid": "8417d1fc-83ed-49e6-9f1d-6461b69cdb96",
         "Name": "Region",
-        "Url": "558d5aba87da8b2fb9000b1d"
+        "Url": "categories/558d5aba87da8b2fb9000b1d"
       },
       {
         "Guid": "25edd14e-2061-42fc-8d4e-eac7483ac71b",
         "Name": "Oberaargau",
-        "Url": "558d5aba87da8b2fb9000b23"
+        "Url": "categories/558d5aba87da8b2fb9000b23"
       },
       {
         "Guid": "faa77fdf-d320-469c-8fc7-b5b99c145a2f",
         "Name": "Emmental",
-        "Url": "558d5aba87da8b2fb9000b22"
+        "Url": "categories/558d5aba87da8b2fb9000b22"
       },
       {
         "Guid": "41df7ce0-a4a7-4768-88a8-bca0d724a415",
@@ -1625,12 +1630,12 @@
       {
         "Guid": "fd538112-65af-42c4-8384-6fece4b1f151",
         "Name": "Thun",
-        "Url": "558d5aba87da8b2fb9000b20"
+        "Url": "categories/558d5aba87da8b2fb9000b20"
       },
       {
         "Guid": "e543f382-a089-4dd6-afac-9bc8469f7752",
         "Name": "Oberland",
-        "Url": "558d5aba87da8b2fb9000b21"
+        "Url": "categories/558d5aba87da8b2fb9000b21"
       },
       {
         "Guid": "96715794-7647-4ee1-99f7-cb780e948726",
