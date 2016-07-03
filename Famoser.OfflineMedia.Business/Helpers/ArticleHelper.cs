@@ -66,10 +66,6 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 case Sources.ThunerTagblatt:
                 case Sources.LangenthalerTagblatt:
                     return new TamediaHelper(themeRepository);
-                case Sources.None:
-                    return null;
-                case Sources.Favorites:
-                    return null;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(source), source, null);
             }

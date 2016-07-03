@@ -5,8 +5,6 @@ namespace Famoser.OfflineMedia.Data.Entities.Database
 {
     public class ArticleEntity : BaseEntity
     {
-        public string Uri { get; set; }
-
         public string Title { get; set; }
         public string SubTitle { get; set; }
         public string Teaser { get; set; }

@@ -107,7 +107,6 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel
         public Func<Task> AfterSaveFunc { get; set; }
 
         private string _wordDump;
-        [EntityMap]
         public string WordDump
         {
             get { return _wordDump; }

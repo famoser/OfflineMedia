@@ -53,10 +53,13 @@ namespace Famoser.OfflineMedia.UnitTests.Business
                             var prop = entityProps.FirstOrDefault(e => e.Name == propertyInfo.Name);
                             if (prop != null)
                             {
-                                var conversionAttribute = propertyInfo.GetCustomAttribute(typeof(EntityConversionAttribute), false) as EntityConversionAttribute;
+                                var conversionAttribute =
+                                    propertyInfo.GetCustomAttribute(typeof(EntityConversionAttribute), false) as
+                                        EntityConversionAttribute;
                                 if (conversionAttribute != null)
                                 {
-                                    if (prop.PropertyType != conversionAttribute.EntityType || propertyInfo.PropertyType != conversionAttribute.ModelType)
+                                    if (prop.PropertyType != conversionAttribute.EntityType ||
+                                        propertyInfo.PropertyType != conversionAttribute.ModelType)
                                         Assert.Fail("Conversion Attribute malconfigured " +
                                                     ShowInfo(entityType, businessType, prop, propertyInfo));
 
@@ -92,14 +95,17 @@ namespace Famoser.OfflineMedia.UnitTests.Business
                                                     ShowInfo(entityType, businessType, prop, propertyInfo));
                                 }
                             }
-                            Assert.Fail("Attribut missung in Entity which is requested in business " + ShowInfo(entityType, businessType, null, propertyInfo));
+                            else
+                            {
+                                Assert.Fail("Attribut missung in Entity which is requested in business " +
+                                            ShowInfo(entityType, businessType, null, propertyInfo));
+                            }
                         }
                         else
                         {
                             Assert.Fail("Test not valid for this configuration");
                         }
                     }
-
                 }
             }
         }

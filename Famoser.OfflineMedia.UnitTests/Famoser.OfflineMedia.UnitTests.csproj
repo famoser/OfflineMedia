@@ -90,6 +90,26 @@
   </PropertyGroup>
   <ItemGroup>
     <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\Settings.json">
+      <Link>Assets\Configuration\Settings.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\Settings_min.json">
+      <Link>Assets\Configuration\Settings_min.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\Sources.json">
+      <Link>Assets\Configuration\Sources.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\Sources_min.json">
+      <Link>Assets\Configuration\Sources_min.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\WeatherFontMapping.json">
+      <Link>Assets\Configuration\WeatherFontMapping.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="project.json" />
     <SDKReference Include="MSTestFramework.Universal, Version=$(UnitTestPlatformVersion)" />
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
@@ -105,6 +125,7 @@
     <Compile Include="Helpers\IocHelper.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Models\LogEntry.cs" />
+    <Compile Include="Presentation\ConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Mocks\HistoryNavigationServiceMock.cs" />
     <Compile Include="Services\Mocks\SQLitePlatformMock.cs" />

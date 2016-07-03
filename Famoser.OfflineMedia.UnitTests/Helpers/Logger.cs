@@ -16,7 +16,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             _identifier = identifier;
         }
 
-        private readonly List<LogEntry> _logs = new List<LogEntry>(); 
+        private readonly List<LogEntry> _logs = new List<LogEntry>();
         public void Log(string content, bool isFaillure = false)
         {
             _logs.Add(new LogEntry()
@@ -36,6 +36,11 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             return _logs.Any(logEntry => logEntry.OutputFaillures().Any());
         }
 
+        public string GetSavePath()
+        {
+            return Path.Combine(Path.GetTempPath(), "OfflineMediaTestResults", _identifier + "_*.txt");
+        }
+
         public void Dispose()
         {
             var logs = new List<string>();
@@ -49,8 +54,12 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
                 faillures.AddRange(logEntry.OutputFaillures());
             }
 
-            File.WriteAllLines(_identifier + "_full (" + logs.Count + ").txt", logs);
-            File.WriteAllLines(_identifier + "_faillures ("+ faillures.Count + ").txt", faillures);
+            var folder = Path.Combine(Path.GetTempPath(), "OfflineMediaTestResults");
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            File.WriteAllLines(Path.Combine(folder, _identifier + "_full (" + logs.Count + ").txt"), logs);
+            File.WriteAllLines(Path.Combine(folder, _identifier + "_faillures (" + faillures.Count + ").txt"), faillures);
         }
     }
 }

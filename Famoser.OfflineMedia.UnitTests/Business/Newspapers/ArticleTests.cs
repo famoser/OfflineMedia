@@ -35,7 +35,6 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         {
             var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
             IocHelper.InitializeContainer();
-            var log = new List<string>();
 
             using (var logger = new Logger("get_feed_article"))
             {
@@ -57,13 +56,25 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                         };
 
                         var newArticles = await msh.EvaluateFeed(fm);
+                        foreach (var articleModel in newArticles)
+                        {
+                            var articleLogEntry = new LogEntry()
+                            {
+                                Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ")"
+                            };
+                            AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
+                            feedLogEntry.LogEntries.Add(articleLogEntry);
+                        }
+                        sourceLogEntry.LogEntries.Add(feedLogEntry);
                     }
                     logger.AddLog(sourceLogEntry);
+
                 }
+                Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task SpiegelGetFullArticle()
         {
             /*

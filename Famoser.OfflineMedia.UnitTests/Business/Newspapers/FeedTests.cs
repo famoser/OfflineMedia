@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
+using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -15,27 +16,28 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         [TestMethod]
         public async Task AllFeedsOnline()
         {
-            var invalids = new List<Tuple<FeedEntity, SourceEntity>>();;
+            var invalids = new List<Tuple<FeedModel, SourceModel>>();;
 
             //prepare
-            var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
+            var sourceModels = await SourceTestHelper.Instance.GetSourceConfigModels();
             var service = new HttpService();
 
+
             //act
-            foreach (var sourceConfigurationModel in configmodels)
+            foreach (var sourceModel in sourceModels)
             {
-                foreach (var feedConfigurationModel in sourceConfigurationModel.Feeds)
+                foreach (var feedModel in sourceModel.AllFeeds)
                 {
-                    var resp = await service.DownloadAsync(new Uri(feedConfigurationModel.Url));
+                    var resp = await service.DownloadAsync(feedModel.GetLogicUri());
                     if (!resp.IsRequestSuccessfull)
                     {
-                        invalids.Add(new Tuple<FeedEntity, SourceEntity>(feedConfigurationModel, sourceConfigurationModel));
+                        invalids.Add(new Tuple<FeedModel, SourceModel>(feedModel, sourceModel));
                     }
                     else
                     {
                         var str = await resp.GetResponseAsStringAsync();
                         if (string.IsNullOrEmpty(str))
-                            invalids.Add(new Tuple<FeedEntity, SourceEntity>(feedConfigurationModel, sourceConfigurationModel));
+                            invalids.Add(new Tuple<FeedModel, SourceModel>(feedModel, sourceModel));
                     }
                 }
             }
