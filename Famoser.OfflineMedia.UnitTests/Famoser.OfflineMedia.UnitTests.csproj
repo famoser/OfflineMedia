@@ -115,6 +115,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Helpers\HtmlConverterTests.cs" />
     <Compile Include="Business\Helpers\XmlHelperTests.cs" />
     <Compile Include="Business\MappingTests.cs" />
     <Compile Include="Business\MockTests.cs" />

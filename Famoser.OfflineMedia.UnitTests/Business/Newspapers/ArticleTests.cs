@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
@@ -21,7 +22,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
     public class ArticleTests
     {
         [ClassInitialize]
-        public static void Initialize()
+        public static void Initialize(TestContext context)
         {
             IocHelper.InitializeContainer();
         }
@@ -100,7 +101,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     };
                     AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
 
-                    if (!await msh.EvaluateArticle(articleModel))
+                    if (articleModel.LoadingState != LoadingState.Loaded && !await msh.EvaluateArticle(articleModel))
                     {
                         articleLogEntry.LogEntries.Add(new LogEntry()
                         {
@@ -112,7 +113,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                         AssertHelper.TestFullArticleProperties(articleModel, articleLogEntry);
                     feedLogEntry.LogEntries.Add(articleLogEntry);
                 }
-                
+
                 sourceLogEntry.LogEntries.Add(feedLogEntry);
             }
         }
