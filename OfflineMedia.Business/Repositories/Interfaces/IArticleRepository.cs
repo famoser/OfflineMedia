@@ -27,11 +27,5 @@ namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
         /// </summary>
         /// <returns></returns>
         ArticleModel GetInfoArticle();
-
-        /// <summary>
-        /// for design view
-        /// </summary>
-        /// <returns></returns>
-        ObservableCollection<SourceModel> GetSampleSources();
     }
 }

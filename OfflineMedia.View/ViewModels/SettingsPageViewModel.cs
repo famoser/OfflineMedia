@@ -25,16 +25,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _articleRepository = articleRepository;
             _progressService = progressService;
 
-            if (IsInDesignMode)
-            {
-                Sources = _articleRepository.GetSampleSources();
-                Settings = _settingsRepository.GetSampleSettings();
-            }
-            else
-            {
-                Sources = _articleRepository.GetAllSources();
-                Settings = _settingsRepository.GetEditSettings();
-            }
+            Sources = _articleRepository.GetAllSources();
+            Settings = _settingsRepository.GetEditSettings();
 
             _saveCommand = new RelayCommand(Save, () => CanSave);
         }
@@ -74,7 +66,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             _isSaving = false;
             _saveCommand.RaiseCanExecuteChanged();
-            
+
         }
 
         #endregion

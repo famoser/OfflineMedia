@@ -1,7 +1,10 @@
-﻿using Famoser.OfflineMedia.Business.Models;
+﻿using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Famoser.OfflineMedia.View.ViewModels
@@ -9,24 +12,37 @@ namespace Famoser.OfflineMedia.View.ViewModels
     public class FeedPageViewModel : ViewModelBase
     {
         private IArticleRepository _articleRepository;
-        public FeedPageViewModel(IArticleRepository articleRepository)
+        private IHistoryNavigationService _historyNavigationService;
+        public FeedPageViewModel(IArticleRepository articleRepository, IHistoryNavigationService historyNavigationService)
         {
             _articleRepository = articleRepository;
-
-            Messenger.Default.Register<FeedModel>(this, Messages.Select, EvaluateSelect);
+            _historyNavigationService = historyNavigationService;
 
             if (IsInDesignMode)
             {
-                Feed = articleRepository.GetSampleSources()[0].ActiveFeeds[0];
+                SelectFeed(articleRepository.GetActiveSources()[0].ActiveFeeds[0]);
             }
         }
-        
-        private async void EvaluateSelect(FeedModel obj)
+
+        public async void SelectFeed(FeedModel obj)
         {
             Feed = obj;
             await _articleRepository.LoadFullFeedAsync(obj);
         }
-
+        
+        public ArticleModel SelectedArticle
+        {
+            get { return null; }
+            set
+            {
+                if (value != null)
+                {
+                    SimpleIoc.Default.GetInstance<ArticlePageViewModel>().SelectArticle(value);
+                    _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
+                }
+            }
+        }
+        
         private FeedModel _feed;
         public FeedModel Feed
         {

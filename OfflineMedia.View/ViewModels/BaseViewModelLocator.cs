@@ -16,8 +16,7 @@ using Famoser.FrameworkEssentials.Services;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.View.Mocks;
-using Famoser.OfflineMedia.View.Mocks.Repositories;
+using Famoser.OfflineMedia.Business.Repositories.Mocks;
 using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
@@ -39,11 +38,21 @@ namespace Famoser.OfflineMedia.View.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<IArticleRepository, ArticleRepository>();
-            SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
-            SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
-            SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
-            
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                SimpleIoc.Default.Register<IArticleRepository, ArticleRepositoryMock>();
+                SimpleIoc.Default.Register<ISettingsRepository, SettingsRepositoryMock>();
+                SimpleIoc.Default.Register<IThemeRepository, ThemeRepositoryMock>();
+                SimpleIoc.Default.Register<IWeatherRepository, WeatherRepositoryMock>();
+            }
+            else
+            {
+                SimpleIoc.Default.Register<IArticleRepository, ArticleRepository>();
+                SimpleIoc.Default.Register<ISettingsRepository, SettingsRepository>();
+                SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
+                SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
+            }
+
             SimpleIoc.Default.Register<ISqliteService, SqliteService>();
             SimpleIoc.Default.Register<IProgressService, ProgressService>();
             

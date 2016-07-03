@@ -7,7 +7,6 @@ namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
     public interface IWeatherRepository
     {
         ObservableCollection<Forecast> GetForecasts();
-        ObservableCollection<Forecast> GetSampleForecasts();
 
         Task<bool> ActualizeAsync();
     }

@@ -21,15 +21,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
 
-            if (IsInDesignMode)
-            {
-                Forecasts = _weatherRepository.GetSampleForecasts();
-            }
-            else
-            {
-                Forecasts = _weatherRepository.GetForecasts();
+            Forecasts = _weatherRepository.GetForecasts();
+            if (!IsInDesignMode)
                 Refresh();
-            }
         }
         
 

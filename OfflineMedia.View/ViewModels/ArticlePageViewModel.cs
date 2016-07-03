@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Logging;
@@ -51,32 +52,22 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             if (IsInDesignMode)
             {
-                DisplayState = DisplayState.Article;
-                Article = _articleRepository.GetSampleSources()[0].ActiveFeeds[0].ArticleList[0];
-
                 FontSize = 20;
                 ReadingSpeed = 300;
-                
-                Article = _articleRepository.GetInfoArticle();
+                SelectArticle(_articleRepository.GetInfoArticle());
             }
             else
             {
                 Initialize();
             }
-
-            Messenger.Default.Register<ArticleModel>(this, Messages.Select, EvaluateMessage);
         }
 
-        private void EvaluateMessage(ArticleModel obj)
-        {
-            SelectArticle(obj);
-        }
-
-        private async void SelectArticle(ArticleModel am)
+        public async void SelectArticle(ArticleModel am)
         {
             SetDisplayState(DisplayState.Article);
             Article = am;
             await _articleRepository.LoadFullArticleAsync(am);
+            await _articleRepository.MarkArticleAsReadAsync(am);
             InitializeSpritz();
         }
 
@@ -84,7 +75,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
         {
             var fontSizeSetting = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.FontSize)) as IntSettingModel;
             FontSize = fontSizeSetting?.IntValue ?? 20;
-            
+
             var wordsPerMinute = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.WordsPerMinute)) as IntSettingModel;
             ReadingSpeed = wordsPerMinute?.IntValue ?? 20;
         }
@@ -105,6 +96,19 @@ namespace Famoser.OfflineMedia.View.ViewModels
                         oldarticle.PropertyChanged -= ArticleOnPropertyChanged;
 
                     _reloadArticleCommand.RaiseCanExecuteChanged();
+                    RaisePropertyChanged(() => SelectedArticle);
+                }
+            }
+        }
+
+        public ArticleModel SelectedArticle
+        {
+            get { return null; }
+            set
+            {
+                if (value != null)
+                {
+                    SelectArticle(value);
                 }
             }
         }

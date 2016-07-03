@@ -277,7 +277,10 @@
     <Compile Include="Helpers\FeedHelper.cs" />
     <Compile Include="Managers\ForecastManager.cs" />
     <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
+    <Compile Include="Repositories\Mocks\ArticleRepositoryMock.cs" />
     <Compile Include="Repositories\Mocks\SettingsRepositoryMock.cs" />
+    <Compile Include="Repositories\Mocks\ThemeRepositoryMock.cs" />
+    <Compile Include="Repositories\Mocks\WeatherRepositoryMock.cs" />
     <Compile Include="Services\ImageDownloadService.cs" />
     <Compile Include="Helpers\Text\TextConverter.cs" />
     <Compile Include="Managers\SettingManager.cs" />
