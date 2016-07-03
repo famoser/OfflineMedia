@@ -51,7 +51,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 Name = sourceEntity.Name,
                 Abbreviation = sourceEntity.Abbreviation,
                 LogicBaseUrl = sourceEntity.LogicBaseUrl,
-                PublicBaseUrl = sourceEntity.PublicBaseUrl
+                PublicBaseUrl = sourceEntity.PublicBaseUrl,
+                Source = sourceEntity.Source
             };
         }
 

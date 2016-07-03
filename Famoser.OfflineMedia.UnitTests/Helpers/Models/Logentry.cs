@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers.Models
         public bool IsFaillure { get; set; }
         public DateTime DateTime { get; } = DateTime.Now;
 
-        public List<LogEntry> LogEntries { get; } = new List<LogEntry>();
+        public ConcurrentBag<LogEntry> LogEntries { get; } = new ConcurrentBag<LogEntry>();
 
         public override string ToString()
         {

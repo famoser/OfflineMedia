@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Helpers;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
@@ -17,10 +20,15 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
     [TestClass]
     public class ArticleTests
     {
+        [ClassInitialize]
+        public static void Initialize()
+        {
+            IocHelper.InitializeContainer();
+        }
+
         [TestMethod]
         public void AllMediaSourceHelpers()
         {
-            IocHelper.InitializeContainer();
             var values = Enum.GetValues(typeof(Sources));
 
             foreach (var value in values)
@@ -31,89 +39,82 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         }
 
         [TestMethod]
-        public async Task GetFeedArticle()
+        public async Task TestFeedEvaluation()
         {
-            var configmodels = await SourceTestHelper.Instance.GetSourceConfigs();
-            IocHelper.InitializeContainer();
+            var configmodels = await SourceTestHelper.Instance.GetSourceConfigModels();
 
             using (var logger = new Logger("get_feed_article"))
             {
-                foreach (var sourceEntity in configmodels)
+                var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
+                var tasks = new List<Task>();
+                for (int i = 0; i < 5; i++)
                 {
-                    var sourceModel = EntityModelConverter.Convert(sourceEntity);
-                    var sourceLogEntry = new LogEntry()
-                    {
-                        Content = "Testing " + sourceModel.Name
-                    };
-                    var msh = ArticleHelper.GetMediaSource(sourceEntity.Source,
-                        SimpleIoc.Default.GetInstance<IThemeRepository>());
-                    foreach (var feedEntity in sourceEntity.Feeds)
-                    {
-                        var fm = EntityModelConverter.Convert(feedEntity, sourceModel, true);
-                        var feedLogEntry = new LogEntry()
-                        {
-                            Content = "Testing " + feedEntity.Name
-                        };
-
-                        var newArticles = await msh.EvaluateFeed(fm);
-                        foreach (var articleModel in newArticles)
-                        {
-                            var articleLogEntry = new LogEntry()
-                            {
-                                Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ")"
-                            };
-                            AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
-                            feedLogEntry.LogEntries.Add(articleLogEntry);
-                        }
-                        sourceLogEntry.LogEntries.Add(feedLogEntry);
-                    }
-                    logger.AddLog(sourceLogEntry);
-
+                    tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
+                await Task.WhenAll(tasks);
+
                 Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
+                Debug.Write("successfull! Log files at " + logger.GetSavePath());
             }
         }
 
-        //[TestMethod]
-        public async Task SpiegelGetFullArticle()
+        private async Task TestFeedEvaluationSourceTask(ConcurrentStack<SourceModel> sources, Logger logger)
         {
-            /*
-            SourceTestHelper.Instance.PrepareTests();
-
-            //arrange
-            var sourceConfigs = await SourceTestHelper.Instance.GetSourceConfigs();
-            var sourceConfig = sourceConfigs.FirstOrDefault(s => s.Source == SourceEnum.Spiegel);
-            var feedConfig = sourceConfig.FeedConfigurationModels.FirstOrDefault();
-            IMediaSourceHelper mediaSourceHelper = new SpiegelHelper();
-
-            //act
-            var feed = await SourceTestHelper.Instance.GetFeedFor(mediaSourceHelper, sourceConfig, feedConfig);
-
-            //assert
-            Assert.IsTrue(feed.Any(), "No items in feed");
-            for (int index = 0; index < feed.Count; index++)
+            SourceModel source;
+            while (sources.TryPop(out source))
             {
-                var articleModel = feed[index];
-                string articleString = await Download.DownloadStringAsync(articleModel.LogicUri);
-                if (mediaSourceHelper.NeedsToEvaluateArticle())
+                var sourceLogEntry = new LogEntry()
                 {
-                    var tuple = await mediaSourceHelper.EvaluateArticle(articleString, articleModel);
-                    if (tuple.Item1)
-                    {
-                        if (!mediaSourceHelper.WriteProperties(ref articleModel, tuple.Item2))
-                            Assert.Fail("mediaSourceHelper WriteProperties failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
-                    }
-                    else
-                        Assert.Fail("mediaSourceHelper EvaluateArticle failed for " + AssertHelper.Instance.GetArticleDescription(articleModel));
+                    Content = "Testing " + source.Name
+                };
+
+                var feeds = new ConcurrentStack<FeedModel>(source.AllFeeds);
+                var tasks = new List<Task>();
+                for (int i = 0; i < 5; i++)
+                {
+                    tasks.Add(TestFeedEvaluationFeedTask(feeds, source, sourceLogEntry));
                 }
 
-                //author freiwillig
-                articleModel.Author = " ";
-
-                AssertHelper.Instance.AssertFeedArticleProperties(articleModel);
-                AssertHelper.Instance.AssertFullArticleProperties(articleModel);
+                await Task.WhenAll(tasks);
+                logger.AddLog(sourceLogEntry);
             }
-            */
+        }
+
+        private async Task TestFeedEvaluationFeedTask(ConcurrentStack<FeedModel> feeds, SourceModel source, LogEntry sourceLogEntry, bool testArticles = false)
+        {
+            FeedModel feed;
+            while (feeds.TryPop(out feed))
+            {
+                var feedLogEntry = new LogEntry()
+                {
+                    Content = "Testing " + feed.Name
+                };
+
+                var msh = ArticleHelper.GetMediaSource(source.Source, SimpleIoc.Default.GetInstance<IThemeRepository>());
+                var newArticles = await msh.EvaluateFeed(feed);
+                foreach (var articleModel in newArticles)
+                {
+                    var articleLogEntry = new LogEntry()
+                    {
+                        Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ")"
+                    };
+                    AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
+
+                    if (!await msh.EvaluateArticle(articleModel))
+                    {
+                        articleLogEntry.LogEntries.Add(new LogEntry()
+                        {
+                            Content = "Evaluation failed!",
+                            IsFaillure = true
+                        });
+                    }
+                    else
+                        AssertHelper.TestFullArticleProperties(articleModel, articleLogEntry);
+                    feedLogEntry.LogEntries.Add(articleLogEntry);
+                }
+                
+                sourceLogEntry.LogEntries.Add(feedLogEntry);
+            }
         }
     }
 }

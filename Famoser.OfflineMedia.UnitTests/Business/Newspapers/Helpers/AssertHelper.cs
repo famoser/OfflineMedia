@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using Famoser.OfflineMedia.UnitTests.Helpers.Models;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 {
@@ -23,13 +27,27 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return res;
         }
 
+        public static bool TestFullArticleProperties(ArticleModel article, LogEntry entry)
+        {
+            var res = TestFeedArticleProperties(article, entry);
+            res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
+            res &= TestBooleanFalseProperty(article.IsRead, "IsRead", entry);
+            res &= TestBooleanFalseProperty(article.IsFavorite, "IsFavorite", entry);
+            res &= TestNotEmptyCollection(article.Themes, "Themes", entry);
+            res &= TestNotEmptyCollection(article.Content, "Content", entry);
+            res &= TestContentModels(article.Content, entry);
+            res &= TestForCorrectValue(article.LoadingState, LoadingState.Loaded, "LoadingState", entry);
+            return res;
+        }
+
         private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry)
         {
             if (string.IsNullOrWhiteSpace(propertyValue))
             {
                 entry.LogEntries.Add(new LogEntry()
                 {
-                    Content = "Property is empty: " + propertyName
+                    Content = "Property is empty: " + propertyName,
+                    IsFaillure = true
                 });
                 return false;
             }
@@ -42,7 +60,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             {
                 entry.LogEntries.Add(new LogEntry()
                 {
-                    Content = "DateTime is not set: " + propertyName
+                    Content = "DateTime is not set: " + propertyName,
+                    IsFaillure = true
                 });
                 return false;
             }
@@ -52,27 +71,153 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 
                 entry.LogEntries.Add(new LogEntry()
                 {
-                    Content = "DateTime is probably wrong (value: " + propertyValue + "): " + propertyName
+                    Content = "DateTime is probably wrong (value: " + propertyValue + "): " + propertyName,
+                    IsFaillure = true
                 });
                 return false;
             }
             return true;
         }
 
-        public static bool AssertFullArticleProperties(ArticleModel article, LogEntry entry)
+        private static bool TestBooleanFalseProperty(bool propertyValue, string propertyName, LogEntry entry)
         {
-            var res = TestFeedArticleProperties(article, entry);
-            Assert.IsNotNull(article.Author, "No Author for " + GetArticleDescription(article));
-            Assert.IsNotNull(article.Content, "No Content for " + GetArticleDescription(article));
-            Assert.IsTrue(article.Content.Any(), "0 Content for " + GetArticleDescription(article));
-            Assert.IsNotNull(article.Themes, "No Themes for " + GetArticleDescription(article));
-            Assert.IsTrue(article.Themes.Any(), "0 Themes for " + GetArticleDescription(article));
-            return res;
+            if (propertyValue)
+            {
+                entry.LogEntries.Add(new LogEntry()
+                {
+                    Content = "Boolean is true which should be false: " + propertyName,
+                    IsFaillure = true
+                });
+                return false;
+            }
+            return true;
         }
 
-        public static string GetArticleDescription(ArticleModel articleModel)
+        private static bool TestNotEmptyCollection<T>(IEnumerable<T> propertyValue, string propertyName, LogEntry entry)
         {
-            return articleModel.Title + " - " + articleModel.SubTitle + "; " + articleModel.LogicUri;
+            if (!propertyValue.Any())
+            {
+                entry.LogEntries.Add(new LogEntry()
+                {
+                    Content = "Collection is empty which should not be empty: " + propertyName,
+                    IsFaillure = true
+                });
+                return false;
+            }
+            return true;
+        }
+
+        private static bool TestForCorrectValue(object propertyValue, object expectedValue, string propertyName, LogEntry entry)
+        {
+            if (propertyValue != expectedValue)
+            {
+                entry.LogEntries.Add(new LogEntry()
+                {
+                    Content = "Wrong value. Expected: " + expectedValue + "; Value: " + propertyValue + " in property " + propertyName,
+                    IsFaillure = true
+                });
+                return false;
+            }
+            return true;
+        }
+
+        private static bool TestTextModels(List<TextModel> textModels, LogEntry entry, bool root = true)
+        {
+            if (root && !textModels.Any())
+            {
+                entry.LogEntries.Add(new LogEntry()
+                {
+                    Content = "No text entries! Collection is empty",
+                    IsFaillure = true
+                });
+                return false;
+            }
+
+            var successfull = true;
+            foreach (var textModel in textModels)
+            {
+                if (string.IsNullOrEmpty(textModel.Text) && !textModel.Children.Any())
+                {
+                    entry.LogEntries.Add(new LogEntry()
+                    {
+                        Content = "Text model is empty!",
+                        IsFaillure = true
+                    });
+                    successfull = false;
+                }
+                successfull &= TestTextModels(textModel.Children, entry, false);
+            }
+            return successfull;
+        }
+
+        private static bool TestParagraphModels(ObservableCollection<ParagraphModel> paragraphs, LogEntry entry, bool root = true)
+        {
+            if (root && !paragraphs.Any())
+            {
+                entry.LogEntries.Add(new LogEntry()
+                {
+                    Content = "No paragraphs! Collection is empty",
+                    IsFaillure = true
+                });
+                return false;
+            }
+
+            var successfull = true;
+            foreach (var paragraphModel in paragraphs)
+            {
+                successfull &= TestTextModels(paragraphModel.Children, entry);
+            }
+            return successfull;
+        }
+
+        private static bool TestContentModels(IEnumerable<BaseContentModel> baseContentModels, LogEntry entry)
+        {
+            var res = true;
+            foreach (var baseContentModel in baseContentModels)
+            {
+                var successfull = true;
+                var logEntry = new LogEntry()
+                {
+                    Content = "ContentModel of type "
+                };
+                if (baseContentModel is ImageContentModel)
+                {
+                    var image = (ImageContentModel)baseContentModel;
+                    logEntry.Content += "image";
+                    successfull &= TestStringNotEmptyProperty(image.Url, "Url", logEntry);
+                }
+                else if (baseContentModel is TextContentModel)
+                {
+                    var text = (TextContentModel)baseContentModel;
+                    logEntry.Content += "text";
+                    successfull &= TestParagraphModels(text.Content, logEntry);
+                }
+                else if (baseContentModel is GalleryContentModel)
+                {
+                    var gallery = (GalleryContentModel)baseContentModel;
+                    logEntry.Content += "gallery";
+                    if (gallery.Text != null)
+                        successfull &= TestParagraphModels(gallery.Text.Content, logEntry);
+                    successfull &= TestNotEmptyCollection(gallery.Images, "gallery.Images", logEntry);
+                    foreach (var imageContentModel in gallery.Images)
+                    {
+                        successfull &= TestStringNotEmptyProperty(imageContentModel.Url, "Url", logEntry);
+                    }
+                }
+                else
+                {
+                    logEntry.Content += "unknown! typeof: " + baseContentModel.GetType().FullName;
+                    logEntry.IsFaillure = true;
+                    successfull = false;
+                }
+
+                if (successfull)
+                    logEntry.Content += ": all OK";
+
+                res &= successfull;
+                entry.LogEntries.Add(logEntry);
+            }
+            return res;
         }
     }
 }

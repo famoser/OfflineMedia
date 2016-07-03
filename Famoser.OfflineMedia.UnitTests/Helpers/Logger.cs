@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             _identifier = identifier;
         }
 
-        private readonly List<LogEntry> _logs = new List<LogEntry>();
+        private readonly ConcurrentBag<LogEntry> _logs = new ConcurrentBag<LogEntry>();
         public void Log(string content, bool isFaillure = false)
         {
             _logs.Add(new LogEntry()
