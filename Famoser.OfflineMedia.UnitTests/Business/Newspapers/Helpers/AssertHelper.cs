@@ -66,7 +66,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                 return false;
             }
             if (propertyValue < DateTime.Now - TimeSpan.FromDays(200) ||
-                propertyValue > DateTime.Now - TimeSpan.FromDays(200))
+                propertyValue > DateTime.Now + TimeSpan.FromDays(200))
             {
 
                 entry.LogEntries.Add(new LogEntry()
@@ -109,7 +109,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 
         private static bool TestForCorrectValue(object propertyValue, object expectedValue, string propertyName, LogEntry entry)
         {
-            if (propertyValue != expectedValue)
+            if (!propertyValue.Equals(expectedValue))
             {
                 entry.LogEntries.Add(new LogEntry()
                 {

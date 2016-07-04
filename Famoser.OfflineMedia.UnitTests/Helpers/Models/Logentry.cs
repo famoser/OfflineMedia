@@ -20,7 +20,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers.Models
         {
             var res = "";
             if (IsFaillure)
-                res += "FAILLURE: ";
+                res += "FAIL: ";
             else
                 res += "          ";
 
@@ -38,7 +38,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers.Models
                 var temp = logEntry.OutputAll();
                 for (int i = 0; i < temp.Count; i++)
                 {
-                    temp[i] = "    " + temp[i];
+                    temp[i] = "      " + temp[i];
                 }
                 resList.AddRange(temp);
             }

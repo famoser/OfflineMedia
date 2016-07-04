@@ -26,7 +26,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 a.Title = nfa.title;
                 a.SubTitle = null;
                 a.Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", "");
-                a.LogicUri = feedModel.Source.LogicBaseUrl + "api/articles/" + nfa.id;
+                a.LogicUri = feedModel.Source.LogicBaseUrl + "articles/" + nfa.id;
                 a.PublicUri = feedModel.Source.LogicBaseUrl + nfa.legacy_id;
 
                 if (a.LeadImage == null && nfa.picture_medium_url != null)
