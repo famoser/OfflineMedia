@@ -95,7 +95,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
 
                articleModel.Content.Add(new TextContentModel()
                {
-                   Content = HtmlConverter.HtmlToParagraph(body)
+                   Content = HtmlConverter.CreateOnce().HtmlToParagraph(body)
                });
                
                return true;

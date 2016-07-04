@@ -155,7 +155,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                     articleModel.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.HtmlToParagraph(CleanHtml(html))
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
                     });
                     return true;
                 }

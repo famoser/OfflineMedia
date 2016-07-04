@@ -74,7 +74,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
 
                 am.Content.Add(new TextContentModel()
                 {
-                    Content = HtmlConverter.HtmlToParagraph(doc.DocumentNode.InnerText)
+                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(doc.DocumentNode.InnerText)
                 });
 
                 return true;

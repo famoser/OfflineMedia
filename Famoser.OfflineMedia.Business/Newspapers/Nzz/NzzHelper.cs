@@ -57,7 +57,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     string endtag = "</" + na.body[i].style + ">";
                     am.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.HtmlToParagraph(starttag + na.body[i].text + endtag)
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(starttag + na.body[i].text + endtag)
                     });
                 }
 
@@ -96,7 +96,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     {
                         Text = new TextContentModel()
                         {
-                            Content = HtmlConverter.HtmlToParagraph(li.caption)
+                            Content = HtmlConverter.CreateOnce().HtmlToParagraph(li.caption)
                         }
                     };
                     if (li.path.Contains("http://nzz-img.s3.amazonaws.com/"))

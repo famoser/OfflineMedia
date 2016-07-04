@@ -218,7 +218,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                 articleModel.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.HtmlToParagraph(html)
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(html)
                     });
                 
 

@@ -49,7 +49,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
         {
             am.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.HtmlToParagraph(GetHtml(na.content))
+                Content = HtmlConverter.CreateOnce().HtmlToParagraph(GetHtml(na.content))
             });
 
             if (na.head != null && na.head.credits != null)

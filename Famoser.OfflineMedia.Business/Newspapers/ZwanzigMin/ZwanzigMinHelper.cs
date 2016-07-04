@@ -36,7 +36,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.Content.Add(
                     new TextContentModel()
                     {
-                        Content = HtmlConverter.HtmlToParagraph(nfa.text)
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text)
                     });
 
                 a.LeadImage = new ImageContentModel()

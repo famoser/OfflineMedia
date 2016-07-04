@@ -103,7 +103,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                                 articleModel.Content.Add(new
                                     TextContentModel()
                                 {
-                                    Content = HtmlConverter.HtmlToParagraph(text.CDATA)
+                                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(text.CDATA)
                                 });
                         }
                     }

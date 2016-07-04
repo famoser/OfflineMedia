@@ -266,7 +266,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             };
             model.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.HtmlToParagraph("<h1>Über diese App</h1>" +
+                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h1>Über diese App</h1>" +
                                 "<p> " +
                                 "Die App versucht sich bei jedem Start zu aktualisieren. Ist kein Internet vorhanden, werden die Artikel des letzten Downloads angezeigt. " +
                                 "<br /><br />" +

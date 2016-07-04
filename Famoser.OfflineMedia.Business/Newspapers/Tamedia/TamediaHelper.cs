@@ -60,7 +60,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 }
                 a.Content.Add(new TextContentModel()
                 {
-                    Content = HtmlConverter.HtmlToParagraph(nfa.text)
+                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text)
                 });
                 if (nfa.article_elements != null)
                 {

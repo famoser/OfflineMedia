@@ -4,6 +4,7 @@
     {
         Text = 0,
         Title = 1,
-        Quote = 2
+        SecondaryTitle = 2,
+        Quote = 3
     }
 }

@@ -56,7 +56,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                 {
                     am.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.HtmlToParagraph(htmlbody[i].txt)
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(htmlbody[i].txt)
                     });
                 }
             }
