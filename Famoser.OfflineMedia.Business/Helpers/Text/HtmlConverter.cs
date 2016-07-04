@@ -56,7 +56,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
                     Array.Resize(ref _secondaryTitles, allTitles.Length - (i + 1));
                     for (int j = i + 1; j < allTitles.Length; j++)
                     {
-                        _secondaryTitles[j - (i + 1)] = allTitles[i + 1];
+                        _secondaryTitles[j - (i + 1)] = allTitles[j];
                     }
                     return;
                 }
@@ -69,6 +69,9 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
         private readonly string[] _quotes = { "blockquote" };
         private ParagraphModel ParseParagraph(HtmlNode node)
         {
+            if (string.IsNullOrEmpty(node.InnerHtml))
+                return null;
+
             var model = new ParagraphModel();
 
             if (_primaryTitles.Any(predicate => predicate == node.Name))
@@ -82,13 +85,9 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             else
                 return null;
 
-            var text = ParseText(node);
-            if (text != null)
-                model.Children.Add(text);
-
             foreach (var childNode in node.ChildNodes)
             {
-                text = ParseText(childNode);
+                var text = ParseText(childNode);
                 if (text != null)
                     model.Children.Add(text);
             }
@@ -105,14 +104,10 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             var underlines = new[] { "u" };
             var hyperlink = new[] { "a" };
 
-            if (parentNode.ChildNodes.Count() == 1)
+            if (!parentNode.ChildNodes.Any() && parentNode.NodeType == HtmlNodeType.Text)
             {
-                var node = parentNode.ChildNodes.FirstOrDefault();
-                if (node.NodeType == HtmlNodeType.Text)
-                {
-                    model.Text = node.InnerText.Trim();
-                    return model;
-                }
+                model.Text = parentNode.InnerText.Trim();
+                return model;
             }
 
             if (texts.Any(predicate => predicate == parentNode.Name))
@@ -124,9 +119,19 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             else if (underlines.Any(predicate => predicate == parentNode.Name))
                 model.TextType = TextType.Underline;
             else if (hyperlink.Any(predicate => predicate == parentNode.Name))
+            {
                 model.TextType = TextType.Hyperlink;
+                model.Text = parentNode.Attributes["href"]?.Value;
+            }
             else
                 return null;
+
+            //shortcut for once node stuff
+            if (parentNode.ChildNodes.Count() == 1 && parentNode.ChildNodes.FirstOrDefault().NodeType == HtmlNodeType.Text && model.TextType != TextType.Hyperlink)
+            {
+                model.Text = parentNode.ChildNodes.FirstOrDefault().InnerText.Trim();
+                return model;
+            }
 
             foreach (var node in parentNode.ChildNodes)
             {

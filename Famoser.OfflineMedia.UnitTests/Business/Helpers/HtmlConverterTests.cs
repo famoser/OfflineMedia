@@ -59,9 +59,41 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
 
             //assert
             Assert.IsTrue(paragraphs.Count == 3);
-            Assert.IsTrue(paragraphs[0].ParagraphType == ParagraphType.Title);
-            Assert.IsTrue(paragraphs[1].ParagraphType == ParagraphType.SecondaryTitle);
+            Assert.IsTrue(paragraphs[0].ParagraphType == ParagraphType.SecondaryTitle);
+            Assert.IsTrue(paragraphs[1].ParagraphType == ParagraphType.Title);
             Assert.IsTrue(paragraphs[2].ParagraphType == ParagraphType.SecondaryTitle);
+        }
+
+        [TestMethod]
+        public void HtmlSzenarioHyperlinks()
+        {
+            //arrange
+            var html = "<p>Text before link <a href=\"http://link.ch\">link text</a> more text after link</p><p>Normal Content</p>";
+            var converter = new HtmlConverter();
+
+            //act
+            var paragraphs = converter.HtmlToParagraph(html);
+
+            //assert
+            Assert.IsTrue(paragraphs.Count == 2);
+            Assert.IsTrue(paragraphs[0].ParagraphType == ParagraphType.Text);
+            Assert.IsTrue(paragraphs[0].Children.Count == 3);
+            Assert.IsTrue(paragraphs[0].Children[0].Text == "Text before link");
+            Assert.IsTrue(paragraphs[0].Children[1].Text == "http://link.ch");
+            Assert.IsTrue(paragraphs[0].Children[2].Text == "more text after link");
+
+            Assert.IsTrue(paragraphs[0].Children[0].TextType == TextType.Normal);
+            Assert.IsTrue(paragraphs[0].Children[0].Children.Count == 0);
+
+            Assert.IsTrue(paragraphs[0].Children[1].TextType == TextType.Hyperlink);
+            Assert.IsTrue(paragraphs[0].Children[1].Children.Count == 1);
+            Assert.IsTrue(paragraphs[0].Children[1].Children[0].Text == "link text");
+            Assert.IsTrue(paragraphs[0].Children[1].Children[0].TextType == TextType.Normal);
+            Assert.IsTrue(paragraphs[0].Children[1].Children[0].Children.Count == 0);
+
+            Assert.IsTrue(paragraphs[0].Children[2].TextType == TextType.Normal);
+            Assert.IsTrue(paragraphs[0].Children[2].Children.Count == 0);
+
         }
     }
 }
