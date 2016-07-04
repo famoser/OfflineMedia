@@ -77,6 +77,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                 }
 
                 await Task.WhenAll(tasks);
+
                 logger.AddLog(sourceLogEntry);
             }
         }

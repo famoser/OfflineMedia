@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Managers;
 using Famoser.OfflineMedia.Business.Models;
@@ -86,13 +87,20 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 ArticleModel model;
                 while (stack.TryPop(out model))
                 {
+                    model.LoadingState = LoadingState.Loading;
                     var media = ArticleHelper.GetMediaSource(model, _themeRepository);
                     if (media != null && await media.EvaluateArticle(model))
                     {
                         await ArticleHelper.SaveArticle(model, _sqliteService);
                         await ArticleHelper.SaveArticleLeadImage(model, _sqliteService);
                         await ArticleHelper.SaveArticleContent(model, _sqliteService);
+                        model.LoadingState = LoadingState.Loaded;
                         _imageDownloadService.Download(model);
+                    }
+                    else
+                    {
+                        model.LoadingState = LoadingState.LoadingFailed;
+                        await ArticleHelper.SaveArticle(model, _sqliteService);
                     }
 
                     if (incrementProgress)

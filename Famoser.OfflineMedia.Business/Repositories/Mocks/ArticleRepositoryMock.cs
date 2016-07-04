@@ -132,6 +132,16 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
             return true; 
         }
 
+        public async Task<bool> SwitchFeedActiveStateAsync(FeedModel feedModel)
+        {
+            return true;
+        }
+
+        public async Task<bool> SwitchSourceActiveStateAsync(SourceModel sourceModel)
+        {
+            return true;
+        }
+
         public ArticleModel GetInfoArticle()
         {
             return GetSampleArticle();

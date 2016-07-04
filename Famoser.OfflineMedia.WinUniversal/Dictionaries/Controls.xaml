@@ -1,9 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <Style TargetType="ListView" x:Key="ListViewStyle">
         <Setter Property="Margin" Value="0,0,-1,-4" />
+    </Style>
+
+    <Style TargetType="Pivot" x:Key="PivotStyle">
+        <Setter Property="Background" Value="Transparent" />
     </Style>
 
 </ResourceDictionary>

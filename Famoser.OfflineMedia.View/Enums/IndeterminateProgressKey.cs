@@ -4,6 +4,8 @@
     {
         RefreshingArticles,
         RefreshingWeather,
-        SavingSettings
+        SavingSettings,
+        SavingFeedSetting,
+        SavingSourceSetting,
     }
 }

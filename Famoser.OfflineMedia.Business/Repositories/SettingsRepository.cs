@@ -65,6 +65,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                                 ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(
                                     FileKeys.SettingsConfiguration).Description);
                     var defaultSettings = JsonConvert.DeserializeObject<List<SettingEntity>>(jsonAssets);
+                    var recovered = false;
 
                     SettingCacheEntity cache = new SettingCacheEntity();
                     try
@@ -78,6 +79,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         if (!string.IsNullOrEmpty(json))
                         {
                             cache = JsonConvert.DeserializeObject<SettingCacheEntity>(json);
+                            recovered = true;
                         }
                     }
                     catch (Exception ex)
@@ -87,13 +89,19 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     foreach (var defaultSetting in defaultSettings)
                     {
-                        var savedSetting =
-                            cache.SettingCacheItemEntities.FirstOrDefault(s => s.Guid == defaultSetting.Guid);
+                        var savedSetting = cache.SettingCacheItemEntities.FirstOrDefault(s => s.Guid == defaultSetting.Guid);
                         if (savedSetting != null && !defaultSetting.IsImmutable)
                             defaultSetting.Value = savedSetting.Value;
                         SettingManager.AddSetting(defaultSetting);
                     }
+
                     _isInitialized = true;
+
+                    //do saving fire&forget to free lockings
+#pragma warning disable 4014
+                    if (!recovered)
+                        SaveSettingsAsync();
+#pragma warning restore 4014
                 }
             });
         }

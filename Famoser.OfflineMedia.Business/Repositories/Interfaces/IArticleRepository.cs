@@ -22,6 +22,9 @@ namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
         Task<bool> SetFeedActiveStateAsync(FeedModel feedModel, bool isActive);
         Task<bool> SetSourceActiveStateAsync(SourceModel sourceModel, bool isActive);
 
+        Task<bool> SwitchFeedActiveStateAsync(FeedModel feedModel);
+        Task<bool> SwitchSourceActiveStateAsync(SourceModel sourceModel);
+
         /// <summary>
         /// Get article explaining what this application is
         /// </summary>

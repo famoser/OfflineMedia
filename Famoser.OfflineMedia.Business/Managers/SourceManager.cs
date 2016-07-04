@@ -59,5 +59,15 @@ namespace Famoser.OfflineMedia.Business.Managers
             else if (!isActive && ActiveSources.Contains(sm))
                 ActiveSources.Remove(sm);
         }
+
+        public static bool GetSourceActiveState(SourceModel model)
+        {
+            return ActiveSources.Contains(model);
+        }
+
+        public static bool GetFeedActiveState(FeedModel model)
+        {
+            return model.Source.ActiveFeeds.Contains(model);
+        }
     }
 }

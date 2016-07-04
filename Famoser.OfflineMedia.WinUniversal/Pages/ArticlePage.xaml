@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource FamoserPivot}">
+        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource PivotStyle}">
             <Pivot.Items>
                 <PivotItem>
                     <PivotItem.Header>
@@ -41,7 +41,6 @@
                         </Grid>
                     </PivotItem.Content>
                 </PivotItem>
-
                 <PivotItem>
                     <PivotItem.Header>
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="spritz" />

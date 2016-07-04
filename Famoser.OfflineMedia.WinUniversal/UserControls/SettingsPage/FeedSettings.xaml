@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="Famoser.OfflineMedia.WinUniversal.UserControls.SettingsPage.FeedSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Famoser.OfflineMedia.WinUniversal.UserControls.SettingsPage"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    d:DataContext="{Binding SettingsPageViewModel.Sources[0], Source={StaticResource Locator}}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="FeedDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
+                <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchFeedStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="click me" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+    <ListView
+                    Style="{StaticResource ListViewStyle}"
+                    ItemsSource="{Binding AllFeeds}"
+                    ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}"
+                    ItemTemplate="{StaticResource FeedDataTemplate}" />
+
+</UserControl>

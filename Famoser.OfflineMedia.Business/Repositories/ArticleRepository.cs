@@ -92,13 +92,16 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     var jsonAssets = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesConfiguration).Description);
                     var feeds = JsonConvert.DeserializeObject<List<SourceEntity>>(jsonAssets);
-
+                    var recovered = false;
                     try
                     {
                         var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description);
 
                         if (!string.IsNullOrEmpty(json))
+                        {
                             _sourceCacheEntity = JsonConvert.DeserializeObject<SourceCacheEntity>(json);
+                            recovered = true;
+                        }
                         else
                             _sourceCacheEntity = new SourceCacheEntity();
                     }
@@ -113,13 +116,19 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     {
                         var source = EntityModelConverter.Convert(sourceEntity);
                         if (!_sourceCacheEntity.IsEnabledDictionary.ContainsKey(source.Guid))
+                        {
                             _sourceCacheEntity.IsEnabledDictionary[source.Guid] = false;
+                            recovered = false;
+                        }
 
                         SourceManager.AddSource(source, _sourceCacheEntity.IsEnabledDictionary[source.Guid]);
                         foreach (var feedEntity in sourceEntity.Feeds)
                         {
                             if (!_sourceCacheEntity.IsEnabledDictionary.ContainsKey(feedEntity.Guid))
+                            {
                                 _sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid] = false;
+                                recovered = false;
+                            }
 
                             var feed = EntityModelConverter.Convert(feedEntity, source, _sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid]);
                             SourceManager.AddFeed(feed, source, _sourceCacheEntity.IsEnabledDictionary[source.Guid]);
@@ -129,14 +138,16 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         }
                     }
 
-                    foreach (var feedModel in feedsToLoad)
-                    {
-                        //todo: remove await? not sure if sqlite is threadsafe
-                        //if so, remember to do LoadArticlesIntoToFeed Safe
-                        await LoadArticlesIntoToFeed(feedModel, 5);
-                    }
-
                     _isInitialized = true;
+
+                    //load the rest without locking
+#pragma warning disable 4014
+                    foreach (var feedModel in feedsToLoad)
+                        LoadArticlesIntoToFeed(feedModel, 5);
+
+                    if (!recovered)
+                        SaveCache();
+#pragma warning restore 4014
                 }
             });
         }
@@ -240,6 +251,16 @@ namespace Famoser.OfflineMedia.Business.Repositories
             SourceManager.SetSourceActiveState(sourceModel, isActive);
             _sourceCacheEntity.IsEnabledDictionary[sourceModel.Guid] = isActive;
             return SaveCache();
+        }
+
+        public Task<bool> SwitchFeedActiveStateAsync(FeedModel feedModel)
+        {
+            return SetFeedActiveStateAsync(feedModel, !SourceManager.GetFeedActiveState(feedModel));
+        }
+
+        public Task<bool> SwitchSourceActiveStateAsync(SourceModel sourceModel)
+        {
+            return SetSourceActiveStateAsync(sourceModel, !SourceManager.GetSourceActiveState(sourceModel));
         }
 
         private Task<bool> SaveCache()

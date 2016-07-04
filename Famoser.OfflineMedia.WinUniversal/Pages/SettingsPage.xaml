@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
+    xmlns:settingsPage="using:Famoser.OfflineMedia.WinUniversal.UserControls.SettingsPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding SettingsPageViewModel, Source={StaticResource Locator}}">
@@ -25,7 +26,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
-        <Pivot Grid.Row="1" Style="{StaticResource FamoserPivot}">
+        <Pivot Grid.Row="1" Style="{StaticResource PivotStyle}">
             <PivotItem>
                 <PivotItem.Header>
                     <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="Einstellungen" />
@@ -44,10 +45,8 @@
                     <ContentControl Style="{ThemeResource FamoserPivotHeader}" Content="Quellen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer>
-                        <Grid>
-
-                        </Grid>
+                    <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                        <settingsPage:SourceSettings DataContext="{Binding }" />
                     </ScrollViewer>
                 </PivotItem.Content>
             </PivotItem>

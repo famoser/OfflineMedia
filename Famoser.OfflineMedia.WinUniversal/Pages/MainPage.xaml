@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}">
+        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}" Style="{StaticResource PivotStyle}">
             <Pivot.RenderTransform>
                 <CompositeTransform TranslateX="0" />
             </Pivot.RenderTransform>
