@@ -95,7 +95,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     var recovered = false;
                     try
                     {
-                        var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description);
+                        var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description);
 
                         if (!string.IsNullOrEmpty(json))
                         {
@@ -131,9 +131,9 @@ namespace Famoser.OfflineMedia.Business.Repositories
                             }
 
                             var feed = EntityModelConverter.Convert(feedEntity, source, _sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid]);
-                            SourceManager.AddFeed(feed, source, _sourceCacheEntity.IsEnabledDictionary[source.Guid]);
+                            SourceManager.AddFeed(feed, source, _sourceCacheEntity.IsEnabledDictionary[feed.Guid]);
 
-                            if (_sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid])
+                            if (_sourceCacheEntity.IsEnabledDictionary[feed.Guid])
                                 feedsToLoad.Add(feed);
                         }
                     }
@@ -154,7 +154,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
         private async Task LoadArticlesIntoToFeed(FeedModel feed, int max)
         {
-            var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == feed.Guid.ToString(), s => s.Index, false, max, feed.ArticleList.Count);
+            var stringGuid = feed.Guid.ToString();
+            var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == stringGuid, s => s.Index, false, max, feed.ArticleList.Count);
             foreach (var feedArticleRelationEntity in relations)
             {
                 var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);

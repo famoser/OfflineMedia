@@ -6,32 +6,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
     d:DataContext="{Binding SettingsPageViewModel, Source={StaticResource Locator}}">
 
     <UserControl.Resources>
         <DataTemplate x:Key="SourceDataTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
-                <Button Grid.Row="0" Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="click me" />
-                <local:FeedSettings Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding }" />
-            </Grid>
+            <StackPanel>
+                <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
+                    <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
+                </Grid>
+                <local:FeedSettings Margin="-2,4,-12,20" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" DataContext="{Binding }" />
+            </StackPanel>
         </DataTemplate>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+            <ItemsStackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
     </UserControl.Resources>
 
-        <ListView
-                    Style="{StaticResource ListViewStyle}"
-                    ItemsSource="{Binding Sources}"
-                    ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}"
-                    ItemTemplate="{StaticResource SourceDataTemplate}" />
+    <ListView
+        Style="{StaticResource ListViewStyle}"
+        ItemsSource="{Binding Sources}"
+        ItemTemplate="{StaticResource SourceDataTemplate}" 
+        ItemsPanel="{StaticResource ItemsPanelTemplate1}" 
+        ItemContainerStyle="{StaticResource ItemContainerStyle}" />
 
 </UserControl>

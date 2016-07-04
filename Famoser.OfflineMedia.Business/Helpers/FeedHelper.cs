@@ -12,7 +12,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
     {
         public static async Task SaveFeed(FeedModel model, List<ArticleModel> newArticles, ISqliteService service)
         {
-            var feedEntries = new Stack<FeedArticleRelationEntity>(await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == model.Guid.ToString(), null, false, 0, 0));
+            var stringGuid = model.Guid.ToString();
+            var feedEntries = new Stack<FeedArticleRelationEntity>(await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0));
             var oldArticles = new List<ArticleModel>(model.ArticleList);
             model.ArticleList.Clear();
 

@@ -4,9 +4,8 @@ using Famoser.OfflineMedia.Data.Enums;
 
 namespace Famoser.OfflineMedia.Business.Models
 {
-    public class SourceModel : BaseGuidModel
+    public class SourceModel : BaseInfoModel
     {
-        public string Name { get; set; }
         public string Abbreviation { get; set; }
         public Sources Source { get; set; }
         public string LogicBaseUrl { get; set; }

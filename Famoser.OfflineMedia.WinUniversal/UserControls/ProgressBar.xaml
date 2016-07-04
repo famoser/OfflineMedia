@@ -5,18 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
-    Height="30"
+    Height="4"
     DataContext="{Binding ProgressService, Source={StaticResource Locator}}">
 
-    <Grid>
-        <Border BorderThickness="15" BorderBrush="{ThemeResource AkzentBackgroundThemeBrush}" />
-        <Grid Background="White" Visibility="{Binding AnyProgressActive, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ProgressBar Background="{ThemeResource AkzentLightBackgroundThemeBrush}" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" IsIndeterminate="False" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="30" />
-        </Grid>
-    </Grid>
+    <ProgressBar Background="{ThemeResource AkzentLightBackgroundThemeBrush}" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" IsIndeterminate="False" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="4" />
+
 </UserControl>

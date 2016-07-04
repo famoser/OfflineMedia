@@ -276,6 +276,7 @@
     <Compile Include="Helpers\EntityModelConverter.cs" />
     <Compile Include="Helpers\FeedHelper.cs" />
     <Compile Include="Managers\ForecastManager.cs" />
+    <Compile Include="Models\Base\BaseInfoModel.cs" />
     <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
     <Compile Include="Repositories\Mocks\ArticleRepositoryMock.cs" />
     <Compile Include="Repositories\Mocks\SettingsRepositoryMock.cs" />

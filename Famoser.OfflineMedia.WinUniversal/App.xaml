@@ -18,6 +18,8 @@
             <SolidColorBrush x:Key="AkzentBackgroundThemeBrush" Color="#2f8841" />
             <SolidColorBrush x:Key="AkzentLightBackgroundThemeBrush" Color="#662F8841" />
             <SolidColorBrush x:Key="AkzentForegroundThemeBrush" Color="#ffffff" />
+            
+            <SolidColorBrush x:Key="FlatGridBackgroundColor" Color="#ffffff" />
 
             <SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />

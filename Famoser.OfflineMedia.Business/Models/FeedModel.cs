@@ -5,9 +5,8 @@ using Famoser.OfflineMedia.Business.Models.NewsModel;
 
 namespace Famoser.OfflineMedia.Business.Models
 {
-    public class FeedModel : BaseGuidModel
+    public class FeedModel : BaseInfoModel
     {
-        public string Name { get; set; }
         public string Url { get; set; }
 
         public Uri GetLogicUri()

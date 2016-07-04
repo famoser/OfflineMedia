@@ -29,7 +29,17 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
                 Name = "Neue Zürcher Zeitung",
                 LogicBaseUrl = "http://api.nzz.ch/",
                 PublicBaseUrl = "http://nzz.ch/",
-
+                IsActive = true
+            };
+            var sm2 = new SourceModel()
+            {
+                Abbreviation = "BAZ",
+                Guid = Guid.NewGuid(),
+                Source = Sources.Nzz,
+                Name = "Basler Zeitung",
+                LogicBaseUrl = "http://api.nzz.ch/",
+                PublicBaseUrl = "http://nzz.ch/",
+                IsActive = false
             };
             var fm = new FeedModel()
             {
@@ -60,8 +70,12 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
             sm.ActiveFeeds.Add(fm);
             sm.AllFeeds.Add(fm);
             sm.AllFeeds.Add(fm2);
+            sm.AllFeeds.Add(fm2);
 
             _sources.Add(sm);
+            _sources.Add(sm);
+            _sources.Add(sm2);
+            _sources.Add(sm2);
             _sources.Add(sm);
         }
 

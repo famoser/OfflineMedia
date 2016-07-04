@@ -3,7 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="ListView" x:Key="ListViewStyle">
-        <Setter Property="Margin" Value="0,0,-1,-4" />
+        <Setter Property="SelectionMode" Value="None" />
+    </Style>
+    
+    <Style TargetType="ListViewItem" x:Key="ItemContainerStyle">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
     <Style TargetType="Pivot" x:Key="PivotStyle">

@@ -89,9 +89,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\Configuration\Settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -128,7 +125,7 @@
     <Compile Include="DisplayHelper\Converter\GenericConverter\ListVisibillityEvaluator.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDayConverter.cs" />
-    <Compile Include="DisplayHelper\Converter\SettingsPageConverter\SwitchFeedStateButtonContentConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\SettingsPageConverter\SwitchStateButtonContentConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\KelvinToCelciusConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\ULongToByteConverter.cs" />
     <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
@@ -293,17 +290,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.13.0">
-      <Name>SQLite for Universal Windows Platform</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Famoser.OfflineMedia.Business\Famoser.OfflineMedia.Business.csproj">
       <Project>{518680bc-9186-4710-b944-5f596137d47c}</Project>
       <Name>Famoser.OfflineMedia.Business</Name>
@@ -317,7 +303,17 @@
       <Name>Famoser.OfflineMedia.View</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.13.0">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

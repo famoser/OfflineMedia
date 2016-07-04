@@ -22,7 +22,7 @@
 
     <Grid Style="{StaticResource RootGrid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
@@ -34,7 +34,6 @@
                 <PivotItem.Content>
                     <ScrollViewer>
                         <StackPanel>
-
                             <Button Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="Anwendung zurücksetzten" />
                         </StackPanel>
                     </ScrollViewer>
@@ -45,7 +44,7 @@
                     <ContentControl Style="{ThemeResource FamoserPivotHeader}" Content="Quellen" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                    <ScrollViewer Padding="10,0" Style="{StaticResource FamoserScrollViewer}">
                         <settingsPage:SourceSettings DataContext="{Binding }" />
                     </ScrollViewer>
                 </PivotItem.Content>

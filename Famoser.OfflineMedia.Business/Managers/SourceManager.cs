@@ -17,6 +17,7 @@ namespace Famoser.OfflineMedia.Business.Managers
                 ActiveSources.Add(model);
             if (!isActive && ActiveSources.Contains(model))
                 ActiveSources.Remove(model);
+            model.IsActive = isActive;
         }
 
         public static void AddFeed(FeedModel fm, SourceModel source, bool isActive = false)
@@ -25,6 +26,7 @@ namespace Famoser.OfflineMedia.Business.Managers
             fm.Source.AllFeeds.Add(fm);
             if (isActive)
                 fm.Source.ActiveFeeds.Add(fm);
+            fm.IsActive = isActive;
         }
 
         public static ObservableCollection<SourceModel> GetActiveSources()
@@ -50,6 +52,7 @@ namespace Famoser.OfflineMedia.Business.Managers
                 if (fm.Source.ActiveFeeds.Count == 0)
                     SetSourceActiveState(fm.Source, false);
             }
+            fm.IsActive = isActive;
         }
 
         public static void SetSourceActiveState(SourceModel sm, bool isActive)
@@ -58,6 +61,7 @@ namespace Famoser.OfflineMedia.Business.Managers
                 ActiveSources.Add(sm);
             else if (!isActive && ActiveSources.Contains(sm))
                 ActiveSources.Remove(sm);
+            sm.IsActive = isActive;
         }
 
         public static bool GetSourceActiveState(SourceModel model)

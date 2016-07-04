@@ -13,7 +13,7 @@
                   ScrollViewer.VerticalScrollMode="Enabled" 
                   SelectionMode="None" 
                   ItemsSource="{Binding ActiveFeeds}" 
-                  ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}">
+                  SelectedItem="{Binding MainPageViewModel.SelectedFeed, Mode=TwoWay, Source={StaticResource Locator}}">
             <ListView.FooterTemplate>
                 <DataTemplate>
                     <TextBlock Height="25" />

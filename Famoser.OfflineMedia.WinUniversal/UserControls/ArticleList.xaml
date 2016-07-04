@@ -8,18 +8,15 @@
     d:DesignHeight="1200"
     d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
-    
+
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
-            <StackPanel HorizontalAlignment="Stretch" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
-
+            <StackPanel Padding="0,10" Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <TextBlock Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
-                <TextBlock Margin="10,4,10,4" Style="{StaticResource FamoserSubTitleTextBlock}" Text="{Binding Title}" />
+                <TextBlock Style="{StaticResource FamoserSubTitleTextBlock}" TextWrapping="Wrap" Text="{Binding Title}" />
                 <TextBlock Margin="10,10,10,20" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding SubTitle}" />
-
                 <Image Margin="0,-10,0,0" MaxHeight="150" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
-
-                <TextBlock Margin="10,10,10,20" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
+                <TextBlock Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -29,15 +26,15 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,0,0,4">
-            <TextBlock Text="{Binding Titel, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+        <Grid Grid.Row="0" Background="{ThemeResource FlatGridBackgroundColor}">
+            <TextBlock Text="{Binding Name, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
         <ListView
                   Grid.Row="1"
                   ItemsSource="{Binding ArticleList}"
                   ItemTemplate="{StaticResource ArticleDataTemplate}" 
-            Style="{StaticResource ListViewStyle}"
-            ItemContainerStyle="{StaticResource FamoserListViewItemContainerStyle}">
+                  Style="{StaticResource ListViewStyle}"
+                  SelectedItem="{Binding MainPageViewModel.SelectedArticle, Mode=TwoWay, Source={StaticResource Locator}}">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>
                     <AddDeleteThemeTransition/>

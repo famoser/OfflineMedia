@@ -34,7 +34,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        public BaseViewModelLocator()
+        static BaseViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
