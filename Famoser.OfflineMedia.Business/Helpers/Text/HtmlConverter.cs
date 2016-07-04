@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
@@ -89,10 +90,29 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             {
                 var text = ParseText(childNode);
                 if (text != null)
+                {
+                    CollapseModelsIfNecessary(text, new List<TextType>());
                     model.Children.Add(text);
+                }
             }
 
             return model;
+        }
+
+        private void CollapseModelsIfNecessary(TextModel model, List<TextType> knownTextTypes)
+        {
+            while (model.Children.Count == 1 && knownTextTypes.Contains(model.TextType))
+            {
+                model.Text = model.Children[0].Text;
+                model.TextType = model.Children[0].TextType;
+                model.Children = model.Children[0].Children;
+            }
+
+            knownTextTypes.Add(model.TextType);
+            foreach (var textModel in model.Children)
+            {
+                CollapseModelsIfNecessary(textModel, knownTextTypes);
+            }
         }
 
         private TextModel ParseText(HtmlNode parentNode)
@@ -106,7 +126,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             if (!parentNode.ChildNodes.Any() && parentNode.NodeType == HtmlNodeType.Text)
             {
-                model.Text = parentNode.InnerText.Trim();
+                model.Text = parentNode.InnerText;
                 return model;
             }
 
