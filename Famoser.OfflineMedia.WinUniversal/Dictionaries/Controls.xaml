@@ -4,6 +4,7 @@
 
     <Style TargetType="ListView" x:Key="ListViewStyle">
         <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="IsItemClickEnabled" Value="True" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
     </Style>
 

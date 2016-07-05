@@ -68,7 +68,7 @@ namespace Famoser.OfflineMedia.Business.Services
             {
                 if (baseContentModel is ImageContentModel)
                 {
-                    Download((ImageContentModel) baseContentModel);
+                    Download((ImageContentModel)baseContentModel);
                 }
                 else if (baseContentModel is GalleryContentModel)
                 {
@@ -85,7 +85,7 @@ namespace Famoser.OfflineMedia.Business.Services
             if (PriorityImages.Any() || SecondaryImages.Any())
             {
                 //might lead to too much tasks in concurrent setups, but does not really matter in this case
-                for (int i = ActiveTasks.Count; i < MaxActiveTasks && i < ActiveTasks.Count; i = ActiveTasks.Count)
+                for (int i = ActiveTasks.Count; i < MaxActiveTasks; i = ActiveTasks.Count)
                 {
                     ActiveTasks.Add(DownloadImagesTask());
                 }
@@ -99,14 +99,23 @@ namespace Famoser.OfflineMedia.Business.Services
                 ImageContentModel model;
                 while (PriorityImages.TryDequeue(out model))
                 {
-                    model.Image = await _platformCodeService.DownloadResizeImage(new Uri(model.Url));
+                    try
+                    {
+                        model.LoadingState = LoadingState.Loading;
+                        model.Image = await _platformCodeService.DownloadResizeImage(new Uri(model.Url));
+                        model.LoadingState = LoadingState.Loaded;
+                    }
+                    catch (Exception ex)
+                    {
+                        model.LoadingState = LoadingState.LoadingFailed;
+                        LogHelper.Instance.LogException(ex);
+                    }
                     await _genericRepository.SaveAsyc(model);
                 }
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.LogException(ex);
-                throw;
             }
         }
     }

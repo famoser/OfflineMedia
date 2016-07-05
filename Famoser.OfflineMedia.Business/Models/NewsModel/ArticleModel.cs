@@ -66,8 +66,7 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel
 
 
         private LoadingState _loadingState;
-        [EntityMap]
-        [EntityConversion(typeof(int), typeof(LoadingState))]
+        [EntityMap, EntityConversion(typeof(int), typeof(LoadingState))]
         public LoadingState LoadingState
         {
             get { return _loadingState; }
