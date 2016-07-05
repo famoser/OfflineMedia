@@ -14,31 +14,31 @@ namespace Famoser.OfflineMedia.Business.Helpers
         {
             var stringGuid = model.Guid.ToString();
             var feedEntries = new Stack<FeedArticleRelationEntity>(await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0));
-            var oldArticles = new List<ArticleModel>(model.ArticleList);
-            model.ArticleList.Clear();
+            var oldArticles = new List<ArticleModel>(model.AllArticles);
+            model.AllArticles.Clear();
 
             foreach (var articleModel in newArticles)
             {
                 var oldOne = oldArticles.FirstOrDefault(s => s.PublicUri == articleModel.PublicUri);
                 if (oldOne != null)
                 {
-                    model.ArticleList.Add(oldOne);
+                    model.AllArticles.Add(oldOne);
                 }
                 else
                 {
-                    model.ArticleList.Add(articleModel);
+                    model.AllArticles.Add(articleModel);
                     await ArticleHelper.SaveArticle(articleModel, service);
                     await ArticleHelper.SaveArticleLeadImage(articleModel, service, true);
                     await ArticleHelper.SaveArticleContent(articleModel, service, true);
                 }
             }
 
-            for (int i = 0; i < model.ArticleList.Count; i++)
+            for (int i = 0; i < model.AllArticles.Count; i++)
             {
                 if (feedEntries.Count > 0)
                 {
                     var entry = feedEntries.Pop();
-                    entry.ArticleId = model.ArticleList[i].GetId();
+                    entry.ArticleId = model.AllArticles[i].GetId();
                     entry.Index = i;
                     await service.Update(entry);
                 }
@@ -46,7 +46,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 {
                     var entry = new FeedArticleRelationEntity()
                     {
-                        ArticleId = model.ArticleList[i].GetId(),
+                        ArticleId = model.AllArticles[i].GetId(),
                         FeedGuid = model.Guid.ToString(),
                         Index = i
                     };

@@ -47,7 +47,7 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
                 Guid = Guid.NewGuid(),
                 Source = sm,
                 Url = "home",
-                ArticleList =
+                AllArticles =
                 {
                     article,
                     article2,
@@ -60,7 +60,7 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
                 Guid = Guid.NewGuid(),
                 Source = sm,
                 Url = "ausland",
-                ArticleList =
+                AllArticles =
                 {
                     article,
                     article2,
@@ -104,13 +104,13 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
         {
             var article = GetSampleArticle();
             article.Feed = fm;
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
-            fm.ArticleList.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
+            fm.AllArticles.Add(article);
             return true;
         }
 

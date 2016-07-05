@@ -13,8 +13,9 @@ namespace Famoser.OfflineMedia.Business.Models
         {
             return new Uri(Source.LogicBaseUrl + Url);
         }
-        
-        public ObservableCollection<ArticleModel> ArticleList { get; } = new ObservableCollection<ArticleModel>();
+
+        public ObservableCollection<ArticleModel> AllArticles { get; } = new ObservableCollection<ArticleModel>();
+        public ObservableCollection<ArticleModel> ActiveArticles { get; } = new ObservableCollection<ArticleModel>();
 
         public SourceModel Source { get; set; }
     }

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="ListView" x:Key="ListViewStyle">
-        <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="IsItemClickEnabled" Value="True" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
     </Style>

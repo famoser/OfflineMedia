@@ -29,7 +29,7 @@
         </Grid>
         <ListView
                   Grid.Row="1"
-                  ItemsSource="{Binding ArticleList}"
+                  ItemsSource="{Binding ActiveArticles}"
                   ItemTemplate="{StaticResource ArticleDataTemplate}" 
                   Style="{StaticResource ListViewStyle}"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"

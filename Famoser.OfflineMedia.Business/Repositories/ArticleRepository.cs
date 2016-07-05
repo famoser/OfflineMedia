@@ -143,7 +143,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     //load the rest without locking
 #pragma warning disable 4014
                     foreach (var feedModel in feedsToLoad)
-                        LoadArticlesIntoToFeed(feedModel, 5);
+                        LoadActivesForFeed(feedModel, 5);
 
                     if (!recovered)
                         SaveCache();
@@ -152,64 +152,89 @@ namespace Famoser.OfflineMedia.Business.Repositories
             });
         }
 
-        private async Task LoadArticlesIntoToFeed(FeedModel feed, int max)
+        private async Task LoadActivesForFeed(FeedModel feed, int max)
         {
-            var stringGuid = feed.Guid.ToString();
-            var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == stringGuid, s => s.Index, false, max, feed.ArticleList.Count);
-            foreach (var feedArticleRelationEntity in relations)
+            //todo fix this, somehow not elemant at all. Introduce FeedManager?
+            for (int i = feed.ActiveArticles.Count; i < max; i++)
             {
-                var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
-                feed.ArticleList.Add(article);
-                var id = article.GetId();
-                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
-                if (contents?.FirstOrDefault() != null)
+                if (feed.AllArticles.Count > i)
                 {
-                    var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
-                    article.LeadImage = image;
+                    feed.ActiveArticles.Add(feed.AllArticles[i]);
+                }
+                else
+                {
+                    var stringGuid = feed.Guid.ToString();
+                    var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == stringGuid, s => s.Index, false, max, feed.AllArticles.Count);
+
+                    foreach (var feedArticleRelationEntity in relations)
+                    {
+                        var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
+
+                        var id = article.GetId();
+                        var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
+                        if (contents?.FirstOrDefault() != null)
+                        {
+                            var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
+                            article.LeadImage = image;
+                        }
+                        feed.ActiveArticles.Add(article);
+                        feed.AllArticles.Add(article);
+                    }
+                    break;
                 }
             }
+
         }
 
         public Task<bool> LoadFullArticleAsync(ArticleModel am)
         {
             return ExecuteSafe(async () =>
             {
-                var id = am.GetId();
-                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id, s => s.Index, false, 0, 0);
-                foreach (var contentEntity in contents)
+                if (am.LoadingState != LoadingState.Loading)
                 {
-                    switch (contentEntity.ContentType)
+                    var id = am.GetId();
+                    var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id, s => s.Index, false, 0, 0);
+                    foreach (var contentEntity in contents)
                     {
-                        case (int)ContentType.Text:
-                            {
-                                var text = await _textContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                text.Content = JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(text.ContentJson);
-                                am.Content.Add(text);
-                                break;
-                            }
-                        case (int)ContentType.Image:
-                            {
-                                var image = await _imageContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                am.Content.Add(image);
-                                break;
-                            }
-                        case (int)ContentType.Gallery:
+                        switch (contentEntity.ContentType)
                         {
-                            var amId = am.GetId();
-                                var galleryContents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == amId, s => s.Index, false, 0, 0);
-                                var gallery = await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                am.Content.Add(gallery);
-
-                                foreach (var galleryContent in galleryContents.Where(g => g.ContentType == (int)ContentType.Image))
+                            case (int)ContentType.Text:
                                 {
-                                    var image = await _imageContentGenericRepository.GetByIdAsync(galleryContent.ContentId);
-                                    gallery.Images.Add(image);
+                                    var text = await _textContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    text.Content = text.ContentJson != null
+                                        ? JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(
+                                            text.ContentJson)
+                                        : new ObservableCollection<ParagraphModel>();
+                                    am.Content.Add(text);
+                                    break;
                                 }
-                                break;
-                            }
+                            case (int)ContentType.Image:
+                                {
+                                    var image = await _imageContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    am.Content.Add(image);
+                                    break;
+                                }
+                            case (int)ContentType.Gallery:
+                                {
+                                    var amId = am.GetId();
+                                    var galleryContents =
+                                        await
+                                            _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == amId,
+                                                s => s.Index, false, 0, 0);
+                                    var gallery =
+                                        await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    am.Content.Add(gallery);
+
+                                    foreach (var galleryContent in galleryContents.Where(g => g.ContentType == (int)ContentType.Image))
+                                    {
+                                        var image = await _imageContentGenericRepository.GetByIdAsync(galleryContent.ContentId);
+                                        gallery.Images.Add(image);
+                                    }
+                                    break;
+                                }
+                        }
                     }
                 }
-
 
                 return true;
             });
@@ -219,7 +244,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                await LoadArticlesIntoToFeed(fm, 0);
+                await LoadActivesForFeed(fm, 0);
 
                 return true;
             });

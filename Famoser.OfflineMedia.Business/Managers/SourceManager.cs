@@ -6,9 +6,8 @@ namespace Famoser.OfflineMedia.Business.Managers
     public class SourceManager
     {
         private static readonly ObservableCollection<SourceModel> AllSources = new ObservableCollection<SourceModel>();
-
         private static readonly ObservableCollection<SourceModel> ActiveSources = new ObservableCollection<SourceModel>();
-
+        
         public static void AddSource(SourceModel model, bool isActive = false)
         {
             if (!AllSources.Contains(model))
