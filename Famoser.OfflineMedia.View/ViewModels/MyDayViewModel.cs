@@ -11,7 +11,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MyDayViewModel : ViewModelBase
     {
-        private IWeatherRepository _weatherRepository;
+        private readonly IWeatherRepository _weatherRepository;
         private readonly IProgressService _progressService;
 
         public MyDayViewModel(IWeatherRepository weatherRepository, IProgressService progressService)
@@ -35,7 +35,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
         }
 
         #region refresh
-        private RelayCommand _refreshCommand;
+        private readonly RelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
 
         private bool CanRefresh => !_isActualizing;

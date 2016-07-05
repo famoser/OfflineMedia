@@ -11,8 +11,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class FeedPageViewModel : ViewModelBase
     {
-        private IArticleRepository _articleRepository;
-        private IHistoryNavigationService _historyNavigationService;
+        private readonly IArticleRepository _articleRepository;
+        private readonly IHistoryNavigationService _historyNavigationService;
         public FeedPageViewModel(IArticleRepository articleRepository, IHistoryNavigationService historyNavigationService)
         {
             _articleRepository = articleRepository;

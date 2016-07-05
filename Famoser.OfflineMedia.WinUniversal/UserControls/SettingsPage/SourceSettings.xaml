@@ -19,7 +19,7 @@
                     <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
                     <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
                 </Grid>
-                <local:FeedSettings Margin="-2,4,-12,20" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" DataContext="{Binding }" />
+                <local:FeedSettings Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" DataContext="{Binding }" />
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">

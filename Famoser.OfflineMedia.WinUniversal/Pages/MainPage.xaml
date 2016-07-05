@@ -37,7 +37,7 @@
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <userControls:FeedList />
+                    <userControls:FeedList DataContext="{Binding }" />
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>

@@ -27,7 +27,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{ThemeResource FlatGridBackgroundColor}">
-            <TextBlock Text="{Binding Name, Mode=OneWay}" IsTapEnabled="True" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+            <TextBlock Text="{Binding Name, Mode=OneWay}" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
         <ListView
                   Grid.Row="1"

@@ -6,6 +6,7 @@ using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.View.Enums;
+using Famoser.OfflineMedia.View.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -17,13 +18,13 @@ namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private IProgressService _progressService;
-        private IArticleRepository _articleRepository;
+        private readonly IProgressService _progressService;
+        private readonly IArticleRepository _articleRepository;
         private ISettingsRepository _settingsRepository;
         private IDialogService _dialogService;
         private const int MaxArticlesPerFeed = 5;
 
-        private IHistoryNavigationService _historyNavigationService;
+        private readonly IHistoryNavigationService _historyNavigationService;
 
         public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, IHistoryNavigationService historyNavigationService, IDialogService dialogService)
         {
@@ -77,56 +78,38 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
 
         #region open settings
-
-        private RelayCommand _openSettingsCommand;
+        private readonly RelayCommand _openSettingsCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
-
         private void OpenSettings()
         {
             _historyNavigationService.NavigateTo(PageKeys.Settings.ToString());
         }
-
         #endregion
 
         #region open info
-
-        private RelayCommand _openInfoCommand;
+        private readonly RelayCommand _openInfoCommand;
         public ICommand OpenInfoCommand => _openInfoCommand;
-
         private void OpenInfo()
         {
             _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
             Messenger.Default.Send(_articleRepository.GetInfoArticle(), Messages.Select);
         }
-
         #endregion
 
         #region refresh
 
-        private RelayCommand _refreshCommand;
+        private readonly RelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
-
-        private bool CanRefresh => !_isActualizing;
-
-        private bool _isActualizing;
+        private bool CanRefresh => !_isRefreshing;
+        private bool _isRefreshing;
         private async void Refresh()
         {
-            if (_isActualizing)
-                return;
-
-            _isActualizing = true;
-            _refreshCommand.RaiseCanExecuteChanged();
-            _progressService.StartIndeterminateProgress(IndeterminateProgressKey.RefreshingArticles);
-
-            TimerHelper.Instance.Stop("Actualizing Articles", this);
-            await _articleRepository.ActualizeAllArticlesAsync();
-            TimerHelper.Instance.Stop("Uploading Stats", this);
-            _progressService.StopIndeterminateProgress(IndeterminateProgressKey.RefreshingArticles);
-
-            var res = TimerHelper.Instance.GetAnalytics;
-
-            _isActualizing = false;
-            _refreshCommand.RaiseCanExecuteChanged();
+            using (new LoadingCommand(_refreshCommand, (b) => _isRefreshing = b, IndeterminateProgressKey.RefreshingArticles, _progressService))
+            {
+                TimerHelper.Instance.Stop("Actualizing Articles", this);
+                await _articleRepository.ActualizeAllArticlesAsync();
+                var res = TimerHelper.Instance.GetAnalytics;
+            }
         }
 
         #endregion

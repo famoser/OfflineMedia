@@ -3,6 +3,7 @@
     "Famoser.FrameworkEssentials": "2.6.3",
     "Famoser.FrameworkEssentials.UniversalWindows": "1.1.2",
     "Famoser.SqliteWrapper": "1.1.2",
+    "HockeySDK.UWP": "4.0.0",
     "HtmlAgilityPack": "1.4.9.4",
     "Microsoft.Bcl": "1.1.10",
     "Microsoft.Bcl.Build": "1.0.21",

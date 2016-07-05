@@ -14,18 +14,11 @@ namespace Famoser.OfflineMedia.Business.Repositories
 {
     public partial class ArticleRepository
     {
-        private bool _isActualizing;
         public Task ActualizeAllArticlesAsync()
         {
             return ExecuteSafe(async () =>
             {
-                lock (this)
-                {
-                    if (_isActualizing)
-                        return;
-
-                    _isActualizing = true;
-                }
+                await Initialize();
 
                 var queue = new ConcurrentQueue<FeedModel>();
                 foreach (var activeSource in SourceManager.GetActiveSources())

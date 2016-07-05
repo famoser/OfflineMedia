@@ -44,6 +44,14 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -1974,6 +1982,14 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -3765,6 +3781,14 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -5512,6 +5536,14 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.4": {
@@ -7313,6 +7345,14 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -9060,6 +9100,14 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.4": {
@@ -10861,6 +10909,14 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "HockeySDK.UWP/4.0.0": {
+        "compile": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.4": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -12610,6 +12666,19 @@
         "lib/Famoser.SqliteWrapper.dll",
         "lib/dotnet/Famoser.SqliteWrapper.dll",
         "lib/portable-net45+win8+wpa81+wp8/Famoser.SqliteWrapper.dll"
+      ]
+    },
+    "HockeySDK.UWP/4.0.0": {
+      "sha512": "8073pxsE36oroVBg8RAUyxd8RSngh3A5n/5Tux+9WPU6vnrQZcroM1rE/E9oa3FpMO0MdZpAqepcIy54fzkbjA==",
+      "type": "package",
+      "files": [
+        "HockeySDK.UWP.4.0.0.nupkg.sha512",
+        "HockeySDK.UWP.nuspec",
+        "lib/uap10.0/Microsoft.HockeyApp.Kit.dll",
+        "lib/uap10.0/Microsoft.HockeyApp.Kit.dll.CodeAnalysisLog.xml",
+        "lib/uap10.0/Microsoft.HockeyApp.Kit.dll.lastcodeanalysissucceeded",
+        "lib/uap10.0/Microsoft.HockeyApp.Kit.pri",
+        "lib/uap10.0/Microsoft.HockeyApp.Kit/Properties/Microsoft.HockeyApp.Kit.rd.xml"
       ]
     },
     "HtmlAgilityPack/1.4.9.4": {
@@ -16813,6 +16882,7 @@
       "Famoser.FrameworkEssentials >= 2.6.3",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.1.2",
       "Famoser.SqliteWrapper >= 1.1.2",
+      "HockeySDK.UWP >= 4.0.0",
       "HtmlAgilityPack >= 1.4.9.4",
       "Microsoft.Bcl >= 1.1.10",
       "Microsoft.Bcl.Build >= 1.0.21",

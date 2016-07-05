@@ -35,13 +35,15 @@
             </Style>
 
             <Style x:Key="RootGrid" TargetType="Grid" BasedOn="{StaticResource FamoserRootGrid}">
-                <Setter Property="Background">
+                <!--<Setter Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="../Assets/Images/skulls-background-small.png" Stretch="None" />
                     </Setter.Value>
-                </Setter>
+                </Setter>-->
+                <Setter Property="Background" Value="White" />
             </Style>
 
+            <!--
             <Style x:Key="FamoserPivot"  TargetType="Pivot">
                 <Setter Property="Margin" Value="0,0,0,0" />
                 <Setter Property="Template">
@@ -101,7 +103,7 @@
 
             <Thickness x:Key="PivotPortraitThemePadding">19,38,0,0</Thickness>
             <Thickness x:Key="PivotLandscapeThemePadding">19,25,0,0</Thickness>
-            
+-->            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
