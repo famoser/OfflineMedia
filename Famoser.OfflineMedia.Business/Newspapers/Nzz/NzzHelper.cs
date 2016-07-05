@@ -28,7 +28,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
 
                 a.LeadImage = LeadImageToImage(nfa.leadImage);
 
-                a.LogicUri = scm.Source.LogicBaseUrl + nfa.path.Substring(1);
+                a.LogicUri = scm.Source.LogicBaseUrl + nfa.path.Substring("/api/".Length);
                 var guid = nfa.path.Substring(nfa.path.LastIndexOf("/", StringComparison.Ordinal) + 1);
                 a.PublicUri = scm.Source.PublicBaseUrl + guid;
 

@@ -43,6 +43,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     foreach (var activeFeed in activeSource.ActiveFeeds)
                         stack.PushRange(activeFeed.ArticleList.ToArray());
 
+                _progressService.ConfigurePercentageProgress(stack.Count);
                 for (int i = 0; i < threadNumber; i++)
                 {
                     threads.Add(DoArticleStack(stack));

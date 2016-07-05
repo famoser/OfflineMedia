@@ -71,7 +71,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
             await ExecuteSafe(async () =>
             {
-                var relations = await _sqliteService.GetByCondition<ThemeArticleRelations>(a => a.ArticleId == article.GetId(), null, false, 0, 0);
+                var aId = article.GetId();
+                var relations = await _sqliteService.GetByCondition<ThemeArticleRelations>(a => a.ArticleId == aId, null, false, 0, 0);
                 var ids = relations.Select(q => q.ThemeId);
                 foreach (var source in ThemeManager.GetAllThemes().Where(d => ids.Any(id => id == d.GetId())))
                 {

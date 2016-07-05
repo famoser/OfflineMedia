@@ -160,7 +160,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
             {
                 var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
                 feed.ArticleList.Add(article);
-                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == article.GetId() && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
+                var id = article.GetId();
+                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
                 if (contents?.FirstOrDefault() != null)
                 {
                     var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
@@ -173,7 +174,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == am.GetId(), s => s.Index, false, 0, 0);
+                var id = am.GetId();
+                var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id, s => s.Index, false, 0, 0);
                 foreach (var contentEntity in contents)
                 {
                     switch (contentEntity.ContentType)
@@ -192,8 +194,9 @@ namespace Famoser.OfflineMedia.Business.Repositories
                                 break;
                             }
                         case (int)ContentType.Gallery:
-                            {
-                                var galleryContents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == am.GetId(), s => s.Index, false, 0, 0);
+                        {
+                            var amId = am.GetId();
+                                var galleryContents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == amId, s => s.Index, false, 0, 0);
                                 var gallery = await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
                                 am.Content.Add(gallery);
 

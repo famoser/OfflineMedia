@@ -5,13 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="1200"
-    d:DesignWidth="400"
     d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
 
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
-            <StackPanel Padding="0,10" Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
+            <StackPanel MaxWidth="400" Padding="0,10" Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <TextBlock Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
                 <TextBlock Style="{StaticResource FamoserSubTitleTextBlock}" TextWrapping="Wrap" Text="{Binding Title}" />
                 <TextBlock Margin="10,10,10,20" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding SubTitle}" />
@@ -34,20 +32,16 @@
                   ItemsSource="{Binding ArticleList}"
                   ItemTemplate="{StaticResource ArticleDataTemplate}" 
                   Style="{StaticResource ListViewStyle}"
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   SelectedItem="{Binding MainPageViewModel.SelectedArticle, Mode=TwoWay, Source={StaticResource Locator}}">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>
                     <AddDeleteThemeTransition/>
                 </TransitionCollection>
             </ListView.ItemContainerTransitions>
-            <ListView.FooterTemplate>
-                <DataTemplate>
-                    <TextBlock Height="4" />
-                </DataTemplate>
-            </ListView.FooterTemplate>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="10" Style="{StaticResource ItemsWrapGrid}" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>

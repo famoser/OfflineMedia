@@ -4,78 +4,78 @@
     "Name": "Neue Zürcher Zeitung",
     "Abbreviation": "NZZ",
     "Source": 1,
-    "LogicBaseUrl": "http://headlines.nzz.ch/api/departments/",
+    "LogicBaseUrl": "http://headlines.nzz.ch/api/",
     "PublicBaseUrl": "http://nzz.ch/",
     "Feeds": [
       {
         "Guid": "ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d",
         "Name": "Topthemen der Startseite",
-        "Url": "startseite"
+        "Url": "departments/startseite"
       },
       {
         "Guid": "d18c160e-a46a-4519-b265-5e8cedbee73d",
         "Name": "Meinung",
-        "Url": "meinung"
+        "Url": "departments/meinung"
       },
       {
         "Guid": "5aae7274-aa91-4992-8203-94419e850e8e",
         "Name": "International",
-        "Url": "international"
+        "Url": "departments/international"
       },
       {
         "Guid": "58c811ff-ea0e-45b3-a36d-d07c3bea0c85",
         "Name": "Wirtschaft",
-        "Url": "wirtschaft"
+        "Url": "departments/wirtschaft"
       },
       {
         "Guid": "66d566d5-6dd1-4638-88e5-681373b3fce5",
         "Name": "Finanzen",
-        "Url": "finanzen"
+        "Url": "departments/finanzen"
       },
       {
         "Guid": "b11c2d4c-e09b-4380-931d-1cd3e5e9f908",
         "Name": "Schweiz",
-        "Url": "schweiz"
+        "Url": "departments/schweiz"
       },
       {
         "Guid": "97253f3b-1a8d-4113-9b8f-27a9a588ac91",
         "Name": "Feuilleton",
-        "Url": "feuilleton"
+        "Url": "departments/feuilleton"
       },
       {
         "Guid": "e843b7eb-d728-45fe-ad66-fcfd2a8892a8",
         "Name": "Zürich",
-        "Url": "zuerich"
+        "Url": "departments/zuerich"
       },
       {
         "Guid": "3422af04-c9c4-46b7-9025-e2940d25de97",
         "Name": "Sport",
-        "Url": "sport"
+        "Url": "departments/sport"
       },
       {
         "Guid": "c366bdb7-31c8-416b-a90b-f1173a3c90da",
         "Name": "Wissenschaft",
-        "Url": "wissenschaft"
+        "Url": "departments/wissenschaft"
       },
       {
         "Guid": "01428c0f-6cd9-4d26-a8b7-e47a942e19b2",
         "Name": "Gesellschaft",
-        "Url": "gesellschaft"
+        "Url": "departments/gesellschaft"
       },
       {
         "Guid": "07458c0f-6cd9-4d26-a8b7-e47a972e19b2",
         "Name": "Panorama",
-        "Url": "panorama"
+        "Url": "departments/panorama"
       },
       {
         "Guid": "033f78fa-fe92-4d29-b58e-c8677cdfd7f4",
         "Name": "Digital",
-        "Url": "digital"
+        "Url": "departments/digital"
       },
       {
         "Guid": "033f71fa-fe92-4d29-b58e-c8677cdfd7f4",
         "Name": "Mobilität",
-        "Url": "mobilitaet"
+        "Url": "departments/mobilitaet"
       }
     ]
   },

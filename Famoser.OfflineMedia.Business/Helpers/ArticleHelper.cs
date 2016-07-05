@@ -101,14 +101,16 @@ namespace Famoser.OfflineMedia.Business.Helpers
         {
             var imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(service);
             List<ContentEntity> oldLeadImages = null;
+            var articleId = model.GetId();
             if (!skipCleaning)
-                oldLeadImages = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && e.ContentType == (int)ContentType.LeadImage, null, false, 0, 0)).ToList();
+                oldLeadImages = (await service.GetByCondition<ContentEntity>(e => e.ParentId == articleId && e.ContentType == (int)ContentType.LeadImage, null, false, 0, 0)).ToList();
 
             if (model.LeadImage != null)
             {
                 if (model.LeadImage.GetId() != 0)
                 {
-                    var oldLeadImage = oldLeadImages.FirstOrDefault(o => o.ContentId == model.LeadImage.GetId());
+                    var leadImageId = model.LeadImage.GetId();
+                    var oldLeadImage = oldLeadImages.FirstOrDefault(o => o.ContentId == leadImageId);
                     if (oldLeadImage != null)
                         oldLeadImages?.Remove(oldLeadImage);
 
@@ -142,8 +144,11 @@ namespace Famoser.OfflineMedia.Business.Helpers
             var supportedContents = new[] { (int)ContentType.Text, (int)ContentType.Gallery, (int)ContentType.Image };
             List<ContentEntity> oldModels = null;
             if (!skipCleaning)
-                oldModels = (await service.GetByCondition<ContentEntity>(e => e.ParentId == model.GetId() && supportedContents.Any(s => s == e.ContentType), null, false, 0, 0)).ToList();
-
+            {
+                var id = model.GetId();
+                oldModels = (await service.GetByCondition<ContentEntity>(e => e.ParentId == id, null,false, 0, 0)).ToList();
+                oldModels = oldModels.Where(e => supportedContents.Any(s => s == e.ContentType)).ToList();
+            }
             for (int i = 0; i < model.Content.Count; i++)
             {
                 var baseContentModel = model.Content[i];
