@@ -129,7 +129,7 @@
     <Compile Include="DisplayHelper\Converter\SettingsPageConverter\SwitchStateButtonContentConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\KelvinToCelciusConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\ULongToByteConverter.cs" />
-    <Compile Include="DisplayHelper\DependencyObjects\PropertiesForDependencyObject.cs" />
+    <Compile Include="DisplayHelper\DependecyProperties\Extensions.cs" />
     <Compile Include="Pages\FeedPage.xaml.cs">
       <DependentUpon>FeedPage.xaml</DependentUpon>
     </Compile>

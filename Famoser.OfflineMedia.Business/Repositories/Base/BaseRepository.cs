@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 
 namespace Famoser.OfflineMedia.Business.Repositories.Base
@@ -10,6 +11,19 @@ namespace Famoser.OfflineMedia.Business.Repositories.Base
             try
             {
                 return thign();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex);
+            }
+            return default(T);
+        }
+
+        protected async Task<T> ExecuteSafe<T>(Func<Task<T>> thign)
+        {
+            try
+            {
+                return await thign();
             }
             catch (Exception ex)
             {

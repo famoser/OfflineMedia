@@ -17,20 +17,25 @@ namespace Famoser.OfflineMedia.Business.Helpers
             var oldArticles = new List<ArticleModel>(model.AllArticles);
             model.AllArticles.Clear();
 
-            foreach (var articleModel in newArticles)
+            for (int index = 0; index < newArticles.Count; index++)
             {
+                var articleModel = newArticles[index];
                 var oldOne = oldArticles.FirstOrDefault(s => s.PublicUri == articleModel.PublicUri);
-                if (oldOne != null)
+                if (oldOne == null)
                 {
-                    model.AllArticles.Add(oldOne);
-                }
-                else
-                {
-                    model.AllArticles.Add(articleModel);
                     await ArticleHelper.SaveArticle(articleModel, service);
                     await ArticleHelper.SaveArticleLeadImage(articleModel, service, true);
                     await ArticleHelper.SaveArticleContent(articleModel, service, true);
+                    oldOne = articleModel;
                 }
+
+                model.AllArticles.Add(oldOne);
+                if (model.ActiveArticles.Count > index)
+                    model.ActiveArticles[index] = oldOne;
+            }
+            for (int i = newArticles.Count - 1; i < model.ActiveArticles.Count; i++)
+            {
+                model.ActiveArticles.RemoveAt(i);
             }
 
             for (int i = 0; i < model.AllArticles.Count; i++)

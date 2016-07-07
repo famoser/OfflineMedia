@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dependecyProperties="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties"
     mc:Ignorable="d"
     d:DesignHeight="1800"
     d:DesignWidth="400"
@@ -55,7 +56,7 @@
             </Grid>
 
             <Grid>
-                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False"  />
+                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False"  dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" />
             </Grid>
 
             <Grid Margin="0,4,0,0">

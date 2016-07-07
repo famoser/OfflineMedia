@@ -27,7 +27,16 @@
         <userControls:ProgressBar Grid.Row="0" />
 
         <ScrollViewer Grid.Row="1" Style="{StaticResource FamoserScrollViewer}">
-            <userControls:ArticleList Margin="0,0,0,-4" DataContext="{Binding Feed}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="{ThemeResource FlatGridBackgroundColor}">
+                    <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+                </Grid>
+                <userControls:ArticleList Grid.Row="1" DataContext="{Binding Feed.AllArticles}" />
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>

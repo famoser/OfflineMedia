@@ -37,6 +37,5 @@ namespace Famoser.OfflineMedia.View.Helpers
             _booleanSetter(false);
             _relayCommand.RaiseCanExecuteChanged();
         }
-
     }
 }

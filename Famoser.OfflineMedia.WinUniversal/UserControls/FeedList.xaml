@@ -7,7 +7,7 @@
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{Binding MainPageViewModel.Sources[0], Source={StaticResource Locator}}">
-    
+
     <Grid>
         <ListView
                   
@@ -17,7 +17,16 @@
                   SelectedItem="{Binding MainPageViewModel.SelectedFeed, Mode=TwoWay, Source={StaticResource Locator}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <userControls:ArticleList DataContext="{Binding }" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="{ThemeResource FlatGridBackgroundColor}">
+                            <TextBlock Text="{Binding Name, Mode=OneWay}" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+                        </Grid>
+                        <userControls:ArticleList Grid.Row="1" DataContext="{Binding ActiveArticles}" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

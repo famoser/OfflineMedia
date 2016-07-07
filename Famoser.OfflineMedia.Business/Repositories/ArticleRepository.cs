@@ -143,7 +143,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     //load the rest without locking
 #pragma warning disable 4014
                     foreach (var feedModel in feedsToLoad)
-                        LoadActivesForFeed(feedModel, 5);
+                        LoadArticlesIntoFeed(feedModel, 12, true);
 
                     if (!recovered)
                         SaveCache();
@@ -152,23 +152,19 @@ namespace Famoser.OfflineMedia.Business.Repositories
             });
         }
 
-        private async Task LoadActivesForFeed(FeedModel feed, int max)
+        private async Task LoadArticlesIntoFeed(FeedModel feed, int max, bool toActive)
         {
-            //todo fix this, somehow not elemant at all. Introduce FeedManager?
-            for (int i = feed.ActiveArticles.Count; i < max; i++)
+            for (int i = 0; i < max; i++)
             {
-                if (feed.AllArticles.Count > i)
-                {
-                    feed.ActiveArticles.Add(feed.AllArticles[i]);
-                }
-                else
+                if (feed.AllArticles.Count <= i)
                 {
                     var stringGuid = feed.Guid.ToString();
-                    var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == stringGuid, s => s.Index, false, max, feed.AllArticles.Count);
+                    var realmax = max == 0 ? 0 : max - i;
+                    var relations = await _sqliteService.GetByCondition<FeedArticleRelationEntity>(s => s.FeedGuid == stringGuid, s => s.Index, false, realmax, i);
 
                     foreach (var feedArticleRelationEntity in relations)
                     {
-                        var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
+                       var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
 
                         var id = article.GetId();
                         var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
@@ -177,10 +173,21 @@ namespace Famoser.OfflineMedia.Business.Repositories
                             var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
                             article.LeadImage = image;
                         }
-                        feed.ActiveArticles.Add(article);
                         feed.AllArticles.Add(article);
                     }
-                    break;
+                }
+
+                //no more entries 
+                if (feed.AllArticles.Count <= i)
+                    return;
+
+                var model = feed.AllArticles[i];
+                if (toActive && model != null)
+                {
+                    if (feed.ActiveArticles.Count <= i)
+                        feed.ActiveArticles.Add(model);
+                    else
+                        feed.ActiveArticles[i] = model;
                 }
             }
 
@@ -244,7 +251,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                await LoadActivesForFeed(fm, 0);
+                await LoadArticlesIntoFeed(fm, 0, false);
 
                 return true;
             });

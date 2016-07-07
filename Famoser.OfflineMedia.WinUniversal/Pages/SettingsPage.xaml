@@ -35,6 +35,17 @@
                     <ScrollViewer>
                         <StackPanel>
                             <Button Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="Anwendung zurücksetzten" />
+                            <TextBlock Margin="0,10,0,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Run Text="created with &#x2661; by " />
+                            <Hyperlink NavigateUri="http://famoser.ch" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Run Text="famoser"/>
+                            </Hyperlink>
+                            <LineBreak />
+                            <Run Text="source code on " />
+                            <Hyperlink NavigateUri="https://github.com/famoser/OfflineMedia" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Run Text="github"/>
+                            </Hyperlink>
+                            </TextBlock>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem.Content>

@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0], Source={StaticResource Locator}}">
+    d:DataContext="{Binding MainPageViewModel.Sources[0].ActiveFeeds[0].ActiveArticles, Source={StaticResource Locator}}">
 
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
@@ -19,32 +19,23 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{ThemeResource FlatGridBackgroundColor}">
-            <TextBlock Text="{Binding Name, Mode=OneWay}" Style="{ThemeResource FamoserHeaderTextBlock}"  />
-        </Grid>
-        <ListView
-                  Grid.Row="1"
-                  ItemsSource="{Binding ActiveArticles}"
+
+    <ListView
+                  ItemsSource="{Binding }"
                   ItemTemplate="{StaticResource ArticleDataTemplate}" 
                   Style="{StaticResource ListViewStyle}"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   SelectedItem="{Binding MainPageViewModel.SelectedArticle, Mode=TwoWay, Source={StaticResource Locator}}">
-            <ListView.ItemContainerTransitions>
-                <TransitionCollection>
-                    <AddDeleteThemeTransition/>
-                </TransitionCollection>
-            </ListView.ItemContainerTransitions>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="10" Style="{StaticResource ItemsWrapGrid}" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-
-    </Grid>
+        <ListView.ItemContainerTransitions>
+            <TransitionCollection>
+                <AddDeleteThemeTransition/>
+            </TransitionCollection>
+        </ListView.ItemContainerTransitions>
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="10" Style="{StaticResource ItemsWrapGrid}" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+    </ListView>
+    
 </UserControl>
