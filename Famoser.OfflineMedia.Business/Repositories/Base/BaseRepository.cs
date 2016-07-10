@@ -31,5 +31,17 @@ namespace Famoser.OfflineMedia.Business.Repositories.Base
             }
             return default(T);
         }
+
+        protected async Task ExecuteSafe(Func<Task> thign)
+        {
+            try
+            {
+                await thign();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex);
+            }
+        }
     }
 }

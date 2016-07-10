@@ -104,6 +104,12 @@
     <Style x:Key="FamoserMultiLineTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserBodyTextBlock}">
     </Style>
 
+    <Style TargetType="Border" x:Key="FamoserSpacer">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource FamoserTextForeground}" />
+        <Setter Property="Opacity" Value="0.2" />
+        <Setter Property="Margin" Value="0,10" />
+    </Style>
 
     <Style x:Key="FamoserDefaultButton" TargetType="Button" BasedOn="{StaticResource FamoserButton}">
         <Setter Property="FontSize" Value="20" />

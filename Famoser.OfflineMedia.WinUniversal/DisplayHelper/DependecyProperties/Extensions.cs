@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
@@ -54,10 +56,20 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             return val is string ? (string)val : "Segoe UI";
         }
 
-        private static void CustomContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static ObservableCollection<BaseContentModel> _displayedCollection;
+        private static void CustomContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e = null)
         {
             var richTextBox = d as RichTextBlock;
             var newValue = GetCustomContent(richTextBox);
+            var fontSize = GetCustomFontSize(richTextBox);
+            var fontFamily = GetCustomFontFamily(richTextBox);
+            if (_displayedCollection != null)
+                // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
+                _displayedCollection.CollectionChanged -= (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
+            _displayedCollection = newValue;
+            if (_displayedCollection != null)
+                _displayedCollection.CollectionChanged += (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
+
             if (richTextBox != null && newValue != null)
             {
                 richTextBox.Blocks.Clear();
@@ -68,18 +80,22 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                         var textContent = (TextContentModel)baseContentModel;
                         foreach (var paragraphModel in textContent.Content)
                         {
-                            var paragraph = new Paragraph();
+                            var paragraph = new Paragraph { FontFamily = new FontFamily(fontFamily) };
                             if (paragraphModel.ParagraphType == ParagraphType.Title)
-                                paragraph.FontSize = GetCustomFontSize(richTextBox) * 1.5;
-                            else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
-                                paragraph.FontSize = GetCustomFontSize(richTextBox) * 1.2;
-                            else if (paragraphModel.ParagraphType == ParagraphType.Quote)
                             {
-                                paragraph.FontSize = GetCustomFontSize(richTextBox);
-                                paragraph.TextIndent = 10;
+                                paragraph.FontSize = fontSize * 1.5;
+                                paragraph.Margin = new Thickness(0, fontSize * 2, 0, fontSize);
+                            }
+                            else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
+                            {
+                                paragraph.FontSize = fontSize * 1.2;
+                                paragraph.Margin = new Thickness(0, fontSize * 1.5, 0, fontSize);
                             }
                             else
-                                paragraph.FontSize = GetCustomFontSize(richTextBox);
+                            {
+                                paragraph.FontSize = fontSize;
+                                paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
+                            }
                             foreach (var textModel in paragraphModel.Children)
                             {
                                 var span = RenderTextContent(textModel);
@@ -93,6 +109,11 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                     }
                 }
             }
+        }
+
+        private static void NewValueOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs, DependencyObject d)
+        {
+            CustomContentChanged(d);
         }
 
         private static Span RenderTextContent(TextModel text)

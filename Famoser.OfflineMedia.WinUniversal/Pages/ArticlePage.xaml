@@ -34,7 +34,7 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="lesen" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <Grid>
+                        <Grid MaxWidth="1000" Background="White">
                             <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
                                 <articlePageControls:Read DataContext="{Binding }" />
                             </ScrollViewer>
@@ -46,7 +46,7 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="spritz" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                        <ScrollViewer MaxWidth="1000" Background="White" Style="{StaticResource FamoserScrollViewer}">
                             <articlePageControls:Spritz DataContext="{Binding }" />
                         </ScrollViewer>
                     </PivotItem.Content>
@@ -57,7 +57,7 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="more" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                        <ScrollViewer MaxWidth="1000" Background="White" Style="{StaticResource FamoserScrollViewer}">
                             <articlePageControls:More DataContext="{Binding }"/>
                         </ScrollViewer>
                     </PivotItem.Content>
@@ -65,11 +65,21 @@
             </Pivot.Items>
         </Pivot>
     </Grid>
-    
+
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Speichern" Icon="Save" Command="{Binding ReloadArticleCommand}" />
+                <AppBarButton Label="font" Icon="Font">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Command="{Binding MakeFontBiggerCommand}" Text="bigger" />
+                            <MenuFlyoutItem Command="{Binding MakeFontSmallerCommand}" Text="smaller" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Label="reload" Icon="Refresh" Command="{Binding ReloadArticleCommand}" />
+                <AppBarButton Label="open in browser" Icon="World" Command="{Binding OpenInBrowserCommand}" />
+                <AppBarButton Label="favorite" Icon="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" Command="{Binding FavoriteCommand}" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

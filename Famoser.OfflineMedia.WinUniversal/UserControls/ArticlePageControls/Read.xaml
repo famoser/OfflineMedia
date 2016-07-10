@@ -6,103 +6,43 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dependecyProperties="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties"
     mc:Ignorable="d"
-    d:DesignHeight="1800"
-    d:DesignWidth="400"
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}"
     >
 
-    <Grid>
-        <StackPanel>
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding MakeFontBiggerCommand}" Style="{ThemeResource FamoserDefaultButton}" >
-                    <Button.Content>
-                        <SymbolIcon Symbol="FontIncrease" />
-                    </Button.Content>
-                </Button>
-                <Button Grid.Column="1" Command="{Binding MakeFontSmallerCommand}" Style="{ThemeResource FamoserDefaultButton}" >
-                    <Button.Content>
-                        <SymbolIcon Symbol="FontDecrease" />
-                    </Button.Content>
-                </Button>
-                <Button Grid.Column="2" Command="{Binding FavoriteCommand}" Style="{ThemeResource FamoserDefaultButton}">
-                    <Button.Content>
-                        <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
-                    </Button.Content>
-                </Button>
-                <Button Grid.Column="3" Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource FamoserDefaultButton}">
-                    <Button.Content>
-                        <SymbolIcon Symbol="World" />
-                    </Button.Content>
-                </Button>
-            </Grid>
+    <StackPanel>
 
-            <StackPanel>
-                <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" />
-                <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" />
-            </StackPanel>
+        <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" TextWrapping="Wrap"  />
+        <Border Style="{ThemeResource FamoserSpacer}" />
 
-            <Grid MaxHeight="300" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceToVisibilityConverter}}" HorizontalAlignment="Left">
-                <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
-            </Grid>
+        <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+            <Paragraph>
+                <Run Text="Author: " />
+                <Run Text="{Binding Article.Author}" />
+                <Run Text=" - " />
+                <Run Text="Source: " />
+                <Run Text="{Binding Article.Feed.Source.Name}" />
+                <Run Text=" - " />
+                <Run Text="Published: " />
+                <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                <Run Text=" - " />
+                <Run Text="Words: " />
+                <Run Text="{Binding TotalWords}" />
+            </Paragraph>
+        </RichTextBlock>
+        <Border Style="{ThemeResource FamoserSpacer}" />
 
-            <Grid Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" >
-                <TextBlock Style="{StaticResource FamoserBodyTextBlock}" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
-            </Grid>
+        <Grid Margin="0,0,0,10" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceToVisibilityConverter}}" HorizontalAlignment="Left">
+            <Image Stretch="UniformToFill" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+        </Grid>
 
-            <Grid>
-                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False"  dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
-            </Grid>
-
-            <Grid Margin="0,4,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"  />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid Margin="4,0,0,0" Height="40" Grid.Column="1" Grid.Row="1" >
-                    <Button Margin="0,4,0,-10" Style="{ThemeResource FamoserDefaultButton}" >
-                        <Button.Content>
-                            <SymbolIcon Margin="0,7,0,0" Symbol="Up" />
-                        </Button.Content>
-                    </Button>
-                </Grid>
-
-                <Grid Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" >
-                    <RichTextBlock Margin="5,10" Grid.Column="0" Style="{StaticResource FamoserBodyRichTextBlock}">
-                        <Paragraph>
-                            <Bold >
-                                <Run Text="{Binding Article.Author}" />
-                            </Bold>
-                            <Run Text=" - " />
-                            <Run Text="{Binding Article.Feed.Source.Name}" />
-                        </Paragraph>
-                    </RichTextBlock>
-                </Grid>
-
-                <Grid Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
-                    <RichTextBlock Grid.Column="0" Style="{StaticResource FamoserBodyRichTextBlock}">
-                        <Paragraph>
-                            <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
-                            <Run Text=" - " />
-                            <Run Text="{Binding TotalWords}" />
-                            <Run Text=" " />
-                            <Run Text="Words" />
-                        </Paragraph>
-                    </RichTextBlock>
-                </Grid>
-            </Grid>
-
-
-
+        <StackPanel Visibility="{Binding Article.Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" >
+            <TextBlock Style="{StaticResource FamoserBodyTextBlock}" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
+            <Border Style="{ThemeResource FamoserSpacer}" />
         </StackPanel>
-    </Grid>
+
+        <Grid>
+            <RichTextBlock Style="{StaticResource FamoserRichTextBlock}" dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
+        </Grid>
+    </StackPanel>
 </UserControl>

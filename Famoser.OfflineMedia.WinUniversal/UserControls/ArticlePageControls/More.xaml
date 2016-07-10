@@ -6,62 +6,48 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
     mc:Ignorable="d"
-    d:DesignHeight="1200"
-    d:DesignWidth="600"
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
     <StackPanel>
-        <Grid Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Command="{Binding FavoriteCommand}" Style="{ThemeResource FamoserDefaultButton}">
-                <Button.Content>
-                    <SymbolIcon Symbol="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" />
-                </Button.Content>
-            </Button>
-            <Button Grid.Column="3"  Command="{Binding OpenInBrowserCommand}" Style="{ThemeResource FamoserDefaultButton}">
-                <Button.Content>
-                    <SymbolIcon Symbol="World" />
-                </Button.Content>
-            </Button>
-        </Grid>
+        <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" TextWrapping="Wrap"  />
+        <Border Style="{ThemeResource FamoserSpacer}" />
 
-        <StackPanel>
-            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" />
-            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource FamoserSubTitleTextBlock}" />
-        </StackPanel>
+        <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+            <Paragraph>
+                <Run Text="Author: " />
+                <Run Text="{Binding Article.Author}" />
+                <Run Text=" - " />
+                <Run Text="Source: " />
+                <Run Text="{Binding Article.Feed.Source.Name}" />
+                <Run Text=" - " />
+                <Run Text="Published: " />
+                <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                <Run Text=" - " />
+                <Run Text="Words: " />
+                <Run Text="{Binding TotalWords}" />
+            </Paragraph>
+        </RichTextBlock>
+        <Border Style="{ThemeResource FamoserSpacer}" />
 
-        <Grid Margin="0,4,0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="5">
-                <TextBlock Text="Veröffentlichungsdatum" Style="{StaticResource FamoserSecondaryBodyTextBlock}" />
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
-                <TextBlock Text="Author" Style="{StaticResource FamoserSecondaryBodyTextBlock}" />
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" Text="{Binding Article.Author}" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="5">
-                <TextBlock Text="heruntergeladen am" Style="{StaticResource FamoserSecondaryBodyTextBlock}"/>
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" FontSize="16" Text="{Binding Article.DownloadDateTime, Converter={StaticResource DateTimeConverter}}" />
-                <TextBlock Text="Quelle" Style="{StaticResource FamoserSecondaryBodyTextBlock}" />
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" FontSize="16" Text="{Binding Article.Feed.Source.Name}" />
-            </StackPanel>
+        <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+            <Paragraph>
+                <Run Text="Themen: " />
+                <Run Text="{Binding Article.Themes, Converter={StaticResource ThemeConverter}}" />
+                <Run Text=" - " />
+                <Run Text="Stichworte: " />
+                <Run Text="{Binding Article.WordDump}" />
+            </Paragraph>
+        </RichTextBlock>
+        <Border Style="{ThemeResource FamoserSpacer}" />
+        <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+            <TextBlock Text="Related Articles: by Theme" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
-        <StackPanel Margin="0,0,0,10">
-            <StackPanel Margin="5">
-                <TextBlock Text="Themen:" Style="{StaticResource FamoserSecondaryBodyTextBlock}" />
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" Text="{Binding Article.Themes, Converter={StaticResource ThemeConverter}}" />
-                <TextBlock Text="Stichworte:" Style="{StaticResource FamoserSecondaryBodyTextBlock}" />
-                <TextBlock Style="{ThemeResource FamoserBodyTextBlock}" Text="{Binding Article.WordDump}" />
-            </StackPanel>
-        </StackPanel>
         <userControls:ArticleList DataContext="{Binding Article.RelatedThemesArticles}" />
+        <Border Style="{ThemeResource FamoserSpacer}" />
+        <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+            <TextBlock Text="Related Articles: by Content" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+        </Grid>
         <userControls:ArticleList DataContext="{Binding Article.RelatedContentArticles}" />
     </StackPanel>
 </UserControl>

@@ -41,7 +41,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 var stack = new ConcurrentStack<ArticleModel>();
                 foreach (var activeSource in SourceManager.GetActiveSources())
                     foreach (var activeFeed in activeSource.ActiveFeeds)
-                        stack.PushRange(activeFeed.AllArticles.ToArray());
+                        stack.PushRange(activeFeed.AllArticles.Where(a => a.LoadingState < LoadingState.Loaded).ToArray());
 
                 _progressService.ConfigurePercentageProgress(stack.Count);
                 for (int i = 0; i < threadNumber; i++)

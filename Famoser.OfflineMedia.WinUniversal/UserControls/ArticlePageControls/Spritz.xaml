@@ -28,12 +28,12 @@
                 <TextBlock Text="Speed: " Style="{ThemeResource FamoserBodyTextBlock}" />
                 <TextBlock Text="{Binding ReadingSpeed}"  Style="{ThemeResource FamoserBodyTextBlock}" />
             </StackPanel>
-            <Button Grid.Column="1" Margin="-10" Style="{ThemeResource FamoserDefaultButton}" Command="{Binding IncreaseSpeedCommand}" >
+            <Button Grid.Column="1" Style="{ThemeResource FamoserDefaultButton}" Command="{Binding IncreaseSpeedCommand}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />
                 </Button.Content>
             </Button>
-            <Button Grid.Column="2" Command="{Binding DecreaseSpeedCommand}" BorderThickness="0" >
+            <Button Grid.Column="2" Command="{Binding DecreaseSpeedCommand}" Style="{ThemeResource FamoserDefaultButton}" >
                 <Button.Content>
                     <SymbolIcon Symbol="Remove" />
                 </Button.Content>
