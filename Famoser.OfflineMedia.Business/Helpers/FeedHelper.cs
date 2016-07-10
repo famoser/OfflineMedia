@@ -16,6 +16,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
             var feedEntries = new Stack<FeedArticleRelationEntity>(await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0));
             var oldArticles = new List<ArticleModel>(model.AllArticles);
             model.AllArticles.Clear();
+            var activeArticlesCount = model.ActiveArticles.Count;
+            model.ActiveArticles.Clear();
 
             for (int index = 0; index < newArticles.Count; index++)
             {
@@ -30,12 +32,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 }
 
                 model.AllArticles.Add(oldOne);
-                if (model.ActiveArticles.Count > index)
-                    model.ActiveArticles[index] = oldOne;
-            }
-            for (int i = newArticles.Count - 1; i < model.ActiveArticles.Count; i++)
-            {
-                model.ActiveArticles.RemoveAt(i);
+                if (activeArticlesCount <= index)
+                    model.ActiveArticles.Add(oldOne);
             }
 
             for (int i = 0; i < model.AllArticles.Count; i++)
