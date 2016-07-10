@@ -56,7 +56,7 @@
             </Grid>
 
             <Grid>
-                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False"  dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" />
+                <RichTextBlock Margin="8,15" IsTextSelectionEnabled="False"  dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
             </Grid>
 
             <Grid Margin="0,4,0,0">

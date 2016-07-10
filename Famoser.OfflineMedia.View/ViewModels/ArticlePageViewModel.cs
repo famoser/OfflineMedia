@@ -78,6 +78,10 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             var wordsPerMinute = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.WordsPerMinute)) as IntSettingModel;
             ReadingSpeed = wordsPerMinute?.IntValue ?? 20;
+
+            var fontFamily = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.Font)) as SelectSettingModel;
+            FontFamily = fontFamily?.Value ?? "Segoe UI";
+            RaisePropertyChanged(() => FontFamily);
         }
 
         private ArticleModel _article;
@@ -94,8 +98,14 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
                     if (oldarticle != null)
                         oldarticle.PropertyChanged -= ArticleOnPropertyChanged;
-
-                    _reloadArticleCommand.RaiseCanExecuteChanged();
+                    try
+                    {
+                        _reloadArticleCommand.RaiseCanExecuteChanged();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Instance.LogException(ex);
+                    }
                     RaisePropertyChanged(() => SelectedArticle);
                 }
             }
@@ -165,7 +175,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         #region Article View
 
-        private int _fontSize;
+        private int _fontSize = 20;
         public int FontSize
         {
             get { return _fontSize; }
@@ -189,6 +199,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
                 await _settingsRepository.SaveSettingsAsync();
             }
         }
+
+        public string FontFamily { get; private set; } = "Segoe UI";
 
         #region MakeFontBiggerCommand
         private readonly RelayCommand _makeFontBiggerCommand;
