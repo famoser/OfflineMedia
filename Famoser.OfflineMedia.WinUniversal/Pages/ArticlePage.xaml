@@ -77,7 +77,7 @@
                 <AppBarButton Label="open in browser" Icon="World" Command="{Binding OpenInBrowserCommand}" />
             </CommandBar.SecondaryCommands>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="font" Icon="Font">
+                <AppBarButton Label="font" Icon="Font" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=0}" >
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Segoe UI (sans-serif)" Text="Segoe UI (sans-serif)"/>
@@ -87,12 +87,11 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Label="bigger text" Icon="FontIncrease" Command="{Binding MakeFontBiggerCommand}" />
-                <AppBarButton Label="smaller text" Icon="FontDecrease" Command="{Binding MakeFontSmallerCommand}" />
-
-                <AppBarButton Icon="Favorite" Label="favorite" Visibility="{Binding Article.IsFavorite, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}" />
-                <AppBarButton Icon="UnFavorite" Label="unfavorite" Visibility="{Binding Article.IsFavorite, Converter={StaticResource BoolToVisibilityConverter}}" />
-
+                <AppBarButton Label="bigger text" Icon="FontIncrease" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=0}" Command="{Binding MakeFontBiggerCommand}" />
+                <AppBarButton Label="smaller text" Icon="FontDecrease" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=0}" Command="{Binding MakeFontSmallerCommand}" />
+                <AppBarButton Label="faster" Icon="Add" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=1}" Command="{Binding IncreaseSpeedCommand}" />
+                <AppBarButton Label="slower" Icon="Remove" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=1}" Command="{Binding DecreaseSpeedCommand}" />
+                <AppBarToggleButton Label="favorite" IsChecked="{Binding Article.IsFavorite}" Icon="Favorite" Command="{Binding FavoriteCommand}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

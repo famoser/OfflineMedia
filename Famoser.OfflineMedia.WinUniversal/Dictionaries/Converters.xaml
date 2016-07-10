@@ -20,6 +20,7 @@
     <articlePageConverter:LeadFontSizeConverter x:Key="LeadFontSizeConverter" />
     <articlePageConverter:SpritzStateIconConverter x:Key="SpritzStateIconConverter" />
     <articlePageConverter:ThemeConverter x:Key="ThemeConverter" />
+    <articlePageConverter:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
 
     <genericConverter:ArrayToStringConverter x:Key="ArrayToStringConverter" />
     <genericConverter:IntToIntConverter x:Key="IntToIntConverter" />

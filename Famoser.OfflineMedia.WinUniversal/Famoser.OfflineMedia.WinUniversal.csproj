@@ -113,6 +113,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\IntToVisibilityConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDateConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />
