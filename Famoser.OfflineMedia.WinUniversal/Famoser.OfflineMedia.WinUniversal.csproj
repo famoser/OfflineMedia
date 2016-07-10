@@ -150,6 +150,9 @@
     <Compile Include="UserControls\ArticleList.xaml.cs">
       <DependentUpon>ArticleList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ArticlePageControls\ArticleOverview.xaml.cs">
+      <DependentUpon>ArticleOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ArticlePageControls\More.xaml.cs">
       <DependentUpon>More.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\ArticleList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ArticlePageControls\ArticleOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

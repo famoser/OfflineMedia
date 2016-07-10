@@ -4,46 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:articlePageControls="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
     mc:Ignorable="d"
-    d:DesignHeight="800"
-    d:DesignWidth="400"
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Speed: " Style="{ThemeResource FamoserBodyTextBlock}" />
-                <TextBlock Text="{Binding ReadingSpeed}"  Style="{ThemeResource FamoserBodyTextBlock}" />
-            </StackPanel>
-            <Button Grid.Column="1" Style="{ThemeResource FamoserDefaultButton}" Command="{Binding IncreaseSpeedCommand}" >
-                <Button.Content>
-                    <SymbolIcon Symbol="Add" />
-                </Button.Content>
-            </Button>
-            <Button Grid.Column="2" Command="{Binding DecreaseSpeedCommand}" Style="{ThemeResource FamoserDefaultButton}" >
-                <Button.Content>
-                    <SymbolIcon Symbol="Remove" />
-                </Button.Content>
-            </Button>
-        </Grid>
-
-        <StackPanel Grid.Row="1" >
-            <TextBlock Margin="8,20,8,10" Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" />
-            <TextBlock Margin="8,0,8,20" Text="{Binding Article.SubTitle}" FontWeight="SemiLight" FontSize="18" Style="{ThemeResource FamoserSubTitleTextBlock}" />
-        </StackPanel>
+    <StackPanel  Style="{StaticResource ArticlePageInnerContentStackPanel}">
+        <articlePageControls:ArticleOverview DataContext="{Binding }" />
 
         <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource FamoserBodyTextBlock}" />
@@ -51,7 +18,7 @@
             <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource FamoserBodyTextBlock}" />
             <TextBlock Text="Worte" Style="{ThemeResource FamoserBodyTextBlock}" />
         </StackPanel>
-        <Grid Grid.Row="3" VerticalAlignment="Center" Margin="10,0,10,0">
+        <Grid MaxWidth="600">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -108,5 +75,5 @@
                 </Button.Content>
             </Button>
         </Grid>
-    </Grid>
+    </StackPanel>
 </UserControl>

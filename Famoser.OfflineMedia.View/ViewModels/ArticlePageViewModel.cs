@@ -50,6 +50,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _increaseSpeedCommand = new RelayCommand(IncreaseSpeed, () => CanIncreaseSpeed);
             _decreaseSpeedCommand = new RelayCommand(DecreaseSpeed, () => CanDecreaseSpeed);
 
+            _chooseFontCommand = new RelayCommand<string>(ChooseFont, (f)=> CanChooseFont(f));
+
             if (IsInDesignMode)
             {
                 FontSize = 20;
@@ -179,15 +181,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
         public int FontSize
         {
             get { return _fontSize; }
-            set
-            {
-                if (Set(ref _fontSize, value))
-                {
-                    SafeFontSize();
-                    _makeFontBiggerCommand.RaiseCanExecuteChanged();
-                    _makeFontSmallerCommand.RaiseCanExecuteChanged();
-                }
-            }
+            set { Set(ref _fontSize, value); }
         }
 
         private async void SafeFontSize()
@@ -200,7 +194,22 @@ namespace Famoser.OfflineMedia.View.ViewModels
             }
         }
 
-        public string FontFamily { get; private set; } = "Segoe UI";
+        private string _fontFamily = "Segoe UI";
+        public string FontFamily
+        {
+            get { return _fontFamily; }
+            set
+            {
+                //sanitize font name
+                if (value.Contains(" ("))
+                {
+                    var newFont = value.Substring(0, value.IndexOf(" (", StringComparison.Ordinal));
+                    Set(ref _fontFamily, newFont);
+                }
+                else
+                    Set(ref _fontFamily, value);
+            }
+        }
 
         #region MakeFontBiggerCommand
         private readonly RelayCommand _makeFontBiggerCommand;
@@ -210,7 +219,31 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private void MakeFontBigger()
         {
-            FontSize += 2;
+            FontSize += GetFontStep(FontSize);
+            SafeFontSize();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
+        }
+        #endregion
+
+        #region ChooseFontCommand
+        private readonly RelayCommand<string> _chooseFontCommand;
+        public ICommand ChooseFontCommand => _chooseFontCommand;
+
+        private bool CanChooseFont(string font)
+        {
+            var fontFamily = ( _settingsRepository.GetSettingByKeyAsync(SettingKey.Font)).Result as SelectSettingModel;
+            return fontFamily?.PossibleValues != null && fontFamily.PossibleValues.Any(p => p == font);
+        }
+
+        private async void ChooseFont(string font)
+        {
+            FontFamily = font;
+            var fontFamily = (await _settingsRepository.GetSettingByKeyAsync(SettingKey.Font)) as SelectSettingModel;
+            if (fontFamily != null)
+            {
+                fontFamily.Value = font;
+                await _settingsRepository.SaveSettingsAsync();
+            }
         }
         #endregion
 
@@ -218,11 +251,18 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly RelayCommand _makeFontSmallerCommand;
         public ICommand MakeFontSmallerCommand => _makeFontSmallerCommand;
 
-        private bool CanMakeFontSmaller => FontSize > 5;
+        private bool CanMakeFontSmaller => FontSize > 10;
 
         private void MakeFontSmaller()
         {
-            FontSize -= 2;
+            FontSize -= GetFontStep(FontSize);
+            SafeFontSize();
+            _makeFontSmallerCommand.RaiseCanExecuteChanged();
+        }
+
+        private int GetFontStep(int currentFontSize)
+        {
+            return (int)currentFontSize / 10;
         }
         #endregion
 

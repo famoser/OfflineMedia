@@ -34,8 +34,8 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="lesen" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <Grid MaxWidth="1000" Background="White">
-                            <ScrollViewer Style="{StaticResource FamoserScrollViewer}">
+                        <Grid Style="{StaticResource ArticlePageContentGrid}">
+                            <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
                                 <articlePageControls:Read DataContext="{Binding }" />
                             </ScrollViewer>
                         </Grid>
@@ -46,9 +46,11 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="spritz" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer MaxWidth="1000" Background="White" Style="{StaticResource FamoserScrollViewer}">
-                            <articlePageControls:Spritz DataContext="{Binding }" />
-                        </ScrollViewer>
+                        <Grid Style="{StaticResource ArticlePageContentGrid}">
+                            <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
+                                <articlePageControls:Spritz DataContext="{Binding }" />
+                            </ScrollViewer>
+                        </Grid>
                     </PivotItem.Content>
                 </PivotItem>
 
@@ -57,9 +59,11 @@
                         <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="more" />
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer MaxWidth="1000" Background="White" Style="{StaticResource FamoserScrollViewer}">
-                            <articlePageControls:More DataContext="{Binding }"/>
-                        </ScrollViewer>
+                        <Grid Style="{StaticResource ArticlePageContentGrid}">
+                            <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
+                                <articlePageControls:More DataContext="{Binding }"/>
+                            </ScrollViewer>
+                        </Grid>
                     </PivotItem.Content>
                 </PivotItem>
             </Pivot.Items>
@@ -68,18 +72,27 @@
 
     <Page.BottomAppBar>
         <CommandBar>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="reload" Icon="Refresh" Command="{Binding ReloadArticleCommand}" />
+                <AppBarButton Label="open in browser" Icon="World" Command="{Binding OpenInBrowserCommand}" />
+            </CommandBar.SecondaryCommands>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="font" Icon="Font">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Command="{Binding MakeFontBiggerCommand}" Text="bigger" />
-                            <MenuFlyoutItem Command="{Binding MakeFontSmallerCommand}" Text="smaller" />
+                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Segoe UI (sans-serif)" Text="Segoe UI (sans-serif)"/>
+                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Helvetica (sans-serif)" Text="Helvetica (sans-serif)" />
+                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Times New Roman (serif)" Text="Times New Roman (serif)" />
+                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Arial (serif)" Text="Arial (serif)" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Label="reload" Icon="Refresh" Command="{Binding ReloadArticleCommand}" />
-                <AppBarButton Label="open in browser" Icon="World" Command="{Binding OpenInBrowserCommand}" />
-                <AppBarButton Label="favorite" Icon="{Binding Article.IsFavorite, Converter={StaticResource FavoriteIconConverter}}" Command="{Binding FavoriteCommand}" />
+                <AppBarButton Label="bigger text" Icon="FontIncrease" Command="{Binding MakeFontBiggerCommand}" />
+                <AppBarButton Label="smaller text" Icon="FontDecrease" Command="{Binding MakeFontSmallerCommand}" />
+
+                <AppBarButton Icon="Favorite" Label="favorite" Visibility="{Binding Article.IsFavorite, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}" />
+                <AppBarButton Icon="UnFavorite" Label="unfavorite" Visibility="{Binding Article.IsFavorite, Converter={StaticResource BoolToVisibilityConverter}}" />
+
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

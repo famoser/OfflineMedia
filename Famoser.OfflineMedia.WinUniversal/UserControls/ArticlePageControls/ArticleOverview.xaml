@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls.ArticleOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
+
+    <StackPanel>
+
+        <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" TextWrapping="Wrap"  />
+        <Border Style="{ThemeResource FamoserSpacer}" />
+
+        <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+            <Paragraph>
+                <Run Text="Author: " />
+                <Run Text="{Binding Article.Author}" />
+                <Run Text=" - " />
+                <Run Text="Source: " />
+                <Run Text="{Binding Article.Feed.Source.Name}" />
+                <Run Text=" - " />
+                <Run Text="Published: " />
+                <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                <Run Text=" - " />
+                <Run Text="Words: " />
+                <Run Text="{Binding TotalWords}" />
+            </Paragraph>
+        </RichTextBlock>
+        <Border Style="{ThemeResource FamoserSpacer}" />
+    </StackPanel>
+</UserControl>

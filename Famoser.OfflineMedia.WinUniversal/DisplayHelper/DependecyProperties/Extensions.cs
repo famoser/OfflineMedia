@@ -63,12 +63,14 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             var newValue = GetCustomContent(richTextBox);
             var fontSize = GetCustomFontSize(richTextBox);
             var fontFamily = GetCustomFontFamily(richTextBox);
+            /*
             if (_displayedCollection != null)
                 // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
                 _displayedCollection.CollectionChanged -= (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
             _displayedCollection = newValue;
             if (_displayedCollection != null)
                 _displayedCollection.CollectionChanged += (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
+                */
 
             if (richTextBox != null && newValue != null)
             {

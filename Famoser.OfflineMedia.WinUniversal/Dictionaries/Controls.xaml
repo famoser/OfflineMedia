@@ -35,4 +35,18 @@
         <Setter Property="Margin" Value="0" />
     </Style>
 
+    <Style TargetType="ScrollViewer" x:Key="ArticlePageContentScrollViewer" BasedOn="{StaticResource FamoserScrollViewer}">
+        <Setter Property="MaxWidth" Value="1000" />
+    </Style>
+
+    <Style TargetType="StackPanel" x:Key="ArticlePageInnerContentStackPanel">
+        <Setter Property="Margin" Value="0,40"/>
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Padding" Value="40" />
+    </Style>
+
+    <Style TargetType="Grid" x:Key="ArticlePageContentGrid">
+        <Setter Property="Background" Value="LightGray" />
+    </Style>
+
 </ResourceDictionary>
