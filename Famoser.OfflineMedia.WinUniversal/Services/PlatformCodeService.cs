@@ -91,6 +91,11 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
             return await Launcher.LaunchUriAsync(url);
         }
 
+        public void ExitApplication()
+        {
+            Application.Current.Exit();
+        }
+
         public async Task<ulong> GetFileSizes()
         {
             ulong totalsize = 0;

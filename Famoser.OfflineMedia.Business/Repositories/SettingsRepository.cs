@@ -121,5 +121,13 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description, json);
             });
         }
+
+        public async Task ResetApplicationAsync()
+        {
+            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description, new byte[0]));
+            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description, new byte[0]));
+            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.WeatherCache).Description, new byte[0]));
+            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.Database).Description, new byte[0]));
+        }
     }
 }

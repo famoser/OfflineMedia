@@ -8,5 +8,6 @@ namespace Famoser.OfflineMedia.Business.Services
         Task<byte[]> DownloadResizeImage(Uri url);
         void CheckBeginInvokeOnUi(Action action);
         Task<bool> OpenInBrowser(Uri url);
+        void ExitApplication();
     }
 }

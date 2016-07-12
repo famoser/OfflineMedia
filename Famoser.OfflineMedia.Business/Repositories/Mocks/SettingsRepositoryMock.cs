@@ -86,5 +86,10 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
         {
             return true;
         }
+
+        public async Task ResetApplicationAsync()
+        {
+
+        }
     }
 }

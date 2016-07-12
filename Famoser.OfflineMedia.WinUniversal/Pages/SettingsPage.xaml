@@ -34,15 +34,15 @@
                 <PivotItem.Content>
                     <ScrollViewer>
                         <StackPanel>
-                            <Button Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="Anwendung zurücksetzten" />
-                            <TextBlock Margin="0,10,0,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Button Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="Anwendung zurücksetzten" Command="{Binding ResetApplicationCommand}" />
+                            <TextBlock Margin="0,10,0,0">
                             <Run Text="created with &#x2661; by " />
-                            <Hyperlink NavigateUri="http://famoser.ch" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Hyperlink NavigateUri="http://famoser.ch">
                                 <Run Text="famoser"/>
                             </Hyperlink>
                             <LineBreak />
                             <Run Text="source code on " />
-                            <Hyperlink NavigateUri="https://github.com/famoser/OfflineMedia" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Hyperlink NavigateUri="https://github.com/famoser/OfflineMedia">
                                 <Run Text="github"/>
                             </Hyperlink>
                             </TextBlock>

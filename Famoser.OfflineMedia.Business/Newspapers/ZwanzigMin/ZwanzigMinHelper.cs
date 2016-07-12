@@ -50,11 +50,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.Teaser = nfa.lead;
                 a.Title = nfa.title;
                 a.Author = nfa.author;
-                
-                a.AfterSaveFunc = async () =>
-                {
-                    await AddThemesAsync(a, new[] { nfa.category });
-                };
+
+
+                if (nfa.category != null)
+                    a.AfterSaveFunc = async () =>
+                    {
+                        await AddThemesAsync(a, new[] { nfa.category });
+                    };
+                else
+                    a.AfterSaveFunc = async () =>
+                    {
+                        await AddThemesAsync(a);
+                    };
 
                 a.LoadingState = LoadingState.Loaded;
 

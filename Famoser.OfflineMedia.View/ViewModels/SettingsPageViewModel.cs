@@ -5,6 +5,7 @@ using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.View.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -15,24 +16,25 @@ namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
+        private readonly IPlatformCodeService _platformCodeService;
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IHistoryNavigationService _navigationService;
         private readonly IArticleRepository _articleRepository;
         private readonly IProgressService _progressService;
 
-        public SettingsPageViewModel(ISettingsRepository settingsRepository, IHistoryNavigationService navigationService, IArticleRepository articleRepository, IProgressService progressService)
+        public SettingsPageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IProgressService progressService, IPlatformCodeService platformCodeService)
         {
             _settingsRepository = settingsRepository;
-            _navigationService = navigationService;
             _articleRepository = articleRepository;
             _progressService = progressService;
+            _platformCodeService = platformCodeService;
 
             Sources = _articleRepository.GetAllSources();
             Settings = _settingsRepository.GetEditSettings();
 
             _saveCommand = new RelayCommand(Save, () => CanSave);
-            _switchFeedStatusCommand = new RelayCommand<FeedModel>(SwitchFeedStatus, (fm) => CanSwitchFeedStatus);
-            _switchSourceStatusCommand = new RelayCommand<SourceModel>(SwitchSourceStatus, (fm) => CanSwitchSourceStatus);
+            _switchFeedStatusCommand = new RelayCommand<FeedModel>(SwitchFeedStatus, fm => CanSwitchFeedStatus);
+            _switchSourceStatusCommand = new RelayCommand<SourceModel>(SwitchSourceStatus, fm => CanSwitchSourceStatus);
+            _resetApplicationCommand = new RelayCommand(ResetApplication, () => CanResetApplication);
         }
 
         private ObservableCollection<BaseSettingModel> _settings;
@@ -58,7 +60,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private async void Save()
         {
-            using (new LoadingCommand(_saveCommand, (b) => IsSaving = b, IndeterminateProgressKey.SavingSettings, _progressService))
+            using (new LoadingCommand(_saveCommand, b => IsSaving = b, IndeterminateProgressKey.SavingSettings, _progressService))
             {
                 await _settingsRepository.SaveSettingsAsync();
             }
@@ -73,7 +75,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private async void SwitchSourceStatus(SourceModel fm)
         {
-            using (new LoadingCommandGeneric<SourceModel>(_switchSourceStatusCommand, (b) => IsSwitchingSourceStatus = b, IndeterminateProgressKey.SavingSourceSetting, _progressService))
+            using (new LoadingCommandGeneric<SourceModel>(_switchSourceStatusCommand, b => IsSwitchingSourceStatus = b, IndeterminateProgressKey.SavingSourceSetting, _progressService))
             {
                 await _articleRepository.SwitchSourceActiveStateAsync(fm);
             }
@@ -88,10 +90,26 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private async void SwitchFeedStatus(FeedModel fm)
         {
-            using (new LoadingCommandGeneric<FeedModel>(_switchFeedStatusCommand, (b) => IsSwitchingFeedStatus = b, IndeterminateProgressKey.SavingFeedSetting, _progressService))
+            using (new LoadingCommandGeneric<FeedModel>(_switchFeedStatusCommand, b => IsSwitchingFeedStatus = b, IndeterminateProgressKey.SavingFeedSetting, _progressService))
             {
                 await _articleRepository.SwitchFeedActiveStateAsync(fm);
             }
+        }
+        #endregion
+
+        #region reset application command
+        private readonly RelayCommand _resetApplicationCommand;
+        public ICommand ResetApplicationCommand => _resetApplicationCommand;
+        private bool CanResetApplication => !IsResettingApplication;
+        public bool IsResettingApplication { get; private set; }
+
+        private async void ResetApplication()
+        {
+            using (new LoadingCommand(_resetApplicationCommand, b => IsResettingApplication = b, IndeterminateProgressKey.ResettingApplication, _progressService))
+            {
+                await _settingsRepository.ResetApplicationAsync();
+            }
+            _platformCodeService.ExitApplication();
         }
         #endregion
     }

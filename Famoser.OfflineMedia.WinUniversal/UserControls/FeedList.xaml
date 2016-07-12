@@ -10,7 +10,6 @@
 
     <Grid>
         <ListView
-                  
                   ItemsSource="{Binding ActiveFeeds}" 
                   Style="{StaticResource ListViewStyle}"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"

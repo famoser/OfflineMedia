@@ -41,7 +41,11 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 var stack = new ConcurrentStack<ArticleModel>();
                 foreach (var activeSource in SourceManager.GetActiveSources())
                     foreach (var activeFeed in activeSource.ActiveFeeds)
-                        stack.PushRange(activeFeed.AllArticles.Where(a => a.LoadingState < LoadingState.Loaded).ToArray());
+                    {
+                        var news = activeFeed.AllArticles.Where(a => a.LoadingState < LoadingState.Loaded).ToArray();
+                        if (news.Length > 0)
+                            stack.PushRange(news);
+                    }
 
                 _progressService.ConfigurePercentageProgress(stack.Count);
                 for (int i = 0; i < threadNumber; i++)
@@ -60,7 +64,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 FeedModel model;
                 while (queue.TryDequeue(out model))
                 {
-                    var media = ArticleHelper.GetMediaSource(model,_themeRepository);
+                    var media = ArticleHelper.GetMediaSource(model, _themeRepository);
                     if (media != null)
                     {
                         var articles = await media.EvaluateFeed(model);

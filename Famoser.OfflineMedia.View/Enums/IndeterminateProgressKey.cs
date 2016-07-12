@@ -6,6 +6,7 @@
         RefreshingWeather,
         SavingSettings,
         SavingFeedSetting,
+        ResettingApplication,
         SavingSourceSetting,
     }
 }
