@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "Famoser.FrameworkEssentials": "2.6.3",
-    "Famoser.SqliteWrapper": "1.1.2",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Famoser.FrameworkEssentials": "2.7.3",
+    "Famoser.SqliteWrapper": "1.1.5",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MvvmLightLibs": "5.3.0",
     "Newtonsoft.Json": "9.0.1"
   },
