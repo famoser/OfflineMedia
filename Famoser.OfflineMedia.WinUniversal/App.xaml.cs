@@ -75,25 +75,6 @@ namespace Famoser.OfflineMedia.WinUniversal
             // Ensure the current window is active
             Window.Current.Activate();
             InitView();
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += (s, ev) =>
-            {
-                if (!ev.Handled)
-                {
-                    Frame frame = Window.Current.Content as Frame;
-
-                    if (frame != null && frame.CanGoBack)
-                    {
-                        var ns = SimpleIoc.Default.GetInstance<INavigationService>();
-                        ns.GoBack();
-                        ev.Handled = true;
-                    }
-                    else
-                    {
-                        Current.Exit();
-                    }
-                }
-            };
         }
 
         private async void InitView()
