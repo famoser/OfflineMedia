@@ -231,11 +231,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.FrameworkEssentials.2.6.3\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
+      <HintPath>..\packages\Famoser.FrameworkEssentials.2.7.3\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.SqliteWrapper.1.1.2\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
+      <HintPath>..\packages\Famoser.SqliteWrapper.1.1.5\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -246,8 +246,8 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10\GalaSoft.MvvmLight.Extras.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9.4\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
