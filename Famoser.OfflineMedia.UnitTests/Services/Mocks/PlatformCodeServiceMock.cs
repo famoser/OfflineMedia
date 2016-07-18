@@ -21,5 +21,10 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
         {
             return true;
         }
+
+        public void ExitApplication()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

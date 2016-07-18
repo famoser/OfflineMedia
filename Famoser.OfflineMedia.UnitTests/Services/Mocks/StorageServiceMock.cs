@@ -30,6 +30,36 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
             return true;
         }
 
+        public Task<bool> DeleteCachedFileAsync(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetRoamingTextFileAsync(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SetRoamingTextFileAsync(string filePath, string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> GetRoamingFileAsync(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SetRoamingFileAsync(string filePath, byte[] content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteRoamingFileAsync(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<string> GetUserTextFileAsync(string fileKey)
         {
             return "";

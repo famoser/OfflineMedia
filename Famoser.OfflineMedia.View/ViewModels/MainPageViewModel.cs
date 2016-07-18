@@ -91,8 +91,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         public ICommand OpenInfoCommand => _openInfoCommand;
         private void OpenInfo()
         {
+            var avm = SimpleIoc.Default.GetInstance<ArticlePageViewModel>();
+            avm.SelectArticle(_articleRepository.GetInfoArticle());
             _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
-            Messenger.Default.Send(_articleRepository.GetInfoArticle(), Messages.Select);
         }
         #endregion
 
