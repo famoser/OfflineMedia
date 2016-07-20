@@ -23,7 +23,6 @@ using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.OfflineMedia.Data.Entities.Database.Relations;
 using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
-using Famoser.OfflineMedia.Data.Enums;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using Newtonsoft.Json;
@@ -95,7 +94,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     var recovered = false;
                     try
                     {
-                        var json = await _storageService.GetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description);
+                        var json = await _storageService.GetRoamingTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description);
 
                         if (!string.IsNullOrEmpty(json))
                         {
@@ -140,14 +139,13 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     _isInitialized = true;
 
-                    //load the rest without locking
-#pragma warning disable 4014
-                    foreach (var feedModel in feedsToLoad)
-                        LoadArticlesIntoFeed(feedModel, 12, true);
-
                     if (!recovered)
-                        SaveCache();
-#pragma warning restore 4014
+                        await SaveCache();
+
+                    var tasks = feedsToLoad.Select(feedModel => LoadArticlesIntoFeed(feedModel, 12, true)).ToList();
+
+                    await  Task.WhenAll(tasks);
+
                 }
             });
         }
@@ -304,7 +302,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             return ExecuteSafe(async () =>
             {
                 var json = JsonConvert.SerializeObject(_sourceCacheEntity);
-                return await _storageService.SetCachedTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description, json);
+                return await _storageService.SetRoamingTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description, json);
             });
         }
 

@@ -9,7 +9,6 @@ using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Enums;
 using Famoser.OfflineMedia.Business.Managers;
-using Famoser.OfflineMedia.Business.Models.Configuration;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;

@@ -2,15 +2,14 @@
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.View.Enums;
-using Famoser.OfflineMedia.View.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;
 
@@ -36,7 +35,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             _openSettingsCommand = new RelayCommand(OpenSettings);
             _openInfoCommand = new RelayCommand(OpenInfo);
-            _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
+            _refreshCommand = new LoadingRelayCommand(Refresh);
             _selectArticleCommand = new RelayCommand<ArticleModel>(SelectArticle);
 
             Sources = _articleRepository.GetActiveSources();
@@ -96,13 +95,11 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         #region refresh
 
-        private readonly RelayCommand _refreshCommand;
+        private readonly LoadingRelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
-        private bool CanRefresh => !_isRefreshing;
-        private bool _isRefreshing;
         private async void Refresh()
         {
-            using (new LoadingCommand(_refreshCommand, (b) => _isRefreshing = b, IndeterminateProgressKey.RefreshingArticles, _progressService))
+            using (_refreshCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.RefreshingArticles))
             {
                 TimerHelper.Instance.Stop("Actualizing Articles", this);
                 await _articleRepository.ActualizeAllArticlesAsync();

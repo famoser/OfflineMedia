@@ -5,7 +5,6 @@ using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {

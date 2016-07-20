@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Famoser.FrameworkEssentials.Services.Interfaces;
+﻿using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
 using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.UnitTests.Services.Mocks;
 using Famoser.SqliteWrapper.Services.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;

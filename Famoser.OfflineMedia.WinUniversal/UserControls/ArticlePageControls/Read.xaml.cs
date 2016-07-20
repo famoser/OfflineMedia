@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+﻿using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

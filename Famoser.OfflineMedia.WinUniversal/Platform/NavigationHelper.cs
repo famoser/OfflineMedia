@@ -1,5 +1,4 @@
-﻿using Famoser.FrameworkEssentials.Services.Interfaces;
-using Famoser.FrameworkEssentials.UniversalWindows.Platform;
+﻿using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.View.Enums;
 using Famoser.OfflineMedia.WinUniversal.Pages;
 

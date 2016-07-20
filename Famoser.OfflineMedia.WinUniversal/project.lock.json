@@ -19,9 +19,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -2176,7 +2176,7 @@
           }
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -2213,9 +2213,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -4450,7 +4450,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -4487,9 +4487,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -6763,7 +6763,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -6800,9 +6800,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -9046,7 +9046,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -9083,9 +9083,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -11368,7 +11368,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -11405,9 +11405,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -13651,7 +13651,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -13688,9 +13688,9 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.7.0"
+          "Famoser.FrameworkEssentials": "2.7.3"
         },
         "compile": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
@@ -15973,7 +15973,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.4.6": {
+      "WindowsAppStudio.Uwp/1.5.0": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -16017,11 +16017,11 @@
         "lib/portable-net45+win8+wpa81+wp8/Famoser.FrameworkEssentials.dll"
       ]
     },
-    "Famoser.FrameworkEssentials.UniversalWindows/1.2.0": {
-      "sha512": "35NBJeWwXA6fzbTq6dLjsjqS6WWYiYsSkr2UyG379djCIBnNn8KqItlWwmaPm7je40K/S4arTpjLF9hakaUcyw==",
+    "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+      "sha512": "pKZgf4tBPg2ylM0hua23PWFCm9k3qUQTKvCcCPZchQ8dXyV3ui4O1tG3j5Ff+CBAySIEdotEUcNYoJUQ2tcYUQ==",
       "type": "package",
       "files": [
-        "Famoser.FrameworkEssentials.UniversalWindows.1.2.0.nupkg.sha512",
+        "Famoser.FrameworkEssentials.UniversalWindows.1.2.1.nupkg.sha512",
         "Famoser.FrameworkEssentials.UniversalWindows.nuspec",
         "content/uap10.0/Dictionaries/FamoserControlStyles.xaml",
         "content/uap10.0/Dictionaries/FamoserConverters.xaml",
@@ -22501,14 +22501,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "WindowsAppStudio.Uwp/1.4.6": {
-      "sha512": "ScZqX1BRR9gl3UWve5eMRIE2GmuN43oqjjNdvr3R3wNf7T3DCWyjLdZARydTF17T4XqfoRa8w4WxgxqUEQQ41A==",
+    "WindowsAppStudio.Uwp/1.5.0": {
+      "sha512": "hOKehCh2/Qwppr6eSBPccBQtG9LY6NfLXnq1pSq8A5TMWThXOoHj6DeYSy+XuxvYWSpCIZhLJTqYLbBGAmHwMQ==",
       "type": "package",
       "files": [
-        "WindowsAppStudio.Uwp.1.4.6.nupkg.sha512",
+        "WindowsAppStudio.Uwp.1.5.0.nupkg.sha512",
         "WindowsAppStudio.Uwp.nuspec",
         "lib/uap10.0/AppStudio.Uwp.dll",
-        "lib/uap10.0/AppStudio.Uwp.pdb",
         "lib/uap10.0/AppStudio.Uwp.pri",
         "lib/uap10.0/AppStudio.Uwp/AppStudio.Uwp.xr.xml",
         "lib/uap10.0/AppStudio.Uwp/Controls/Carousel/Carousel.xbf",
@@ -22522,6 +22521,7 @@
         "lib/uap10.0/AppStudio.Uwp/Controls/PropertySet/PropertySet.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/Relativebox/Relativebox.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/ResponsiveGridView/ResponsiveGridView.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/RoundButton/RoundButton.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/SearchBox/SearchBox.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/SectionList/SectionList.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/ShellControl/ShellControl.xbf",
@@ -22529,7 +22529,14 @@
         "lib/uap10.0/AppStudio.Uwp/Controls/SplitterCard/SplitterCard.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/VariableSizedGrid/VariableSizedGrid.xbf",
         "lib/uap10.0/AppStudio.Uwp/Controls/Virtualbox/Virtualbox.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/Accordion/Accordion.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/AutoHide/AutoHide.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/Mosaic/Mosaic.xbf",
         "lib/uap10.0/AppStudio.Uwp/Labs/ResponsiveGridView/ResponsiveGridView.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/ResponsiveRow/ResponsiveRow.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/ResponsiveTextBlock/ResponsiveTextBlock.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/ShapeImage/ShapeImage.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/SlideShow/SlideShow.xbf",
         "lib/uap10.0/AppStudio.Uwp/Properties/AppStudio.Uwp.rd.xml",
         "lib/uap10.0/AppStudio.Uwp/Themes/Generic.xbf"
       ]
@@ -23010,7 +23017,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Famoser.FrameworkEssentials >= 2.7.3",
-      "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.0",
+      "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
       "Famoser.SqliteWrapper >= 1.1.5",
       "HtmlAgilityPack >= 1.4.9.5",
       "Microsoft.Bcl >= 1.1.10",
@@ -23021,7 +23028,7 @@
       "Newtonsoft.Json >= 9.0.1",
       "SQLite.Net-PCL >= 3.1.1",
       "WinRTXamlToolkit.UWP >= 2.0.0",
-      "WindowsAppStudio.Uwp >= 1.4.6"
+      "WindowsAppStudio.Uwp >= 1.5.0"
     ],
     "UAP,Version=v10.0": []
   }

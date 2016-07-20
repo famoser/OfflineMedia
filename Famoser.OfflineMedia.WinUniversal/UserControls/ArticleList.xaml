@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
-            <Grid Padding="0,10" Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
+            <Grid Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

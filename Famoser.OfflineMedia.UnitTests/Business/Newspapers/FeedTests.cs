@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
 using Famoser.OfflineMedia.Business.Models;
-using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 

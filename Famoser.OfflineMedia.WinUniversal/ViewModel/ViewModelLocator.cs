@@ -12,7 +12,6 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using Famoser.FrameworkEssentials.Services;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.Business.Services;

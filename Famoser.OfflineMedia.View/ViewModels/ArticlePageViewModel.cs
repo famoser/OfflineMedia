@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Logging;
@@ -17,7 +16,6 @@ using Famoser.OfflineMedia.View.Enums;
 using Famoser.OfflineMedia.View.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {
@@ -50,7 +48,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _increaseSpeedCommand = new RelayCommand(IncreaseSpeed, () => CanIncreaseSpeed);
             _decreaseSpeedCommand = new RelayCommand(DecreaseSpeed, () => CanDecreaseSpeed);
 
-            _chooseFontCommand = new RelayCommand<string>(ChooseFont, (f)=> CanChooseFont(f));
+            _chooseFontCommand = new RelayCommand<string>(ChooseFont, CanChooseFont);
 
             if (IsInDesignMode)
             {
