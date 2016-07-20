@@ -13,11 +13,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
         public static async Task SaveFeed(FeedModel model, List<ArticleModel> newArticles, ISqliteService service)
         {
             var stringGuid = model.Guid.ToString();
-            var feedEntries = new Stack<FeedArticleRelationEntity>(await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0));
+            var feedEntries = await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0);
             var oldArticles = new List<ArticleModel>(model.AllArticles);
-            model.AllArticles.Clear();
-            var activeArticlesCount = model.ActiveArticles.Count;
-            model.ActiveArticles.Clear();
 
             for (int index = 0; index < newArticles.Count; index++)
             {
@@ -25,43 +22,56 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 var oldOne = oldArticles.FirstOrDefault(s => s.PublicUri == articleModel.PublicUri);
                 if (oldOne == null)
                 {
-                    await ArticleHelper.SaveArticle(articleModel, service);
-                    await ArticleHelper.SaveArticleLeadImage(articleModel, service, true);
-                    await ArticleHelper.SaveArticleContent(articleModel, service, true);
-                    oldOne = articleModel;
-                }
+                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.LogicUri == s.Url);
+                    if (oldFromDatabase != null)
+                    {
+                        model.AllArticles.Add(await ArticleHelper.LoadForFeed(oldFromDatabase.ArticleId, service));
+                        feedEntries.Remove(oldFromDatabase);
+                        oldFromDatabase.Index = index;
+                        await service.Update(oldFromDatabase);
+                    }
+                    else
+                    {
+                        await ArticleHelper.SaveArticle(articleModel, service);
+                        await ArticleHelper.SaveArticleLeadImage(articleModel, service, true);
+                        await ArticleHelper.SaveArticleContent(articleModel, service, true);
+                        model.AllArticles.Add(articleModel);
 
-                model.AllArticles.Add(oldOne);
-                if (activeArticlesCount <= index)
-                    model.ActiveArticles.Add(oldOne);
-            }
-
-            for (int i = 0; i < model.AllArticles.Count; i++)
-            {
-                if (feedEntries.Count > 0)
-                {
-                    var entry = feedEntries.Pop();
-                    entry.ArticleId = model.AllArticles[i].GetId();
-                    entry.Index = i;
-                    await service.Update(entry);
+                        var fe = new FeedArticleRelationEntity()
+                        {
+                            ArticleId = articleModel.GetId(),
+                            Url = articleModel.LogicUri,
+                            FeedGuid = model.Guid.ToString(),
+                            Index = index
+                        };
+                        await service.Add(fe);
+                    }
                 }
                 else
                 {
-                    var entry = new FeedArticleRelationEntity()
+                    model.AllArticles.Add(oldOne);
+
+                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.LogicUri == s.Url);
+                    if (oldFromDatabase != null)
                     {
-                        ArticleId = model.AllArticles[i].GetId(),
-                        FeedGuid = model.Guid.ToString(),
-                        Index = i
-                    };
-                    await service.Add(entry);
+                        oldFromDatabase.Index = index;
+                        await service.Update(oldFromDatabase);
+                    }
+                    else
+                    {
+                        var fe = new FeedArticleRelationEntity()
+                        {
+                            ArticleId = articleModel.GetId(),
+                            Url = articleModel.LogicUri,
+                            FeedGuid = model.Guid.ToString(),
+                            Index = index
+                        };
+                        await service.Add(fe);
+                    }
                 }
             }
 
-            while (feedEntries.Count > 0)
-            {
-                var entry = feedEntries.Pop();
-                await service.DeleteById<FeedArticleRelationEntity>(entry.Id);
-            }
+            await service.DeleteAllById<FeedArticleRelationEntity>(feedEntries.Select(s => s.Id));  
         }
     }
 }

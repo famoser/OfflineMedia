@@ -142,7 +142,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     if (!recovered)
                         await SaveCache();
 
-                    var tasks = feedsToLoad.Select(feedModel => LoadArticlesIntoFeed(feedModel, 12, true)).ToList();
+                    var tasks = feedsToLoad.Select(feedModel => LoadArticlesIntoFeed(feedModel, 12)).ToList();
 
                     await  Task.WhenAll(tasks);
 
@@ -150,7 +150,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             });
         }
 
-        private async Task LoadArticlesIntoFeed(FeedModel feed, int max, bool toActive)
+        private async Task LoadArticlesIntoFeed(FeedModel feed, int max)
         {
             for (int i = 0; i < max; i++)
             {
@@ -162,15 +162,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     foreach (var feedArticleRelationEntity in relations)
                     {
-                       var article = await _articleGenericRepository.GetByIdAsync(feedArticleRelationEntity.ArticleId);
-
-                        var id = article.GetId();
-                        var contents = await _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
-                        if (contents?.FirstOrDefault() != null)
-                        {
-                            var image = await _imageContentGenericRepository.GetByIdAsync(contents.FirstOrDefault().ContentId);
-                            article.LeadImage = image;
-                        }
+                        var article = await ArticleHelper.LoadForFeed(feedArticleRelationEntity.ArticleId, _sqliteService);
                         feed.AllArticles.Add(article);
                     }
                 }
@@ -178,17 +170,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 //no more entries 
                 if (feed.AllArticles.Count <= i)
                     return;
-
-                var model = feed.AllArticles[i];
-                if (toActive && model != null)
-                {
-                    if (feed.ActiveArticles.Count <= i)
-                        feed.ActiveArticles.Add(model);
-                    else
-                        feed.ActiveArticles[i] = model;
-                }
             }
-
         }
 
         public Task<bool> LoadFullArticleAsync(ArticleModel am)
@@ -249,7 +231,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                await LoadArticlesIntoFeed(fm, 0, false);
+                await LoadArticlesIntoFeed(fm, 0);
 
                 return true;
             });

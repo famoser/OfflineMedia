@@ -221,5 +221,20 @@ namespace Famoser.OfflineMedia.Business.Helpers
                     await service.DeleteById<ContentEntity>(contentEntity.Id);
                 }
         }
+
+        public static async Task<ArticleModel> LoadForFeed(int id, ISqliteService sqliteService)
+        {
+            var arRepo = new GenericRepository<ArticleModel, ArticleEntity>(sqliteService);
+            var imgRepo = new GenericRepository<ImageContentModel, ImageContentEntity>(sqliteService);
+            
+            var art = await arRepo.GetByIdAsync(id);
+            var contents = await sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == id && s.ContentType == (int)ContentType.LeadImage, s => s.Index, false, 1, 0);
+            if (contents?.FirstOrDefault() != null)
+            {
+                var image = await imgRepo.GetByIdAsync(contents.FirstOrDefault().ContentId);
+                art.LeadImage = image;
+            }
+            return art;
+        }
     }
 }

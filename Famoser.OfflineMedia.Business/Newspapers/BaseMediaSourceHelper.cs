@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
 using Famoser.OfflineMedia.Business.Models;
@@ -53,7 +54,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers
             if (model.GetId() == 0)
                 return;
             if (themes != null)
-                foreach (var theme in themes)
+                foreach (var theme in themes.Where(t => t != null))
                 {
                     await _themeRepository.AddThemeToArticleAsync(model, theme);
                 }

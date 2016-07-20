@@ -35,12 +35,9 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                                 decoder.OrientedPixelWidth > ResolutionHelper.WidthOfDevice)
                             {
                                 var resizedStream = new InMemoryRandomAccessStream();
-                                BitmapEncoder encoder =
-                                    await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                double widthRatio = ResolutionHelper.WidthOfDevice /
-                                                    decoder.OrientedPixelWidth;
-                                double heightRatio = ResolutionHelper.HeightOfDevice /
-                                                     decoder.OrientedPixelHeight;
+                                BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                double widthRatio = ResolutionHelper.WidthOfDevice / decoder.OrientedPixelWidth;
+                                double heightRatio = ResolutionHelper.HeightOfDevice / decoder.OrientedPixelHeight;
 
                                 // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
                                 double scaleRatio = Math.Min(widthRatio, heightRatio);
