@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:AppStudio.Uwp.Controls">
 
     <Style TargetType="ListView" x:Key="ListViewStyle">
         <Setter Property="SelectionMode" Value="Single" />
@@ -47,6 +48,12 @@
 
     <Style TargetType="Grid" x:Key="ArticlePageContentGrid">
         <Setter Property="Background" Value="LightGray" />
+    </Style>
+
+    <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewStyle">
+        <Setter Property="Background" Value="LightGray" />
+        <Setter Property="DesiredWidth" Value="300" />
+        <Setter Property="ItemHeight" Value="400" />
     </Style>
 
 </ResourceDictionary>

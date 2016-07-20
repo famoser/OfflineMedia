@@ -37,7 +37,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _openSettingsCommand = new RelayCommand(OpenSettings);
             _openInfoCommand = new RelayCommand(OpenInfo);
             _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
-            
+            _selectArticleCommand = new RelayCommand<ArticleModel>(SelectArticle);
+
             Sources = _articleRepository.GetActiveSources();
             if (!IsInDesignMode)
                 Refresh();
@@ -50,17 +51,13 @@ namespace Famoser.OfflineMedia.View.ViewModels
             set { Set(ref _sources, value); }
         }
 
-        public ArticleModel SelectedArticle
+        private RelayCommand<ArticleModel> _selectArticleCommand;
+        public ICommand SelectArticleCommand => _selectArticleCommand;
+
+        private void SelectArticle(ArticleModel model)
         {
-            get { return null; }
-            set
-            {
-                if (value != null)
-                {
-                    SimpleIoc.Default.GetInstance<ArticlePageViewModel>().SelectArticle(value);
-                    _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
-                }
-            }
+            SimpleIoc.Default.GetInstance<ArticlePageViewModel>().SelectArticle(model);
+            _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
         }
 
         public FeedModel SelectedFeed

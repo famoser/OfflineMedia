@@ -2176,6 +2176,17 @@
           }
         }
       },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -4437,6 +4448,17 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
       "WinRTXamlToolkit.UWP/2.0.0": {
@@ -6741,6 +6763,17 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -9011,6 +9044,17 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
       "WinRTXamlToolkit.UWP/2.0.0": {
@@ -11324,6 +11368,17 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -13594,6 +13649,17 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
       "WinRTXamlToolkit.UWP/2.0.0": {
@@ -15905,6 +15971,17 @@
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "WindowsAppStudio.Uwp/1.4.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
       "WinRTXamlToolkit.UWP/2.0.0": {
@@ -22424,6 +22501,39 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
+    "WindowsAppStudio.Uwp/1.4.6": {
+      "sha512": "ScZqX1BRR9gl3UWve5eMRIE2GmuN43oqjjNdvr3R3wNf7T3DCWyjLdZARydTF17T4XqfoRa8w4WxgxqUEQQ41A==",
+      "type": "package",
+      "files": [
+        "WindowsAppStudio.Uwp.1.4.6.nupkg.sha512",
+        "WindowsAppStudio.Uwp.nuspec",
+        "lib/uap10.0/AppStudio.Uwp.dll",
+        "lib/uap10.0/AppStudio.Uwp.pdb",
+        "lib/uap10.0/AppStudio.Uwp.pri",
+        "lib/uap10.0/AppStudio.Uwp/AppStudio.Uwp.xr.xml",
+        "lib/uap10.0/AppStudio.Uwp/Controls/Carousel/Carousel.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/ErrorNotificationControl/ErrorNotificationControl.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/GifControl/GifControl.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/HtmlBlock/HtmlBlock.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/HtmlViewer/HtmlViewer.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/ImageEx/ImageEx.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/Indicator/Indicator.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/Pivorama/Pivorama.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/PropertySet/PropertySet.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/Relativebox/Relativebox.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/ResponsiveGridView/ResponsiveGridView.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/SearchBox/SearchBox.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/SectionList/SectionList.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/ShellControl/ShellControl.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/SliderView/SliderView.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/SplitterCard/SplitterCard.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/VariableSizedGrid/VariableSizedGrid.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Controls/Virtualbox/Virtualbox.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Labs/ResponsiveGridView/ResponsiveGridView.xbf",
+        "lib/uap10.0/AppStudio.Uwp/Properties/AppStudio.Uwp.rd.xml",
+        "lib/uap10.0/AppStudio.Uwp/Themes/Generic.xbf"
+      ]
+    },
     "WinRTXamlToolkit.UWP/2.0.0": {
       "sha512": "aO7uISAWUNJojXOf36YpruZz1YPIC8l/vH5q5diPNaRpR8VuYRCOMw3tHq8VzaGj64w/a22bwVSon5elHAsj4Q==",
       "type": "package",
@@ -22910,7 +23020,8 @@
       "MvvmLight >= 5.3.0",
       "Newtonsoft.Json >= 9.0.1",
       "SQLite.Net-PCL >= 3.1.1",
-      "WinRTXamlToolkit.UWP >= 2.0.0"
+      "WinRTXamlToolkit.UWP >= 2.0.0",
+      "WindowsAppStudio.Uwp >= 1.4.6"
     ],
     "UAP,Version=v10.0": []
   }
