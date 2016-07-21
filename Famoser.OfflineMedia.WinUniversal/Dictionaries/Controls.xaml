@@ -10,6 +10,12 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
     </Style>
 
+    <Style TargetType="ListView" x:Key="FeedListViewStyle">
+        <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="IsItemClickEnabled" Value="False" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+    </Style>
+
     <Style TargetType="ListViewItem" x:Key="ItemContainerStyle">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>

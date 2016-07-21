@@ -10,22 +10,20 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
-            <Grid Background="{ThemeResource TextBackground}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
-                <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchFeedStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
-            </Grid>
+            <ToggleButton Padding="10" Width="120" IsChecked="{Binding IsActive}" Content="{Binding Name}" Command="{Binding SettingsPageViewModel.SwitchFeedStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" />
         </DataTemplate>
     </UserControl.Resources>
 
 
     <ListView
-        Style="{StaticResource ListViewStyle}"
+        Style="{StaticResource FeedListViewStyle}"
         ItemsSource="{Binding AllFeeds}"
         ItemTemplate="{StaticResource FeedDataTemplate}" 
-        ItemContainerStyle="{StaticResource ItemContainerStyle}"/>
-
+        ItemContainerStyle="{StaticResource ItemContainerStyle}" >
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+    </ListView>
 </UserControl>

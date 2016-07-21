@@ -19,9 +19,12 @@
                     <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
                     <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
                 </Grid>
-                <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0,0,0" Margin="10,0,-2,0" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <local:FeedSettings DataContext="{Binding }" />
-                </Border>
+                <StackPanel Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0"  />
+                    <ScrollViewer Margin="6,6,-2,6" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                        <local:FeedSettings DataContext="{Binding }" />
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
@@ -34,6 +37,6 @@
         ItemsSource="{Binding Sources}"
         ItemTemplate="{StaticResource SourceDataTemplate}" 
         ItemsPanel="{StaticResource ItemsPanelTemplate1}" 
-        ItemContainerStyle="{StaticResource ItemContainerStyle}" />
+        ItemContainerStyle="{StaticResource ItemContainerStyle}" Padding="2" />
 
 </UserControl>
