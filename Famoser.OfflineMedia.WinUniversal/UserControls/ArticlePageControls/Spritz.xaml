@@ -31,7 +31,7 @@
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ProgressBar VerticalAlignment="Top" Margin="0" IsIndeterminate="False" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" Value="{Binding ActiveWord}" Grid.ColumnSpan="4" Maximum="{Binding TotalWords}"></ProgressBar>
+            <ProgressBar VerticalAlignment="Top" Margin="0" IsIndeterminate="False" Value="{Binding ActiveWord}" Grid.ColumnSpan="4" Maximum="{Binding TotalWords}" />
             <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Margin="-80,0,0,0" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

@@ -8,6 +8,6 @@
     Height="4"
     DataContext="{Binding ProgressService, Source={StaticResource Locator}}">
 
-    <ProgressBar Background="{ThemeResource AkzentLightBackgroundThemeBrush}" Foreground="{ThemeResource AkzentBackgroundThemeBrush}" IsIndeterminate="False" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="4" />
+    <ProgressBar IsIndeterminate="False" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="4" />
 
 </UserControl>

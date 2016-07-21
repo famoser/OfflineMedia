@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
-            <Grid Background="{StaticResource FlatGridBackgroundColor}">
+            <Grid Background="{ThemeResource TextBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

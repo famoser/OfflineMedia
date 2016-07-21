@@ -37,6 +37,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _openInfoCommand = new RelayCommand(OpenInfo);
             _refreshCommand = new LoadingRelayCommand(Refresh);
             _selectArticleCommand = new RelayCommand<ArticleModel>(SelectArticle);
+            _selectFeedCommand = new RelayCommand<FeedModel>(SelectFeed);
 
             Sources = _articleRepository.GetActiveSources();
             if (!IsInDesignMode)
@@ -50,7 +51,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             set { Set(ref _sources, value); }
         }
 
-        private RelayCommand<ArticleModel> _selectArticleCommand;
+        private readonly RelayCommand<ArticleModel> _selectArticleCommand;
         public ICommand SelectArticleCommand => _selectArticleCommand;
 
         private void SelectArticle(ArticleModel model)
@@ -59,17 +60,13 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _historyNavigationService.NavigateTo(PageKeys.Article.ToString());
         }
 
-        public FeedModel SelectedFeed
+        private readonly RelayCommand<FeedModel> _selectFeedCommand;
+        public ICommand SelectFeedCommand => _selectFeedCommand;
+
+        private void SelectFeed(FeedModel model)
         {
-            get { return null; }
-            set
-            {
-                if (value != null)
-                {
-                    SimpleIoc.Default.GetInstance<FeedPageViewModel>().SelectFeed(value);
-                    _historyNavigationService.NavigateTo(PageKeys.Feed.ToString());
-                }
-            }
+            SimpleIoc.Default.GetInstance<FeedPageViewModel>().SelectFeed(model);
+            _historyNavigationService.NavigateTo(PageKeys.Feed.ToString());
         }
 
 

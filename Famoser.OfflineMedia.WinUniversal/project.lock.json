@@ -30,6 +30,18 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -2222,6 +2234,18 @@
         },
         "runtime": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -4496,6 +4520,18 @@
         },
         "runtime": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -6811,6 +6847,18 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -9092,6 +9140,18 @@
         },
         "runtime": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -11416,6 +11476,18 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -13697,6 +13769,18 @@
         },
         "runtime": {
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.View/1.2.2": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.3",
+          "MvvmLightLibs": "5.3.0"
+        },
+        "compile": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -16027,6 +16111,17 @@
         "content/uap10.0/Dictionaries/FamoserConverters.xaml",
         "content/uap10.0/Dictionaries/FamoserStyles.xaml",
         "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll"
+      ]
+    },
+    "Famoser.FrameworkEssentials.View/1.2.2": {
+      "sha512": "hl1n7SbCFifbzkYvol7tfZEld5q9bR+mjc2K1qjcQmnzNQ3h4KTZE7e9Gf6F4FreELmH8Hazks/LOAcvf02wCQ==",
+      "type": "package",
+      "files": [
+        "Famoser.FrameworkEssentials.View.1.2.2.nupkg.sha512",
+        "Famoser.FrameworkEssentials.View.nuspec",
+        "lib/Famoser.FrameworkEssentials.View.dll",
+        "lib/dotnet/Famoser.FrameworkEssentials.View.dll",
+        "lib/portable-net45+win8+wpa81+wp8/Famoser.FrameworkEssentials.View.dll"
       ]
     },
     "Famoser.SqliteWrapper/1.1.5": {
@@ -23018,6 +23113,7 @@
     "": [
       "Famoser.FrameworkEssentials >= 2.7.3",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
+      "Famoser.FrameworkEssentials.View >= 1.2.2",
       "Famoser.SqliteWrapper >= 1.1.5",
       "HtmlAgilityPack >= 1.4.9.5",
       "Microsoft.Bcl >= 1.1.10",

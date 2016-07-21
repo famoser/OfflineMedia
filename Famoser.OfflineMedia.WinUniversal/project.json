@@ -2,6 +2,7 @@
   "dependencies": {
     "Famoser.FrameworkEssentials": "2.7.3",
     "Famoser.FrameworkEssentials.UniversalWindows": "1.2.1",
+    "Famoser.FrameworkEssentials.View": "1.2.2",
     "Famoser.SqliteWrapper": "1.1.5",
     "HtmlAgilityPack": "1.4.9.5",
     "Microsoft.Bcl": "1.1.10",

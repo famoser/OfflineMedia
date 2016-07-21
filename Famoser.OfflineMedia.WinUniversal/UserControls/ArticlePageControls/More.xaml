@@ -23,12 +23,12 @@
             </Paragraph>
         </RichTextBlock>
         <Border Style="{ThemeResource FamoserSpacer}" />
-        <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+        <Grid Background="{ThemeResource TextBackground}">
             <TextBlock Text="Related Articles: by Theme" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
         <userControls:ArticleList DataContext="{Binding Article.RelatedThemesArticles}" />
         <Border Style="{ThemeResource FamoserSpacer}" />
-        <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+        <Grid Background="{ThemeResource TextBackground}">
             <TextBlock Text="Related Articles: by Content" Style="{ThemeResource FamoserHeaderTextBlock}"  />
         </Grid>
         <userControls:ArticleList DataContext="{Binding Article.RelatedContentArticles}" />

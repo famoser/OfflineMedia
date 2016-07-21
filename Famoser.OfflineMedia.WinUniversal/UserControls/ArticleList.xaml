@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
-            <Grid Background="{ThemeResource FlatGridBackgroundColor}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
+            <Grid Background="{ThemeResource TextBackground}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -22,14 +22,15 @@
                 <TextBlock Grid.Row="2" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding SubTitle}" />
                 <TextBlock Grid.Row="3" TextTrimming="WordEllipsis" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
             </Grid>
-
         </DataTemplate>
     </UserControl.Resources>
 
-    <controls:ResponsiveGridView 
+    <Grid Style="{ThemeResource ResponsiveGridViewBackgroundGridStyle}">
+        <controls:ResponsiveGridView 
         ItemsSource="{Binding }"
         ItemTemplate="{StaticResource ArticleDataTemplate}" 
-        Style="{StaticResource ResponsiveGridViewStyle}"
+        Style="{StaticResource ResponsiveGridViewArticleStyle}"
         ItemClickCommand="{Binding MainPageViewModel.SelectArticleCommand, Source={StaticResource Locator}}" />
+    </Grid>
 
 </UserControl>

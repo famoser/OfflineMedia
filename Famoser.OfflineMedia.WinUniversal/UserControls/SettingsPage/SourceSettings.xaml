@@ -10,8 +10,8 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="SourceDataTemplate">
-            <StackPanel>
-                <Grid Background="{ThemeResource FlatGridBackgroundColor}">
+            <StackPanel Background="{ThemeResource TextBackground}">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -19,7 +19,9 @@
                     <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
                     <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
                 </Grid>
-                <local:FeedSettings Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" DataContext="{Binding }" />
+                <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0,0,0" Margin="10,0,-2,0" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <local:FeedSettings DataContext="{Binding }" />
+                </Border>
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">

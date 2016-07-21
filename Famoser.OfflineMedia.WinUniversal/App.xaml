@@ -14,15 +14,14 @@
                 <ResourceDictionary Source="Dictionaries/Converters.xaml" />
                 <ResourceDictionary Source="Dictionaries/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="TextBackgroundColor">#FFFFFF</Color>
+            <Thickness x:Key="PivotItemMargin">0</Thickness>
 
-            <SolidColorBrush x:Key="AkzentBackgroundThemeBrush" Color="#2f8841" />
-            <SolidColorBrush x:Key="AkzentLightBackgroundThemeBrush" Color="#662F8841" />
-            <SolidColorBrush x:Key="AkzentForegroundThemeBrush" Color="#ffffff" />
-            
-            <SolidColorBrush x:Key="FlatGridBackgroundColor" Color="#ffffff" />
+            <SolidColorBrush x:Key="TextBackground" Color="{ThemeResource TextBackgroundColor}" />
+            <SolidColorBrush x:Key="TextForeground" Color="#1C1C1C" />
 
-            <SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />
+            <!--<SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />-->
 
             <viewModel:ViewModelLocator x:Key="Locator" />
 
@@ -34,8 +33,13 @@
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
             </Style>
 
-            <Style x:Key="RootGrid" TargetType="Grid" BasedOn="{StaticResource FamoserRootGrid}">
-                <Setter Property="Background" Value="White" />
+            <Style x:Key="RootGrid" TargetType="Grid">
+
+            </Style>
+
+            <Style x:Key="ResponsiveGridViewBackgroundGridStyle" TargetType="Grid">
+                <Setter Property="Padding" Value="0,0,-8,0" />
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
