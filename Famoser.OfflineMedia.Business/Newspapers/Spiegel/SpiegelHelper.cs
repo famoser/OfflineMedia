@@ -40,16 +40,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
                 var url = nfa.Enclosure.Url;
                 if (url.Contains("thumbsmall"))
                 {
-                    var newurl = url.Replace("thumbsmall", "panoV9free");
-                    HttpRequestMessage ms = new HttpRequestMessage(HttpMethod.Head, newurl);
-                    using (var client = new HttpClient())
-                    {
-                        var res = await client.SendAsync(ms);
-                        if (res.IsSuccessStatusCode)
-                            url = newurl;
-                        else
-                            url = url.Replace("thumbsmall", "thumb");
-                    }
+                    url = url.Replace("thumbsmall", "hppano");
                 }
                 a.LeadImage = new ImageContentModel { Url = url };
             }
@@ -147,8 +138,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
                                          o.GetAttributeValue("id", null).Contains("js-article-column"));
 
-                var content = articleColumn
-                    .Descendants("p");
+                var content = articleColumn?.Descendants("p");
 
                 if (content != null)
                 {

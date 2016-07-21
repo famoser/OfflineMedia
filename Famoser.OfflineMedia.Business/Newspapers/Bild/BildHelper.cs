@@ -107,7 +107,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                                 });
                         }
                     }
-                    articleModel.PublishDateTime = DateTime.Parse(rootObj.pubDate);
+                    articleModel.PublishDateTime = rootObj.pubDate != null ? DateTime.Parse(rootObj.pubDate) : DateTime.Now;
                     articleModel.Author = rootObj.author;
                 }
                 return true;
