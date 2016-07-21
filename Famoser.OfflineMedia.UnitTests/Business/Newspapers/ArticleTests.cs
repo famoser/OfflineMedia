@@ -52,7 +52,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
                 await Task.WhenAll(tasks);
-
+                
                 Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
                 Debug.Write("successfull! Log files at " + logger.GetSavePath());
             }

@@ -67,7 +67,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
             try
             {
                 var hrefPattern = "[^\"]";
-                xml = XmlHelper.GetNodes(xml, "cluster").Aggregate((c, s) => c + s);
+                var clusters = XmlHelper.GetNodes(xml, "cluster");
+                if (!clusters.Any())
+                    return false;
+
+                xml = clusters.Aggregate((c, s) => c + s);
 
                 //remove namespaces
                 xml = Regex.Replace(xml, "([A-Za-z])\\w+:", " ");
@@ -149,7 +153,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
 
                 a.AfterSaveFunc = async () =>
                 {
-                    await AddThemesAsync(a, new[] {feedArticle.Block.Ressort, feedArticle.Block.Genre});
+                    await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
                 };
 
                 return a;
@@ -217,10 +221,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                     .Descendants("p");
                 var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                 articleModel.Content.Add(new TextContentModel()
-                    {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(html)
-                    });
-                
+                {
+                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(html)
+                });
+
 
                 return true;
             });
