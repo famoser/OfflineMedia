@@ -61,8 +61,8 @@ namespace Famoser.OfflineMedia.Business.Helpers
                     {
                         var fe = new FeedArticleRelationEntity()
                         {
-                            ArticleId = articleModel.GetId(),
-                            Url = articleModel.LogicUri,
+                            ArticleId = oldOne.GetId(),
+                            Url = oldOne.LogicUri,
                             FeedGuid = model.Guid.ToString(),
                             Index = index
                         };

@@ -110,7 +110,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 if (model.LeadImage.GetId() != 0)
                 {
                     var leadImageId = model.LeadImage.GetId();
-                    var oldLeadImage = oldLeadImages.FirstOrDefault(o => o.ContentId == leadImageId);
+                    var oldLeadImage = oldLeadImages?.FirstOrDefault(o => o.ContentId == leadImageId);
                     if (oldLeadImage != null)
                         oldLeadImages?.Remove(oldLeadImage);
 

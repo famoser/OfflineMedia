@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Enums.Models;
@@ -42,26 +43,20 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                         a.Author += item.name;
                     }
                 }
+                if (string.IsNullOrEmpty(a.Author))
+                    a.Author = feedModel.Source.Name;
 
-                if (!string.IsNullOrEmpty(nfa.source_annotation))
-                {
-                    if (string.IsNullOrEmpty(a.Author))
-                        a.Author = nfa.source_annotation;
-                    else
-                        a.Author += " " + nfa.source_annotation;
-                }
-
-                if (!string.IsNullOrEmpty(nfa.source))
-                {
-                    if (string.IsNullOrEmpty(a.Author))
-                        a.Author = nfa.source;
-                    else
-                        a.Author += " " + nfa.source;
-                }
                 a.Content.Add(new TextContentModel()
                 {
                     Content = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text)
                 });
+
+
+                a.AfterSaveFunc = async () =>
+                {
+                    await AddThemesAsync(a, new[] { nfa.category_for_site?.title });
+                };
+
                 if (nfa.article_elements != null)
                 {
                     foreach (var elemnt in nfa.article_elements)

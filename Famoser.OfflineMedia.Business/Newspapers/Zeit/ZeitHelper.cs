@@ -128,12 +128,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 a.Title = feedArticle.Block.Title;
                 a.SubTitle = feedArticle.Block.Supertitle;
                 a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
-                a.Author = feedArticle.Block._Author;
+                a.Author = feedArticle.Block.Author.Any() ? feedArticle.Block._Author.Trim() : "Zeit";
                 a.Content.Add(TextConverter.TextToTextModel(feedArticle.Block.Text));
 
                 DateTime dateTime;
-                if (DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime))
-                    a.PublishDateTime = dateTime;
+                a.PublishDateTime = DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime) ? dateTime : DateTime.Now;
 
                 a.PublicUri = pubLink;
                 a.LogicUri = link;

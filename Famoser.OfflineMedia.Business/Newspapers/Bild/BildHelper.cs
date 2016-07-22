@@ -91,8 +91,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                 var rootObj = JsonConvert.DeserializeObject<ArticleRoot>(article);
 
                 if (rootObj == null)
+                {
                     LogHelper.Instance.Log(LogLevel.Error,
                         "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation", this);
+                    return false;
+                }
                 else
                 {
                     foreach (var text in rootObj.text)
@@ -107,8 +110,29 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                                 });
                         }
                     }
-                    articleModel.PublishDateTime = rootObj.pubDate != null ? DateTime.Parse(rootObj.pubDate) : DateTime.Now;
+                    articleModel.PublishDateTime = rootObj.pubDate != null
+                        ? DateTime.Parse(rootObj.pubDate)
+                        : DateTime.Now;
                     articleModel.Author = rootObj.author;
+
+                    var theme = new List<string>();
+                    if (rootObj.wtChannels.Keyboard1 != null)
+                        theme.Add(rootObj.wtChannels.Keyboard1);
+
+                    if (rootObj.wtChannels.Keyboard2 != null)
+                        theme.Add(rootObj.wtChannels.Keyboard2);
+
+                    if (rootObj.wtChannels.Keyboard3 != null)
+                        theme.Add(rootObj.wtChannels.Keyboard3);
+
+                    if (rootObj.wtChannels.Keyboard4 != null)
+                        theme.Add(rootObj.wtChannels.Keyboard4);
+
+                    if (rootObj.wtChannels.Keyboard5 != null)
+                        theme.Add(rootObj.wtChannels.Keyboard5);
+                        
+
+                    await AddThemesAsync(articleModel, theme.ToArray());
                 }
                 return true;
             });

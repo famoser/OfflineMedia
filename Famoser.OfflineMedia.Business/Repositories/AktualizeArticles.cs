@@ -89,10 +89,10 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     var media = ArticleHelper.GetMediaSource(model, _themeRepository);
                     if (media != null && await media.EvaluateArticle(model))
                     {
+                        model.LoadingState = LoadingState.Loaded;
                         await ArticleHelper.SaveArticle(model, _sqliteService);
                         await ArticleHelper.SaveArticleLeadImage(model, _sqliteService);
                         await ArticleHelper.SaveArticleContent(model, _sqliteService);
-                        model.LoadingState = LoadingState.Loaded;
                         _imageDownloadService.Download(model);
                     }
                     else

@@ -33,11 +33,15 @@ namespace Famoser.OfflineMedia.Business.Newspapers
             return DownloadAsync(model.GetLogicUri());
         }
 
+        private HttpService _httpServiceCache;
         protected virtual async Task<string> DownloadAsync(Uri url)
         {
-            var service = new HttpService();
-            var response = await service.DownloadAsync(url);
-            return await response.GetResponseAsStringAsync();
+            if (_httpServiceCache == null)
+                _httpServiceCache = new HttpService();
+            var response = await _httpServiceCache.DownloadAsync(url);
+            if (response != null)
+                return await response.GetResponseAsStringAsync();
+            return null;
         }
 
         protected ArticleModel ConstructArticleModel(FeedModel feed)
@@ -58,6 +62,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers
                 {
                     await _themeRepository.AddThemeToArticleAsync(model, theme);
                 }
+
             await _themeRepository.AddThemeToArticleAsync(model, model.Feed.Name);
         }
     }

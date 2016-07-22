@@ -42,6 +42,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia.Models
         public TopElement top_element { get; set; }
 
         public List<ArticleElement> article_elements { get; set; }
+
+        public CategoryForSite category_for_site { get; set; }
     }
 
     public class TopElement
@@ -59,6 +61,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia.Models
         public string picture_source_annotation { get; set; }
         public object lead { get; set; }
         public Slideshow slideshow { get; set; }
+    }
+
+    public class CategoryForSite
+    {
+        public string name { get; set; }
+        public string title { get; set; }
     }
 
     public class Slideshow

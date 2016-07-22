@@ -18,10 +18,12 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             res &= TestStringNotEmptyProperty(article.LogicUri, "LogicUri", entry);
             res &= TestStringNotEmptyProperty(article.PublicUri, "PublicUri", entry);
             res &= TestStringNotEmptyProperty(article.Title, "Title", entry);
-            res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
-            res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
 
-            res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
+            //exclude tamedia from subtitles as they do not provide any
+            if (!IsTamediaArticle(article))
+                res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
+
+            res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 
             return res;
@@ -30,7 +32,10 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         public static bool TestFullArticleProperties(ArticleModel article, LogEntry entry)
         {
             var res = TestFeedArticleProperties(article, entry);
-            res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
+            res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
+
+            if (!IsBlickArticle(article))
+                res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
             res &= TestBooleanFalseProperty(article.IsRead, "IsRead", entry);
             res &= TestBooleanFalseProperty(article.IsFavorite, "IsFavorite", entry);
             res &= TestNotEmptyCollection(article.Themes, "Themes", entry);
@@ -38,6 +43,16 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             res &= TestContentModels(article.Content, entry);
             res &= TestForCorrectValue(article.LoadingState, LoadingState.Loaded, "LoadingState", entry);
             return res;
+        }
+
+        private static bool IsTamediaArticle(ArticleModel article)
+        {
+            return article.LogicUri != null && article.LogicUri.StartsWith("http://mobile2.");
+        }
+
+        private static bool IsBlickArticle(ArticleModel article)
+        {
+            return article.LogicUri != null && article.LogicUri.StartsWith("http://www.blick.ch/");
         }
 
         private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry)

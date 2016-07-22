@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using SQLite.Net.Async;
 
@@ -9,7 +10,7 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
     {
         public async Task<string> GetFullPathOfDatabase()
         {
-            return "test_db.sqlite3";
+            return Path.Combine(Path.GetTempPath(), "test_db.sqlite3");
         }
 
         public int GetApplicationId()

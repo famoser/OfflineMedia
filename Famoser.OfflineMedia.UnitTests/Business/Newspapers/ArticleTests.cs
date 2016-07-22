@@ -11,6 +11,7 @@ using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
 using Famoser.OfflineMedia.UnitTests.Helpers;
 using Famoser.OfflineMedia.UnitTests.Helpers.Models;
+using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Logger = Famoser.OfflineMedia.UnitTests.Helpers.Logger;
@@ -43,7 +44,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         {
             var configmodels = await SourceTestHelper.Instance.GetSourceConfigModels();
 
-            using (var logger = new Logger("get_feed_article"))
+            Logger logger;
+            using (logger = new Logger("get_feed_article"))
             {
                 var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
                 var tasks = new List<Task>();
@@ -52,10 +54,9 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
                 await Task.WhenAll(tasks);
-                
-                Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
-                Debug.Write("successfull! Log files at " + logger.GetSavePath());
             }
+            Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
+            Debug.Write("successfull! Log files at " + logger.GetSavePath());
         }
 
         private async Task TestFeedEvaluationSourceTask(ConcurrentStack<SourceModel> sources, Logger logger)
@@ -92,13 +93,23 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                 };
 
                 var msh = ArticleHelper.GetMediaSource(source.Source, SimpleIoc.Default.GetInstance<IThemeRepository>());
+                var sqs = SimpleIoc.Default.GetInstance<ISqliteService>();
                 var newArticles = await msh.EvaluateFeed(feed);
+                await FeedHelper.SaveFeed(feed, newArticles, sqs);
+
                 foreach (var articleModel in newArticles)
                 {
                     var articleLogEntry = new LogEntry()
                     {
                         Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ")"
                     };
+                    articleModel.Feed = feed;
+
+                    await ArticleHelper.SaveArticle(articleModel, sqs);
+                    await ArticleHelper.SaveArticleLeadImage(articleModel, sqs, true);
+                    await ArticleHelper.SaveArticleContent(articleModel, sqs, true);
+
+
                     AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
 
                     if (articleModel.LoadingState != LoadingState.Loaded && !await msh.EvaluateArticle(articleModel))
