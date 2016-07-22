@@ -183,12 +183,12 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             Assert.IsTrue(paragraphs[0].Children[2].TextType == TextType.Normal);
             Assert.IsTrue(paragraphs[0].Children[2].Children.Count == 0);
         }
-        
+
         [TestMethod]
         public void HtmlSzenarioComplexHyperlinks()
         {
             //arrange
-            var html ="<p>Text before link <a href=\"http://link.ch\">link text<b>Bold link text</b></a> more text after link</p>";
+            var html = "<p>Text before link <a href=\"http://link.ch\">link text<b>Bold link text</b></a> more text after link</p>";
             var converter = new HtmlConverter();
 
             //act
@@ -203,6 +203,28 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
 
             Assert.IsTrue(paragraphs[0].Children[1].Children[1].Text == "Bold link text");
             Assert.IsTrue(paragraphs[0].Children[1].Children[1].TextType == TextType.Bold);
+        }
+
+        [TestMethod]
+        public void NoEmptyLines()
+        {
+            //arrange
+            var html1 = "<p>Text before link more text after link<br/></p>";
+            var html2 = "<p>Text before link more text after link<br/> <br/><br/>awdfa</p>";
+            var converter = new HtmlConverter();
+
+            //act
+            var paragraphs = converter.HtmlToParagraph(html1);
+            var paragraphs2 = converter.HtmlToParagraph(html2);
+
+            //assert
+            Assert.IsTrue(paragraphs.Count == 1);
+            Assert.IsTrue(paragraphs[0].Children[0].Text == "Text before link more text after link");
+
+            Assert.IsTrue(paragraphs2.Count == 1);
+            Assert.IsTrue(paragraphs2[0].Children.Count == 2);
+            Assert.IsTrue(paragraphs2[0].Children[0].Text == "Text before link more text after link");
+            Assert.IsTrue(paragraphs2[0].Children[1].Text == "awdfa");
         }
     }
 }

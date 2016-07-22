@@ -53,9 +53,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             });
 
             if (na.head != null && na.head.credits != null)
-            {
                 am.Author = na.head.credits.author;
-            }
+
+            if (string.IsNullOrWhiteSpace(am.Author))
+                am.Author = am.Feed.Source.Name;
+
 
             await AddThemesAsync(am);
 

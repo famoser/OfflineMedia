@@ -8,6 +8,7 @@ using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Relations;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
+using Nito.AsyncEx;
 
 namespace Famoser.OfflineMedia.Business.Repositories
 {
@@ -23,11 +24,20 @@ namespace Famoser.OfflineMedia.Business.Repositories
             _themeGenericRepository = new GenericRepository<ThemeModel, ThemeEntity>(_sqliteService);
         }
 
+        private bool _isInitialized;
+        private AsyncLock _asyncLock = new AsyncLock();
         private Task Initialize()
         {
             return ExecuteSafe(async () =>
             {
-                ThemeManager.AddThemes(await _themeGenericRepository.GetAllAsync());
+                using (await _asyncLock.LockAsync())
+                {
+                    if (_isInitialized)
+                        return;
+
+                    _isInitialized = true;
+                    ThemeManager.AddThemes(await _themeGenericRepository.GetAllAsync());
+                }
             });
         }
 

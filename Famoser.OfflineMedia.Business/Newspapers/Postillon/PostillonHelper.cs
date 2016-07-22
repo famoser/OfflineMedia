@@ -149,6 +149,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                     if (WriteProperties(ref articleModel, articlenode))
                         return true;
                 }
+
+
+                articleModel.DownloadDateTime = DateTime.Now;
                 return false;
             });
         }

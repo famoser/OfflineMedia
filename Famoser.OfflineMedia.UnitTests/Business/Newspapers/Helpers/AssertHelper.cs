@@ -15,15 +15,18 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         public static bool TestFeedArticleProperties(ArticleModel article, LogEntry entry)
         {
             var res = true;
-            res &= TestStringNotEmptyProperty(article.LogicUri, "LogicUri", entry);
+            //no logic uri needed as all info is in feed
+            if (!Is20MinArticle(article))
+                res &= TestStringNotEmptyProperty(article.LogicUri, "LogicUri", entry);
             res &= TestStringNotEmptyProperty(article.PublicUri, "PublicUri", entry);
             res &= TestStringNotEmptyProperty(article.Title, "Title", entry);
 
             //exclude tamedia from subtitles as they do not provide any
-            if (!IsTamediaArticle(article))
+            if (!IsTamediaArticle(article) && !IsPostillionArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
 
-            res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
+            if (!IsPostillionArticle(article))
+                res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 
             return res;
@@ -53,6 +56,16 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         private static bool IsBlickArticle(ArticleModel article)
         {
             return article.LogicUri != null && article.LogicUri.StartsWith("http://www.blick.ch/");
+        }
+
+        private static bool Is20MinArticle(ArticleModel article)
+        {
+            return article.PublicUri != null && (article.PublicUri.Contains("20min.ch") || article.PublicUri.Contains("friday-magazine.ch"));
+        }
+
+        private static bool IsPostillionArticle(ArticleModel article)
+        {
+            return article.PublicUri != null && article.PublicUri.StartsWith("http://www.der-postillon.com/");
         }
 
         private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry)

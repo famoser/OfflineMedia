@@ -20,7 +20,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers.Models
             if (IsFaillure)
                 res += "FAIL: ";
             else
-                res += "          ";
+                res += "      ";
 
             res += "[" + DateTime.ToString(CultureInfo.InvariantCulture) + "] ";
             res += Content;
@@ -48,7 +48,12 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers.Models
             var resList = new List<string>();
             foreach (var logEntry in LogEntries)
             {
-                resList.AddRange(logEntry.OutputFaillures());
+                var temp = logEntry.OutputFaillures();
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    temp[i] = "      " + temp[i];
+                }
+                resList.AddRange(temp);
             }
 
             if (resList.Any() || IsFaillure)

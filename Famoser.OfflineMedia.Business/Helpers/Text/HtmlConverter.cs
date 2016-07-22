@@ -70,7 +70,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
         private readonly string[] _quotes = { "blockquote" };
         private ParagraphModel ParseParagraph(HtmlNode node)
         {
-            if (string.IsNullOrEmpty(node.InnerHtml))
+            if (string.IsNullOrWhiteSpace(node.InnerHtml))
                 return null;
 
             var model = new ParagraphModel();
@@ -126,7 +126,9 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             if (!parentNode.ChildNodes.Any() && parentNode.NodeType == HtmlNodeType.Text)
             {
-                model.Text = parentNode.InnerText;
+                model.Text = NormalizeString(parentNode.InnerText);
+                if (string.IsNullOrWhiteSpace(model.Text))
+                    return null;
                 return model;
             }
 
@@ -141,15 +143,17 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             else if (hyperlink.Any(predicate => predicate == parentNode.Name))
             {
                 model.TextType = TextType.Hyperlink;
-                model.Text = parentNode.Attributes["href"]?.Value;
+                model.Text = NormalizeString(parentNode.Attributes["href"]?.Value);
             }
             else
                 return null;
-
+            
             //shortcut for once node stuff
             if (parentNode.ChildNodes.Count() == 1 && parentNode.ChildNodes.FirstOrDefault().NodeType == HtmlNodeType.Text && model.TextType != TextType.Hyperlink)
             {
-                model.Text = parentNode.ChildNodes.FirstOrDefault().InnerText.Trim();
+                model.Text = NormalizeString(parentNode.ChildNodes.FirstOrDefault().InnerText.Trim());
+                if (string.IsNullOrWhiteSpace(model.Text))
+                    return null;
                 return model;
             }
 
@@ -162,6 +166,19 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
 
             return !string.IsNullOrEmpty(model.Text) || model.Children.Any() ? model : null;
+        }
+
+        private string NormalizeString(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return null;
+
+            str = str.Replace("\n", " ");
+            while (str.Contains("  "))
+            {
+                str = str.Replace("  ", " ");
+            }
+            return str;
         }
     }
 }

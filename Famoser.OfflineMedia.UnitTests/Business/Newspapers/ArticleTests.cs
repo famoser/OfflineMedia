@@ -101,7 +101,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                 {
                     var articleLogEntry = new LogEntry()
                     {
-                        Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ")"
+                        Content = "Testing " + articleModel.Title + " (" + articleModel.LogicUri + ", " + articleModel.PublicUri + ")"
                     };
                     articleModel.Feed = feed;
 
@@ -121,7 +121,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                         });
                     }
                     else
+                    {
+                        articleModel.LoadingState = LoadingState.Loaded;
                         AssertHelper.TestFullArticleProperties(articleModel, articleLogEntry);
+                    }
+
                     feedLogEntry.LogEntries.Add(articleLogEntry);
                 }
 

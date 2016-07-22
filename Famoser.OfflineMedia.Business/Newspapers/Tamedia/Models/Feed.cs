@@ -33,6 +33,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia.Models
         public string picture_high_url { get; set; }
 
         public int first_published_at { get; set; }
+        public int timestamp_updated_at { get; set; }
         
         public string source { get; set; }
         public string source_annotation { get; set; }

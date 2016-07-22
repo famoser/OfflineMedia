@@ -49,7 +49,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.SubTitle = nfa.oberzeile;
                 a.Teaser = nfa.lead;
                 a.Title = nfa.title;
-                a.Author = nfa.author;
+                a.Author = string.IsNullOrEmpty(nfa.author) ? "20 Minuten" : nfa.author;
 
 
                 if (nfa.category != null)

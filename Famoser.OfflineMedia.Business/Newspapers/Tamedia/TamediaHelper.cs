@@ -23,7 +23,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
             try
             {
                 var a = ConstructArticleModel(feedModel);
-                a.PublishDateTime = GetCShartTimestamp(nfa.first_published_at);
+                a.PublishDateTime = GetCShartTimestamp(nfa.first_published_at, nfa.timestamp_updated_at);
                 a.Title = nfa.title;
                 a.SubTitle = null;
                 a.Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", "");
@@ -105,13 +105,20 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
         }
 
         #region Helpers
+
         /// <summary>
         /// Documented at https://github.com/flot/flot/blob/master/API.md (look for public static int GetJavascriptTimestamp(System.DateTime input)
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="backup"></param>
         /// <returns></returns>
-        public static DateTime GetCShartTimestamp(long input)
+        public static DateTime GetCShartTimestamp(long input, long backup)
         {
+            if (input == 0 && backup != 0)
+                input = backup;
+            if (input == 0)
+                return DateTime.Now;
+
             TimeSpan ts = TimeSpan.FromSeconds(input);
             DateTime dt = DateTime.Parse("1/1/1970");
             dt += ts;

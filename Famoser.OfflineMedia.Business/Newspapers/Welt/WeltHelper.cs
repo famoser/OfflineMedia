@@ -88,6 +88,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                    articleModel.Author = author.Substring(("<byline>").Length, author.Length - ("<byline>").Length * 2 - 1);
                }
 
+               if (string.IsNullOrWhiteSpace(articleModel.Author))
+                   articleModel.Author = articleModel.Feed.Name;
+
                var body = XmlHelper.GetSingleNode(article, "body.content");
                body = body.Replace("<hl2>", "<h2>");
                body = body.Replace("</hl2>", "</h2>");

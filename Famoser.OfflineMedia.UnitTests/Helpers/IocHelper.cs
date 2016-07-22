@@ -1,4 +1,5 @@
 ﻿using Famoser.FrameworkEssentials.Services.Interfaces;
+using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
 using Famoser.OfflineMedia.Business.Services;
@@ -29,9 +30,9 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             SimpleIoc.Default.Register<ISqliteService>(() => new SqliteService(SimpleIoc.Default.GetInstance<ISQLitePlatform>(), SimpleIoc.Default.GetInstance<ISqliteServiceSettingsProvider>()));
 
             //repos
-            SimpleIoc.Default.Register<IThemeRepository, ThemeRepositoryMock>();
-            SimpleIoc.Default.Register<IArticleRepository, ArticleRepositoryMock>();
-            SimpleIoc.Default.Register<IWeatherRepository, WeatherRepositoryMock>();
+            SimpleIoc.Default.Register<IThemeRepository, ThemeRepository>();
+            SimpleIoc.Default.Register<IArticleRepository, ArticleRepository>();
+            SimpleIoc.Default.Register<IWeatherRepository, WeatherRepository>();
             SimpleIoc.Default.Register<ISettingsRepository, SettingsRepositoryMock>();
         }
     }

@@ -113,7 +113,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                     articleModel.PublishDateTime = rootObj.pubDate != null
                         ? DateTime.Parse(rootObj.pubDate)
                         : DateTime.Now;
-                    articleModel.Author = rootObj.author;
+                    articleModel.Author = string.IsNullOrEmpty(rootObj.author) ? "Bild" : rootObj.author;
 
                     var theme = new List<string>();
                     if (rootObj.wtChannels.Keyboard1 != null)

@@ -12,7 +12,7 @@ namespace Famoser.OfflineMedia.Business.Managers
         public static void AddTheme(ThemeModel model)
         {
             AllThemes.Add(model);
-            ThemeDic[model.NormalizedName] = model;
+            ThemeDic.Add(model.NormalizedName, model);
         }
 
         public static void AddThemes(IEnumerable<ThemeModel> themes)

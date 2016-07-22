@@ -16,7 +16,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 {
     public class SpiegelHelper : BaseMediaSourceHelper
     {
-        public async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedModel feedModel)
+        private async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedModel feedModel)
         {
             if (nfa == null || nfa.Link.Contains("/video/video"))
                 return null;
@@ -34,6 +34,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
             a.PublicUri = nfa.Link;
             a.LogicUri = link;
 
+            a.AfterSaveFunc = async () => await AddThemesAsync(a, new[] {nfa.Category});
 
             if (nfa.Enclosure != null && nfa.Enclosure.Type != null && nfa.Enclosure.Type.Contains("image"))
             {
