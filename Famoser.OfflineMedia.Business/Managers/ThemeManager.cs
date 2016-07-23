@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 
 namespace Famoser.OfflineMedia.Business.Managers
@@ -7,12 +9,20 @@ namespace Famoser.OfflineMedia.Business.Managers
     public class ThemeManager
     {
         private static readonly ObservableCollection<ThemeModel> AllThemes = new ObservableCollection<ThemeModel>();
-        private static readonly Dictionary<string, ThemeModel> ThemeDic = new Dictionary<string, ThemeModel>(); 
+        private static readonly ConcurrentDictionary<string, ThemeModel> ThemeDic = new ConcurrentDictionary<string, ThemeModel>();
 
         public static void AddTheme(ThemeModel model)
         {
             AllThemes.Add(model);
-            ThemeDic.Add(model.NormalizedName, model);
+            ThemeDic.TryAdd(model.NormalizedName, model);
+        }
+
+        public static ThemeModel TryAddTheme(ThemeModel model)
+        {
+            AllThemes.Add(model);
+            if (ThemeDic.TryAdd(model.NormalizedName, model))
+                return model;
+            return ThemeDic[model.NormalizedName];
         }
 
         public static void AddThemes(IEnumerable<ThemeModel> themes)
@@ -22,7 +32,7 @@ namespace Famoser.OfflineMedia.Business.Managers
                 AddTheme(themeModel);
             }
         }
-        
+
         public static ThemeModel TryGetSimilarTheme(string name)
         {
             if (ThemeDic.ContainsKey(name))

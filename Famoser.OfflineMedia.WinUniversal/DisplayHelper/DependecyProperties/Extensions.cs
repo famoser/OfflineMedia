@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Windows.UI.Text;
@@ -9,6 +11,7 @@ using Windows.UI.Xaml.Media;
 using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Nito.AsyncEx;
 
 namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
 {
@@ -56,66 +59,93 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             return val is string ? (string)val : "Segoe UI";
         }
 
-        private static ObservableCollection<BaseContentModel> _displayedCollection;
+        private static readonly AsyncLock UpdateLock = new AsyncLock();
+        private static void UpdateCache(RichTextBlock richTextBlock, ObservableCollection<BaseContentModel> newValue)
+        {
+            using (UpdateLock.Lock())
+            {
+                var added = false;
+                if (!RichTextBlockCache.ContainsKey(richTextBlock))
+                {
+                    RichTextBlockCache.TryAdd(richTextBlock, newValue);
+                    added = true;
+                }
+
+                var oldValue = RichTextBlockCache[richTextBlock];
+                if (oldValue != newValue || added)
+                {
+                    NotifyCollectionChangedEventHandler func = (sender, ev) => NewValueOnCollectionChanged(sender, ev, richTextBlock);
+                    if (oldValue != null)
+                        oldValue.CollectionChanged -= func;
+                    if (newValue != null)
+                        newValue.CollectionChanged += func;
+
+                    RichTextBlockCache[richTextBlock] = newValue;
+                }
+            }
+        }
+
+        private static readonly ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>> RichTextBlockCache = new ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>>();
         private static void CustomContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e = null)
         {
-            var richTextBox = d as RichTextBlock;
-            var newValue = GetCustomContent(richTextBox);
-            var fontSize = GetCustomFontSize(richTextBox);
-            var fontFamily = GetCustomFontFamily(richTextBox);
-            /*
-            if (_displayedCollection != null)
-                // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
-                _displayedCollection.CollectionChanged -= (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
-            _displayedCollection = newValue;
-            if (_displayedCollection != null)
-                _displayedCollection.CollectionChanged += (sender, e2) => NewValueOnCollectionChanged(sender, e2, d);
-                */
+            var richTextBlock = d as RichTextBlock;
+            if (richTextBlock == null)
+                return;
 
-            if (richTextBox != null && newValue != null)
+            var newValue = GetCustomContent(richTextBlock);
+            var fontSize = GetCustomFontSize(richTextBlock);
+            var fontFamily = GetCustomFontFamily(richTextBlock);
+
+            // for propertychanged events
+            UpdateCache(richTextBlock, newValue);
+
+            richTextBlock.Blocks.Clear();
+            if (newValue == null)
+                return;
+
+            foreach (var baseContentModel in newValue)
             {
-                richTextBox.Blocks.Clear();
-                foreach (var baseContentModel in newValue)
+                if (baseContentModel is TextContentModel)
                 {
-                    if (baseContentModel is TextContentModel)
+                    var textContent = (TextContentModel)baseContentModel;
+                    foreach (var paragraphModel in textContent.Content)
                     {
-                        var textContent = (TextContentModel)baseContentModel;
-                        foreach (var paragraphModel in textContent.Content)
+                        var paragraph = new Paragraph { FontFamily = new FontFamily(fontFamily) };
+                        if (paragraphModel.ParagraphType == ParagraphType.Title)
                         {
-                            var paragraph = new Paragraph { FontFamily = new FontFamily(fontFamily) };
-                            if (paragraphModel.ParagraphType == ParagraphType.Title)
-                            {
-                                paragraph.FontSize = fontSize * 1.5;
-                                paragraph.Margin = new Thickness(0, fontSize * 2, 0, fontSize);
-                            }
-                            else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
-                            {
-                                paragraph.FontSize = fontSize * 1.2;
-                                paragraph.Margin = new Thickness(0, fontSize * 1.5, 0, fontSize);
-                            }
-                            else
-                            {
-                                paragraph.FontSize = fontSize;
-                                paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
-                            }
-                            foreach (var textModel in paragraphModel.Children)
-                            {
-                                var span = RenderTextContent(textModel);
-                                if (span != null)
-                                {
-                                    paragraph.Inlines.Add(span);
-                                }
-                            }
-                            richTextBox.Blocks.Add(paragraph);
+                            paragraph.FontSize = fontSize * 1.5;
+                            paragraph.Margin = new Thickness(0, fontSize * 2, 0, fontSize);
                         }
+                        else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
+                        {
+                            paragraph.FontSize = fontSize * 1.2;
+                            paragraph.Margin = new Thickness(0, fontSize * 1.5, 0, fontSize);
+                        }
+                        else
+                        {
+                            paragraph.FontSize = fontSize;
+                            paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
+                        }
+                        paragraph.LineHeight = paragraph.FontSize * 1.4;
+                        paragraph.TextIndent = 0;
+
+                        foreach (var textModel in paragraphModel.Children)
+                        {
+                            var span = RenderTextContent(textModel);
+                            if (span != null)
+                            {
+                                paragraph.Inlines.Add(span);
+                            }
+                        }
+                        richTextBlock.Blocks.Add(paragraph);
                     }
                 }
             }
         }
 
-        private static void NewValueOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs, DependencyObject d)
+        private static void NewValueOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs, RichTextBlock rtb)
         {
-            CustomContentChanged(d);
+            CustomContentChanged(rtb);
         }
 
         private static Span RenderTextContent(TextModel text)
@@ -126,7 +156,7 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                 AddInlineChildren(span, text);
                 return span;
             }
-            else if (text.TextType == TextType.Cursive)
+            if (text.TextType == TextType.Cursive)
             {
                 var span = new Span();
                 AddInlineChildren(span, text);
@@ -136,7 +166,7 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                 }
                 return span;
             }
-            else if (text.TextType == TextType.Hyperlink)
+            if (text.TextType == TextType.Hyperlink)
             {
                 var span = new Hyperlink()
                 {
@@ -145,7 +175,7 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                 AddInlineChildren(span, text);
                 return span;
             }
-            else if (text.TextType == TextType.Underline)
+            if (text.TextType == TextType.Underline)
             {
                 var span = new Underline();
                 AddInlineChildren(span, text);

@@ -56,7 +56,10 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         NormalizedName = normalizedTheme,
                         Name = theme
                     };
-                    await _themeGenericRepository.AddAsync(themeModel);
+                    //concurrency: soem other thread may have added the same theme
+                    var tm = ThemeManager.TryAddTheme(themeModel);
+                    if (tm == themeModel)
+                        await _themeGenericRepository.AddAsync(themeModel);
                 }
                 if (article.Themes.Contains(themeModel))
                     return;
