@@ -23,6 +23,7 @@ using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace Famoser.OfflineMedia.Business.Helpers
 {
@@ -166,6 +167,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 if (baseContentModel is TextContentModel)
                 {
                     var text = (TextContentModel)baseContentModel;
+                    text.ContentJson = JsonConvert.SerializeObject(text.Content);
                     await textContentGenericRepository.SaveAsyc(text);
                     entity.ContentType = (int)ContentType.Text;
                 }

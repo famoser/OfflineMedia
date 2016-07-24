@@ -35,7 +35,7 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
-                            <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}" MaxWidth="700">
+                            <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
                                 <articlePageControls:Read DataContext="{Binding }" />
                             </ScrollViewer>
                         </Grid>

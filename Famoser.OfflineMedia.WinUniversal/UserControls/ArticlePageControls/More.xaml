@@ -9,10 +9,8 @@
     mc:Ignorable="d"
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
-    <StackPanel Style="{StaticResource ArticlePageInnerContentStackPanel}">
-
+    <StackPanel Style="{Binding Converter={StaticResource StyleConverter}, ConverterParameter=ArticlePageInnerContentStackPanelMobile|ArticlePageInnerContentStackPanelDesktop}">
         <articlePageControls:ArticleOverview DataContext="{Binding }" />
-
         <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
             <Paragraph>
                 <Run Text="Themen: " />

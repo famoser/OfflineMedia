@@ -13,12 +13,11 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageC
 
             if (res == SpritzState.Finished)
                 return Symbol.Stop;
-            else if (res == SpritzState.Paused)
+            if (res == SpritzState.Paused)
                 return Symbol.Play;
-            else if (res == SpritzState.Ready)
+            if (res == SpritzState.Ready)
                 return Symbol.Play;
-            else
-                return Symbol.Pause;
+            return Symbol.Pause;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

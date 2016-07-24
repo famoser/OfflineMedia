@@ -9,7 +9,7 @@
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
 
-    <StackPanel  Style="{StaticResource ArticlePageInnerContentStackPanel}">
+    <StackPanel Style="{Binding Converter={StaticResource StyleConverter}, ConverterParameter=ArticlePageInnerContentStackPanelMobile|ArticlePageInnerContentStackPanelDesktop}">
         <articlePageControls:ArticleOverview DataContext="{Binding }" />
 
         <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal">

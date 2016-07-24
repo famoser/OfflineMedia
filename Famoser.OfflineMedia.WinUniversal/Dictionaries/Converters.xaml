@@ -6,7 +6,8 @@
     xmlns:genericConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.GenericConverter"
     xmlns:dateTime="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.DateTime"
     xmlns:untiConversion="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.UntiConversion"
-    xmlns:settingsPageConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.SettingsPageConverter">
+    xmlns:settingsPageConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.SettingsPageConverter"
+    xmlns:converter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter">
 
     <articleListConverter:ByteToBitmapConverter x:Key="ByteToBitmapConverter" />
     <articleListConverter:IsReadConverter x:Key="IsReadConverter" />
@@ -32,5 +33,7 @@
     <untiConversion:ULongToByteConverter x:Key="ULongToByteConverter" />
 
     <settingsPageConverter:SwitchStateButtonContentConverter x:Key="SwitchStateButtonContentConverter" />
+    
+    <converter:StyleConverter x:Key="StyleConverter" />
 
 </ResourceDictionary>

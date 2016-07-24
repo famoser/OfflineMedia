@@ -7,12 +7,31 @@
     xmlns:dependecyProperties="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties"
     xmlns:articlePageControls="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
     mc:Ignorable="d"
-    d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}"
-    >
+    d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
+    
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="ArticlePageInnerContentStackPanelStates">
+            <VisualState>
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="800" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="ContentStackPanel.Style" Value="{StaticResource ArticlePageInnerContentStackPanelDesktop}" />
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState>
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="ContentStackPanel.Style" Value="{StaticResource ArticlePageInnerContentStackPanelMobile}" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 
-    <StackPanel Style="{StaticResource ArticlePageInnerContentStackPanel}">
+    <StackPanel Style="{Binding Converter={StaticResource StyleConverter}, ConverterParameter=ArticlePageInnerContentStackPanelMobile|ArticlePageInnerContentStackPanelDesktop}">
         <articlePageControls:ArticleOverview DataContext="{Binding }" />
-        
         <Grid Margin="0,0,0,10" Visibility="{Binding Article.LeadImage, Mode=OneWay, Converter={StaticResource ReferenceToVisibilityConverter}}" HorizontalAlignment="Left">
             <Image Stretch="UniformToFill" Source="{Binding Article.LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
         </Grid>
@@ -22,6 +41,6 @@
             <Border Style="{ThemeResource FamoserSpacer}" />
         </StackPanel>
 
-        <RichTextBlock Padding="0,40" HorizontalAlignment="Center" Style="{StaticResource FamoserRichTextBlock}" dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
+        <RichTextBlock HorizontalAlignment="Center" Style="{StaticResource FamoserRichTextBlock}" dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
     </StackPanel>
 </UserControl>

@@ -126,7 +126,7 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                             paragraph.FontSize = fontSize;
                             paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
                         }
-                        paragraph.LineHeight = paragraph.FontSize * 1.4;
+                        paragraph.LineHeight = paragraph.FontSize * 1.6;
                         paragraph.TextIndent = 0;
 
                         foreach (var textModel in paragraphModel.Children)

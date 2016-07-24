@@ -128,6 +128,7 @@
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDayConverter.cs" />
     <Compile Include="DisplayHelper\Converter\SettingsPageConverter\SwitchStateButtonContentConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\StyleConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\KelvinToCelciusConverter.cs" />
     <Compile Include="DisplayHelper\Converter\UntiConversion\ULongToByteConverter.cs" />
     <Compile Include="DisplayHelper\DependecyProperties\Extensions.cs" />
