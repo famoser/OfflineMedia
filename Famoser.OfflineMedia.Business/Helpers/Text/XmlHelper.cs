@@ -23,10 +23,10 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
                 var index = (index1 < index2 && index1 != -1) || index2 == -1 ? index1 : index2;
 
                 xml = xml.Substring(index);
-                var endNodeIndex = xml.IndexOf("</" + endnode, StringComparison.Ordinal);
-                var endIndex = xml.Substring(endNodeIndex).IndexOf(">", StringComparison.Ordinal) + endNodeIndex + 1;
-                res.Add(xml.Substring(0, endIndex));
-                xml = xml.Substring(endIndex);
+                var endNodeIndex = xml.IndexOf("</" + endnode + ">", StringComparison.Ordinal);
+                var lenght = +("</" + endnode + ">").Length;
+                res.Add(xml.Substring(0, endNodeIndex + lenght));
+                xml = xml.Substring(endNodeIndex + lenght);
             }
 
             return res;

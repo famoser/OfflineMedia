@@ -5,7 +5,7 @@ using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
 namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
-    public class TextConverter
+    public class TextHelper
     {
         public static TextContentModel TextToTextModel(string text)
         {
@@ -25,6 +25,24 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
                     }
                 }
             };
+        }
+
+        public static string NormalizeString(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return null;
+
+            str = str.Replace("\n", " ");
+            while (str.Contains("  "))
+            {
+                str = str.Replace("  ", " ");
+            }
+            return str;
+        }
+
+        public static string StripHTML(string str)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(str, @"<(.|\n)*?>", string.Empty);
         }
     }
 }

@@ -47,6 +47,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                     am.Author = auth;
             }
 
+            if (string.IsNullOrWhiteSpace(am.Author))
+                am.Author = am.Feed.Source.Name;
+            
             articlefeeditem body = na.FirstOrDefault(a => a.type == "body");
             if (body != null)
             {

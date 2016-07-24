@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
@@ -138,11 +140,52 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             return ExecuteSafe(async () =>
             {
                 var article = await DownloadAsync(articleModel);
+                article = RepairInvalidContent(article);
+                try
+                {
+                    var a = JsonConvert.DeserializeObject<SternArticle>(article);
+                    return await ArticleToArticleModel(a, articleModel);
+                }
+                catch (Exception ex)
+                {
+                    articleModel.Content.Add(new TextContentModel()
+                    {
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph("<p>Content cannot be displayed (invalid json content)</p>")
+                    });
+                    articleModel.Author = "Stern";
 
-                article = article.Replace("[[]]", "[]");
-                var a = JsonConvert.DeserializeObject<SternArticle>(article);
-                return await ArticleToArticleModel(a, articleModel);
+                    await AddThemesAsync(articleModel);
+
+                    return true;
+                }
             });
+        }
+
+        //the stern API makers were not smart enough for json :/ They do not escape " correctly everytime. wontfix, cause stern is a shit newspaper anyways
+        private string RepairInvalidContent(string json)
+        {
+            json = WebUtility.HtmlDecode(json);
+            json = json.Replace("[[]]", "[]");
+
+            return json;
+            //var currentIndex = 0;
+            //while (true)
+            //{
+            //    var start = json.IndexOf("\"content\": \"", currentIndex);
+            //    if (start > 0)
+            //    {
+            //        start += "\"content\": \"".Length;
+            //        var end = json.LastIndexOf("\"", start);
+            //        var content = json.Substring(start, end - start);
+            //        content = Regex.Replace(content, "[^\\]\"", "\\\""); //replace " with \" if it is not already escaped
+            //        json = json.Substring(0, start) + content + json.Substring(end);
+            //        currentIndex = end;
+            //    }
+            //    else
+            //    {
+            //        return json;
+            //    }
+            //}
         }
     }
 }

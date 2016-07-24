@@ -36,6 +36,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia.Models
         public int timestamp_updated_at { get; set; }
         
         public string source { get; set; }
+        public string source_type { get; set; }
         public string source_annotation { get; set; }
 
         public List<Author> authors { get; set; }

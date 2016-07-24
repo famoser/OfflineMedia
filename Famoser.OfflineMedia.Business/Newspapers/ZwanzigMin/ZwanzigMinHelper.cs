@@ -31,8 +31,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 
             return ExecuteSafe(() =>
             {
-
                 var a = ConstructArticleModel(fcm);
+                nfa.text = "<p>" + nfa.text.Replace("\n\n", "</p><p>") + "</p>";
                 a.Content.Add(
                     new TextContentModel()
                     {
@@ -42,7 +42,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.LeadImage = new ImageContentModel()
                 {
                     Url = nfa.pic_bigstory,
-                    Text = TextConverter.TextToTextModel(nfa.topelement_description)
+                    Text = TextHelper.TextToTextModel(nfa.topelement_description)
                 };
                 a.PublicUri = nfa.link;
                 a.PublishDateTime = DateTime.Parse(nfa.pubDate);

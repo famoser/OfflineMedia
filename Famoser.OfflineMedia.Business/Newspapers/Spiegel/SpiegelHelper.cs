@@ -16,7 +16,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 {
     public class SpiegelHelper : BaseMediaSourceHelper
     {
-        private async Task<ArticleModel> FeedToArticleModel(Item nfa, FeedModel feedModel)
+        private ArticleModel FeedToArticleModel(Item nfa, FeedModel feedModel)
         {
             if (nfa == null || nfa.Link.Contains("/video/video"))
                 return null;
@@ -96,7 +96,6 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
         {
             return ExecuteSafe(async () =>
             {
-
                 var articlelist = new List<ArticleModel>();
                 var feed = await DownloadAsync(feedModel);
                 if (feed == null) return articlelist;
@@ -114,7 +113,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                 {
                     foreach (var item in channel.Item)
                     {
-                        var article = await FeedToArticleModel(item, feedModel);
+                        var article = FeedToArticleModel(item, feedModel);
                         if (article != null)
                             articlelist.Add(article);
                     }
@@ -128,8 +127,6 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
         {
             return ExecuteSafe(async () =>
             {
-                //await AddThemesAsync(nfa.Category);
-
                 var article = await DownloadAsync(articleModel);
                 var doc = new HtmlDocument();
                 doc.LoadHtml(article);
@@ -139,19 +136,127 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
                                          o.GetAttributeValue("id", null).Contains("js-article-column"));
 
-                var content = articleColumn?.Descendants("p");
+                var content = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToList();
+                var encryptedContent = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToList();
 
-                if (content != null)
+                if (content != null && content.Any())
                 {
                     var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                     articleModel.Content.Add(new TextContentModel()
                     {
                         Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
                     });
-                    return true;
                 }
-                return false;
+
+                if (encryptedContent != null && encryptedContent.Any())
+                {
+                    foreach (var htmlNode in encryptedContent)
+                    {
+                        htmlNode.InnerHtml = DecryptContent(htmlNode.InnerHtml);
+                    }
+                    var html = encryptedContent.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
+                    articleModel.Content.Add(new TextContentModel()
+                    {
+                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
+                    });
+                }
+
+                return content?.Count > 0 || encryptedContent?.Count > 0;
             });
+        }
+
+        private string DecryptContent(string content)
+        {
+            var decrypted = "";
+            for (int i = 0; i < content.Length; i++)
+            {
+                if (content[i] == 177)
+                {
+                    decrypted += '&';
+                }
+                else if (content[i] == 178)
+                {
+                    decrypted += '!';
+                }
+                else if (content[i] == 180)
+                {
+                    decrypted += ';';
+                }
+                else if (content[i] == 181)
+                {
+                    decrypted += '=';
+                }
+                else if (content[i] == 32)
+                {
+                    decrypted += ' ';
+                }
+                else if (content[i] > 33)
+                {
+                    decrypted += Convert.ToString((char)(content[i] - 1));
+                }
+            }
+            return decrypted;
+            /*
+             * 
+             * function replaceTextContent(elem)
+    {
+        $(elem).contents()
+                .filter(function ()
+                        {
+                            return this.nodeType === 3;
+                        })
+                .replaceWith(function ()
+                             {
+                                 var obfuscatedText = this.data;
+                                 var deobfuscatedText = "";
+                                 for (var i = 0; i < obfuscatedText.length; i++)
+                                 {
+                                     var charValue = obfuscatedText.charCodeAt(i);
+                                     if (charValue == 177)
+                                     {
+                                         deobfuscatedText += '&';
+                                     }
+                                     else if (charValue == 178)
+                                     {
+                                         deobfuscatedText += '!';
+                                     }
+                                     else if (charValue == 180)
+                                     {
+                                         deobfuscatedText += ';';
+                                     }
+                                     else if (charValue == 181)
+                                     {
+                                         deobfuscatedText += '=';
+                                     }
+                                     else if (charValue == 32)
+                                     {
+                                         deobfuscatedText += ' ';
+                                     }
+                                     else if (charValue > 33)
+                                     {
+                                         deobfuscatedText += String.fromCharCode(charValue - 1);
+                                     }
+                                 }
+                                 return deobfuscatedText;
+                             })
+                .end()
+                .filter(function ()
+                        {
+                            return this.nodeType === 1
+                                    && !$(this).hasClass("text-link-int")
+                                    && !$(this).hasClass("text-link-ext")
+                                    && !$(this).hasClass("lp-text-link-int")
+                                    && !$(this).hasClass("lp-text-link-ext")
+                                    && !$(this).hasClass("spCelink");
+                        })
+                .each(function ()
+                      {
+                          replaceTextContent(this);
+                      });
+    
+             * 
+             * */
+            return content;
         }
     }
 }

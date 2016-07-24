@@ -17,6 +17,9 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
         public ObservableCollection<ParagraphModel> HtmlToParagraph(string html)
         {
+            if (html == null)
+                return new ObservableCollection<ParagraphModel>();
+
             html = CleanHtml(html);
             ConfigureTags(html);
 
@@ -28,12 +31,11 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             foreach (var childNode in doc.DocumentNode.ChildNodes)
             {
                 var paragraph = ParseParagraph(childNode);
-                if (paragraph != null)
+                if (paragraph != null && paragraph.Children.Count > 0)
                     paragraphs.Add(paragraph);
             }
 
             return paragraphs;
-            // cm.Html = WebUtility.HtmlDecode(cm.Html);
         }
 
         private string CleanHtml(string html)
@@ -126,7 +128,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             if (!parentNode.ChildNodes.Any() && parentNode.NodeType == HtmlNodeType.Text)
             {
-                model.Text = NormalizeString(parentNode.InnerText);
+                model.Text = TextHelper.NormalizeString(TextHelper.StripHTML(parentNode.InnerText));
                 if (string.IsNullOrWhiteSpace(model.Text))
                     return null;
                 return model;
@@ -143,7 +145,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             else if (hyperlink.Any(predicate => predicate == parentNode.Name))
             {
                 model.TextType = TextType.Hyperlink;
-                model.Text = NormalizeString(parentNode.Attributes["href"]?.Value);
+                model.Text = TextHelper.NormalizeString(parentNode.Attributes["href"]?.Value);
             }
             else
                 return null;
@@ -151,7 +153,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             //shortcut for once node stuff
             if (parentNode.ChildNodes.Count() == 1 && parentNode.ChildNodes.FirstOrDefault().NodeType == HtmlNodeType.Text && model.TextType != TextType.Hyperlink)
             {
-                model.Text = NormalizeString(parentNode.ChildNodes.FirstOrDefault().InnerText.Trim());
+                model.Text = TextHelper.NormalizeString(parentNode.ChildNodes.FirstOrDefault().InnerText.Trim());
                 if (string.IsNullOrWhiteSpace(model.Text))
                     return null;
                 return model;
@@ -166,19 +168,6 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
 
             return !string.IsNullOrEmpty(model.Text) || model.Children.Any() ? model : null;
-        }
-
-        private string NormalizeString(string str)
-        {
-            if (string.IsNullOrWhiteSpace(str))
-                return null;
-
-            str = str.Replace("\n", " ");
-            while (str.Contains("  "))
-            {
-                str = str.Replace("  ", " ");
-            }
-            return str;
         }
     }
 }

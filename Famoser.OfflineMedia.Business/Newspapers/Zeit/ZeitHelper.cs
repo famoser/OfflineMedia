@@ -129,7 +129,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 a.SubTitle = feedArticle.Block.Supertitle;
                 a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
                 a.Author = feedArticle.Block.Author.Any() ? feedArticle.Block._Author.Trim() : "Zeit";
-                a.Content.Add(TextConverter.TextToTextModel(feedArticle.Block.Text));
+                a.Content.Add(TextHelper.TextToTextModel(feedArticle.Block.Text));
 
                 DateTime dateTime;
                 a.PublishDateTime = DateTime.TryParse(feedArticle.Block.Publicationdate, out dateTime) ? dateTime : DateTime.Now;
@@ -207,7 +207,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 article = article.Substring(article.IndexOf(">", StringComparison.Ordinal) + 1).Trim();
                 if (article.StartsWith("<gallery"))
                 {
-                    articleModel.Content.Add(TextConverter.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));
+                    articleModel.Content.Add(TextHelper.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));
                 }
 
                 if (!RepairArticleXml(ref article))

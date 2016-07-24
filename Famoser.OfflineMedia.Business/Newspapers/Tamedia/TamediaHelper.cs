@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Enums.Models;
@@ -18,8 +19,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
     {
         private ArticleModel FeedToArticleModel(Article nfa, FeedModel feedModel)
         {
-            if (nfa == null) return null;
+            if (string.IsNullOrWhiteSpace(nfa?.text)) return null;
 
+            //text of form "\u003c!--{{inline_element('5793bfccab5c370940000005')}}--\u003e" is not supported! (livetickers & such)
+            nfa.text = Regex.Replace(nfa.text, "<!--{{inline_elemen\\('([a-z0-9])+'\\)}}-->", "");
+            if (string.IsNullOrWhiteSpace(nfa.text))
+                return null;
+
+            //those are articles like todeanzeiogen, stellensuche, immobiengate etc
+            var blockedIds = new[] { 17302004, 24634343, 30557514, 28428213, 12600937, 22305162, 17066024, 24873709 };
+            if (blockedIds.Any(i => i == nfa.legacy_id))
+                return null;
+            
             try
             {
                 var a = ConstructArticleModel(feedModel);
@@ -28,7 +39,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 a.SubTitle = null;
                 a.Teaser = nfa.lead.Replace("<p>", "").Replace("</p>", "");
                 a.LogicUri = feedModel.Source.LogicBaseUrl + "articles/" + nfa.id;
-                a.PublicUri = feedModel.Source.LogicBaseUrl + nfa.legacy_id;
+                a.PublicUri = feedModel.Source.PublicBaseUrl + nfa.legacy_id;
 
                 if (a.LeadImage == null && nfa.picture_medium_url != null)
                 {

@@ -283,7 +283,7 @@
     <Compile Include="Repositories\Mocks\ThemeRepositoryMock.cs" />
     <Compile Include="Repositories\Mocks\WeatherRepositoryMock.cs" />
     <Compile Include="Services\ImageDownloadService.cs" />
-    <Compile Include="Helpers\Text\TextConverter.cs" />
+    <Compile Include="Helpers\Text\TextHelper.cs" />
     <Compile Include="Managers\SettingManager.cs" />
     <Compile Include="Managers\ThemeManager.cs" />
     <Compile Include="Models\Base\BaseGuidModel.cs" />

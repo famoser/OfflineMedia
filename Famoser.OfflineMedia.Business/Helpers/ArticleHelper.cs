@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
@@ -88,6 +89,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
 
         public static async Task SaveArticle(ArticleModel model, ISqliteService service)
         {
+            CleanUp(model);
             var articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(service);
             await articleGenericRepository.SaveAsyc(model);
             if (model.AfterSaveFunc != null)
@@ -237,6 +239,13 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 art.LeadImage = image;
             }
             return art;
+        }
+
+        public static void CleanUp(ArticleModel model)
+        {
+            model.Title = TextHelper.NormalizeString(model.Title);
+            model.SubTitle = TextHelper.NormalizeString(model.SubTitle);
+            model.Teaser = TextHelper.NormalizeString(model.Teaser);
         }
     }
 }

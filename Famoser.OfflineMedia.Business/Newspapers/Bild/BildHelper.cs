@@ -96,8 +96,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                         "BildHelper.EvaluateFeed failed: rootObj is null after deserialisation", this);
                     return false;
                 }
-                else
+
+                if (rootObj.text != null)
                 {
+
                     foreach (var text in rootObj.text)
                     {
                         if (text.__nodeType__ == "CDATA")
@@ -130,11 +132,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
 
                     if (rootObj.wtChannels.Keyboard5 != null)
                         theme.Add(rootObj.wtChannels.Keyboard5);
-                        
+
 
                     await AddThemesAsync(articleModel, theme.ToArray());
+                    return true;
                 }
-                return true;
+                return false;
             });
         }
     }

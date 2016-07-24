@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
@@ -7,6 +8,7 @@ using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using Famoser.OfflineMedia.Business.Newspapers.Nzz.Models;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Newtonsoft.Json;
@@ -55,10 +57,33 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                         na.body[i].style = "h1";
                     string starttag = "<" + na.body[i].style + ">";
                     string endtag = "</" + na.body[i].style + ">";
-                    am.Content.Add(new TextContentModel()
+                    if (string.IsNullOrWhiteSpace(na.body[i].text))
                     {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(starttag + na.body[i].text + endtag)
-                    });
+                        foreach (var nzzBox in na.body[i].boxes)
+                        {
+                            if (nzzBox.mimeType == "image/jpeg")
+                            {
+                                am.Content.Add(new ImageContentModel()
+                                {
+                                    Url = nzzBox.path,
+                                    Text = TextHelper.TextToTextModel(nzzBox.caption)
+                                });
+                            }
+                            else
+                            {
+                                LogHelper.Instance.LogInfo("nzz content type not found: " + nzzBox.mimeType, this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var content = HtmlConverter.CreateOnce().HtmlToParagraph(starttag + na.body[i].text + endtag);
+                        if (content != null && content.Count > 0)
+                            am.Content.Add(new TextContentModel()
+                            {
+                                Content = content
+                            });
+                    }
                 }
 
                 if (na.authors != null)
@@ -75,10 +100,13 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     }
 
                 if (!string.IsNullOrEmpty(na.agency))
-                    am.Author += na.agency;
+                    am.Author += " " + na.agency;
+
+                if (string.IsNullOrWhiteSpace(am.Author))
+                    am.Author = "NZZ";
 
                 if (!string.IsNullOrEmpty(na.leadText))
-                    am.Teaser = na.leadText.Replace(" \n", " ");
+                    am.Teaser = na.leadText;
 
                 await AddThemesAsync(am, na.departments);
 

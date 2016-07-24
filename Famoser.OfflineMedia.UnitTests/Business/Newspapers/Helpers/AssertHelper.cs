@@ -22,10 +22,12 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             res &= TestStringNotEmptyProperty(article.Title, "Title", entry);
 
             //exclude tamedia from subtitles as they do not provide any
+            //exclude tamedia as not provided
             if (!IsTamediaArticle(article) && !IsPostillionArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
 
-            if (!IsPostillionArticle(article))
+            //not provided by positillion & blick, nzz is added later (but not to all)
+            if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article))
                 res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 
@@ -35,10 +37,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         public static bool TestFullArticleProperties(ArticleModel article, LogEntry entry)
         {
             var res = TestFeedArticleProperties(article, entry);
-            res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
 
-            if (!IsBlickArticle(article))
-                res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
+            if (!IsBlickArticle(article)) //publish date time may be from 2015 or even earlier
+                res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
+
+            res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
             res &= TestBooleanFalseProperty(article.IsRead, "IsRead", entry);
             res &= TestBooleanFalseProperty(article.IsFavorite, "IsFavorite", entry);
             res &= TestNotEmptyCollection(article.Themes, "Themes", entry);
@@ -61,6 +64,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         private static bool Is20MinArticle(ArticleModel article)
         {
             return article.PublicUri != null && (article.PublicUri.Contains("20min.ch") || article.PublicUri.Contains("friday-magazine.ch"));
+        }
+
+        private static bool IsNzzArticle(ArticleModel article)
+        {
+            return article.PublicUri != null && (article.PublicUri.Contains("nzz.ch"));
         }
 
         private static bool IsPostillionArticle(ArticleModel article)

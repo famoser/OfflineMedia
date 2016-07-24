@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
@@ -21,6 +22,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
     [TestClass]
     public class ArticleTests
     {
+        private static int MaxThreads = 5;
+
         [ClassInitialize]
         public static void Initialize(TestContext context)
         {
@@ -40,6 +43,28 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         }
 
         [TestMethod]
+        public async Task TestSingleSource()
+        {
+            var sourceToTest = Sources.Spiegel;
+            MaxThreads = 1;
+            var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
+
+            Logger logger;
+            using (logger = new Logger("get_feed_article"))
+            {
+                var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
+                var tasks = new List<Task>();
+                for (int i = 0; i < MaxThreads; i++)
+                {
+                    tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
+                }
+                await Task.WhenAll(tasks);
+            }
+            Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
+            Debug.Write("successfull! Log files at " + logger.GetSavePath());
+        }
+
+        [TestMethod]
         public async Task TestFeedEvaluation()
         {
             var configmodels = await SourceTestHelper.Instance.GetSourceConfigModels();
@@ -49,7 +74,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             {
                 var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
                 var tasks = new List<Task>();
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < MaxThreads; i++)
                 {
                     tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
@@ -71,7 +96,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
                 var feeds = new ConcurrentStack<FeedModel>(source.AllFeeds);
                 var tasks = new List<Task>();
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < MaxThreads; i++)
                 {
                     tasks.Add(TestFeedEvaluationFeedTask(feeds, source, sourceLogEntry));
                 }
@@ -89,7 +114,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             {
                 var feedLogEntry = new LogEntry()
                 {
-                    Content = "Testing " + feed.Name
+                    Content = "Testing " + feed.Name + " (" + feed.Url + ")"
                 };
 
                 var msh = ArticleHelper.GetMediaSource(source.Source, SimpleIoc.Default.GetInstance<IThemeRepository>());

@@ -64,24 +64,24 @@
                 <Border Background="White" Grid.Row="0" Height="54" Width="80" HorizontalAlignment="Left"/>
             </Grid>
 
-            <Button Grid.Row="3" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource FamoserDefaultButton}" >
+            <Button Grid.Row="3" Grid.Column="0" Command="{Binding GoToStartCommand}" Style="{ThemeResource SpritzButton}" >
                 <Button.Content>
-                    <SymbolIcon Symbol="Refresh" />
+                    <SymbolIcon Foreground="White" Symbol="Refresh" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource FamoserDefaultButton}" >
+            <Button Grid.Row="3" Grid.Column="1" Command="{Binding GoLeftCommand}" Style="{ThemeResource SpritzButton}" >
                 <Button.Content>
-                    <SymbolIcon Symbol="Remove" />
+                    <SymbolIcon Foreground="White" Symbol="Remove" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource FamoserDefaultButton}" >
+            <Button Grid.Row="3" Grid.Column="2" Command="{Binding GoRightCommand}" Style="{ThemeResource SpritzButton}" >
                 <Button.Content>
-                    <SymbolIcon Symbol="Add" />
+                    <SymbolIcon Foreground="White" Symbol="Add" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource FamoserDefaultButton}" >
+            <Button Grid.Row="3" Grid.Column="3" Command="{Binding StartCommand}" Style="{ThemeResource SpritzButton}" >
                 <Button.Content>
-                    <SymbolIcon Symbol="{Binding SpritzState, Converter={StaticResource SpritzStateIconConverter}}" />
+                    <SymbolIcon Foreground="White" Symbol="{Binding SpritzState, Converter={StaticResource SpritzStateIconConverter}}" />
                 </Button.Content>
             </Button>
         </Grid>

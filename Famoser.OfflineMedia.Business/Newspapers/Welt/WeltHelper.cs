@@ -89,12 +89,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                }
 
                if (string.IsNullOrWhiteSpace(articleModel.Author))
-                   articleModel.Author = articleModel.Feed.Name;
+                   articleModel.Author = "Welt";
 
                var body = XmlHelper.GetSingleNode(article, "body.content");
                body = body.Replace("<hl2>", "<h2>");
                body = body.Replace("</hl2>", "</h2>");
                body = XmlHelper.RemoveNodes(body, "media", "block class=\"related-links\"");
+
+               if (body.Contains("Roboter und künstliche Intelligenz können eine Viertelmillion neue Jobs in Deutschland schaffen, glauben "))
+                   return false;
+
+               body = body.Replace("body.content", "div");
+               body = "<!DOCTYPE html><html><head></head><body>" + body + "</body></html>";
 
                articleModel.Content.Add(new TextContentModel()
                {

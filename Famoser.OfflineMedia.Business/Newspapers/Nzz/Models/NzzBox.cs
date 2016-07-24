@@ -2,6 +2,6 @@
 {
     public class NzzBox
     {
-        public string type, guid, title, body;
+        public string type, guid, title, body, path, caption, mimeType;
     }
 }
