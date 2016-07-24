@@ -8,17 +8,27 @@
     mc:Ignorable="d"
     DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
-
     <StackPanel Style="{Binding Converter={StaticResource StyleConverter}, ConverterParameter=ArticlePageInnerContentStackPanelMobile|ArticlePageInnerContentStackPanelDesktop}">
         <articlePageControls:ArticleOverview DataContext="{Binding }" />
 
-        <StackPanel Margin="0,4,0,4" Grid.Row="2" Orientation="Horizontal">
-            <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource FamoserBodyTextBlock}" />
-            <TextBlock Text="/" Style="{ThemeResource FamoserBodyTextBlock}" />
-            <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource FamoserBodyTextBlock}" />
-            <TextBlock Text="Worte" Style="{ThemeResource FamoserBodyTextBlock}" />
-        </StackPanel>
-        <Grid MaxWidth="600">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBlock Text="{Binding ActiveWord}" Style="{ThemeResource FamoserBodyTextBlock}" />
+                <TextBlock Text="/" Style="{ThemeResource FamoserBodyTextBlock}" />
+                <TextBlock Text="{Binding TotalWords}" Style="{ThemeResource FamoserBodyTextBlock}" />
+                <TextBlock Text="Worte" Style="{ThemeResource FamoserBodyTextBlock}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <TextBlock Text="Reading Speed: " Style="{ThemeResource FamoserBodyTextBlock}" />
+                <TextBlock Text="{Binding ReadingSpeed}" Style="{ThemeResource FamoserBodyTextBlock}" />
+            </StackPanel>
+        </Grid>
+        
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

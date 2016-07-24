@@ -9,7 +9,7 @@
     "Feeds": [
       {
         "Guid": "ee8dfed9-1e2d-4d50-9747-0bbe5ea9755d",
-        "Name": "Topthemen der Startseite",
+        "Name": "Topthemen",
         "Url": "departments/startseite"
       },
       {

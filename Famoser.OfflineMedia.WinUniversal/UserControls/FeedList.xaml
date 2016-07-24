@@ -11,7 +11,7 @@
     
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
-            <Grid>
+            <Grid Padding="0,4,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -39,13 +39,12 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{ThemeResource ResponsiveGridViewBackgroundGridStyle}" Padding="4,4,0,0">
+    <Grid Style="{ThemeResource ResponsiveGridViewBackgroundGridStyle}" Padding="4,0,0,0">
         <controls:ResponsiveGridView 
         ItemsSource="{Binding ActiveFeeds}"
         ItemTemplate="{StaticResource FeedDataTemplate}" 
         Style="{StaticResource ResponsiveGridViewFeedStyle}"
-        ItemClickCommand="{Binding MainPageViewModel.SelectFeedCommand, Source={StaticResource Locator}}">
-        </controls:ResponsiveGridView>
+        ItemClickCommand="{Binding MainPageViewModel.SelectFeedCommand, Source={StaticResource Locator}}" />
     </Grid>
 
 </UserControl>

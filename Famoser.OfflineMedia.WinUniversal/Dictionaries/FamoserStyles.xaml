@@ -111,6 +111,11 @@
         <Setter Property="Margin" Value="0,10" />
     </Style>
 
+    <Style TargetType="Border" x:Key="FamoserAzzentSpacer">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+    </Style>
+
     <Style x:Key="FamoserDefaultButton" TargetType="Button" BasedOn="{StaticResource FamoserButton}">
         <Setter Property="FontSize" Value="20" />
         <Setter Property="FontWeight" Value="SemiLight" />

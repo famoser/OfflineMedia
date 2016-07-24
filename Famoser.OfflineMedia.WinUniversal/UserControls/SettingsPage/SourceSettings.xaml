@@ -21,7 +21,7 @@
                 </Grid>
                 <StackPanel Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0"  />
-                    <ScrollViewer Margin="6,6,-2,6" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                    <ScrollViewer Margin="0,6,0,6" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
                         <local:FeedSettings DataContext="{Binding }" />
                     </ScrollViewer>
                 </StackPanel>

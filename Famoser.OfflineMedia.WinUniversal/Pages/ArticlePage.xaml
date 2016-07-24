@@ -36,7 +36,10 @@
                     <PivotItem.Content>
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
-                                <articlePageControls:Read DataContext="{Binding }" />
+                                <StackPanel>
+                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
+                                    <articlePageControls:Read DataContext="{Binding }" />
+                                </StackPanel>
                             </ScrollViewer>
                         </Grid>
                     </PivotItem.Content>
@@ -48,7 +51,10 @@
                     <PivotItem.Content>
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
-                                <articlePageControls:Spritz DataContext="{Binding }" />
+                                <StackPanel>
+                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
+                                    <articlePageControls:Spritz DataContext="{Binding }" />
+                                </StackPanel>
                             </ScrollViewer>
                         </Grid>
                     </PivotItem.Content>
@@ -61,7 +67,10 @@
                     <PivotItem.Content>
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
-                                <articlePageControls:More DataContext="{Binding }"/>
+                                <StackPanel>
+                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
+                                    <articlePageControls:More DataContext="{Binding }"/>
+                                </StackPanel>
                             </ScrollViewer>
                         </Grid>
                     </PivotItem.Content>

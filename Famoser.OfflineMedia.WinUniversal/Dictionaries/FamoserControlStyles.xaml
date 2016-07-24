@@ -6,6 +6,7 @@
         <Setter Property="VerticalScrollMode" Value="Enabled" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="IsVerticalRailEnabled" Value="True" />
     </Style>
 
     <Style x:Key="FamoserAccentScrollViewer" TargetType="ScrollViewer" BasedOn="{StaticResource FamoserScrollViewer}">

@@ -97,8 +97,7 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel
         }
         
         public ObservableCollection<ThemeModel> Themes { get;  } = new ObservableCollection<ThemeModel>();
-        public ObservableCollection<ArticleModel> RelatedThemesArticles { get; } = new ObservableCollection<ArticleModel>();
-        public ObservableCollection<ArticleModel> RelatedContentArticles { get; } = new ObservableCollection<ArticleModel>();
+        public ObservableCollection<ArticleModel> RelatedArticles { get; } = new ObservableCollection<ArticleModel>();
         public ObservableCollection<BaseContentModel> Content { get; } = new ObservableCollection<BaseContentModel>();
 
         public FeedModel Feed { get; set; }

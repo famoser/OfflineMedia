@@ -55,7 +55,7 @@
     <Style TargetType="StackPanel" x:Key="ArticlePageInnerContentStackPanelMobile">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Background" Value="White" />
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="Padding" Value="0,10" />
     </Style>
 
     <Style TargetType="Grid" x:Key="ArticlePageContentGrid">
