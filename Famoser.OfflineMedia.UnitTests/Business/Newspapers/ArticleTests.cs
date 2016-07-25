@@ -22,7 +22,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
     [TestClass]
     public class ArticleTests
     {
-        private static int MaxThreads = 5;
+        private static int _maxThreads = 15;
 
         [ClassInitialize]
         public static void Initialize(TestContext context)
@@ -50,8 +50,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         /// Postillion: 25.06.2016
         /// Spiegel: 25.06.2016
         /// Stern: 25.06.2016
-        /// Tamedia: NONE
-        /// Welt: NONE
+        /// Welt: 25.06.2016
         /// Zeit: 25.06.2016
         /// ZwanzigMin: 26.06.2016
         /// </summary>
@@ -59,8 +58,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         [TestMethod]
         public async Task TestSingleSource()
         {
-            var sourceToTest = Sources.Nzz;
-            MaxThreads = 5;
+            var sourceToTest = Sources.BaslerZeitung;
+            _maxThreads = 1;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 
             Logger logger;
@@ -68,7 +67,32 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             {
                 var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
                 var tasks = new List<Task>();
-                for (int i = 0; i < MaxThreads; i++)
+                for (int i = 0; i < _maxThreads; i++)
+                {
+                    tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
+                }
+                await Task.WhenAll(tasks);
+            }
+            Assert.IsFalse(logger.HasEntryWithFaillure(), "Faillure occurred! Log files at " + logger.GetSavePath());
+            Debug.Write("successfull! Log files at " + logger.GetSavePath());
+        }
+
+        /// <summary>
+        /// Passed last time: 25.07.2016
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task TestTamediaSources()
+        {
+            _maxThreads = 10;
+            var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => (int)s.Source >= 20 && (int)s.Source <= 35);
+
+            Logger logger;
+            using (logger = new Logger("get_feed_article"))
+            {
+                var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
+                var tasks = new List<Task>();
+                for (int i = 0; i < _maxThreads; i++)
                 {
                     tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
@@ -88,7 +112,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             {
                 var sourceStack = new ConcurrentStack<SourceModel>(configmodels);
                 var tasks = new List<Task>();
-                for (int i = 0; i < MaxThreads; i++)
+                for (int i = 0; i < _maxThreads; i++)
                 {
                     tasks.Add(TestFeedEvaluationSourceTask(sourceStack, logger));
                 }
@@ -110,7 +134,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
                 var feeds = new ConcurrentStack<FeedModel>(source.AllFeeds);
                 var tasks = new List<Task>();
-                for (int i = 0; i < MaxThreads; i++)
+                for (int i = 0; i < _maxThreads; i++)
                 {
                     tasks.Add(TestFeedEvaluationFeedTask(feeds, source, sourceLogEntry));
                 }

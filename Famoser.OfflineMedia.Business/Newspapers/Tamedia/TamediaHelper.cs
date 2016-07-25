@@ -22,15 +22,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
             if (string.IsNullOrWhiteSpace(nfa?.text)) return null;
 
             //text of form "\u003c!--{{inline_element('5793bfccab5c370940000005')}}--\u003e" is not supported! (livetickers & such)
-            nfa.text = Regex.Replace(nfa.text, "<!--{{inline_elemen\\('([a-z0-9])+'\\)}}-->", "");
-            if (string.IsNullOrWhiteSpace(nfa.text))
+            nfa.text = Regex.Replace(nfa.text, "<!--{{inline_element\\('([a-z0-9])+'\\)}}-->", "");
+            var replacedText = nfa.text.Replace("<p>", "");
+            replacedText = replacedText.Replace("</p>", "");
+            if (string.IsNullOrWhiteSpace(replacedText))
                 return null;
 
             //those are articles like todeanzeiogen, stellensuche, immobiengate etc
             var blockedIds = new[]
             {
                 17302004, 24634343, 30557514, 28428213, 12600937, 22305162, 17066024, 24873709,
-                25812721, 11096694, 20936609, 14388484, 27748391, 12924479//landbote special articles
+                25812721, 11096694, 20936609, 14388484, 27748391, 12924479, //landbote special articles
+                24195728, 26753316, 13636826, 23744995, 18576108, 14642129, 5248967//langenthaler special articles
             };
             if (blockedIds.Any(i => i == nfa.legacy_id))
                 return null;
@@ -61,11 +64,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 if (string.IsNullOrEmpty(a.Author))
                     a.Author = feedModel.Source.Name;
 
-                a.Content.Add(new TextContentModel()
-                {
-                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text)
-                });
-
+                var p = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text);
+                if (p != null && p.Any())
+                    a.Content.Add(new TextContentModel()
+                    {
+                        Content = p
+                    });
+                else
+                    a.Content.Add(TextHelper.TextToTextModel("Teile dieses Inhalts werden nicht unterstützt. Öffne den Artikel im Browser, um den ganzen Inhalt zu sehen."));
 
                 a.AfterSaveFunc = async () =>
                 {

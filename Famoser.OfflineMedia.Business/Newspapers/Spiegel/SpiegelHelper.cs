@@ -55,7 +55,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 
             a.AfterSaveFunc = async () => await AddThemesAsync(a, new[] {nfa.Category});
 
-            if (nfa.Enclosure != null && nfa.Enclosure.Type != null && nfa.Enclosure.Type.Contains("image"))
+            var imagEndings = new[] {"img", "png", "giv", "jpg", "jpeg"};
+            if (nfa.Enclosure != null && ((nfa.Enclosure.Type != null && nfa.Enclosure.Type.Contains("image")) || imagEndings.Any(s => nfa.Enclosure.Url.EndsWith(s))))
             {
                 var url = nfa.Enclosure.Url;
                 if (url.Contains("thumbsmall"))

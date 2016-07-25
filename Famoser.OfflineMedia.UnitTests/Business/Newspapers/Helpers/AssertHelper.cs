@@ -32,7 +32,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             //blick: added later
             //nzz: added later (but not to all)
             //bild: not all articles have teaser
-            if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article) && !IsBildArticle(article))
+            //tamedia: not all articles have teaser
+            if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article) && !IsBildArticle(article) && !IsTamediaArticle(article))
                 res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 

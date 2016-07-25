@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Helpers.Text;
@@ -27,6 +28,25 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                 var title = children.Title.Substring(0, children.Title.IndexOf(":", StringComparison.Ordinal));
                 var subTitle = children.Title.Substring(children.Title.IndexOf(":", StringComparison.Ordinal) + 2);
 
+                var bannedSubTitles = new[]
+                {
+                    "alle artikel",
+                    "die wichtigsten artikel"
+                };
+
+                var bannedTitles = new[]
+                {
+                    "Newsblog",
+                };
+
+                var lowerSub = subTitle.ToLower();
+                if (bannedSubTitles.Any(s => lowerSub.Contains(s)))
+                    return null;
+
+                if (bannedTitles.Any(s => title.Contains(s)))
+                    return null;
+
+
                 var a = ConstructArticleModel(fcm);
                 a.Title = title;
                 a.SubTitle = subTitle;
@@ -38,7 +58,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                 if (children.Enclosure != null)
                     a.LeadImage = new ImageContentModel() { Url = children.Enclosure.Url };
 
-                a.AfterSaveFunc = () => AddThemesAsync(a, new[] {children.Category});
+                a.AfterSaveFunc = () => AddThemesAsync(a, new[] { children.Category });
 
                 return a;
             });
@@ -99,14 +119,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                if (body.Contains("Roboter und künstliche Intelligenz können eine Viertelmillion neue Jobs in Deutschland schaffen, glauben "))
                    return false;
 
-               body = body.Replace("body.content", "div");
-               body = "<!DOCTYPE html><html><head></head><body>" + body + "</body></html>";
+               body = body.Replace("<body.content>", "");
+               body = body.Replace("</body.content>", "");
 
                articleModel.Content.Add(new TextContentModel()
                {
                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(body)
                });
-               
+
                return true;
            });
         }
