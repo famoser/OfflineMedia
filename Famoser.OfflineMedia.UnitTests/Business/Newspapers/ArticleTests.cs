@@ -45,7 +45,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         [TestMethod]
         public async Task TestSingleSource()
         {
-            var sourceToTest = Sources.Postillon;
+            var sourceToTest = Sources.Zeit;
             MaxThreads = 1;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 

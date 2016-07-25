@@ -29,7 +29,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
             {
                 var feed = await DownloadAsync(feedModel);
 
-
                 var articlelist = new List<ArticleModel>();
                 if (feed == null) return articlelist;
 
@@ -44,18 +43,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                         "ZeitHelper.EvaluateFeed failed: Feed is null after deserialisation", this);
                 else
                 {
-                    foreach (var item in zeitFeed.Cluster)
+                    foreach (var item in zeitFeed.References)
                     {
-                        foreach (var region in item.Region)
-                        {
-                            foreach (var feedArticle in region.Container)
-                            {
-
-                                var article = FeedToArticleModel(feedArticle, feedModel);
-                                if (article != null)
-                                    articlelist.Add(article);
-                            }
-                        }
+                        var article = FeedReferenceToArticleModel(item, feedModel);
+                        if (article != null)
+                            articlelist.Add(article);
                     }
                 }
                 return articlelist;
@@ -67,7 +59,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
             try
             {
                 var hrefPattern = "[^\"]";
-                var clusters = XmlHelper.GetNodes(xml, "cluster");
+                var clusters = XmlHelper.GetNodes(xml, "reference");
                 if (!clusters.Any())
                     return false;
 
@@ -159,19 +151,106 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
             });
         }
 
-        private bool RepairArticleXml(ref string xml)
+        private ArticleModel FeedReferenceToArticleModel(Reference feedArticle, FeedModel fcm)
         {
-            xml = XmlHelper.GetSingleNode(xml, "body");
-            if (xml != null)
+            return ExecuteSafe(() =>
             {
-                xml = XmlHelper.GetSingleNode(xml, "division");
-                if (xml != null)
+                if (feedArticle == null || feedArticle.Year == "1900") return null;
+
+                //is taken care of in validLinks
+                var ignoreLinks = new[]
                 {
-                    xml = xml.Replace("intertitle", "h2");
-                    return true;
+                    "http://xml.zeit.de/thema",
+                    "http://xml.zeit.de/doctor",
+                };
+                var validLinks = new[]
+                {
+                    "http:\\/\\/zeit.de\\/(([a-z\\-])+\\/)*([0-9]){4}[-/]([0-9]){2}"
+                };
+
+                //block articles from other domains and videos
+                if (!feedArticle.Href.Contains("xml.zeit.de/") ||
+                    feedArticle.Href.Contains("zeit.de/video/"))
+                    return null;
+
+                var link = "http://" + feedArticle.Href.Trim().Substring(2);
+                var pubLink = link.Replace("xml.zeit.de", "zeit.de");
+
+                var boo = false;
+                foreach (var validLink in validLinks)
+                {
+                    boo |= Regex.IsMatch(pubLink, validLink);
+                    if (boo)
+                        break;
                 }
+                if (!boo)
+                    return null;
+
+                var a = ConstructArticleModel(fcm);
+                a.Title = feedArticle.Title;
+                a.SubTitle = feedArticle.Supertitle;
+                a.Teaser = feedArticle.Description ?? feedArticle.Text;
+                a.Author = feedArticle.Author?.Display_name ?? (feedArticle._Author?.Trim() ?? "Zeit");
+                a.Content.Add(TextHelper.TextToTextModel(feedArticle.Text));
+
+                DateTime dateTime;
+                a.PublishDateTime = DateTime.TryParse(feedArticle.Publicationdate, out dateTime) ? dateTime : DateTime.Now;
+
+                a.PublicUri = pubLink;
+                a.LogicUri = link;
+
+                if (feedArticle.Image != null && feedArticle.Image.Baseid != null &&
+                    !string.IsNullOrEmpty(feedArticle.Image.Type))
+                {
+                    var url = feedArticle.Image.Baseid.Trim();
+                    if (url.Contains("//xml.zeit.de"))
+                    {
+                        a.LeadImage = new ImageContentModel()
+                        {
+                            Url = "http://" + url.Replace("//xml.zeit.de", "zeit.de") + "cinema__940x403"
+                        };
+                    }
+                }
+
+                a.AfterSaveFunc = async () =>
+                {
+                    await AddThemesAsync(a, new[] { feedArticle.Ressort });
+                };
+
+                return a;
+            });
+        }
+
+        private string RepairArticleXml(string xml)
+        {
+            var xml1 = XmlHelper.GetSingleNode(xml, "body");
+            if (xml1 != null)
+            {
+                var xml2 = XmlHelper.GetSingleNode(xml1, "division");
+                if (xml2 != null)
+                {
+                    xml2 = xml2.Replace("intertitle", "h2");
+                    return xml2;
+                }
+
+                var xml3 = XmlHelper.GetSingleNode(xml1, "text");
+                if (xml3 != null && xml3 != "<text ")
+                {
+                    xml3 = xml3.Replace("intertitle", "h2");
+                    return xml3;
+                }
+
+                var xml4 = XmlHelper.GetSingleNode(xml, "teaser");
+                if (xml4 != null)
+                {
+                    xml4 = XmlHelper.GetSingleNode(xml4, "text");
+                    xml4 = xml4.Replace("<text>", "<p>");
+                    return xml4.Replace("</text>", "</p>");
+                }
+
+                //teaser
             }
-            return false;
+            return null;
         }
 
         private DateTime? GetArticleDate(string xml)
@@ -205,12 +284,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                     articleModel.PublishDateTime = date.Value;
 
                 article = article.Substring(article.IndexOf(">", StringComparison.Ordinal) + 1).Trim();
-                if (article.StartsWith("<gallery"))
-                {
-                    articleModel.Content.Add(TextHelper.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));
-                }
+                bool imgGalWarning = article.StartsWith("<gallery");
 
-                if (!RepairArticleXml(ref article))
+                article = RepairArticleXml(article);
+                if (article == null)
                     return false;
 
                 HtmlDocument doc = new HtmlDocument();
@@ -224,6 +301,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                     Content = HtmlConverter.CreateOnce().HtmlToParagraph(html)
                 });
 
+                if (imgGalWarning)
+                    articleModel.Content.Add(TextHelper.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));
 
                 return true;
             });

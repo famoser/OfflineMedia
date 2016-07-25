@@ -8,5 +8,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit.Models
     {
         [XmlElement(ElementName = "cluster")]
         public List<Cluster> Cluster { get; set; }
+
+        [XmlElement(ElementName = "reference")]
+        public List<Reference> References { get; set; }
     }
 }

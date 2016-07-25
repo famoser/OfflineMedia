@@ -38,7 +38,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         {
             var res = TestFeedArticleProperties(article, entry);
 
-            if (!IsBlickArticle(article) && !IsPostillionArticle(article)) //publish date time may be from 2015 or even earlier, blick cause bad, postillion cause they publish some old articles always
+            if (!IsBlickArticle(article) && !IsPostillionArticle(article) && !IsZeitArticle(article)) //publish date time may be from 2015 or even earlier, blick cause bad, postillion cause they publish some old articles always
                 res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
 
             res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
@@ -74,6 +74,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         private static bool IsPostillionArticle(ArticleModel article)
         {
             return article.PublicUri != null && article.PublicUri.StartsWith("http://www.der-postillon.com/");
+        }
+
+        private static bool IsZeitArticle(ArticleModel article)
+        {
+            return article.PublicUri != null && article.PublicUri.StartsWith("http://zeit.de");
         }
 
         private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry)

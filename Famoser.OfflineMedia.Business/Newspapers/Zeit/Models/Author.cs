@@ -15,5 +15,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit.Models
         public string Expires { get; set; }
         [XmlElement(ElementName = "location")]
         public string Location { get; set; }
+
     }
 }

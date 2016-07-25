@@ -23,5 +23,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit.Models
         public string Publicationdate { get; set; }
         [XmlAttribute(AttributeName = "expires")]
         public string Expires { get; set; }
+
     }
 }

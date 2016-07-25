@@ -12,7 +12,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers
 {
     public abstract class BaseMediaSourceHelper : BaseRepository, IMediaSourceHelper
     {
-        private IThemeRepository _themeRepository;
+        private readonly IThemeRepository _themeRepository;
 
         protected BaseMediaSourceHelper(IThemeRepository themeRepository)
         {

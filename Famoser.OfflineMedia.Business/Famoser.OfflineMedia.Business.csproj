@@ -278,6 +278,7 @@
     <Compile Include="Managers\ForecastManager.cs" />
     <Compile Include="Models\Base\BaseInfoModel.cs" />
     <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
+    <Compile Include="Newspapers\Zeit\Models\Reference.cs" />
     <Compile Include="Repositories\Mocks\ArticleRepositoryMock.cs" />
     <Compile Include="Repositories\Mocks\SettingsRepositoryMock.cs" />
     <Compile Include="Repositories\Mocks\ThemeRepositoryMock.cs" />

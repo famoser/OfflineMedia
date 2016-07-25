@@ -180,29 +180,17 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
             for (int i = 0; i < content.Length; i++)
             {
                 if (content[i] == 177)
-                {
                     decrypted += '&';
-                }
                 else if (content[i] == 178)
-                {
                     decrypted += '!';
-                }
                 else if (content[i] == 180)
-                {
                     decrypted += ';';
-                }
                 else if (content[i] == 181)
-                {
                     decrypted += '=';
-                }
                 else if (content[i] == 32)
-                {
                     decrypted += ' ';
-                }
                 else if (content[i] > 33)
-                {
-                    decrypted += Convert.ToString((char)(content[i] - 1));
-                }
+                    decrypted += Convert.ToString((char) (content[i] - 1));
             }
             return decrypted;
             /*
