@@ -16,7 +16,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
 {
     public class SternHelper : BaseMediaSourceHelper
     {
-
         public ArticleModel FeedToArticleModel(Entry2 nfa, FeedModel scm)
         {
             if (nfa == null) return null;
@@ -25,6 +24,22 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             {
                 if (nfa.articleType == "standard-article")
                 {
+                    var lowkicker = nfa.kicker.ToLower().Trim();
+                    if (lowkicker.EndsWith("quiz") || nfa.kicker.Contains("test"))
+                        return null;
+
+                    var blockedIds = new[]
+                    {
+                        "6979480", //persönlichkeitstest
+                        "6974764", //Quiz
+                        "6948896", //Europa Quiz
+                        "6979480", //persönlichkeitstest
+                        "6979480", //persönlichkeitstest
+                    };
+
+                    if (blockedIds.Any(i => i == nfa.contentId))
+                        return null;
+                    
                     var a = ConstructArticleModel(scm);
                     a.PublishDateTime = DateTime.Parse(nfa.timestamp);
                     a.Title = nfa.kicker;

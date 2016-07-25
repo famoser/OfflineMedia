@@ -106,8 +106,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                 });
                 return false;
             }
-            if (propertyValue < DateTime.Now - TimeSpan.FromDays(200) ||
-                propertyValue > DateTime.Now + TimeSpan.FromDays(200))
+            if (propertyValue < DateTime.Now - TimeSpan.FromDays(2000) ||
+                propertyValue > DateTime.Now)
             {
 
                 entry.LogEntries.Add(new LogEntry()

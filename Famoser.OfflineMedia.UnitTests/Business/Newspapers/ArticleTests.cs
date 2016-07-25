@@ -42,11 +42,25 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             }
         }
 
+        /// <summary>
+        /// Last time passed:
+        /// Bild: NONE
+        /// Blick: NONE
+        /// Nzz: NONE
+        /// Postillion: 25.06.2016
+        /// Spiegel: 25.06.2016
+        /// Stern: 25.06.2016
+        /// Tamedia: NONE
+        /// Welt: NONE
+        /// Zeit: 25.06.2016
+        /// ZwanzigMin: NONE
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TestSingleSource()
         {
             var sourceToTest = Sources.Zeit;
-            MaxThreads = 1;
+            MaxThreads = 5;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 
             Logger logger;

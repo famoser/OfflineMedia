@@ -18,11 +18,30 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
     {
         private ArticleModel FeedToArticleModel(Item nfa, FeedModel feedModel)
         {
-            if (nfa == null || nfa.Link.Contains("/video/video"))
+            if (nfa == null || nfa.Link.Contains("/video/video") || !nfa.Link.StartsWith("http://www.spiegel.de"))
                 return null;
+
+            var bannedSubTitles = new[]
+            {
+                "alle artikel",
+                "die wichtigsten artikel"
+            };
+
+            var bannedTitles = new[]
+            {
+                "Newsblog",
+            };
 
             var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
             var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
+
+            var lowerSub = subTitle.ToLower();
+            if (bannedSubTitles.Any(s => lowerSub.Contains(s)))
+                return null;
+
+            if (bannedTitles.Any(s => title.Contains(s)))
+                return null;
+
             var link = nfa.Link;
             if (link.Contains("#ref=rss"))
                 link = link.Replace("#ref=rss", "");
@@ -136,10 +155,13 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
                                          o.GetAttributeValue("id", null).Contains("js-article-column"));
 
-                var content = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToArray();
-                var encryptedContent = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToArray();
+                if (articleColumn == null)
+                    return false;
 
-                var authorBox =articleColumn?.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
+                var content = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToArray();
+                var encryptedContent = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToArray();
+
+                var authorBox =articleColumn.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
                 var authorP = authorBox.FirstOrDefault()?.Descendants("p");
 
                 if (content != null && content.Any())
