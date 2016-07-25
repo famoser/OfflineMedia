@@ -27,10 +27,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 return null;
 
             //those are articles like todeanzeiogen, stellensuche, immobiengate etc
-            var blockedIds = new[] { 17302004, 24634343, 30557514, 28428213, 12600937, 22305162, 17066024, 24873709 };
+            var blockedIds = new[]
+            {
+                17302004, 24634343, 30557514, 28428213, 12600937, 22305162, 17066024, 24873709,
+                25812721, 11096694, 20936609, 14388484, 27748391, 12924479//landbote special articles
+            };
             if (blockedIds.Any(i => i == nfa.legacy_id))
                 return null;
-            
+
             try
             {
                 var a = ConstructArticleModel(feedModel);

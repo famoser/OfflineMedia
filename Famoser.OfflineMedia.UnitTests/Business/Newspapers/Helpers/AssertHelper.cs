@@ -38,7 +38,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         {
             var res = TestFeedArticleProperties(article, entry);
 
-            if (!IsBlickArticle(article)) //publish date time may be from 2015 or even earlier
+            if (!IsBlickArticle(article) && !IsPostillionArticle(article)) //publish date time may be from 2015 or even earlier, blick cause bad, postillion cause they publish some old articles always
                 res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
 
             res &= TestStringNotEmptyProperty(article.Author, "Author", entry);

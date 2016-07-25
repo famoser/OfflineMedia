@@ -44,6 +44,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 if (titlenode != null)
                     a.Title = titlenode.GetAttributeValue("title", null);
 
+                a.DownloadDateTime = DateTime.Now;
+                a.Author = "Chefredaktor";
+
                 return a;
             }
             catch (Exception ex)
@@ -52,7 +55,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 return null;
             }
         }
-        
+
         public bool WriteProperties(ref ArticleModel am, HtmlNode na)
         {
             if (na == null) return false;
@@ -67,15 +70,21 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 if (html.Contains("<span style=\"font-size: x-small;\">"))
                     html = html.Substring(0, html.IndexOf("<span style=\"font-size: x-small;\">"));
 
-                html = "<html>" + html + "</html>";
+                html = "<html><body><p>" + html + "</p></body></html>";
 
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(html);
 
+                var str = doc.DocumentNode.InnerText.Trim();
+                str = str.Replace("\n\n", "</p><p>");
+                str = "<p>" + str + "</p>";
+
                 am.Content.Add(new TextContentModel()
                 {
-                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(doc.DocumentNode.InnerText)
+                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(str)
                 });
+
+                am.DownloadDateTime = DateTime.Now;
 
                 return true;
             }
@@ -98,33 +107,28 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 var feed = await DownloadAsync(feedModel);
                 if (feed == null) return articlelist;
 
-                try
+
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(feed);
+
+                List<HtmlNode> articles = doc.DocumentNode
+                    .DescendantsAndSelf("div")
+                    .Where(
+                        o => o.GetAttributeValue("class", null) != null &&
+                             o.GetAttributeValue("class", null).Contains("post-body")
+                    )
+                    .ToList();
+
+                if (articles != null && articles.Any())
                 {
-                    HtmlDocument doc = new HtmlDocument();
-                    doc.LoadHtml(feed);
-
-                    List<HtmlNode> articles = doc.DocumentNode
-                        .DescendantsAndSelf("div")
-                        .Where(
-                            o => o.GetAttributeValue("class", null) != null &&
-                                 o.GetAttributeValue("class", null).Contains("post-body")
-                        )
-                        .ToList();
-
-                    if (articles != null && articles.Any())
+                    foreach (var article in articles)
                     {
-                        foreach (var article in articles)
-                        {
-                            var res = FeedToArticleModel(article, feedModel);
-                            if (res != null)
-                                articlelist.Add(res);
-                        }
+                        var res = FeedToArticleModel(article, feedModel);
+                        if (res != null)
+                            articlelist.Add(res);
                     }
                 }
-                catch (Exception ex)
-                {
-                    LogHelper.Instance.Log(LogLevel.Error, "PostillonHelper.EvaluateFeed failed", this, ex);
-                }
+
                 return articlelist;
             });
         }
@@ -140,8 +144,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 doc.LoadHtml(article);
 
                 HtmlNode articlenode = doc.DocumentNode
-                    .DescendantsAndSelf("div").FirstOrDefault(o => o.GetAttributeValue("class", null) != null &&
+                    .Descendants("div").FirstOrDefault(o => o.GetAttributeValue("class", null) != null &&
                                                                    o.GetAttributeValue("class", null).Contains("post-body"));
+
+                var dateNode = doc.DocumentNode.Descendants("div").FirstOrDefault(o => o.GetAttributeValue("class", null) == "date-header");
+                var span = dateNode?.Descendants("span").FirstOrDefault();
+                articleModel.PublishDateTime = ParseDateTime(span?.InnerText);
 
                 await AddThemesAsync(articleModel, new[] { "Satire" });
                 if (articlenode != null)
@@ -149,11 +157,39 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                     if (WriteProperties(ref articleModel, articlenode))
                         return true;
                 }
-
-
-                articleModel.DownloadDateTime = DateTime.Now;
+                
                 return false;
             });
+        }
+
+        private DateTime ParseDateTime(string dateTime)
+        {
+            if (string.IsNullOrWhiteSpace(dateTime))
+                return DateTime.Now;
+
+            var monthConverterDic = new Dictionary<string, string>()
+            {
+                {"Januar", "01." },
+                {"Februar", "02." },
+                {"März", "03." },
+                {"April","04." },
+                {"Mai"," 05." },
+                {"Juni", "06." },
+                {"Juli", "07." },
+                {"August", "08." },
+                {"September", "09." },
+                {"Oktober", "10." },
+                {"November", "11." },
+                {"Dezember", "12." }
+            };
+
+            DateTime dt;
+            var shortDateTime = dateTime.Substring(dateTime.IndexOf(",", StringComparison.Ordinal) + 2);
+            shortDateTime = monthConverterDic.Aggregate(shortDateTime, (current, i) => current.Replace(i.Key, i.Value));
+
+            if (DateTime.TryParse(shortDateTime, out dt))
+                return dt;
+            return DateTime.Now;
         }
     }
 }

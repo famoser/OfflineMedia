@@ -136,8 +136,11 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     .FirstOrDefault(o => o.GetAttributeValue("id", null) != null &&
                                          o.GetAttributeValue("id", null).Contains("js-article-column"));
 
-                var content = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToList();
-                var encryptedContent = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToList();
+                var content = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToArray();
+                var encryptedContent = articleColumn?.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToArray();
+
+                var authorBox =articleColumn?.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
+                var authorP = authorBox.FirstOrDefault()?.Descendants("p");
 
                 if (content != null && content.Any())
                 {
@@ -146,6 +149,9 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     {
                         Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
                     });
+
+                    var author = authorP?.FirstOrDefault()?.Descendants("b").FirstOrDefault();
+                    articleModel.Author = author?.InnerText;
                 }
 
                 if (encryptedContent != null && encryptedContent.Any())
@@ -161,7 +167,10 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     });
                 }
 
-                return content?.Count > 0 || encryptedContent?.Count > 0;
+                if (string.IsNullOrWhiteSpace(articleModel.Author))
+                    articleModel.Author = "Spiegel";
+
+                return content?.Length > 0 || encryptedContent?.Length > 0;
             });
         }
 
@@ -256,7 +265,6 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
     
              * 
              * */
-            return content;
         }
     }
 }
