@@ -89,7 +89,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                 var article = await DownloadAsync(articleModel);
 
                 var rootObj = JsonConvert.DeserializeObject<ArticleRoot>(article);
-
                 if (rootObj == null)
                 {
                     LogHelper.Instance.Log(LogLevel.Error,
@@ -99,17 +98,20 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
 
                 if (rootObj.text != null)
                 {
-
                     foreach (var text in rootObj.text)
                     {
                         if (text.__nodeType__ == "CDATA")
                         {
                             if (!text.CDATA.Contains("PS: Sind Sie bei Facebook?"))
-                                articleModel.Content.Add(new
-                                    TextContentModel()
-                                {
-                                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(text.CDATA)
-                                });
+                            {
+                                var p = HtmlConverter.CreateOnce().HtmlToParagraph(text.CDATA);
+                                if (p != null && p.Any())
+                                    articleModel.Content.Add(new
+                                        TextContentModel()
+                                    {
+                                        Content = p
+                                    });
+                            }
                         }
                     }
                     articleModel.PublishDateTime = rootObj.pubDate != null

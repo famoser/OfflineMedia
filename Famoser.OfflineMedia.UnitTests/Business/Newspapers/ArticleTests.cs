@@ -44,7 +44,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
         /// <summary>
         /// Last time passed:
-        /// Bild: NONE
+        /// Bild: 25.06.2016
         /// Blick: NONE
         /// Nzz: NONE
         /// Postillion: 25.06.2016
@@ -59,7 +59,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         [TestMethod]
         public async Task TestSingleSource()
         {
-            var sourceToTest = Sources.ZwanzigMin;
+            var sourceToTest = Sources.Bild;
             MaxThreads = 5;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 

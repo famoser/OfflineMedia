@@ -226,5 +226,27 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             Assert.IsTrue(paragraphs2[0].Children[0].Text == "Text before link more text after link");
             Assert.IsTrue(paragraphs2[0].Children[1].Text == "awdfa");
         }
+
+        [TestMethod]
+        public void InvalidHtml()
+        {
+            //arrange
+            var html1 = "<p>Text before link more text after link<br/></p>";
+            var html2 = "<p>Text before link more text after link<br/> <br/><br/>awdfa</p>";
+            var converter = new HtmlConverter();
+
+            //act
+            var paragraphs = converter.HtmlToParagraph(html1);
+            var paragraphs2 = converter.HtmlToParagraph(html2);
+
+            //assert
+            Assert.IsTrue(paragraphs.Count == 1);
+            Assert.IsTrue(paragraphs[0].Children[0].Text == "Text before link more text after link");
+
+            Assert.IsTrue(paragraphs2.Count == 1);
+            Assert.IsTrue(paragraphs2[0].Children.Count == 2);
+            Assert.IsTrue(paragraphs2[0].Children[0].Text == "Text before link more text after link");
+            Assert.IsTrue(paragraphs2[0].Children[1].Text == "awdfa");
+        }
     }
 }

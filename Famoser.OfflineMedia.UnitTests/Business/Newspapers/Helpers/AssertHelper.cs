@@ -26,8 +26,12 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             if (!IsTamediaArticle(article) && !IsPostillionArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
 
-            //not provided by positillion & blick, nzz is added later (but not to all)
-            if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article))
+            // by 
+            //positillion: not provided
+            //blick: added later
+            //nzz: added later (but not to all)
+            //bild: not all articles have teaser
+            if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article) && !IsBildArticle(article))
                 res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 
@@ -59,6 +63,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
         private static bool IsBlickArticle(ArticleModel article)
         {
             return article.LogicUri != null && article.LogicUri.StartsWith("http://www.blick.ch/");
+        }
+
+        private static bool IsBildArticle(ArticleModel article)
+        {
+            return article.LogicUri != null && article.LogicUri.StartsWith("http://json.bild.de");
         }
 
         private static bool Is20MinArticle(ArticleModel article)
