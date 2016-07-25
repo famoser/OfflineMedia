@@ -53,13 +53,13 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         /// Tamedia: NONE
         /// Welt: NONE
         /// Zeit: 25.06.2016
-        /// ZwanzigMin: NONE
+        /// ZwanzigMin: 26.06.2016
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         public async Task TestSingleSource()
         {
-            var sourceToTest = Sources.Zeit;
+            var sourceToTest = Sources.ZwanzigMin;
             MaxThreads = 5;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 

@@ -31,13 +31,33 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 
             return ExecuteSafe(() =>
             {
+                /*
+                 * <text>
+                        <![CDATA[
+                            <!--{{nxpliveticker('57833145ab5c371ee8000001')}}--> 
+                        ]]>
+                    </text>
+                */
+
                 var a = ConstructArticleModel(fcm);
                 nfa.text = "<p>" + nfa.text.Replace("\n\n", "</p><p>") + "</p>";
-                a.Content.Add(
-                    new TextContentModel()
-                    {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text)
-                    });
+
+                var paragraphs = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text);
+
+                if (paragraphs != null && paragraphs.Count > 0)
+                    a.Content.Add(
+                        new TextContentModel()
+                        {
+                            Content = paragraphs
+                        });
+                else if (nfa.text.Contains("{{nxpliveticker("))
+                    a.Content.Add(
+                        TextHelper.TextToTextModel(
+                            "Dieser Artikel enthält einen Liveticker. Besuche die Webseite um den Inhalt korrekt darzustellen"));
+                else
+                    a.Content.Add(
+                        TextHelper.TextToTextModel(
+                            "Dieser Artikel enthält nicht unterstützter Inhalt. Besuche die Webseite um den Inhalt korrekt darzustellen"));
 
                 a.LeadImage = new ImageContentModel()
                 {
@@ -51,7 +71,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 a.Title = nfa.title;
                 a.Author = string.IsNullOrEmpty(nfa.author) ? "20 Minuten" : nfa.author;
 
-
+                if (string.IsNullOrWhiteSpace(a.SubTitle) && a.Title == "Die Bilder des Tages")
+                {
+                    a.SubTitle = "Bildergallerie";
+                    //Die Bilder des Tages
+                    a.Content.Insert(0,
+                        TextHelper.TextToTextModel(
+                            "Dieser Artikel enthält eine Bildergallerie. Besuche die Webseite, um den Inhalt korrekt darzustellen"));
+                }
                 if (nfa.category != null)
                     a.AfterSaveFunc = async () =>
                     {
