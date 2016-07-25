@@ -23,7 +23,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 
             //exclude tamedia from subtitles as they do not provide any
             //exclude tamedia as not provided
-            if (!IsTamediaArticle(article) && !IsPostillionArticle(article))
+            //exclude nzz as not always provided
+            if (!IsTamediaArticle(article) && !IsPostillionArticle(article) && !IsNzzArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
 
             // by 
@@ -77,7 +78,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 
         private static bool IsNzzArticle(ArticleModel article)
         {
-            return article.PublicUri != null && (article.PublicUri.Contains("nzz.ch"));
+            return article.PublicUri != null && article.PublicUri.Contains("nzz.ch");
         }
 
         private static bool IsPostillionArticle(ArticleModel article)

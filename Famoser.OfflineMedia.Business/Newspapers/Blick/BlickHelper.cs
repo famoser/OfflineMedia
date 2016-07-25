@@ -54,13 +54,40 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
             if (body != null)
             {
                 var htmlbody = body.items.Where(b => b.type == "text").ToList();
-
-                for (int i = 0; i < htmlbody.Count(); i++)
+                var unsupportedWarned = false;
+                for (var i = 0; i < htmlbody.Count(); i++)
                 {
-                    am.Content.Add(new TextContentModel()
+                    if (htmlbody[i].txt.StartsWith("<div class=\"full-block sponsorArticle author\">"))
                     {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(htmlbody[i].txt)
-                    });
+                        var sponsorDiv = "<div class=\"sponsor_name\">";
+                        var start = htmlbody[i].txt.Substring(htmlbody[i].txt.IndexOf(sponsorDiv, StringComparison.Ordinal) + sponsorDiv.Length);
+                        start = start.Substring(0, start.IndexOf("</div>", StringComparison.Ordinal));
+                        am.Content.Add(TextHelper.TextToTextModel("Ein Beitrag von " + start));
+                    }
+                    else if (htmlbody[i].txt.StartsWith("<div class='htmlInclude'>"))
+                    {
+                        if (htmlbody[i].txt == "<div class='htmlInclude'></div>") //empty special content, god knows why
+                            continue;
+                        if (!unsupportedWarned)
+                        {
+                            am.Content.Add(TextHelper.TextToTextModel(
+                                    "Dieser Artikel enthält an dieser Stelle Inhalt der nicht unterstützt wird. Sehen Sie sich den Artikel im Web am, um alles anzuzeigen"));
+                            unsupportedWarned = true;
+                        }
+                    }
+                    else
+                    {
+                        var p = HtmlConverter.CreateOnce().HtmlToParagraph(htmlbody[i].txt);
+                        if (p != null && p.Count > 0)
+                            am.Content.Add(new TextContentModel()
+                            {
+                                Content = p
+                            });
+                        else
+                        {
+                            "ha".ToString();
+                        }
+                    }
                 }
             }
 

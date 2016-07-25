@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
@@ -27,6 +28,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                 a.PublishDateTime = nfa.publicationDateTime;
                 a.Title = nfa.title;
                 a.SubTitle = nfa.subTitle;
+                if (string.IsNullOrWhiteSpace(a.SubTitle) && nfa.title == "Was heute wichtig ist")
+                    a.SubTitle = "Dieser Artikel wird laufend aktualisiert";
 
                 a.LeadImage = LeadImageToImage(nfa.leadImage);
 
@@ -61,7 +64,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     {
                         foreach (var nzzBox in na.body[i].boxes)
                         {
-                            if (nzzBox.mimeType == "image/jpeg")
+                            if (nzzBox.type == "image")
                             {
                                 am.Content.Add(new ImageContentModel()
                                 {
@@ -69,10 +72,42 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                     Text = TextHelper.TextToTextModel(nzzBox.caption)
                                 });
                             }
-                            else
+                            else if (nzzBox.type == "video" || nzzBox.type == "html")
                             {
-                                LogHelper.Instance.LogInfo("nzz content type not found: " + nzzBox.mimeType, this);
+                                //dont do shit
                             }
+                            else if (nzzBox.type == "infobox")
+                            {
+                                var newContent = HtmlConverter.CreateOnce().HtmlToParagraph("<p>" + na.body[i].text + "</p>");
+
+                                foreach (var paragraphModel in newContent)
+                                {
+                                    paragraphModel.Children.Add(
+                                        new TextModel()
+                                        {
+                                            Children = paragraphModel.Children,
+                                            TextType = TextType.Cursive
+                                        });
+                                }
+                                newContent.Insert(0, new ParagraphModel()
+                                {
+                                    ParagraphType = ParagraphType.Title,
+                                    Children = new List<TextModel>()
+                                    {
+                                        new TextModel()
+                                        {
+                                            Text = nzzBox.title,
+                                            TextType = TextType.Cursive
+                                        }
+                                    }
+                                });
+                                am.Content.Add(new TextContentModel()
+                                {
+                                    Content = newContent
+                                });
+                            }
+                            else
+                                LogHelper.Instance.LogInfo("nzz content type not found: " + nzzBox.mimeType, this);
                         }
                     }
                     else
@@ -85,6 +120,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                             });
                     }
                 }
+
+                if (!am.Content.Any())
+                    am.Content.Add(TextHelper.TextToTextModel("Der Inhalt dieses Artikels wird nicht unterstützt. Öffne den Artikel im Browser um mehr zu sehen."));
 
                 if (na.authors != null)
                     foreach (var nzzAuthor in na.authors)
