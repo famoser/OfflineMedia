@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
-            <ToggleButton Padding="10" Width="120" IsChecked="{Binding IsActive}" Content="{Binding Name}" Command="{Binding SettingsPageViewModel.SwitchFeedStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" />
+            <ToggleButton Padding="10" Width="100" IsChecked="{Binding IsActive}" Content="{Binding Name}" Command="{Binding SettingsPageViewModel.SwitchFeedStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" />
         </DataTemplate>
     </UserControl.Resources>
 

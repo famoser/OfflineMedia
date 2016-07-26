@@ -388,7 +388,7 @@
         <Setter Property="Margin" Value="0" />
     </Style>
 
-    <Style TargetType="ScrollViewer" x:Key="ArticlePageContentScrollViewer" BasedOn="{StaticResource FamoserScrollViewer}">
+    <Style TargetType="ScrollViewer" x:Key="ArticlePageContentScrollViewer" BasedOn="{StaticResource FamoserAccentScrollViewer}">
         <Setter Property="MaxWidth" Value="1000" />
     </Style>
 

@@ -144,14 +144,15 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     var tasks = feedsToLoad.Select(feedModel => LoadArticlesIntoFeed(feedModel, 12)).ToList();
 
-                    await  Task.WhenAll(tasks);
-
+                    await Task.WhenAll(tasks);
                 }
             });
         }
 
-        private async Task LoadArticlesIntoFeed(FeedModel feed, int max)
+        private async Task LoadArticlesIntoFeed(FeedModel feed, int max = -1)
         {
+            if (max == -1)
+                max = 100;
             for (int i = 0; i < max; i++)
             {
                 if (feed.AllArticles.Count <= i)
@@ -167,6 +168,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     }
                 }
 
+                _imageDownloadService.Download(feed);
+
                 //no more entries 
                 if (feed.AllArticles.Count <= i)
                     return;
@@ -177,6 +180,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
+                _imageDownloadService.Download(am);
+
                 if (am.LoadingState != LoadingState.Loading)
                 {
                     if (am.Content.Any())
@@ -241,7 +246,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                await LoadArticlesIntoFeed(fm, 0);
+                await LoadArticlesIntoFeed(fm);
 
                 return true;
             });

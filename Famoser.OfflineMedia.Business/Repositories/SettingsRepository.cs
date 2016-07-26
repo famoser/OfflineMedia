@@ -12,8 +12,10 @@ using Famoser.OfflineMedia.Business.Managers;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Data.Entities.Storage.Settings;
 using Famoser.OfflineMedia.Data.Enums;
+using Famoser.SqliteWrapper.Services.Interfaces;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
 
@@ -22,11 +24,15 @@ namespace Famoser.OfflineMedia.Business.Repositories
     public class SettingsRepository : BaseRepository, ISettingsRepository
     {
         private readonly IStorageService _storageService;
+        private readonly ISqliteService _sqliteService;
+        private readonly IPlatformCodeService _platformCodeService;
 
 #pragma warning disable 4014
-        public SettingsRepository(IStorageService storageService)
+        public SettingsRepository(IStorageService storageService, ISqliteService sqliteService, IPlatformCodeService platformCodeService)
         {
             _storageService = storageService;
+            _sqliteService = sqliteService;
+            _platformCodeService = platformCodeService;
             Initialize();
         }
 
@@ -123,10 +129,11 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
         public async Task ResetApplicationAsync()
         {
-            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description, new byte[0]));
-            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesUserConfiguration).Description, new byte[0]));
-            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.WeatherCache).Description, new byte[0]));
-            await ExecuteSafe(async () => await _storageService.SetCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.Database).Description, new byte[0]));
+            _sqliteService.Dispose();
+
+            await _storageService.DeleteCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SettingsUserConfiguration).Description);
+            await _storageService.DeleteCachedFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.WeatherCache).Description);
+            await _platformCodeService.DeleteDatabaseFile();
         }
     }
 }

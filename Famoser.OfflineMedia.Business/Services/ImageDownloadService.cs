@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.FrameworkEssentials.Singleton;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
@@ -18,11 +19,16 @@ namespace Famoser.OfflineMedia.Business.Services
         private readonly IPlatformCodeService _platformCodeService;
         private readonly ISqliteService _sqliteService;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _genericRepository;
+        private readonly int _maxWidth;
+        private readonly int _maxHeight;
 
         public ImageDownloadService(IPlatformCodeService platformCodeService, ISqliteService sqliteService)
         {
             _platformCodeService = platformCodeService;
             _sqliteService = sqliteService;
+
+            _maxHeight = _platformCodeService.DeviceHeight();
+            _maxWidth = _platformCodeService.DeviceWidth();
 
             _genericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(sqliteService);
         }
@@ -35,19 +41,20 @@ namespace Famoser.OfflineMedia.Business.Services
 
         public void Download(ImageContentModel imageContentModel, bool priority = false)
         {
-            if (priority)
-            {
-                if (!PriorityImages.Contains(imageContentModel))
+            if (imageContentModel.LoadingState < LoadingState.Loaded)
+                if (priority)
                 {
-                    PriorityImages.Enqueue(imageContentModel);
+                    if (!PriorityImages.Contains(imageContentModel))
+                    {
+                        PriorityImages.Enqueue(imageContentModel);
+                        StartThreadIfNecessary();
+                    }
+                }
+                else if (!SecondaryImages.Contains(imageContentModel))
+                {
+                    SecondaryImages.Enqueue(imageContentModel);
                     StartThreadIfNecessary();
                 }
-            }
-            else if (!SecondaryImages.Contains(imageContentModel))
-            {
-                SecondaryImages.Enqueue(imageContentModel);
-                StartThreadIfNecessary();
-            }
         }
 
         public void Download(FeedModel model)
@@ -102,16 +109,26 @@ namespace Famoser.OfflineMedia.Business.Services
                 {
                     try
                     {
-                        model.LoadingState = LoadingState.Loading;
-                        model.Image = await _platformCodeService.DownloadResizeImage(new Uri(model.Url));
-                        model.LoadingState = LoadingState.Loaded;
+                        var model1 = model;
+                        _platformCodeService.CheckBeginInvokeOnUi(() =>
+                        {
+                            model1.LoadingState = LoadingState.Loading;
+                        });
+
+                        var img = await _platformCodeService.DownloadResizeImage(new Uri(model.Url), _maxHeight, _maxWidth).ConfigureAwait(false);
+
+                        _platformCodeService.CheckBeginInvokeOnUi(() =>
+                        {
+                            model1.Image = img;
+                            model1.LoadingState = LoadingState.Loaded;
+                        }, async () => { await _genericRepository.SaveAsyc(model1); });
                     }
                     catch (Exception ex)
                     {
                         model.LoadingState = LoadingState.LoadingFailed;
+                        await _genericRepository.SaveAsyc(model);
                         LogHelper.Instance.LogException(ex);
                     }
-                    await _genericRepository.SaveAsyc(model);
                 }
             }
             catch (Exception ex)

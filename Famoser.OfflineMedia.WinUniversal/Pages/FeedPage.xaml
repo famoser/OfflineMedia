@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <ScrollViewer Grid.Row="1" Style="{StaticResource FamoserScrollViewer}">
+        <ScrollViewer Grid.Row="1" Style="{StaticResource FamoserAccentScrollViewer}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />

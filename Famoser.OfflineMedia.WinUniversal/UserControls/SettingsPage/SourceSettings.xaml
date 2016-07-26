@@ -17,7 +17,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource FamoserSubTitleTextBlock}" />
-                    <Button Grid.Column="1" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
+                    <Button Grid.Column="1" Margin="1" HorizontalAlignment="Stretch" Command="{Binding SettingsPageViewModel.SwitchSourceStatusCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" Content="{Binding IsActive, Converter={StaticResource SwitchStateButtonContentConverter}}" Style="{StaticResource FamoserDefaultButton}" />
                 </Grid>
                 <StackPanel Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0"  />
@@ -28,7 +28,7 @@
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-            <ItemsStackPanel Orientation="Vertical" />
+            <ItemsStackPanel Orientation="Vertical" Margin="-2,3" />
         </ItemsPanelTemplate>
     </UserControl.Resources>
 
@@ -37,6 +37,6 @@
         ItemsSource="{Binding Sources}"
         ItemTemplate="{StaticResource SourceDataTemplate}" 
         ItemsPanel="{StaticResource ItemsPanelTemplate1}" 
-        ItemContainerStyle="{StaticResource ItemContainerStyle}" Padding="2" ScrollViewer.VerticalScrollMode="Disabled" />
+        ItemContainerStyle="{StaticResource ItemContainerStyle}" ScrollViewer.VerticalScrollMode="Disabled" />
 
 </UserControl>

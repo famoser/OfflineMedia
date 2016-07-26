@@ -32,11 +32,11 @@
                     <ContentControl Style="{ThemeResource FamoserPivotHeader}" Content="Sources" />
                 </PivotItem.Header>
                 <PivotItem.Content>
-                    <ScrollViewer Padding="10,0" Style="{StaticResource FamoserScrollViewer}">
+                    <ScrollViewer Style="{StaticResource FamoserScrollViewer}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Background="{ThemeResource TextBackground}">
                             <settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />
-                            <Button Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="reset application" Command="{Binding ResetApplicationCommand}" />
-                            <TextBlock Margin="0,10">
+                            <Button Margin="5" Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="reset application" Command="{Binding ResetApplicationCommand}" />
+                            <TextBlock Margin="10,10">
                                 <Run Text="created with &#x2661; by " />
                                 <Hyperlink NavigateUri="http://famoser.ch">
                                     <Run Text="famoser"/>

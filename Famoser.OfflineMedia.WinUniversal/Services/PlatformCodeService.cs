@@ -6,6 +6,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
@@ -18,74 +19,115 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
 {
     public class PlatformCodeService : IPlatformCodeService
     {
-        public async Task<byte[]> DownloadResizeImage(Uri url)
+        public Task<byte[]> DownloadResizeImage(Uri url, double height, double width)
         {
-            if (url != null)
+            return Task.Run(async () =>
             {
-                try
+                if (url != null)
                 {
-                    using (var client = new HttpClient())
+                    try
                     {
-                        using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+                        using (var client = new HttpClient())
                         {
-                            IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
-
-                            var decoder = await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
-                            if (decoder.OrientedPixelHeight > ResolutionHelper.HeightOfDevice ||
-                                decoder.OrientedPixelWidth > ResolutionHelper.WidthOfDevice)
+                            using (
+                                HttpResponseMessage response =
+                                    await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                             {
-                                var resizedStream = new InMemoryRandomAccessStream();
-                                BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                double widthRatio = ResolutionHelper.WidthOfDevice / decoder.OrientedPixelWidth;
-                                double heightRatio = ResolutionHelper.HeightOfDevice / decoder.OrientedPixelHeight;
+                                IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
 
-                                // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
-                                double scaleRatio = Math.Min(widthRatio, heightRatio);
-                                uint aspectHeight = (uint)Math.Floor(decoder.OrientedPixelHeight * scaleRatio);
-                                uint aspectWidth = (uint)Math.Floor(decoder.OrientedPixelWidth * scaleRatio);
-
-                                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
-                                encoder.BitmapTransform.ScaledHeight = aspectHeight;
-                                encoder.BitmapTransform.ScaledWidth = aspectWidth;
-
-                                // write out to the stream
-                                await encoder.FlushAsync();
-
-                                // Reset the stream location.
-                                resizedStream.Seek(0);
-
-                                // Writes the image byte array in an InMemoryRandomAccessStream
-                                // that is needed to set the source of BitmapImage.
-                                using (DataReader reader = new DataReader(resizedStream.GetInputStreamAt(0)))
+                                var decoder =
+                                    await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
+                                if (decoder.OrientedPixelHeight > height ||
+                                    decoder.OrientedPixelWidth > width)
                                 {
-                                    var bytes = new byte[resizedStream.Size];
+                                    var resizedStream = new InMemoryRandomAccessStream();
+                                    BitmapEncoder encoder =
+                                        await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                    double widthRatio = width / decoder.OrientedPixelWidth;
+                                    double heightRatio = height / decoder.OrientedPixelHeight;
 
-                                    await reader.LoadAsync((uint)resizedStream.Size);
-                                    reader.ReadBytes(bytes);
+                                    // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
+                                    double scaleRatio = Math.Min(widthRatio, heightRatio);
+                                    uint aspectHeight = (uint)Math.Floor(decoder.OrientedPixelHeight * scaleRatio);
+                                    uint aspectWidth = (uint)Math.Floor(decoder.OrientedPixelWidth * scaleRatio);
 
+                                    encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+                                    encoder.BitmapTransform.ScaledHeight = aspectHeight;
+                                    encoder.BitmapTransform.ScaledWidth = aspectWidth;
 
-                                    return bytes;
+                                    // write out to the stream
+                                    await encoder.FlushAsync();
+
+                                    // Reset the stream location.
+                                    resizedStream.Seek(0);
+
+                                    // Writes the image byte array in an InMemoryRandomAccessStream
+                                    // that is needed to set the source of BitmapImage.
+                                    using (DataReader reader = new DataReader(resizedStream.GetInputStreamAt(0)))
+                                    {
+                                        var bytes = new byte[resizedStream.Size];
+
+                                        await reader.LoadAsync((uint)resizedStream.Size);
+                                        reader.ReadBytes(bytes);
+
+                                        return bytes;
+                                    }
                                 }
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Instance.Log(LogLevel.Warning, "Download.cs",
+                            "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
-                }
-            }
-            return null;
+                return null;
+            });
         }
 
-        public void CheckBeginInvokeOnUi(Action action)
+        public async void CheckBeginInvokeOnUi(Action action, Func<Task> after = null)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(action);
+            if (action == null)
+                return;
+            if (DispatcherHelper.UIDispatcher.HasThreadAccess)
+                action();
+            else
+            {
+                await DispatcherHelper.UIDispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+                if (after != null)
+                    await after();
+            }
         }
 
         public async Task<bool> OpenInBrowser(Uri url)
         {
             return await Launcher.LaunchUriAsync(url);
+        }
+
+        public int DeviceWidth()
+        {
+            return (int)ResolutionHelper.WidthOfDevice;
+        }
+
+        public int DeviceHeight()
+        {
+            return (int)ResolutionHelper.HeightOfDevice;
+        }
+
+        public async Task<bool> DeleteDatabaseFile()
+        {
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("database.sqlite3", CreationCollisionOption.OpenIfExists);
+                await file.DeleteAsync(StorageDeleteOption.Default);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.LogException(ex);
+            }
+            return false;
         }
 
         public void ExitApplication()

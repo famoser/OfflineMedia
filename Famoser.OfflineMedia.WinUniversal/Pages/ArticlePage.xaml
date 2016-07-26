@@ -37,7 +37,6 @@
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
                                 <StackPanel>
-                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
                                     <articlePageControls:Read DataContext="{Binding }" />
                                 </StackPanel>
                             </ScrollViewer>
@@ -52,7 +51,6 @@
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
                                 <StackPanel>
-                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
                                     <articlePageControls:Spritz DataContext="{Binding }" />
                                 </StackPanel>
                             </ScrollViewer>
@@ -68,7 +66,6 @@
                         <Grid Style="{StaticResource ArticlePageContentGrid}">
                             <ScrollViewer Style="{StaticResource ArticlePageContentScrollViewer}">
                                 <StackPanel>
-                                    <Border Style="{ThemeResource FamoserAzzentSpacer}" />
                                     <articlePageControls:More DataContext="{Binding }"/>
                                 </StackPanel>
                             </ScrollViewer>
