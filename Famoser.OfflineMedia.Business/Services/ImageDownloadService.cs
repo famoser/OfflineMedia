@@ -52,10 +52,11 @@ namespace Famoser.OfflineMedia.Business.Services
 
         public void Download(FeedModel model)
         {
-            foreach (var articleModel in model.AllArticles)
+            for (int index = 0; index < model.AllArticles.Count; index++)
             {
+                var articleModel = model.AllArticles[index];
                 if (articleModel.LeadImage != null)
-                    Download(articleModel.LeadImage, true);
+                    Download(articleModel.LeadImage, index < 15);
             }
         }
 

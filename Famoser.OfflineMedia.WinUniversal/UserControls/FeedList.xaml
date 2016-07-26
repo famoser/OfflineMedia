@@ -11,27 +11,16 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
-            <StackPanel Padding="0,4,0,0">
+            <StackPanel>
                 <TextBlock Text="{Binding Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
                 <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <userControls:ArticleList DataContext="{Binding ActiveArticles}" />
                 </Grid>
-                <!--<Grid Grid.Row="2" Margin="0,-20,0,0">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="{ThemeResource TextBackgroundColor}" Offset="1" />
-                        </LinearGradientBrush>
-                    </Grid.Background>
-                </Grid>
-                <Grid Grid.Row="3" Background="{ThemeResource TextBackground}">
-                    <TextBlock Text="more articles" TextAlignment="Center" Style="{ThemeResource FamoserSubHeaderTextBlock}"  />
-                </Grid>-->
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{ThemeResource ResponsiveGridViewBackgroundGridStyle}" Padding="4,0,0,0">
+    <Grid Style="{ThemeResource ResponsiveGridViewBackgroundGridStyle}">
         <controls:ResponsiveGridView 
         ItemsSource="{Binding ActiveFeeds}"
         ItemTemplate="{StaticResource FeedDataTemplate}" 

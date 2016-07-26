@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
@@ -196,6 +197,22 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                         IsFaillure = true
                     });
                     successfull = false;
+                }
+                if (textModel.TextType == TextType.Hyperlink)
+                {
+                    try
+                    {
+                        var pars = new Uri(textModel.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        entry.LogEntries.Add(new LogEntry()
+                        {
+                            Content = "Uri is invalid: " + textModel.Text,
+                            IsFaillure = true
+                        });
+                        successfull = false;
+                    }
                 }
                 successfull &= TestTextModels(textModel.Children, entry, false);
             }

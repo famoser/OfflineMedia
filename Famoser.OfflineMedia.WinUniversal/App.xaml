@@ -19,7 +19,7 @@
 
             <SolidColorBrush x:Key="TextBackground" Color="{ThemeResource TextBackgroundColor}" />
             <SolidColorBrush x:Key="TextForeground" Color="#1C1C1C" />
-            <SolidColorBrush x:Key="PivotBackground" Color="#FAFAFA" />
+            <SolidColorBrush x:Key="PivotHeaderBackground" Color="WhiteSmoke" />
 
             <!--<SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />-->

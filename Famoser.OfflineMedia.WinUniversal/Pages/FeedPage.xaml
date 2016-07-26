@@ -32,10 +32,8 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="{ThemeResource TextBackground}">
-                    <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" Style="{ThemeResource FamoserHeaderTextBlock}"  />
-                </Grid>
-                <Grid Grid.Row="1" Padding="4,4,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
+                <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <userControls:ArticleList DataContext="{Binding Feed.AllArticles}" />
                 </Grid>
             </Grid>
