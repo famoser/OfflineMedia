@@ -34,7 +34,9 @@
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <userControls:FeedList DataContext="{Binding }" />
+                    <Grid Style="{StaticResource PivotContentStyle}">
+                        <userControls:FeedList DataContext="{Binding }" />
+                    </Grid>
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>

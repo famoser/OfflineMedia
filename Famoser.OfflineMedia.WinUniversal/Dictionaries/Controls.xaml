@@ -35,7 +35,11 @@
     </Style>
 
     <Style TargetType="Pivot" x:Key="PivotStyle">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ThemeResource PivotBackground}" />
+    </Style>
+
+    <Style TargetType="Grid" x:Key="PivotContentStyle">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
     </Style>
 
     <Style TargetType="ItemsWrapGrid" x:Key="ItemsWrapGrid" >
@@ -69,7 +73,7 @@
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewFeedStyle">
         <Setter Property="DesiredWidth" Value="800" />
-        <Setter Property="ItemHeight" Value="1290" /><!--72 header height-->
+        <Setter Property="ItemHeight" Value="1285" /><!--72 header height-->
     </Style>
 
 </ResourceDictionary>

@@ -37,6 +37,6 @@
         ItemsSource="{Binding Sources}"
         ItemTemplate="{StaticResource SourceDataTemplate}" 
         ItemsPanel="{StaticResource ItemsPanelTemplate1}" 
-        ItemContainerStyle="{StaticResource ItemContainerStyle}" Padding="2" />
+        ItemContainerStyle="{StaticResource ItemContainerStyle}" Padding="2" ScrollViewer.VerticalScrollMode="Disabled" />
 
 </UserControl>

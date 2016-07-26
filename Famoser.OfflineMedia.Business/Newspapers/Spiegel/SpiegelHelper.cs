@@ -32,8 +32,17 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
                 "Newsblog",
             };
 
-            var title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
-            var subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
+            var title = "";
+            var subTitle = "";
+            if (title.Contains(":"))
+            {
+                title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
+                subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
+            }
+            else
+            {
+                title = nfa.Title;
+            }
 
             var lowerSub = subTitle.ToLower();
             if (bannedSubTitles.Any(s => lowerSub.Contains(s)))
