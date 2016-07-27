@@ -173,8 +173,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     }
                     else
                     {
-                        var uri = li.path.Replace("%width%", "640")
-                            .Replace("%height%", "360")
+                        var uri = li.path.Replace("%width%", "640").Replace("%height%", "360")
                             .Replace("%format%", "text");
                         img.Url = uri;
                     }

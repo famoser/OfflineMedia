@@ -40,7 +40,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                         var fe = new FeedArticleRelationEntity()
                         {
                             ArticleId = articleModel.GetId(),
-                            Url = articleModel.LogicUri,
+                            Url = articleModel.PublicUri,
                             FeedGuid = model.Guid.ToString(),
                             Index = index
                         };
@@ -62,7 +62,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                         var fe = new FeedArticleRelationEntity()
                         {
                             ArticleId = oldOne.GetId(),
-                            Url = oldOne.LogicUri,
+                            Url = oldOne.PublicUri,
                             FeedGuid = model.Guid.ToString(),
                             Index = index
                         };

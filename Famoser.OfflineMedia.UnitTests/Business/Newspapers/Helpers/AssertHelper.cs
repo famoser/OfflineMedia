@@ -7,28 +7,34 @@ using Famoser.OfflineMedia.Business.Enums.Models.TextModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Helpers.Models;
 
 namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 {
     public class AssertHelper
     {
-        public static bool TestFeedArticleProperties(ArticleModel article, LogEntry entry)
+        private readonly List<string> _definedOnceProperties = new List<string>();
+
+        public bool TestFeedArticleProperties(ArticleModel article, LogEntry entry)
         {
             var res = true;
             //no logic uri needed as all info is in feed
             if (!Is20MinArticle(article))
                 res &= TestStringNotEmptyProperty(article.LogicUri, "LogicUri", entry);
+
             res &= TestStringNotEmptyProperty(article.PublicUri, "PublicUri", entry);
             res &= TestStringNotEmptyProperty(article.Title, "Title", entry);
 
             //exclude tamedia from subtitles as they do not provide any
-            //exclude tamedia as not provided
+            //exclude positillion as not provided
             //exclude nzz as not always provided
             if (!IsTamediaArticle(article) && !IsPostillionArticle(article) && !IsNzzArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
+            else if (TestStringNotEmptyProperty(article.SubTitle, "SubTitle") && !_definedOnceProperties.Contains("SubTitle"))
+                _definedOnceProperties.Add("SubTitle");
 
-            // by 
+            
             //positillion: not provided
             //blick: added later
             //nzz: added later (but not to all)
@@ -36,18 +42,19 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             //tamedia: not all articles have teaser
             if (!IsPostillionArticle(article) && !IsBlickArticle(article) && !IsNzzArticle(article) && !IsBildArticle(article) && !IsTamediaArticle(article))
                 res &= TestStringNotEmptyProperty(article.Teaser, "Teaser", entry);
+            else if (TestStringNotEmptyProperty(article.Teaser, "Teaser") && !_definedOnceProperties.Contains("Teaser"))
+                _definedOnceProperties.Add("Teaser");
+
             res &= TestDateTimeNotEmptyProperty(article.DownloadDateTime, "DownloadDateTime", entry);
 
             return res;
         }
 
-        public static bool TestFullArticleProperties(ArticleModel article, LogEntry entry)
+        public bool TestFullArticleProperties(ArticleModel article, LogEntry entry)
         {
             var res = TestFeedArticleProperties(article, entry);
 
-            if (!IsBlickArticle(article) && !IsPostillionArticle(article) && !IsZeitArticle(article)) //publish date time may be from 2015 or even earlier, blick cause bad, postillion cause they publish some old articles always
-                res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
-
+            res &= TestDateTimeNotEmptyProperty(article.PublishDateTime, "PublishDateTime", entry);
             res &= TestStringNotEmptyProperty(article.Author, "Author", entry);
             res &= TestBooleanFalseProperty(article.IsRead, "IsRead", entry);
             res &= TestBooleanFalseProperty(article.IsFavorite, "IsFavorite", entry);
@@ -55,7 +62,31 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             res &= TestNotEmptyCollection(article.Content, "Content", entry);
             res &= TestContentModels(article.Content, entry);
             res &= TestForCorrectValue(article.LoadingState, LoadingState.Loaded, "LoadingState", entry);
+
+            if (article.LeadImage != null && !string.IsNullOrWhiteSpace(article.LeadImage.Url))
+                _definedOnceProperties.Add("LeadImage");
+
             return res;
+        }
+
+        public bool NotAlwaysDefinedPropertiesCheckOut(Sources source)
+        {
+            var tr = _definedOnceProperties.Contains("LeadImage");
+            if (source == Sources.Nzz)
+            {
+                tr &= _definedOnceProperties.Contains("SubTitle");
+                tr &= _definedOnceProperties.Contains("Teaser");
+            }
+            //tamedia
+            if ((int) source >= 20 && (int) source <= 35)
+                tr &= _definedOnceProperties.Contains("Teaser");
+            if (source == Sources.Bild)
+                tr &= _definedOnceProperties.Contains("Teaser");
+            if (source == Sources.Blick)
+                tr &= _definedOnceProperties.Contains("Teaser");
+            if (source == Sources.BlickAmAbend)
+                tr &= _definedOnceProperties.Contains("Teaser");
+            return tr;
         }
 
         private static bool IsTamediaArticle(ArticleModel article)
@@ -93,11 +124,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return article.PublicUri != null && article.PublicUri.StartsWith("http://zeit.de");
         }
 
-        private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry)
+        private static bool TestStringNotEmptyProperty(string propertyValue, string propertyName, LogEntry entry = null)
         {
             if (string.IsNullOrWhiteSpace(propertyValue))
             {
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "Property is empty: " + propertyName,
                     IsFaillure = true
@@ -107,11 +138,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return true;
         }
 
-        private static bool TestDateTimeNotEmptyProperty(DateTime propertyValue, string propertyName, LogEntry entry)
+        private static bool TestDateTimeNotEmptyProperty(DateTime propertyValue, string propertyName, LogEntry entry = null)
         {
             if (propertyValue == DateTime.MinValue || propertyValue == DateTime.MaxValue)
             {
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "DateTime is not set: " + propertyName,
                     IsFaillure = true
@@ -122,7 +153,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                 propertyValue > DateTime.Now)
             {
 
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "DateTime is probably wrong (value: " + propertyValue + "): " + propertyName,
                     IsFaillure = true
@@ -132,11 +163,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return true;
         }
 
-        private static bool TestBooleanFalseProperty(bool propertyValue, string propertyName, LogEntry entry)
+        private static bool TestBooleanFalseProperty(bool propertyValue, string propertyName, LogEntry entry = null)
         {
             if (propertyValue)
             {
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "Boolean is true which should be false: " + propertyName,
                     IsFaillure = true
@@ -146,11 +177,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return true;
         }
 
-        private static bool TestNotEmptyCollection<T>(IEnumerable<T> propertyValue, string propertyName, LogEntry entry)
+        private static bool TestNotEmptyCollection<T>(IEnumerable<T> propertyValue, string propertyName, LogEntry entry = null)
         {
             if (!propertyValue.Any())
             {
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "Collection is empty which should not be empty: " + propertyName,
                     IsFaillure = true
@@ -160,11 +191,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return true;
         }
 
-        private static bool TestForCorrectValue(object propertyValue, object expectedValue, string propertyName, LogEntry entry)
+        private static bool TestForCorrectValue(object propertyValue, object expectedValue, string propertyName, LogEntry entry = null)
         {
             if (!propertyValue.Equals(expectedValue))
             {
-                entry.LogEntries.Add(new LogEntry()
+                entry?.LogEntries.Add(new LogEntry()
                 {
                     Content = "Wrong value. Expected: " + expectedValue + "; Value: " + propertyValue + " in property " + propertyName,
                     IsFaillure = true

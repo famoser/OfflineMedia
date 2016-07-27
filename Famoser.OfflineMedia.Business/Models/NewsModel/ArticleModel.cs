@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models.Base;
@@ -93,15 +94,29 @@ namespace Famoser.OfflineMedia.Business.Models.NewsModel
         public ImageContentModel LeadImage
         {
             get { return _leadImage; }
-            set { Set(ref _leadImage, value); }
+            set
+            {
+                if (_leadImage != null)
+                    _leadImage.PropertyChanged -= LeadImageOnPropertyChanged;
+
+                Set(ref _leadImage, value);
+
+                if (_leadImage != null)
+                    _leadImage.PropertyChanged += LeadImageOnPropertyChanged;
+            }
         }
-        
-        public ObservableCollection<ThemeModel> Themes { get;  } = new ObservableCollection<ThemeModel>();
+
+        private void LeadImageOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            RaisePropertyChanged(() => LeadImage);
+        }
+
+        public ObservableCollection<ThemeModel> Themes { get; } = new ObservableCollection<ThemeModel>();
         public ObservableCollection<ArticleModel> RelatedArticles { get; } = new ObservableCollection<ArticleModel>();
         public ObservableCollection<BaseContentModel> Content { get; } = new ObservableCollection<BaseContentModel>();
 
         public FeedModel Feed { get; set; }
-        
+
         public Func<Task> AfterSaveFunc { get; set; }
 
         private string _wordDump;

@@ -29,20 +29,15 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                     {
                         using (var client = new HttpClient())
                         {
-                            using (
-                                HttpResponseMessage response =
-                                    await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+                            using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                             {
                                 IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
 
-                                var decoder =
-                                    await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
-                                if (decoder.OrientedPixelHeight > height ||
-                                    decoder.OrientedPixelWidth > width)
+                                var decoder = await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
+                                if (decoder.OrientedPixelHeight > height || decoder.OrientedPixelWidth > width)
                                 {
                                     var resizedStream = new InMemoryRandomAccessStream();
-                                    BitmapEncoder encoder =
-                                        await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                    BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
                                     double widthRatio = width / decoder.OrientedPixelWidth;
                                     double heightRatio = height / decoder.OrientedPixelHeight;
 
@@ -54,6 +49,12 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                                     encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
                                     encoder.BitmapTransform.ScaledHeight = aspectHeight;
                                     encoder.BitmapTransform.ScaledWidth = aspectWidth;
+
+                                    //"buffer allocated not sufficient"
+                                    // var pd = await decoder.GetPixelDataAsync(BitmapPixelFormat.Rgba16, BitmapAlphaMode.Ignore,
+                                    //             encoder.BitmapTransform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+                                    // encoder.SetPixelData(BitmapPixelFormat.Rgba16, BitmapAlphaMode.Ignore,
+                                    //             decoder.OrientedPixelWidth, decoder.OrientedPixelHeight, decoder.DpiX, decoder.DpiY, pd.DetachPixelData());
 
                                     // write out to the stream
                                     // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
@@ -79,8 +80,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                     }
                     catch (Exception ex)
                     {
-                        LogHelper.Instance.Log(LogLevel.Warning, "Download.cs",
-                            "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
+                        LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
                     }
                 }
                 return null;

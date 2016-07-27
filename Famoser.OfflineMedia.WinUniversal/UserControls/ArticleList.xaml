@@ -13,11 +13,11 @@
             <Grid Background="{ThemeResource TextBackground}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <Grid VerticalAlignment="Top" Visibility="{Binding LeadImage, Converter={StaticResource ByteToVisibilityConverter}}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Image Height="90" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
+                    <Image MinHeight="90" MaxHeight="140" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
                     <TextBlock Grid.Row="1" Style="{StaticResource FamoserSubTitleTextBlock}" TextWrapping="Wrap" TextTrimming="WordEllipsis" MaxLines="2" Text="{Binding Title}" />
                     <TextBlock Grid.Row="2" Style="{StaticResource FamoserBodyTextBlock}" MaxLines="2" TextTrimming="WordEllipsis" Visibility="{Binding SubTitle, Converter={StaticResource StringToVisibilityConverter}}" Text="{Binding SubTitle}" />
                 </Grid>

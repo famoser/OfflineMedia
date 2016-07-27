@@ -7,19 +7,34 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
 {
     public class PlatformCodeServiceMock : IPlatformCodeService
     {
-        public async Task<byte[]> DownloadResizeImage(Uri url)
+        public Task<byte[]> DownloadResizeImage(Uri url, double maxHeight, double maxWidth)
         {
-            return new byte[] {12, 3, 41, 123};
+            throw new NotImplementedException();
         }
 
-        public void CheckBeginInvokeOnUi(Action action)
+        public void CheckBeginInvokeOnUi(Action action, Func<Task> after = null)
         {
-            action.Invoke();
+            throw new NotImplementedException();
         }
 
         public async Task<bool> OpenInBrowser(Uri url)
         {
             return true;
+        }
+
+        public int DeviceWidth()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DeviceHeight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteDatabaseFile()
+        {
+            throw new NotImplementedException();
         }
 
         public void ExitApplication()

@@ -2188,7 +2188,7 @@
           }
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -4474,7 +4474,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -6799,7 +6799,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -9094,7 +9094,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -11428,7 +11428,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -13723,7 +13723,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -16057,7 +16057,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.0": {
+      "WindowsAppStudio.Uwp/1.5.1": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -22596,11 +22596,11 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "WindowsAppStudio.Uwp/1.5.0": {
-      "sha512": "hOKehCh2/Qwppr6eSBPccBQtG9LY6NfLXnq1pSq8A5TMWThXOoHj6DeYSy+XuxvYWSpCIZhLJTqYLbBGAmHwMQ==",
+    "WindowsAppStudio.Uwp/1.5.1": {
+      "sha512": "H167I4aZkWCtdDMRMLJTWkdvecTjHiV0AzgMnV+tBvJphpBpBq3+4mIspoFyJSYIuvwTAI5X+a5SKSA2dcpbmQ==",
       "type": "package",
       "files": [
-        "WindowsAppStudio.Uwp.1.5.0.nupkg.sha512",
+        "WindowsAppStudio.Uwp.1.5.1.nupkg.sha512",
         "WindowsAppStudio.Uwp.nuspec",
         "lib/uap10.0/AppStudio.Uwp.dll",
         "lib/uap10.0/AppStudio.Uwp.pri",
@@ -23124,7 +23124,7 @@
       "Newtonsoft.Json >= 9.0.1",
       "SQLite.Net-PCL >= 3.1.1",
       "WinRTXamlToolkit.UWP >= 2.0.0",
-      "WindowsAppStudio.Uwp >= 1.5.0"
+      "WindowsAppStudio.Uwp >= 1.5.1"
     ],
     "UAP,Version=v10.0": []
   }

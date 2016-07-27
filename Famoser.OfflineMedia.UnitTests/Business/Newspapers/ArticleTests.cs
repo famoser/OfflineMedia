@@ -124,6 +124,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
         private async Task TestFeedEvaluationSourceTask(ConcurrentStack<SourceModel> sources, Logger logger)
         {
+            var assertHelper = new AssertHelper();
+
             SourceModel source;
             while (sources.TryPop(out source))
             {
@@ -136,16 +138,17 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                 var tasks = new List<Task>();
                 for (int i = 0; i < _maxThreads; i++)
                 {
-                    tasks.Add(TestFeedEvaluationFeedTask(feeds, source, sourceLogEntry));
+                    tasks.Add(TestFeedEvaluationFeedTask(feeds, source, sourceLogEntry, assertHelper));
                 }
 
                 await Task.WhenAll(tasks);
+                assertHelper.NotAlwaysDefinedPropertiesCheckOut(source.Source);
 
                 logger.AddLog(sourceLogEntry);
             }
         }
 
-        private async Task TestFeedEvaluationFeedTask(ConcurrentStack<FeedModel> feeds, SourceModel source, LogEntry sourceLogEntry, bool testArticles = false)
+        private async Task TestFeedEvaluationFeedTask(ConcurrentStack<FeedModel> feeds, SourceModel source, LogEntry sourceLogEntry, AssertHelper assertHelper, bool testArticles = false)
         {
             FeedModel feed;
             while (feeds.TryPop(out feed))
@@ -173,7 +176,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     await ArticleHelper.SaveArticleContent(articleModel, sqs, true);
 
 
-                    AssertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
+                    assertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);
 
                     if (articleModel.LoadingState != LoadingState.Loaded && !await msh.EvaluateArticle(articleModel))
                     {
@@ -186,7 +189,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     else
                     {
                         articleModel.LoadingState = LoadingState.Loaded;
-                        AssertHelper.TestFullArticleProperties(articleModel, articleLogEntry);
+                        assertHelper.TestFullArticleProperties(articleModel, articleLogEntry);
                     }
 
                     feedLogEntry.LogEntries.Add(articleLogEntry);
