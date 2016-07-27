@@ -22,7 +22,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 var oldOne = oldArticles.FirstOrDefault(s => s.PublicUri == articleModel.PublicUri);
                 if (oldOne == null)
                 {
-                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.LogicUri == s.Url);
+                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.PublicUri == s.Url);
                     if (oldFromDatabase != null)
                     {
                         model.AllArticles.Add(await ArticleHelper.LoadForFeed(oldFromDatabase.ArticleId, service));
@@ -51,7 +51,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 {
                     model.AllArticles.Add(oldOne);
 
-                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.LogicUri == s.Url);
+                    var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.PublicUri == s.Url);
                     if (oldFromDatabase != null)
                     {
                         oldFromDatabase.Index = index;

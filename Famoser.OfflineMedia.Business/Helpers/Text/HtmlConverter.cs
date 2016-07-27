@@ -128,7 +128,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             if (!parentNode.ChildNodes.Any() && parentNode.NodeType == HtmlNodeType.Text)
             {
-                model.Text = TextHelper.NormalizeString(TextHelper.StripHTML(parentNode.InnerText));
+                model.Text = TextHelper.NormalizeString(TextHelper.StripHtml(parentNode.InnerText));
                 if (string.IsNullOrWhiteSpace(model.Text))
                     return null;
                 return model;

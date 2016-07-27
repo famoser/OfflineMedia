@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 
@@ -34,14 +35,14 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             str = str.Replace("\n", " ");
             while (str.Contains("  "))
-            {
                 str = str.Replace("  ", " ");
-            }
+            
             return str;
         }
 
-        public static string StripHTML(string str)
+        public static string StripHtml(string str)
         {
+            str = WebUtility.HtmlDecode(str);
             return System.Text.RegularExpressions.Regex.Replace(str, @"<(.|\n)*?>", string.Empty);
         }
     }

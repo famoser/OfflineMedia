@@ -153,12 +153,26 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             if (text.TextType == TextType.Bold)
             {
                 var span = new Bold();
+                if (!string.IsNullOrWhiteSpace(text.Text))
+                    span.Inlines.Add(new Run()
+                    {
+                        Text = text.Text
+                    });
                 AddInlineChildren(span, text);
+                foreach (var inline in span.Inlines)
+                {
+                    inline.FontWeight = FontWeights.Bold;
+                }
                 return span;
             }
             if (text.TextType == TextType.Cursive)
             {
                 var span = new Span();
+                if (!string.IsNullOrWhiteSpace(text.Text))
+                    span.Inlines.Add(new Run()
+                    {
+                        Text = text.Text
+                    });
                 AddInlineChildren(span, text);
                 foreach (var inline in span.Inlines)
                 {
@@ -178,6 +192,11 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             if (text.TextType == TextType.Underline)
             {
                 var span = new Underline();
+                if (!string.IsNullOrWhiteSpace(text.Text))
+                    span.Inlines.Add(new Run()
+                    {
+                        Text = text.Text
+                    });
                 AddInlineChildren(span, text);
                 return span;
             }
