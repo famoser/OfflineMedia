@@ -35,5 +35,6 @@
     <settingsPageConverter:SwitchStateButtonContentConverter x:Key="SwitchStateButtonContentConverter" />
     
     <converter:StyleConverter x:Key="StyleConverter" />
+    <articleListConverter:ByteToVisibilityConverter x:Name="ByteToVisibilityConverter" />
 
 </ResourceDictionary>

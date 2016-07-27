@@ -37,7 +37,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers
         protected virtual async Task<string> DownloadAsync(Uri url)
         {
             if (_httpServiceCache == null)
-                _httpServiceCache = new HttpService();
+                _httpServiceCache = new HttpService(null, false);
             var response = await _httpServiceCache.DownloadAsync(url);
             if (response != null)
                 return await response.GetResponseAsStringAsync();

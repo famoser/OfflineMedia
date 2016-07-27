@@ -33,7 +33,7 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
-                <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                <Grid Grid.Row="1" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <userControls:ArticleList DataContext="{Binding Feed.AllArticles}" />
                 </Grid>
             </Grid>

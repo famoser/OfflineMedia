@@ -388,7 +388,7 @@
         <Setter Property="Margin" Value="0" />
     </Style>
 
-    <Style TargetType="ScrollViewer" x:Key="ArticlePageContentScrollViewer" BasedOn="{StaticResource FamoserAccentScrollViewer}">
+    <Style TargetType="ScrollViewer" x:Key="ArticlePageContentScrollViewer" BasedOn="{StaticResource FamoserScrollViewer}">
         <Setter Property="MaxWidth" Value="1000" />
     </Style>
 
@@ -409,13 +409,13 @@
     </Style>
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewArticleStyle">
-        <Setter Property="DesiredWidth" Value="300" />
-        <Setter Property="ItemHeight" Value="400" />
+        <Setter Property="DesiredWidth" Value="320" />
+        <Setter Property="ItemHeight" Value="200" />
     </Style>
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewFeedStyle">
         <Setter Property="DesiredWidth" Value="800" />
-        <Setter Property="ItemHeight" Value="1280" /><!--72 header height-->
+        <Setter Property="ItemHeight" Value="870" /><!--72 header height-->
     </Style>
 
 </ResourceDictionary>

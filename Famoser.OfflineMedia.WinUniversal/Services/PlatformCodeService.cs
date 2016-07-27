@@ -56,6 +56,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                                     encoder.BitmapTransform.ScaledWidth = aspectWidth;
 
                                     // write out to the stream
+                                    // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
                                     await encoder.FlushAsync();
 
                                     // Reset the stream location.
@@ -96,7 +97,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
             {
                 await DispatcherHelper.UIDispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
                 if (after != null)
-                    await after();
+                    await after().ConfigureAwait(false);
             }
         }
 
