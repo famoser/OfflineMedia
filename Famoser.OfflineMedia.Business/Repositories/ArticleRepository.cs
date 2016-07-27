@@ -197,45 +197,47 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         var contentEntity = contents[index];
                         switch (contentEntity.ContentType)
                         {
-                            case (int) ContentType.Text:
-                            {
-                                var text = await _textContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                text.Content = text.ContentJson != null
-                                    ? JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(
-                                        text.ContentJson)
-                                    : new ObservableCollection<ParagraphModel>();
-                                am.Content.Add(text);
-                                break;
-                            }
-                            case (int) ContentType.Image:
-                            {
-                                var image = await _imageContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                am.Content.Add(image);
-                                break;
-                            }
-                            case (int) ContentType.Gallery:
-                            {
-                                var amId = am.GetId();
-                                var galleryContents =
-                                    await
-                                        _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == amId,
-                                            s => s.Index, false, 0, 0);
-                                var gallery =
-                                    await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
-                                am.Content.Add(gallery);
-
-                                foreach (
-                                    var galleryContent in
-                                        galleryContents.Where(g => g.ContentType == (int) ContentType.Image))
+                            case (int)ContentType.Text:
                                 {
-                                    var image =
-                                        await _imageContentGenericRepository.GetByIdAsync(galleryContent.ContentId);
-                                    gallery.Images.Add(image);
+                                    var text = await _textContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    text.Content = text.ContentJson != null
+                                        ? JsonConvert.DeserializeObject<ObservableCollection<ParagraphModel>>(
+                                            text.ContentJson)
+                                        : new ObservableCollection<ParagraphModel>();
+                                    am.Content.Add(text);
+                                    break;
                                 }
-                                break;
-                            }
+                            case (int)ContentType.Image:
+                                {
+                                    var image = await _imageContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    am.Content.Add(image);
+                                    break;
+                                }
+                            case (int)ContentType.Gallery:
+                                {
+                                    var amId = am.GetId();
+                                    var galleryContents =
+                                        await
+                                            _sqliteService.GetByCondition<ContentEntity>(s => s.ParentId == amId,
+                                                s => s.Index, false, 0, 0);
+                                    var gallery =
+                                        await _galleryContentGenericRepository.GetByIdAsync(contentEntity.ContentId);
+                                    am.Content.Add(gallery);
+
+                                    foreach (
+                                        var galleryContent in
+                                            galleryContents.Where(g => g.ContentType == (int)ContentType.Image))
+                                    {
+                                        var image =
+                                            await _imageContentGenericRepository.GetByIdAsync(galleryContent.ContentId);
+                                        gallery.Images.Add(image);
+                                    }
+                                    break;
+                                }
                         }
                     }
+
+                    _themeRepository.LoadArticleThemesAsync(am);
                 }
 
                 return true;
@@ -318,31 +320,20 @@ namespace Famoser.OfflineMedia.Business.Repositories
             };
             model.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h1>Über diese App</h1>" +
-                                "<p> " +
-                                "Die App versucht sich bei jedem Start zu aktualisieren. Ist kein Internet vorhanden, werden die Artikel des letzten Downloads angezeigt. " +
-                                "<br /><br />" +
-                                "Die Zeit und das verwendete Datenvolumen, die die Aktualisierung benötigt, hängt stark von den selektierten Quellen ab. Geht die Aktualisierung zu langsam, können Sie sich überlegen, wieder einige Feeds abzuschalten. " +
-                                "<br /><br />" +
+                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h2>Was ist diese App?</h2>" +
+                                "<p>Mit dieser App können Sie die meisten Nachrichtenportale der Schweiz, sowie einige aus Deutschland lesen. " +
                                 "Die App ist gratis und wird es auch bleiben. Sie generiert keine direkten oder indirekten Einnahmen.</p>" +
-                                "<h1>FAQ</h1>" +
-                                "<p><b>Wie werden die Medien ausgewählt, die von dieser App unterstützt werden?</b></p>" +
+                                "<h2>Wie werden die Medien ausgewählt, die von dieser App unterstützt werden?</h2>" +
                                 "<p>Aufgrund der Machbarkeit einer Implementation, sowie der Anzahl wahrscheinlich interessierter Leser. " +
-                                "Die Qualität der Nachrichten oder deren politische Ausrichtung ist nicht relevant, grundsätzlich wird versucht, ein möglichst breites Spektrum abzudecken. " +
-                                "Medien, deren Popularität jedoch unter Anderem durch Clickbaiting (ein Beispiel für Clickbaiting: \"10 skurrile Tipps für eine erfolgreiches Leben\") gesichert wird, werden jedoch bei der Auswahl gezielt benachteiligt." +
-                                "<p><b>Könntest du die Zeitung XY in die App einbinden?</b></p>" +
-                                "<p>Schreibe mir eine Email an OfflineMedia@outlook.com</p>" +
-                                "<p><b>Gibt es Nachrichtenportale, die wahrscheinlich nicht implementiert werden?</b></p>" +
-                                "<p><b>Watson:</b> Implementierung ist zurzeit zeitaufwendig, ausserdem betreibt watson ausgiebiges Clickbaiting</p>" +
-                                "<p><b>Für welche Nachrichtenportale ist eine Implementierung geplant?</b></p>" +
-                                "<p>Zeit online, Süddeutsche.de, Spiegel online sowie zwei Zeitungen aus der französischen Schweiz</p>" +
-                                "<h1>Über den Herausgeber</h1>" +
-                                "<p>Mein Name ist Florian Moser, ich bin ein Programmierer aus Allschwil, Schweiz. <br /><br />" +
-                                "Neben Apps entwickle ich auch Webseiten und Webapplikationen. Ein Kontaktformular und weitere Informationen über meine Projekte sind auf meiner Webseite zu finden.</p>" +
-                                "<p><b>Webseite:</b> florianalexandermoser.ch<br />" +
-                                "<b>E-Mail:</b> OfflineMedia@outlook.com</p>")
-            }
-                );
+                                "Die Qualität der Nachrichten oder deren politische Ausrichtung ist nicht relevant, grundsätzlich versuche ich, möglicht alle wichtigen Nachrichtenkanäle zu integrieren. " +
+                                "Medien, deren Popularität jedoch vor allem durch Clickbaiting (ein Beispiel für Clickbaiting: \"10 skurrile Tipps für eine erfolgreiches Leben\") gesichert wird, werde ich nicht implementieren." +
+                                "Kontaktieren Sie mich, falls Sie eine Zeitung integriert haben möchten. </p>" +
+                                "<h2>Gibt es Nachrichtenportale, die wahrscheinlich nicht implementiert werden?</h2>" +
+                                "<p><b>Watson:</b> Die Implementierung ist zeitaufwendig, zudem betreibt watson ausgiebiges Clickbaiting</p>" +
+                                "<h2>Für welche Nachrichtenportale ist eine Implementierung geplant?</h2>" +
+                                "<p>Süddeutsche.de ist geplant, konnte ich bis jetzt aber nicht umsetzen</p>"
+                 )
+            });
             return model;
         }
     }

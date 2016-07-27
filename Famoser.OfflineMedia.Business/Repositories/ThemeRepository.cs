@@ -93,5 +93,24 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 }
             });
         }
+
+        public async Task LoadArticleThemesAsync(ArticleModel am)
+        {
+            await Initialize();
+
+            await ExecuteSafe(async () =>
+            {
+                var id = am.GetId();
+                var cm = await _sqliteService.GetByCondition<ThemeArticleRelations>(d => d.ArticleId == id, null, false, 0, 0);
+                foreach (var entry in cm.ToArray())
+                {
+                    var theme = ThemeManager.GetAllThemes().FirstOrDefault(t => t.GetId() == entry.ThemeId);
+                    if (theme != null)
+                    {
+                        am.Themes.Add(theme);
+                    }
+                }
+            });
+        }
     }
 }

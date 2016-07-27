@@ -7,5 +7,6 @@ namespace Famoser.OfflineMedia.Business.Repositories.Interfaces
     {
         Task AddThemeToArticleAsync(ArticleModel article, string theme);
         Task AddRelatedThemesArticlesAsync(ArticleModel article);
+        Task LoadArticleThemesAsync(ArticleModel am);
     }
 }
