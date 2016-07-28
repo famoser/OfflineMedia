@@ -15,5 +15,9 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
         {
 
         }
+
+        public async Task LoadArticleThemesAsync(ArticleModel am)
+        {
+        }
     }
 }

@@ -29,36 +29,76 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                     {
                         using (var client = new HttpClient())
                         {
-                            using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+                            using (
+                                HttpResponseMessage response =
+                                    await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                             {
                                 IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
 
-                                var decoder = await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
+                                var decoder =
+                                    await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
                                 if (decoder.OrientedPixelHeight > height || decoder.OrientedPixelWidth > width)
                                 {
                                     var resizedStream = new InMemoryRandomAccessStream();
-                                    BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                    double widthRatio = width / decoder.OrientedPixelWidth;
-                                    double heightRatio = height / decoder.OrientedPixelHeight;
+                                    BitmapEncoder encoder =
+                                        await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                    double widthRatio = width/decoder.OrientedPixelWidth;
+                                    double heightRatio = height/decoder.OrientedPixelHeight;
 
                                     // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
                                     double scaleRatio = Math.Min(widthRatio, heightRatio);
-                                    uint aspectHeight = (uint)Math.Floor(decoder.OrientedPixelHeight * scaleRatio);
-                                    uint aspectWidth = (uint)Math.Floor(decoder.OrientedPixelWidth * scaleRatio);
+                                    uint aspectHeight = (uint) Math.Floor(decoder.OrientedPixelHeight*scaleRatio);
+                                    uint aspectWidth = (uint) Math.Floor(decoder.OrientedPixelWidth*scaleRatio);
 
                                     encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
                                     encoder.BitmapTransform.ScaledHeight = aspectHeight;
                                     encoder.BitmapTransform.ScaledWidth = aspectWidth;
 
-                                    //"buffer allocated not sufficient"
-                                    // var pd = await decoder.GetPixelDataAsync(BitmapPixelFormat.Rgba16, BitmapAlphaMode.Ignore,
-                                    //             encoder.BitmapTransform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
-                                    // encoder.SetPixelData(BitmapPixelFormat.Rgba16, BitmapAlphaMode.Ignore,
-                                    //             decoder.OrientedPixelWidth, decoder.OrientedPixelHeight, decoder.DpiX, decoder.DpiY, pd.DetachPixelData());
-
-                                    // write out to the stream
-                                    // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
-                                    await encoder.FlushAsync();
+                                    try
+                                    {
+                                        // write out to the stream
+                                        // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
+                                        await encoder.FlushAsync();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        //from http://stackoverflow.com/questions/38617761/bitmapencoder-flush-throws-argument-exception/38633258#38633258
+                                        if (ex.HResult.ToString() == "WINCODEC_ERR_INVALIDPARAMETER")
+                                        {
+                                            resizedStream = new InMemoryRandomAccessStream();
+                                            BitmapEncoder pixelencoder =
+                                                await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                            BitmapTransform transform = new BitmapTransform
+                                            {
+                                                InterpolationMode = BitmapInterpolationMode.Fant,
+                                                ScaledHeight = aspectHeight,
+                                                ScaledWidth = aspectWidth
+                                            };
+                                            var provider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
+                                                BitmapAlphaMode.Ignore,
+                                                transform,
+                                                ExifOrientationMode.RespectExifOrientation,
+                                                ColorManagementMode.DoNotColorManage);
+                                            var pixels = provider.DetachPixelData();
+                                            pixelencoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
+                                                aspectWidth,
+                                                aspectHeight, decoder.DpiX, decoder.DpiY, pixels);
+                                            try
+                                            {
+                                                await pixelencoder.FlushAsync();
+                                            }
+                                            catch (Exception ex2)
+                                            {
+                                                LogHelper.Instance.LogException(ex2);
+                                                return null;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            LogHelper.Instance.LogException(ex);
+                                            return null;
+                                        }
+                                    }
 
                                     // Reset the stream location.
                                     resizedStream.Seek(0);
@@ -80,7 +120,8 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                     }
                     catch (Exception ex)
                     {
-                        LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
+                        LogHelper.Instance.Log(LogLevel.Warning, "Download.cs",
+                            "DownloadImageAsync failed: " + url.AbsoluteUri, ex);
                     }
                 }
                 return null;
