@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.NewsModel;
+using Famoser.OfflineMedia.Business.Newspapers.Stern;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
@@ -49,7 +51,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         /// Nzz: 25.06.2016
         /// Postillion: 25.06.2016
         /// Spiegel: 25.06.2016
-        /// Stern: 25.06.2016
+        /// Stern: 31.06.2016
         /// Welt: 25.06.2016
         /// Zeit: 25.06.2016
         /// ZwanzigMin: 26.06.2016
@@ -58,7 +60,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
         [TestMethod]
         public async Task TestSingleSource()
         {
-            var sourceToTest = Sources.Blick;
+            var sourceToTest = Sources.Stern;
             _maxThreads = 1;
             var configmodels = (await SourceTestHelper.Instance.GetSourceConfigModels()).Where(s => s.Source == sourceToTest);
 

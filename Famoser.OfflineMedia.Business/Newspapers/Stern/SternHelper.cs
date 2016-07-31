@@ -39,7 +39,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
 
                     if (blockedIds.Any(i => i == nfa.contentId))
                         return null;
-                    
+
                     var a = ConstructArticleModel(scm);
                     a.PublishDateTime = DateTime.Parse(nfa.timestamp);
                     a.Title = nfa.kicker;
@@ -182,56 +182,16 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             json = WebUtility.HtmlDecode(json);
             json = json.Replace("[[]]", "[]");
 
-            var currentIndex = 0;
-            while (json.Substring(currentIndex).Contains("\"content\":"))
+            //remove twitter shit cause they do not escape it properly
+            //,{"type":"twitterElement","content":"*"}
+            var replacePatterns = new[]
+            {",{\"type\":\"(twitterElement|instagramElement)\",\"content\":\"([<a-zA-Z =\\\\\"->?@—!_])+}"};
+            foreach (var replacePattern in replacePatterns)
             {
-                currentIndex += json.Substring(currentIndex).IndexOf("\"content\":", StringComparison.Ordinal) + "\"content\":".Length;
-
-                //skipfirst
-                currentIndex += json.Substring(currentIndex).IndexOf("\"", StringComparison.Ordinal) + 1;
-
-                while (true)
-                {
-                    currentIndex += json.Substring(currentIndex).IndexOf("\"", StringComparison.Ordinal);
-                    //check if escaped
-                    if (json[currentIndex - 1] != Convert.ToChar("\\"))
-                    {
-                        //confirm it is not last
-                        if (json.Substring(currentIndex + 1).IndexOf("\"", StringComparison.Ordinal) <
-                            json.Substring(currentIndex + 1).IndexOf("}", StringComparison.Ordinal))
-                        {
-                            //insert escape caracter
-                            json = json.Insert(currentIndex, "\\");
-                        }
-                        else
-                        {
-                            currentIndex += json.Substring(currentIndex).IndexOf("}", StringComparison.Ordinal);
-                            break;
-                        }
-                    }
-                }
-
+                json = Regex.Replace(json, replacePattern, "");
             }
 
             return json;
-            //var currentIndex = 0;
-            //while (true)
-            //{
-            //    var start = json.IndexOf("\"content\": \"", currentIndex);
-            //    if (start > 0)
-            //    {
-            //        start += "\"content\": \"".Length;
-            //        var end = json.LastIndexOf("\"", start);
-            //        var content = json.Substring(start, end - start);
-            //        content = Regex.Replace(content, "[^\\]\"", "\\\""); //replace " with \" if it is not already escaped
-            //        json = json.Substring(0, start) + content + json.Substring(end);
-            //        currentIndex = end;
-            //    }
-            //    else
-            //    {
-            //        return json;
-            //    }
-            //}
         }
     }
 }
