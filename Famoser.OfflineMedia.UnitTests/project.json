@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Famoser.FrameworkEssentials": "2.7.3",
+    "Famoser.FrameworkEssentials.UniversalWindows": "1.2.1",
     "Famoser.SqliteWrapper": "1.1.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MvvmLightLibs": "5.3.0",

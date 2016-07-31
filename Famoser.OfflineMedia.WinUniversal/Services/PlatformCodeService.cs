@@ -63,7 +63,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                                     catch (Exception ex)
                                     {
                                         //from http://stackoverflow.com/questions/38617761/bitmapencoder-flush-throws-argument-exception/38633258#38633258
-                                        if (ex.HResult.ToString() == "WINCODEC_ERR_INVALIDPARAMETER")
+                                        if (ex.HResult.ToString() == "WINCODEC_ERR_INVALIDPARAMETER" || ex.HResult == -2147024809)
                                         {
                                             resizedStream = new InMemoryRandomAccessStream();
                                             BitmapEncoder pixelencoder =

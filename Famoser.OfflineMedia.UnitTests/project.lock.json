@@ -19,6 +19,17 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -2142,6 +2153,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -4347,6 +4369,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -6593,6 +6626,17 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -8805,6 +8849,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -11060,6 +11115,17 @@
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         }
       },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        }
+      },
       "Famoser.SqliteWrapper/1.1.5": {
         "dependencies": {
           "Famoser.FrameworkEssentials": "2.4.3",
@@ -13272,6 +13338,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
+        }
+      },
+      "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.7.3"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
       "Famoser.SqliteWrapper/1.1.5": {
@@ -15532,6 +15609,18 @@
         "lib/Famoser.FrameworkEssentials.dll",
         "lib/dotnet/Famoser.FrameworkEssentials.dll",
         "lib/portable-net45+win8+wpa81+wp8/Famoser.FrameworkEssentials.dll"
+      ]
+    },
+    "Famoser.FrameworkEssentials.UniversalWindows/1.2.1": {
+      "sha512": "pKZgf4tBPg2ylM0hua23PWFCm9k3qUQTKvCcCPZchQ8dXyV3ui4O1tG3j5Ff+CBAySIEdotEUcNYoJUQ2tcYUQ==",
+      "type": "package",
+      "files": [
+        "Famoser.FrameworkEssentials.UniversalWindows.1.2.1.nupkg.sha512",
+        "Famoser.FrameworkEssentials.UniversalWindows.nuspec",
+        "content/uap10.0/Dictionaries/FamoserControlStyles.xaml",
+        "content/uap10.0/Dictionaries/FamoserConverters.xaml",
+        "content/uap10.0/Dictionaries/FamoserStyles.xaml",
+        "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll"
       ]
     },
     "Famoser.SqliteWrapper/1.1.5": {
@@ -21796,6 +21885,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Famoser.FrameworkEssentials >= 2.7.3",
+      "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
       "Famoser.SqliteWrapper >= 1.1.5",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "MvvmLightLibs >= 5.3.0",

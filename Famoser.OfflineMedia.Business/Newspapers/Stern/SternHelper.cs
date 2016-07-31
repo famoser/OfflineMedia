@@ -182,6 +182,37 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             json = WebUtility.HtmlDecode(json);
             json = json.Replace("[[]]", "[]");
 
+            var currentIndex = 0;
+            while (json.Substring(currentIndex).Contains("\"content\":"))
+            {
+                currentIndex += json.Substring(currentIndex).IndexOf("\"content\":", StringComparison.Ordinal) + "\"content\":".Length;
+
+                //skipfirst
+                currentIndex += json.Substring(currentIndex).IndexOf("\"", StringComparison.Ordinal) + 1;
+
+                while (true)
+                {
+                    currentIndex += json.Substring(currentIndex).IndexOf("\"", StringComparison.Ordinal);
+                    //check if escaped
+                    if (json[currentIndex - 1] != Convert.ToChar("\\"))
+                    {
+                        //confirm it is not last
+                        if (json.Substring(currentIndex + 1).IndexOf("\"", StringComparison.Ordinal) <
+                            json.Substring(currentIndex + 1).IndexOf("}", StringComparison.Ordinal))
+                        {
+                            //insert escape caracter
+                            json = json.Insert(currentIndex, "\\");
+                        }
+                        else
+                        {
+                            currentIndex += json.Substring(currentIndex).IndexOf("}", StringComparison.Ordinal);
+                            break;
+                        }
+                    }
+                }
+
+            }
+
             return json;
             //var currentIndex = 0;
             //while (true)

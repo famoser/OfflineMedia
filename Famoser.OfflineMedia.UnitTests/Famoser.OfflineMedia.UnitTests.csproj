@@ -118,6 +118,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Famoser.OfflineMedia.WinUniversal\Services\PlatformCodeService.cs">
+      <Link>Presentation\Linked\PlatformCodeService.cs</Link>
+    </Compile>
     <Compile Include="Business\Helpers\HtmlConverterTests.cs" />
     <Compile Include="Business\Helpers\XmlHelperTests.cs" />
     <Compile Include="Business\MappingTests.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Models\LogEntry.cs" />
     <Compile Include="Presentation\ConfigurationTests.cs" />
+    <Compile Include="Presentation\ImageResizeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Mocks\HistoryNavigationServiceMock.cs" />
     <Compile Include="Services\Mocks\PlatformCodeServiceMock.cs" />
@@ -170,6 +174,10 @@
     <ProjectReference Include="..\Famoser.OfflineMedia.Data\Famoser.OfflineMedia.Data.csproj">
       <Project>{48aa60ff-9377-4ba5-81d7-c0488bfc529a}</Project>
       <Name>Famoser.OfflineMedia.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Famoser.OfflineMedia.View\Famoser.OfflineMedia.View.csproj">
+      <Project>{cccb6bc7-83b4-4342-a5ad-c8f23cb4d0b0}</Project>
+      <Name>Famoser.OfflineMedia.View</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
