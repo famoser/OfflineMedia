@@ -248,5 +248,21 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             Assert.IsTrue(paragraphs2[0].Children[0].Text == "Text before link more text after link");
             Assert.IsTrue(paragraphs2[0].Children[1].Text == "awdfa");
         }
+
+        [TestMethod]
+        public void InvalidLinkHtml()
+        {
+            //arrange
+            var html =
+                "<p>Neusten Ermittlungen zufolge, hat einer von ihnen, der 19-jährige A. P., drei Monate vor dem Angriff noch am Flughafen bei Chambéry Vollzeit als Gepäckträger gearbeitet, wie die «<a href=\"null\" target=\"_blank\"></a><a href=\"http://www.dailymail.co.uk/news/article-3714232/ISIS-church-attacker-worked-French-airport-baggage-handler-just-months-priest-murder-got-police-checks-easily-secure-job.html?ito=social-twitter_mailonline\" target=\"_blank\">DailyMail</a>» berichtet. Dort landen und starten pro Jahr über 250'000 Passagiere.</p>";
+            var converter = new HtmlConverter();
+
+            //act
+            var paragraphs = converter.HtmlToParagraph(html);
+
+            //assert
+            Assert.IsTrue(paragraphs.Count == 1);
+            Assert.IsTrue(paragraphs[0].Children.Count == 3);
+        }
     }
 }

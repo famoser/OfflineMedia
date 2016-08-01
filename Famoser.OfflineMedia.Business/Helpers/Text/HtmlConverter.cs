@@ -146,6 +146,10 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             {
                 model.TextType = TextType.Hyperlink;
                 model.Text = TextHelper.NormalizeString(parentNode.Attributes["href"]?.Value);
+                if (string.IsNullOrWhiteSpace(model.Text))
+                {
+                    model.TextType  = TextType.Normal;
+                }
             }
             else
                 return null;
@@ -166,7 +170,9 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
                     model.Children.Add(tm);
             }
 
-
+            if (model.TextType == TextType.Hyperlink && model.Children.Count == 0)
+                return null;
+            
             return !string.IsNullOrEmpty(model.Text) || model.Children.Any() ? model : null;
         }
     }
