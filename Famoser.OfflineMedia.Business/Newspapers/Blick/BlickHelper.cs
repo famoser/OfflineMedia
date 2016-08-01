@@ -89,6 +89,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                         }
                     }
                 }
+                if (!am.Content.Any())
+                {
+                    am.Content.Add(TextHelper.TextToTextModel(
+                                      "Dieser Artikel enthält Inhalt der nicht unterstützt wird. Sehen Sie sich den Artikel im Web am, um alles anzuzeigen"));
+                }
             }
 
             articlefeeditem headline = na.FirstOrDefault(a => a.type == "headline");
