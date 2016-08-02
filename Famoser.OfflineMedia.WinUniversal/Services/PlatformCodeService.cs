@@ -19,6 +19,106 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
 {
     public class PlatformCodeService : IPlatformCodeService
     {
+        public Task<byte[]> ResizeImageAsync(Stream imageStream, double height, double width)
+        {
+            return Task.Run(async () =>
+            {
+                try
+                {
+                    var decoder = await BitmapDecoder.CreateAsync(imageStream.AsRandomAccessStream());
+                    InMemoryRandomAccessStream resizedStream = new InMemoryRandomAccessStream();
+                    if (decoder.OrientedPixelHeight > height || decoder.OrientedPixelWidth > width)
+                    {
+                        BitmapEncoder encoder =
+                            await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                        double widthRatio = width/decoder.OrientedPixelWidth;
+                        double heightRatio = height/decoder.OrientedPixelHeight;
+
+                        // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
+                        double scaleRatio = Math.Min(widthRatio, heightRatio);
+                        uint aspectHeight = (uint) Math.Floor(decoder.OrientedPixelHeight*scaleRatio);
+                        uint aspectWidth = (uint) Math.Floor(decoder.OrientedPixelWidth*scaleRatio);
+
+                        encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+                        encoder.BitmapTransform.ScaledHeight = aspectHeight;
+                        encoder.BitmapTransform.ScaledWidth = aspectWidth;
+
+                        try
+                        {
+                            // write out to the stream
+                            // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
+                            await encoder.FlushAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            //from http://stackoverflow.com/questions/38617761/bitmapencoder-flush-throws-argument-exception/38633258#38633258
+                            if (ex.HResult.ToString() == "WINCODEC_ERR_INVALIDPARAMETER" || ex.HResult == -2147024809)
+                            {
+                                resizedStream = new InMemoryRandomAccessStream();
+                                BitmapEncoder pixelencoder =
+                                    await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                                BitmapTransform transform = new BitmapTransform
+                                {
+                                    InterpolationMode = BitmapInterpolationMode.Fant,
+                                    ScaledHeight = aspectHeight,
+                                    ScaledWidth = aspectWidth
+                                };
+                                var provider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
+                                    BitmapAlphaMode.Ignore,
+                                    transform,
+                                    ExifOrientationMode.RespectExifOrientation,
+                                    ColorManagementMode.DoNotColorManage);
+                                var pixels = provider.DetachPixelData();
+                                pixelencoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
+                                    aspectWidth,
+                                    aspectHeight, decoder.DpiX, decoder.DpiY, pixels);
+                                try
+                                {
+                                    await pixelencoder.FlushAsync();
+                                }
+                                catch (Exception ex2)
+                                {
+                                    LogHelper.Instance.LogException(ex2);
+                                    return null;
+                                }
+                            }
+                            else
+                            {
+                                LogHelper.Instance.LogException(ex);
+                                return null;
+                            }
+                        }
+
+                        // Reset the stream location.
+                        resizedStream.Seek(0);
+
+
+                        // Writes the image byte array in an InMemoryRandomAccessStream
+                        using (DataReader reader = new DataReader(resizedStream.GetInputStreamAt(0)))
+                        {
+                            var bytes = new byte[resizedStream.Size];
+
+                            await reader.LoadAsync((uint)resizedStream.Size);
+                            reader.ReadBytes(bytes);
+
+                            return bytes;
+                        }
+                    }
+                    
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        imageStream.CopyTo(memoryStream);
+                        return memoryStream.ToArray();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Instance.Log(LogLevel.Warning, "Download.cs", "ResizeImageAsync failed", ex);
+                }
+                return null;
+            });
+        }
+
         public Task<byte[]> DownloadResizeImage(Uri url, double height, double width)
         {
             return Task.Run(async () =>
@@ -34,87 +134,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                                     await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                             {
                                 IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
-
-                                var decoder =
-                                    await BitmapDecoder.CreateAsync(streamToReadFrom.AsStream().AsRandomAccessStream());
-                                if (decoder.OrientedPixelHeight > height || decoder.OrientedPixelWidth > width)
-                                {
-                                    var resizedStream = new InMemoryRandomAccessStream();
-                                    BitmapEncoder encoder =
-                                        await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                    double widthRatio = width/decoder.OrientedPixelWidth;
-                                    double heightRatio = height/decoder.OrientedPixelHeight;
-
-                                    // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
-                                    double scaleRatio = Math.Min(widthRatio, heightRatio);
-                                    uint aspectHeight = (uint) Math.Floor(decoder.OrientedPixelHeight*scaleRatio);
-                                    uint aspectWidth = (uint) Math.Floor(decoder.OrientedPixelWidth*scaleRatio);
-
-                                    encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
-                                    encoder.BitmapTransform.ScaledHeight = aspectHeight;
-                                    encoder.BitmapTransform.ScaledWidth = aspectWidth;
-
-                                    try
-                                    {
-                                        // write out to the stream
-                                        // might fail cause https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmapencoder.bitmaptransform.aspx
-                                        await encoder.FlushAsync();
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        //from http://stackoverflow.com/questions/38617761/bitmapencoder-flush-throws-argument-exception/38633258#38633258
-                                        if (ex.HResult.ToString() == "WINCODEC_ERR_INVALIDPARAMETER" || ex.HResult == -2147024809)
-                                        {
-                                            resizedStream = new InMemoryRandomAccessStream();
-                                            BitmapEncoder pixelencoder =
-                                                await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                                            BitmapTransform transform = new BitmapTransform
-                                            {
-                                                InterpolationMode = BitmapInterpolationMode.Fant,
-                                                ScaledHeight = aspectHeight,
-                                                ScaledWidth = aspectWidth
-                                            };
-                                            var provider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
-                                                BitmapAlphaMode.Ignore,
-                                                transform,
-                                                ExifOrientationMode.RespectExifOrientation,
-                                                ColorManagementMode.DoNotColorManage);
-                                            var pixels = provider.DetachPixelData();
-                                            pixelencoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
-                                                aspectWidth,
-                                                aspectHeight, decoder.DpiX, decoder.DpiY, pixels);
-                                            try
-                                            {
-                                                await pixelencoder.FlushAsync();
-                                            }
-                                            catch (Exception ex2)
-                                            {
-                                                LogHelper.Instance.LogException(ex2);
-                                                return null;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            LogHelper.Instance.LogException(ex);
-                                            return null;
-                                        }
-                                    }
-
-                                    // Reset the stream location.
-                                    resizedStream.Seek(0);
-
-                                    // Writes the image byte array in an InMemoryRandomAccessStream
-                                    // that is needed to set the source of BitmapImage.
-                                    using (DataReader reader = new DataReader(resizedStream.GetInputStreamAt(0)))
-                                    {
-                                        var bytes = new byte[resizedStream.Size];
-
-                                        await reader.LoadAsync((uint)resizedStream.Size);
-                                        reader.ReadBytes(bytes);
-
-                                        return bytes;
-                                    }
-                                }
+                                return await ResizeImageAsync(streamToReadFrom.AsStream(), height, width);
                             }
                         }
                     }
