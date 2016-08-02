@@ -34,8 +34,8 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             //Assert.IsTrue(image.Length == bytesOrigin.Length); //--FAILS--
             //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
             //real
-            Assert.IsNull(byteSmall);
-            Assert.IsTrue(image.Length > bytesOrigin.Length);
+            Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
+            Assert.IsTrue(image.Length > bytesOrigin.Length); //idk why, gotta read up on streams
         }
 
         private const string TestFile = "image-1028227-hppano-lqbn.jpg";
@@ -60,8 +60,8 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             //Assert.IsTrue(image.Length == bytesOrigin.Length); //--FAILS--
             //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
             //real
-            Assert.IsNull(byteSmall);
-            Assert.IsTrue(imageBytes.Length > bytesOrigin.Length);
+            Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
+            Assert.IsTrue(imageBytes.Length > bytesOrigin.Length);//idk why, gotta read up on streams
         }
 
         [TestMethod]
