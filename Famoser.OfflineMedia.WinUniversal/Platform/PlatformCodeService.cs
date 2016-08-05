@@ -15,7 +15,7 @@ using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
 using Famoser.OfflineMedia.Business.Services;
 using GalaSoft.MvvmLight.Threading;
 
-namespace Famoser.OfflineMedia.WinUniversal.Services
+namespace Famoser.OfflineMedia.WinUniversal.Platform
 {
     public class PlatformCodeService : IPlatformCodeService
     {
@@ -29,15 +29,14 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                     InMemoryRandomAccessStream resizedStream = new InMemoryRandomAccessStream();
                     if (decoder.OrientedPixelHeight > height || decoder.OrientedPixelWidth > width)
                     {
-                        BitmapEncoder encoder =
-                            await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
-                        double widthRatio = width/decoder.OrientedPixelWidth;
-                        double heightRatio = height/decoder.OrientedPixelHeight;
+                        BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                        double widthRatio = width / decoder.OrientedPixelWidth;
+                        double heightRatio = height / decoder.OrientedPixelHeight;
 
                         // Use whichever ratio had to be sized down the most to make sure the image fits within our constraints.
                         double scaleRatio = Math.Min(widthRatio, heightRatio);
-                        uint aspectHeight = (uint) Math.Floor(decoder.OrientedPixelHeight*scaleRatio);
-                        uint aspectWidth = (uint) Math.Floor(decoder.OrientedPixelWidth*scaleRatio);
+                        uint aspectHeight = (uint)Math.Floor(decoder.OrientedPixelHeight * scaleRatio);
+                        uint aspectWidth = (uint)Math.Floor(decoder.OrientedPixelWidth * scaleRatio);
 
                         encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
                         encoder.BitmapTransform.ScaledHeight = aspectHeight;
@@ -104,7 +103,8 @@ namespace Famoser.OfflineMedia.WinUniversal.Services
                             return bytes;
                         }
                     }
-                    
+
+                    imageStream.Seek(0, SeekOrigin.Begin);
                     using (var memoryStream = new MemoryStream())
                     {
                         imageStream.CopyTo(memoryStream);

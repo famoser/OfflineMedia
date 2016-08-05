@@ -4,7 +4,7 @@ using Windows.Storage;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using SQLite.Net.Async;
 
-namespace Famoser.OfflineMedia.WinUniversal.Services
+namespace Famoser.OfflineMedia.WinUniversal.Platform
 {
     public class SqliteServiceSettingsProvider : ISqliteServiceSettingsProvider
     {

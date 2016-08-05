@@ -147,9 +147,9 @@
     </Compile>
     <Compile Include="Platform\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Mock\HistoryNavigationServiceMock.cs" />
-    <Compile Include="Services\PlatformCodeService.cs" />
-    <Compile Include="Services\SqliteServiceSettingsProvider.cs" />
+    <Compile Include="Platform\Mock\HistoryNavigationServiceMock.cs" />
+    <Compile Include="Platform\PlatformCodeService.cs" />
+    <Compile Include="Platform\SqliteServiceSettingsProvider.cs" />
     <Compile Include="UserControls\ArticleList.xaml.cs">
       <DependentUpon>ArticleList.xaml</DependentUpon>
     </Compile>
