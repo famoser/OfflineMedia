@@ -7,7 +7,7 @@
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding FeedPageViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding FeedPageViewModel, Source={StaticResource Locator}}" Loaded="Page_Loaded">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -19,20 +19,19 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{StaticResource RootGrid}">
+    <Grid Style="{StaticResource RootGrid}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
-
-        <ScrollViewer Grid.Row="1" Style="{StaticResource FamoserAccentScrollViewer}">
+        <TextBlock Grid.Row="1" Text="{Binding Feed.Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
+        <ScrollViewer x:Name="FeedScrollViewer" Grid.Row="1" Style="{StaticResource FamoserScrollViewer}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="71" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
                 <Grid Grid.Row="1" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <userControls:ArticleList DataContext="{Binding Feed.AllArticles}" />
                 </Grid>
