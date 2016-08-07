@@ -10,9 +10,16 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
     public class HtmlConverter
     {
-        public static HtmlConverter CreateOnce()
+        private string _baseUrl;
+
+        public HtmlConverter(string baseUrl)
         {
-            return new HtmlConverter();
+            _baseUrl = baseUrl;
+        }
+
+        public static HtmlConverter CreateOnce(string baseUrl)
+        {
+            return new HtmlConverter(baseUrl);
         }
 
         public ObservableCollection<ParagraphModel> HtmlToParagraph(string html)
@@ -146,14 +153,33 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
             {
                 model.TextType = TextType.Hyperlink;
                 model.Text = TextHelper.NormalizeString(parentNode.Attributes["href"]?.Value);
+
                 if (string.IsNullOrWhiteSpace(model.Text))
+                    model.TextType = TextType.Normal;
+                else
                 {
-                    model.TextType  = TextType.Normal;
+                    if (model.Text.StartsWith("www"))
+                        model.Text = "http://" + model.Text;
+
+                    if (!model.Text.StartsWith("http://"))
+                    {
+                        if (model.Text.StartsWith("/"))
+                            model.Text = _baseUrl + model.Text.Substring(1);
+                        else
+                            model.Text = _baseUrl + model.Text;
+                    }
+
+                    if (!Uri.IsWellFormedUriString(model.Text, UriKind.Absolute))
+                    {
+                        //todo: do additional repair stuff
+                        //parse utf8 caracters like: http://www.ragnar%C3%B6k-spektakel.ch
+                        model.Text = _baseUrl;
+                    }
                 }
             }
             else
                 return null;
-            
+
             //shortcut for once node stuff
             if (parentNode.ChildNodes.Count() == 1 && parentNode.ChildNodes.FirstOrDefault().NodeType == HtmlNodeType.Text && model.TextType != TextType.Hyperlink)
             {
@@ -172,7 +198,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 
             if (model.TextType == TextType.Hyperlink && model.Children.Count == 0)
                 return null;
-            
+
             return !string.IsNullOrEmpty(model.Text) || model.Children.Any() ? model : null;
         }
     }

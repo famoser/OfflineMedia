@@ -91,7 +91,7 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
         {
             am.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h1>This is a sample Article Content</h1>" +
+                Content = HtmlConverter.CreateOnce("").HtmlToParagraph("<h1>This is a sample Article Content</h1>" +
                                                         "<p>A paragraph which explains more or less interesting stuff.</p>")
             });
             return true;
@@ -175,7 +175,7 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
             };
             avm.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h1>Über diese App</h1>" +
+                Content = HtmlConverter.CreateOnce("").HtmlToParagraph("<h1>Über diese App</h1>" +
                                 "<p> " +
                                 "Die App versucht sich bei jedem Start zu aktualisieren. Ist kein Internet vorhanden, werden die Artikel des letzten Downloads angezeigt. " +
                                 "<br /><br />" +

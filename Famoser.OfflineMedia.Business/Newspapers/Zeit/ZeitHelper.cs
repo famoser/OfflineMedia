@@ -296,10 +296,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 var content = doc.DocumentNode
                     .Descendants("p");
                 var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
-                articleModel.Content.Add(new TextContentModel()
-                {
-                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(html)
-                });
+                var para = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(html);
+                if (para.Count > 0)
+                    articleModel.Content.Add(new TextContentModel()
+                    {
+                        Content = para
+                    });
 
                 if (imgGalWarning)
                     articleModel.Content.Add(TextHelper.TextToTextModel("Bildergalerien werden leider noch nicht unterstützt."));

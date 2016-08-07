@@ -22,7 +22,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                 var am = ConstructArticleModel(feedModel);
                 am.Title = item.title;
                 am.LogicUri = item.targetUrl;
-                am.PublicUri = item.targetUrl.Substring(0, item.targetUrl.IndexOf(".json", StringComparison.Ordinal));
+                am.PublicUri = item.targetUrl.Substring(0, item.targetUrl.IndexOf(".json", StringComparison.Ordinal)) + ".html";
                 am.PublishDateTime = item.publicationDate;
                 am.SubTitle = item.catchword;
                 am.Teaser = item.lead;
@@ -77,7 +77,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                     }
                     else
                     {
-                        var p = HtmlConverter.CreateOnce().HtmlToParagraph(htmlbody[i].txt);
+                        var p = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(htmlbody[i].txt);
                         if (p != null && p.Count > 0)
                             am.Content.Add(new TextContentModel()
                             {
@@ -89,11 +89,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                         }
                     }
                 }
-                if (!am.Content.Any())
-                {
-                    am.Content.Add(TextHelper.TextToTextModel(
-                                      "Dieser Artikel enthält Inhalt der nicht unterstützt wird. Sehen Sie sich den Artikel im Web am, um alles anzuzeigen"));
-                }
+            }
+            if (!am.Content.Any())
+            {
+                am.Content.Add(TextHelper.TextToTextModel(
+                                  "Dieser Artikel enthält Inhalt der nicht unterstützt wird. Sehen Sie sich den Artikel im Web am, um alles anzuzeigen"));
             }
 
             articlefeeditem headline = na.FirstOrDefault(a => a.type == "headline");

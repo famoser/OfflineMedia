@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Helpers.Text;
@@ -102,16 +103,15 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                     {
                         if (text.__nodeType__ == "CDATA")
                         {
-                            if (!text.CDATA.Contains("PS: Sind Sie bei Facebook?"))
-                            {
-                                var p = HtmlConverter.CreateOnce().HtmlToParagraph(text.CDATA);
-                                if (p != null && p.Any())
-                                    articleModel.Content.Add(new
-                                        TextContentModel()
-                                    {
-                                        Content = p
-                                    });
-                            }
+                            text.CDATA = Regex.Replace(text.CDATA, "<p><strong><em>PS: Sind Sie bei Facebook\\?([a-zäöüA-Z0-9/:?=_<>\\\\\"\\-! .])+<\\/em><\\/strong><\\/p>", "");
+
+                            var p = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(text.CDATA);
+                            if (p != null && p.Any())
+                                articleModel.Content.Add(new
+                                    TextContentModel()
+                                {
+                                    Content = p
+                                });
                         }
                     }
                     articleModel.PublishDateTime = rootObj.pubDate != null

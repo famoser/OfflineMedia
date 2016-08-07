@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Services;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
-using Famoser.OfflineMedia.WinUniversal.Services;
+using Famoser.OfflineMedia.WinUniversal.Platform;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Famoser.OfflineMedia.UnitTests.Presentation

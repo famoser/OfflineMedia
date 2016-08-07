@@ -320,7 +320,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             };
             model.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.CreateOnce().HtmlToParagraph("<h2>Was ist diese App?</h2>" +
+                Content = HtmlConverter.CreateOnce("").HtmlToParagraph("<h2>Was ist diese App?</h2>" +
                                 "<p>Mit dieser App können Sie die meisten Nachrichtenportale der Schweiz, sowie einige aus Deutschland lesen. " +
                                 "Die App ist gratis und wird es auch bleiben. Sie generiert keine direkten oder indirekten Einnahmen.</p>" +
                                 "<h2>Wie werden die Medien ausgewählt, die von dieser App unterstützt werden?</h2>" +

@@ -118,7 +118,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Famoser.OfflineMedia.WinUniversal\Services\PlatformCodeService.cs">
+    <Compile Include="..\Famoser.OfflineMedia.WinUniversal\Platform\PlatformCodeService.cs">
       <Link>Presentation\Linked\PlatformCodeService.cs</Link>
     </Compile>
     <Compile Include="Business\Helpers\HtmlConverterTests.cs" />

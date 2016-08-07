@@ -66,8 +66,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
         {
             am.Content.Add(new TextContentModel()
             {
-                Content = HtmlConverter.CreateOnce().HtmlToParagraph(GetHtml(na.content))
+                Content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(GetHtml(na.content))
             });
+
+            if (!am.Content.Any())
+                am.Content.Add(TextHelper.TextToTextModel("Öffnen Sie den Artikel in Ihrem Browser für mehr Informationen."));
 
             if (na.head != null && na.head.credits != null)
                 am.Author = na.head.credits.author;
@@ -165,7 +168,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
                 {
                     articleModel.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph("<p>Content cannot be displayed (invalid json content)</p>")
+                        Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>Content cannot be displayed (invalid json content)</p>")
                     });
                     articleModel.Author = "Stern";
 

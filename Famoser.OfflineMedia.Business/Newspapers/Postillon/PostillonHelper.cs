@@ -43,6 +43,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 var titlenode = hn.ChildNodes.FirstOrDefault(atr => atr.GetAttributeValue("title", null) != null);
                 if (titlenode != null)
                     a.Title = titlenode.GetAttributeValue("title", null);
+                else
+                {
+                    a.Title = "";
+                }
 
                 a.DownloadDateTime = DateTime.Now;
                 a.Author = "Chefredaktor";
@@ -65,10 +69,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 string html = na.InnerHtml;
 
                 if (html.Contains("<table"))
-                    html = html.Substring(0, html.IndexOf("<table")) + html.Substring(html.IndexOf("</table>") + ("</table>").Length);
+                    html = html.Substring(0, html.IndexOf("<table", StringComparison.Ordinal)) + html.Substring(html.IndexOf("</table>", StringComparison.Ordinal) + ("</table>").Length);
 
                 if (html.Contains("<span style=\"font-size: x-small;\">"))
-                    html = html.Substring(0, html.IndexOf("<span style=\"font-size: x-small;\">"));
+                    html = html.Substring(0, html.IndexOf("<span style=\"font-size: x-small;\">", StringComparison.Ordinal));
 
                 html = "<html><body><p>" + html + "</p></body></html>";
 
@@ -81,7 +85,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
 
                 am.Content.Add(new TextContentModel()
                 {
-                    Content = HtmlConverter.CreateOnce().HtmlToParagraph(str)
+                    Content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(str)
                 });
 
                 am.DownloadDateTime = DateTime.Now;

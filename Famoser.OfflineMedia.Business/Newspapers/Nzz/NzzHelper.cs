@@ -20,7 +20,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
     {
         public ArticleModel FeedToArticleModel(NzzFeedArticle nfa, FeedModel scm)
         {
-            if (nfa == null) return null;
+            if (nfa == null || !nfa.path.Contains("/api/")) return null;
 
             try
             {
@@ -31,7 +31,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                 if (string.IsNullOrWhiteSpace(a.SubTitle) && nfa.title == "Was heute wichtig ist")
                     a.SubTitle = "Dieser Artikel wird laufend aktualisiert";
 
-                a.LeadImage = LeadImageToImage(nfa.leadImage);
+                a.LeadImage = LeadImageToImage(nfa.leadImage, scm);
 
                 a.LogicUri = scm.Source.LogicBaseUrl + nfa.path.Substring("/api/".Length);
                 var guid = nfa.path.Substring(nfa.path.LastIndexOf("/", StringComparison.Ordinal) + 1);
@@ -78,7 +78,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                             }
                             else if (nzzBox.type == "infobox")
                             {
-                                var newContent = HtmlConverter.CreateOnce().HtmlToParagraph("<p>" + na.body[i].text + "</p>");
+                                var newContent = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>" + na.body[i].text + "</p>");
 
                                 foreach (var paragraphModel in newContent)
                                 {
@@ -89,10 +89,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                             TextType = TextType.Cursive
                                         });
                                 }
-                                newContent.Insert(0, new ParagraphModel()
-                                {
-                                    ParagraphType = ParagraphType.Title,
-                                    Children = new List<TextModel>()
+                                if (!string.IsNullOrWhiteSpace(nzzBox.title))
+                                    newContent.Insert(0, new ParagraphModel()
+                                    {
+                                        ParagraphType = ParagraphType.Title,
+                                        Children = new List<TextModel>()
                                     {
                                         new TextModel()
                                         {
@@ -100,7 +101,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                             TextType = TextType.Cursive
                                         }
                                     }
-                                });
+                                    });
                                 am.Content.Add(new TextContentModel()
                                 {
                                     Content = newContent
@@ -112,7 +113,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     }
                     else
                     {
-                        var content = HtmlConverter.CreateOnce().HtmlToParagraph(starttag + na.body[i].text + endtag);
+                        var str = na.body[i].text.Replace("<h2 class=\"subtitle\">Mehr zum Thema</h2>", "");
+                        var content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(starttag + str + endtag);
                         if (content != null && content.Count > 0)
                             am.Content.Add(new TextContentModel()
                             {
@@ -152,7 +154,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
             });
         }
 
-        private ImageContentModel LeadImageToImage(NzzLeadImage li)
+        private ImageContentModel LeadImageToImage(NzzLeadImage li, FeedModel feedModel)
         {
             if (li != null)
             {
@@ -162,7 +164,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     {
                         Text = new TextContentModel()
                         {
-                            Content = HtmlConverter.CreateOnce().HtmlToParagraph(li.caption)
+                            Content = HtmlConverter.CreateOnce(feedModel.Source.PublicBaseUrl).HtmlToParagraph(li.caption)
                         }
                     };
                     if (li.path.Contains("http://nzz-img.s3.amazonaws.com/"))

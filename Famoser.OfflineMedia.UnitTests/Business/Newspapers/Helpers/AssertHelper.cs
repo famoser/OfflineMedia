@@ -29,7 +29,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             //exclude tamedia from subtitles as they do not provide any
             //exclude positillion as not provided
             //exclude nzz as not always provided
-            if (!IsTamediaArticle(article) && !IsPostillionArticle(article) && !IsNzzArticle(article))
+            //exclude spiegel
+            if (!IsTamediaArticle(article) && !IsPostillionArticle(article) && !IsNzzArticle(article) && !IsSpiegelArticle(article))
                 res &= TestStringNotEmptyProperty(article.SubTitle, "SubTitle", entry);
             else if (TestStringNotEmptyProperty(article.SubTitle, "SubTitle") && !_definedOnceProperties.Contains("SubTitle"))
                 _definedOnceProperties.Add("SubTitle");
@@ -109,6 +110,11 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
             return article.PublicUri != null && (article.PublicUri.Contains("20min.ch") || article.PublicUri.Contains("friday-magazine.ch"));
         }
 
+        private static bool IsSpiegelArticle(ArticleModel article)
+        {
+            return article.PublicUri != null && article.PublicUri.Contains("spiegel.de");
+        }
+
         private static bool IsNzzArticle(ArticleModel article)
         {
             return article.PublicUri != null && article.PublicUri.Contains("nzz.ch");
@@ -150,7 +156,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                 return false;
             }
             if (propertyValue < DateTime.Now - TimeSpan.FromDays(2000) ||
-                propertyValue > DateTime.Now)
+                propertyValue > DateTime.Now + TimeSpan.FromDays(1))
             {
 
                 entry?.LogEntries.Add(new LogEntry()

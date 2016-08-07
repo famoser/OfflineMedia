@@ -33,7 +33,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
             {
                 17302004, 24634343, 30557514, 28428213, 12600937, 22305162, 17066024, 24873709,
                 25812721, 11096694, 20936609, 14388484, 27748391, 12924479, //landbote special articles
-                24195728, 26753316, 13636826, 23744995, 18576108, 14642129, 5248967//langenthaler special articles
+                24195728, 26753316, 13636826, 23744995, 18576108, 14642129, 5248967, //langenthaler special articles
+                25248967 //zsz special article
             };
             if (blockedIds.Any(i => i == nfa.legacy_id))
                 return null;
@@ -64,7 +65,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 if (string.IsNullOrEmpty(a.Author))
                     a.Author = feedModel.Source.Name;
 
-                var p = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text);
+                var p = HtmlConverter.CreateOnce(feedModel.Source.PublicBaseUrl).HtmlToParagraph(nfa.text);
                 if (p != null && p.Any())
                     a.Content.Add(new TextContentModel()
                     {

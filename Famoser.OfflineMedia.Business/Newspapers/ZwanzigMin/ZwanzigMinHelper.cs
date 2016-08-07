@@ -27,7 +27,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 
         private ArticleModel FeedToArticleModel(item nfa, FeedModel fcm)
         {
-            if (nfa == null) return null;
+            if (nfa == null || nfa.link.Contains("tilllate")) return null;
 
             return ExecuteSafe(() =>
             {
@@ -42,7 +42,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 var a = ConstructArticleModel(fcm);
                 nfa.text = "<p>" + nfa.text.Replace("\n\n", "</p><p>") + "</p>";
 
-                var paragraphs = HtmlConverter.CreateOnce().HtmlToParagraph(nfa.text);
+                var paragraphs = HtmlConverter.CreateOnce(fcm.Source.PublicBaseUrl).HtmlToParagraph(nfa.text);
 
                 if (paragraphs != null && paragraphs.Count > 0)
                     a.Content.Add(

@@ -168,7 +168,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                 if (articleColumn == null)
                     return false;
 
-                var content = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated").ToArray();
+                var content = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated" && d.GetAttributeValue("class", null) != "einestages-forum-info").ToArray();
                 var encryptedContent = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToArray();
 
                 var authorBox =articleColumn.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
@@ -179,7 +179,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                     articleModel.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
+                        Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(CleanHtml(html))
                     });
 
                     var author = authorP?.FirstOrDefault()?.Descendants("b").FirstOrDefault();
@@ -195,7 +195,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     var html = encryptedContent.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);
                     articleModel.Content.Add(new TextContentModel()
                     {
-                        Content = HtmlConverter.CreateOnce().HtmlToParagraph(CleanHtml(html))
+                        Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(CleanHtml(html))
                     });
                 }
 

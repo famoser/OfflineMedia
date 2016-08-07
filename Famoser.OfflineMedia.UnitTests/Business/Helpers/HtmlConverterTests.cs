@@ -14,7 +14,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             var html = "<h1>Titel 1</h1>" +
                        "<h2>Secondary Titel 1</h2>" +
                        "<p>Content 1</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -47,7 +47,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             var html = "<h4>Secondary Titel 1</h4>" +
                        "<h3>Titel 1</h3>" +
                        "<h5>Secondary Titel 2</h5>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -72,7 +72,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
                        "<u>underline</u>" +
                        "end" +
                        "</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -113,7 +113,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
                        "<b><strong><strong><strong><i>bold & cursiv 3</i></strong></strong></strong></b>" +
                        "end" +
                        "</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -158,7 +158,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             //arrange
             var html =
                 "<p>Text before link <a href=\"http://link.ch\">link text</a> more text after link</p><p>Normal Content</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -189,7 +189,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
         {
             //arrange
             var html = "<p>Text before link <a href=\"http://link.ch\">link text<b>Bold link text</b></a> more text after link</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
@@ -211,7 +211,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             //arrange
             var html1 = "<p>Text before link more text after link<br/></p>";
             var html2 = "<p>Text before link more text after link<br/> <br/><br/>awdfa</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html1);
@@ -233,7 +233,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             //arrange
             var html1 = "<p>Text before link more text after link<br/></p>";
             var html2 = "<p>Text before link more text after link<br/> <br/><br/>awdfa</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html1);
@@ -255,7 +255,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Helpers
             //arrange
             var html =
                 "<p>Neusten Ermittlungen zufolge, hat einer von ihnen, der 19-jährige A. P., drei Monate vor dem Angriff noch am Flughafen bei Chambéry Vollzeit als Gepäckträger gearbeitet, wie die «<a href=\"null\" target=\"_blank\"></a><a href=\"http://www.dailymail.co.uk/news/article-3714232/ISIS-church-attacker-worked-French-airport-baggage-handler-just-months-priest-murder-got-police-checks-easily-secure-job.html?ito=social-twitter_mailonline\" target=\"_blank\">DailyMail</a>» berichtet. Dort landen und starten pro Jahr über 250'000 Passagiere.</p>";
-            var converter = new HtmlConverter();
+            var converter = new HtmlConverter("");
 
             //act
             var paragraphs = converter.HtmlToParagraph(html);
