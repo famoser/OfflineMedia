@@ -60,7 +60,7 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
         }
 
         private static readonly AsyncLock UpdateLock = new AsyncLock();
-        private static bool UpdateCacheAndCheckIfNewValue(RichTextBlock richTextBlock, ObservableCollection<BaseContentModel> newValue)
+        private static void UpdateCacheAndCheckIfNewValue(RichTextBlock richTextBlock, ObservableCollection<BaseContentModel> newValue)
         {
             var added = false;
             if (!RichTextBlockCache.ContainsKey(richTextBlock))
@@ -72,16 +72,15 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
             var oldValue = RichTextBlockCache[richTextBlock];
             if (oldValue != newValue || added)
             {
-                NotifyCollectionChangedEventHandler func = (sender, ev) => NewValueOnCollectionChanged(sender, ev, richTextBlock);
-                if (oldValue != null)
+                NotifyCollectionChangedEventHandler func =
+                    (sender, ev) => NewValueOnCollectionChanged(sender, ev, richTextBlock);
+                if (oldValue != null && !added)
                     oldValue.CollectionChanged -= func;
                 if (newValue != null)
                     newValue.CollectionChanged += func;
 
                 RichTextBlockCache[richTextBlock] = newValue;
-                return true;
             }
-            return false;
         }
 
         private static readonly ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>> RichTextBlockCache = new ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>>();
@@ -98,48 +97,47 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
                 var fontFamily = GetCustomFontFamily(richTextBlock);
 
                 // for propertychanged events
-                if (UpdateCacheAndCheckIfNewValue(richTextBlock, newValue))
+                UpdateCacheAndCheckIfNewValue(richTextBlock, newValue);
+
+                richTextBlock.Blocks.Clear();
+                if (newValue == null)
+                    return;
+
+                foreach (var baseContentModel in newValue)
                 {
-                    richTextBlock.Blocks.Clear();
-                    if (newValue == null)
-                        return;
-
-                    foreach (var baseContentModel in newValue)
+                    if (baseContentModel is TextContentModel)
                     {
-                        if (baseContentModel is TextContentModel)
+                        var textContent = (TextContentModel)baseContentModel;
+                        foreach (var paragraphModel in textContent.Content)
                         {
-                            var textContent = (TextContentModel) baseContentModel;
-                            foreach (var paragraphModel in textContent.Content)
+                            var paragraph = new Paragraph { FontFamily = new FontFamily(fontFamily) };
+                            if (paragraphModel.ParagraphType == ParagraphType.Title)
                             {
-                                var paragraph = new Paragraph {FontFamily = new FontFamily(fontFamily)};
-                                if (paragraphModel.ParagraphType == ParagraphType.Title)
-                                {
-                                    paragraph.FontSize = fontSize*1.5;
-                                    paragraph.Margin = new Thickness(0, fontSize*2, 0, fontSize);
-                                }
-                                else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
-                                {
-                                    paragraph.FontSize = fontSize*1.2;
-                                    paragraph.Margin = new Thickness(0, fontSize*1.5, 0, fontSize);
-                                }
-                                else
-                                {
-                                    paragraph.FontSize = fontSize;
-                                    paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
-                                }
-                                paragraph.LineHeight = paragraph.FontSize*1.6;
-                                paragraph.TextIndent = 0;
-
-                                foreach (var textModel in paragraphModel.Children)
-                                {
-                                    var span = RenderTextContent(textModel);
-                                    if (span != null)
-                                    {
-                                        paragraph.Inlines.Add(span);
-                                    }
-                                }
-                                richTextBlock.Blocks.Add(paragraph);
+                                paragraph.FontSize = fontSize * 1.5;
+                                paragraph.Margin = new Thickness(0, fontSize * 2, 0, fontSize);
                             }
+                            else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
+                            {
+                                paragraph.FontSize = fontSize * 1.2;
+                                paragraph.Margin = new Thickness(0, fontSize * 1.5, 0, fontSize);
+                            }
+                            else
+                            {
+                                paragraph.FontSize = fontSize;
+                                paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
+                            }
+                            paragraph.LineHeight = paragraph.FontSize * 1.6;
+                            paragraph.TextIndent = 0;
+
+                            foreach (var textModel in paragraphModel.Children)
+                            {
+                                var span = RenderTextContent(textModel);
+                                if (span != null)
+                                {
+                                    paragraph.Inlines.Add(span);
+                                }
+                            }
+                            richTextBlock.Blocks.Add(paragraph);
                         }
                     }
                 }
