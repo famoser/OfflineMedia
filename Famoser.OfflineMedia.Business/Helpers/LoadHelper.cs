@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;

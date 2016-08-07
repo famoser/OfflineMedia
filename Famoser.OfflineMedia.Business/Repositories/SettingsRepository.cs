@@ -12,7 +12,6 @@ using Famoser.OfflineMedia.Business.Managers;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Storage.Settings;
 using Famoser.OfflineMedia.Data.Enums;

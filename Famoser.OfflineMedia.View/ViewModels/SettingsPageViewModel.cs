@@ -5,7 +5,6 @@ using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;

@@ -14,7 +14,6 @@
 
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.View.ViewModels;
 using Famoser.OfflineMedia.WinUniversal.Platform;

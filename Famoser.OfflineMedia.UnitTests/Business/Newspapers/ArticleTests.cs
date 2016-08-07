@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Models;
-using Famoser.OfflineMedia.Business.Models.NewsModel;
-using Famoser.OfflineMedia.Business.Newspapers.Stern;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;

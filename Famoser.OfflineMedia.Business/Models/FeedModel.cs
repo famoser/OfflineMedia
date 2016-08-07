@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using Famoser.OfflineMedia.Business.Models.Base;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 

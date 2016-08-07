@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 
 #pragma warning disable 1998

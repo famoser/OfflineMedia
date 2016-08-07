@@ -18,7 +18,6 @@ using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Famoser.OfflineMedia.Business.Enums.Models;
-using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
-using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Newspapers;
 using Famoser.OfflineMedia.Business.Newspapers.Bild;
 using Famoser.OfflineMedia.Business.Newspapers.Blick;
@@ -19,12 +13,7 @@ using Famoser.OfflineMedia.Business.Newspapers.Welt;
 using Famoser.OfflineMedia.Business.Newspapers.Zeit;
 using Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.Data.Entities.Database;
-using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.OfflineMedia.Data.Enums;
-using Famoser.SqliteWrapper.Repositories;
-using Famoser.SqliteWrapper.Services.Interfaces;
-using Newtonsoft.Json;
 
 namespace Famoser.OfflineMedia.Business.Helpers
 {

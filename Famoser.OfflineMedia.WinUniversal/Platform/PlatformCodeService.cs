@@ -12,7 +12,6 @@ using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
-using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Threading;
 

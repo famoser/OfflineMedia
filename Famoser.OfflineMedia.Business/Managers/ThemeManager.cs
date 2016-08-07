@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http.Headers;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 
 namespace Famoser.OfflineMedia.Business.Managers
