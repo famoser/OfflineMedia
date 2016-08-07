@@ -18,7 +18,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
     {
         private ArticleModel FeedToArticleModel(Item nfa, FeedModel feedModel)
         {
-            if (nfa == null || nfa.Link.Contains("/video/video") || !nfa.Link.StartsWith("http://www.spiegel.de"))
+            if (nfa == null || nfa.Link.Contains("/video/") || !nfa.Link.StartsWith("http://www.spiegel.de") || nfa.Link.Contains("/fotostrecke/"))
                 return null;
 
             var bannedSubTitles = new[]

@@ -46,15 +46,15 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
         /// <summary>
         /// Last time passed:
-        /// Bild: 01.08.2016
-        /// Blick: 25.06.2016
-        /// Nzz: 25.06.2016
-        /// Postillion: 25.06.2016
-        /// Spiegel: 25.06.2016
-        /// Stern: 31.06.2016
-        /// Welt: 25.06.2016
-        /// Zeit: 25.06.2016
-        /// ZwanzigMin: 26.06.2016
+        /// Bild: 07.08.2016
+        /// Blick: 07.08.2016
+        /// Nzz: 07.08.2016
+        /// Postillion: 07.08.2016
+        /// Spiegel: 07.08.2016
+        /// Stern: 07.08.2016
+        /// Welt: 07.08.2016
+        /// Zeit: 07.08.2016
+        /// ZwanzigMin: 07.08.2016
         /// </summary>
         /// <returns></returns>
         [TestMethod]

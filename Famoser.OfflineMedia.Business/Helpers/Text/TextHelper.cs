@@ -10,6 +10,8 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
     {
         public static TextContentModel TextToTextModel(string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
             return new TextContentModel()
             {
                 Content = new ObservableCollection<ParagraphModel>()

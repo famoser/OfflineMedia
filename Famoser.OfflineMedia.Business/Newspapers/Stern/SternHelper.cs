@@ -64,10 +64,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
 
         private async Task<bool> ArticleToArticleModel(SternArticle na, ArticleModel am)
         {
-            am.Content.Add(new TextContentModel()
-            {
-                Content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(GetHtml(na.content))
-            });
+            var p = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(GetHtml(na.content));
+            if (p != null && p.Any())
+                am.Content.Add(new TextContentModel()
+                {
+                    Content = p
+                });
 
             if (!am.Content.Any())
                 am.Content.Add(TextHelper.TextToTextModel("Öffnen Sie den Artikel in Ihrem Browser für mehr Informationen."));

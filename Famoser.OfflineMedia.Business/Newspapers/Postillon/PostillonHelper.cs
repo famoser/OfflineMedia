@@ -45,7 +45,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                     a.Title = titlenode.GetAttributeValue("title", null);
                 else
                 {
-                    a.Title = "";
+                    return null;
                 }
 
                 a.DownloadDateTime = DateTime.Now;
@@ -160,6 +160,13 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 {
                     if (WriteProperties(ref articleModel, articlenode))
                         return true;
+                }
+                else
+                {
+                    //happens; sometimes server resonds with service not available (probably some sort of DDOS protection)
+                    articleModel.Content.Add(TextHelper.TextToTextModel("Der Artikel konnte nicht heruntergeladen werden"));
+                    articleModel.DownloadDateTime = DateTime.Now;
+                    return true;
                 }
                 
                 return false;

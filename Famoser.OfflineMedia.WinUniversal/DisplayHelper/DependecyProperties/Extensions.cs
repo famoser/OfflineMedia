@@ -60,84 +60,87 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
         }
 
         private static readonly AsyncLock UpdateLock = new AsyncLock();
-        private static void UpdateCache(RichTextBlock richTextBlock, ObservableCollection<BaseContentModel> newValue)
+        private static bool UpdateCacheAndCheckIfNewValue(RichTextBlock richTextBlock, ObservableCollection<BaseContentModel> newValue)
         {
-            using (UpdateLock.Lock())
+            var added = false;
+            if (!RichTextBlockCache.ContainsKey(richTextBlock))
             {
-                var added = false;
-                if (!RichTextBlockCache.ContainsKey(richTextBlock))
-                {
-                    RichTextBlockCache.TryAdd(richTextBlock, newValue);
-                    added = true;
-                }
-
-                var oldValue = RichTextBlockCache[richTextBlock];
-                if (oldValue != newValue || added)
-                {
-                    NotifyCollectionChangedEventHandler func = (sender, ev) => NewValueOnCollectionChanged(sender, ev, richTextBlock);
-                    if (oldValue != null)
-                        oldValue.CollectionChanged -= func;
-                    if (newValue != null)
-                        newValue.CollectionChanged += func;
-
-                    RichTextBlockCache[richTextBlock] = newValue;
-                }
+                RichTextBlockCache.TryAdd(richTextBlock, newValue);
+                added = true;
             }
+
+            var oldValue = RichTextBlockCache[richTextBlock];
+            if (oldValue != newValue || added)
+            {
+                NotifyCollectionChangedEventHandler func = (sender, ev) => NewValueOnCollectionChanged(sender, ev, richTextBlock);
+                if (oldValue != null)
+                    oldValue.CollectionChanged -= func;
+                if (newValue != null)
+                    newValue.CollectionChanged += func;
+
+                RichTextBlockCache[richTextBlock] = newValue;
+                return true;
+            }
+            return false;
         }
 
         private static readonly ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>> RichTextBlockCache = new ConcurrentDictionary<RichTextBlock, ObservableCollection<BaseContentModel>>();
         private static void CustomContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e = null)
         {
-            var richTextBlock = d as RichTextBlock;
-            if (richTextBlock == null)
-                return;
-
-            var newValue = GetCustomContent(richTextBlock);
-            var fontSize = GetCustomFontSize(richTextBlock);
-            var fontFamily = GetCustomFontFamily(richTextBlock);
-
-            // for propertychanged events
-            UpdateCache(richTextBlock, newValue);
-
-            richTextBlock.Blocks.Clear();
-            if (newValue == null)
-                return;
-
-            foreach (var baseContentModel in newValue)
+            using (UpdateLock.Lock())
             {
-                if (baseContentModel is TextContentModel)
-                {
-                    var textContent = (TextContentModel)baseContentModel;
-                    foreach (var paragraphModel in textContent.Content)
-                    {
-                        var paragraph = new Paragraph { FontFamily = new FontFamily(fontFamily) };
-                        if (paragraphModel.ParagraphType == ParagraphType.Title)
-                        {
-                            paragraph.FontSize = fontSize * 1.5;
-                            paragraph.Margin = new Thickness(0, fontSize * 2, 0, fontSize);
-                        }
-                        else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
-                        {
-                            paragraph.FontSize = fontSize * 1.2;
-                            paragraph.Margin = new Thickness(0, fontSize * 1.5, 0, fontSize);
-                        }
-                        else
-                        {
-                            paragraph.FontSize = fontSize;
-                            paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
-                        }
-                        paragraph.LineHeight = paragraph.FontSize * 1.6;
-                        paragraph.TextIndent = 0;
+                var richTextBlock = d as RichTextBlock;
+                if (richTextBlock == null)
+                    return;
 
-                        foreach (var textModel in paragraphModel.Children)
+                var newValue = GetCustomContent(richTextBlock);
+                var fontSize = GetCustomFontSize(richTextBlock);
+                var fontFamily = GetCustomFontFamily(richTextBlock);
+
+                // for propertychanged events
+                if (UpdateCacheAndCheckIfNewValue(richTextBlock, newValue))
+                {
+                    richTextBlock.Blocks.Clear();
+                    if (newValue == null)
+                        return;
+
+                    foreach (var baseContentModel in newValue)
+                    {
+                        if (baseContentModel is TextContentModel)
                         {
-                            var span = RenderTextContent(textModel);
-                            if (span != null)
+                            var textContent = (TextContentModel) baseContentModel;
+                            foreach (var paragraphModel in textContent.Content)
                             {
-                                paragraph.Inlines.Add(span);
+                                var paragraph = new Paragraph {FontFamily = new FontFamily(fontFamily)};
+                                if (paragraphModel.ParagraphType == ParagraphType.Title)
+                                {
+                                    paragraph.FontSize = fontSize*1.5;
+                                    paragraph.Margin = new Thickness(0, fontSize*2, 0, fontSize);
+                                }
+                                else if (paragraphModel.ParagraphType == ParagraphType.SecondaryTitle)
+                                {
+                                    paragraph.FontSize = fontSize*1.2;
+                                    paragraph.Margin = new Thickness(0, fontSize*1.5, 0, fontSize);
+                                }
+                                else
+                                {
+                                    paragraph.FontSize = fontSize;
+                                    paragraph.Margin = new Thickness(0, fontSize, 0, fontSize);
+                                }
+                                paragraph.LineHeight = paragraph.FontSize*1.6;
+                                paragraph.TextIndent = 0;
+
+                                foreach (var textModel in paragraphModel.Children)
+                                {
+                                    var span = RenderTextContent(textModel);
+                                    if (span != null)
+                                    {
+                                        paragraph.Inlines.Add(span);
+                                    }
+                                }
+                                richTextBlock.Blocks.Add(paragraph);
                             }
                         }
-                        richTextBlock.Blocks.Add(paragraph);
                     }
                 }
             }

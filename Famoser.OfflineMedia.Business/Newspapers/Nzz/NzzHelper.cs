@@ -78,16 +78,16 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                             }
                             else if (nzzBox.type == "infobox")
                             {
-                                var newContent = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>" + na.body[i].text + "</p>");
+                                var newContent = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>" + nzzBox.body + "</p>");
 
                                 foreach (var paragraphModel in newContent)
                                 {
-                                    paragraphModel.Children.Add(
-                                        new TextModel()
+                                    var ntm = new TextModel()
                                         {
                                             Children = paragraphModel.Children,
                                             TextType = TextType.Cursive
-                                        });
+                                        };
+                                    paragraphModel.Children = new List<TextModel> {ntm};
                                 }
                                 if (!string.IsNullOrWhiteSpace(nzzBox.title))
                                     newContent.Insert(0, new ParagraphModel()
@@ -102,10 +102,13 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                         }
                                     }
                                     });
-                                am.Content.Add(new TextContentModel()
-                                {
-                                    Content = newContent
-                                });
+                                if (newContent.Any())
+                                    am.Content.Add(new TextContentModel()
+                                    {
+                                        Content = newContent
+                                    });
+                                else
+                                    "wat".ToString();
                             }
                             else
                                 LogHelper.Instance.LogInfo("nzz content type not found: " + nzzBox.mimeType, this);
@@ -113,13 +116,15 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     }
                     else
                     {
-                        var str = na.body[i].text.Replace("<h2 class=\"subtitle\">Mehr zum Thema</h2>", "");
-                        var content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(starttag + str + endtag);
-                        if (content != null && content.Count > 0)
-                            am.Content.Add(new TextContentModel()
-                            {
-                                Content = content
-                            });
+                        if (na.body[i].text != "Mehr zum Thema")
+                        {
+                            var content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(starttag + na.body[i].text + endtag);
+                            if (content != null && content.Count > 0)
+                                am.Content.Add(new TextContentModel()
+                                {
+                                    Content = content
+                                });
+                        }
                     }
                 }
 
