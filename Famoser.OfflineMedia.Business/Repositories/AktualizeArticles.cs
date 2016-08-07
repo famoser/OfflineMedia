@@ -68,7 +68,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     if (media != null)
                     {
                         var articles = await media.EvaluateFeed(model);
-                        await FeedHelper.SaveFeed(model, articles, _sqliteService);
+                        await SaveHelper.SaveFeed(model, articles, _sqliteService);
                         _imageDownloadService.Download(model);
                     }
 
@@ -90,15 +90,15 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     if (media != null && await media.EvaluateArticle(model))
                     {
                         model.LoadingState = LoadingState.Loaded;
-                        await ArticleHelper.SaveArticle(model, _sqliteService);
-                        await ArticleHelper.SaveArticleLeadImage(model, _sqliteService);
-                        await ArticleHelper.SaveArticleContent(model, _sqliteService);
+                        await SaveHelper.SaveArticle(model, _sqliteService);
+                        await SaveHelper.SaveArticleLeadImage(model, _sqliteService);
+                        await SaveHelper.SaveArticleContent(model, _sqliteService);
                         _imageDownloadService.Download(model);
                     }
                     else
                     {
                         model.LoadingState = LoadingState.LoadingFailed;
-                        await ArticleHelper.SaveArticle(model, _sqliteService);
+                        await SaveHelper.SaveArticle(model, _sqliteService);
                     }
 
                     if (incrementProgress)

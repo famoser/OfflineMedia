@@ -74,7 +74,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
 
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
-                feed = HtmlHelper.RemoveXmlLvl(feed);
+                feed = XmlHelper.RemoveXmlLvl(feed);
 
                 feed = feed.Replace(" & ", " &amp; ");
 

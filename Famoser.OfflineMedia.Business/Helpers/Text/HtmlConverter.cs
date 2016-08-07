@@ -10,7 +10,7 @@ namespace Famoser.OfflineMedia.Business.Helpers.Text
 {
     public class HtmlConverter
     {
-        private string _baseUrl;
+        private readonly string _baseUrl;
 
         public HtmlConverter(string baseUrl)
         {

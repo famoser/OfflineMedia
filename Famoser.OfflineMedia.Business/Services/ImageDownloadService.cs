@@ -8,13 +8,14 @@ using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
 
 namespace Famoser.OfflineMedia.Business.Services
 {
-    public class ImageDownloadService
+    public class ImageDownloadService : IImageDownloadService
     {
         private readonly IPlatformCodeService _platformCodeService;
         private readonly ISqliteService _sqliteService;

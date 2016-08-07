@@ -19,6 +19,7 @@ using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.OfflineMedia.Data.Entities.Database.Relations;
@@ -36,9 +37,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
         private readonly IProgressService _progressService;
         private readonly IStorageService _storageService;
         private readonly ISqliteService _sqliteService;
-        private readonly IPlatformCodeService _platformCodeService;
         private readonly IThemeRepository _themeRepository;
-        private readonly ImageDownloadService _imageDownloadService;
+        private readonly IImageDownloadService _imageDownloadService;
 
         private readonly GenericRepository<ArticleModel, ArticleEntity> _articleGenericRepository;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _imageContentGenericRepository;
@@ -46,20 +46,19 @@ namespace Famoser.OfflineMedia.Business.Repositories
         private readonly GenericRepository<GalleryContentModel, GalleryContentEntity> _galleryContentGenericRepository;
 
 #pragma warning disable 4014
-        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IPlatformCodeService platformCodeService, IThemeRepository themeRepository)
+        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IThemeRepository themeRepository, IImageDownloadService imageDownloadService)
         {
             _settingsRepository = settingsRepository;
             _progressService = progressService;
             _storageService = storageService;
             _sqliteService = sqliteService;
-            _platformCodeService = platformCodeService;
             _themeRepository = themeRepository;
+            _imageDownloadService = imageDownloadService;
 
             _articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(_sqliteService);
             _imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(_sqliteService);
             _textContentGenericRepository = new GenericRepository<TextContentModel, TextContentEntity>(_sqliteService);
             _galleryContentGenericRepository = new GenericRepository<GalleryContentModel, GalleryContentEntity>(_sqliteService);
-            _imageDownloadService = new ImageDownloadService(_platformCodeService, _sqliteService);
 
             Initialize();
         }
@@ -163,7 +162,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     foreach (var feedArticleRelationEntity in relations)
                     {
-                        var article = await ArticleHelper.LoadForFeed(feedArticleRelationEntity.ArticleId, _sqliteService);
+                        var article = await LoadHelper.LoadForFeed(feedArticleRelationEntity.ArticleId, _sqliteService);
                         feed.AllArticles.Add(article);
                     }
                 }

@@ -11,6 +11,7 @@ using Famoser.OfflineMedia.Business.Models.Configuration;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.View.Enums;
 using Famoser.OfflineMedia.View.Helpers;

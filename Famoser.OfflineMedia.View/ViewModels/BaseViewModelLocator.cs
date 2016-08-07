@@ -17,6 +17,8 @@ using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
+using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
@@ -55,7 +57,8 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             SimpleIoc.Default.Register<ISqliteService, SqliteService>();
             SimpleIoc.Default.Register<IProgressService, ProgressService>();
-            
+            SimpleIoc.Default.Register<IImageDownloadService, ImageDownloadService>();
+
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<FeedPageViewModel>();
             SimpleIoc.Default.Register<ArticlePageViewModel>();

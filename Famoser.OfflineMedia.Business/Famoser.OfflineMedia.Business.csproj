@@ -274,7 +274,8 @@
     <Compile Include="Enums\Models\TextModels\TextType.cs" />
     <Compile Include="Enums\Settings\ValueType.cs" />
     <Compile Include="Helpers\EntityModelConverter.cs" />
-    <Compile Include="Helpers\FeedHelper.cs" />
+    <Compile Include="Helpers\LoadHelper.cs" />
+    <Compile Include="Helpers\SaveHelper.cs" />
     <Compile Include="Managers\ForecastManager.cs" />
     <Compile Include="Models\Base\BaseInfoModel.cs" />
     <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
@@ -303,9 +304,6 @@
     <Compile Include="Repositories\ThemeRepository.cs" />
     <Compile Include="Repositories\WeatherRepository.cs" />
     <Compile Include="Helpers\ArticleHelper.cs" />
-    <Compile Include="Helpers\Text\CompressionHelper.cs" />
-    <Compile Include="Helpers\Text\HtmlHelper.cs" />
-    <Compile Include="Helpers\Comparisation\IntEqualityComparer.cs" />
     <Compile Include="Helpers\Text\HtmlConverter.cs" />
     <Compile Include="Helpers\Text\XmlHelper.cs" />
     <Compile Include="Managers\SourceManager.cs" />
@@ -327,7 +325,8 @@
     <Compile Include="Models\WeatherModel\ForecastItem.cs" />
     <Compile Include="Enums\Models\WeatherLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IPlatformCodeService.cs" />
+    <Compile Include="Services\Interfaces\IImageDownloadService.cs" />
+    <Compile Include="Services\Interfaces\IPlatformCodeService.cs" />
     <Compile Include="Newspapers\BaseMediaSourceHelper.cs" />
     <Compile Include="Newspapers\Bild\Models\Article\ChildNode.cs" />
     <Compile Include="Newspapers\Bild\Models\Article\Image.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Famoser.OfflineMedia.Business.Services
+namespace Famoser.OfflineMedia.Business.Services.Interfaces
 {
     public interface IPlatformCodeService
     {

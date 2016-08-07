@@ -3,6 +3,7 @@ using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
 using Famoser.OfflineMedia.Business.Services;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.UnitTests.Services.Mocks;
 using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
@@ -25,6 +26,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeServiceMock>();
             SimpleIoc.Default.Register<IStorageService>(() => new StorageServiceMock());
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
+            SimpleIoc.Default.Register<IImageDownloadService, ImageDownloadService>();
             SimpleIoc.Default.Register<ISqliteServiceSettingsProvider, SqliteServiceSettingsProviderMock>();
             SimpleIoc.Default.Register<IHistoryNavigationService, HistoryNavigationServiceMock>();
             SimpleIoc.Default.Register<ISqliteService>(() => new SqliteService(SimpleIoc.Default.GetInstance<ISQLitePlatform>(), SimpleIoc.Default.GetInstance<ISqliteServiceSettingsProvider>()));

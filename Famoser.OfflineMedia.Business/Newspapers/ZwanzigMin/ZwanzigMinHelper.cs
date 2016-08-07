@@ -108,9 +108,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                 //removes old header of xml
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
-                feed = HtmlHelper.RemoveXmlLvl(feed);
-                feed = HtmlHelper.RemoveXmlLvl(feed);
-                feed = HtmlHelper.AddXmlHeaderNode(feed, "channel");
+                feed = XmlHelper.RemoveXmlLvl(feed);
+                feed = XmlHelper.RemoveXmlLvl(feed);
+                feed = XmlHelper.AddXmlHeaderNode(feed, "channel");
 
                 var serializer = new XmlSerializer(typeof(channel));
                 TextReader reader = new StringReader(feed);

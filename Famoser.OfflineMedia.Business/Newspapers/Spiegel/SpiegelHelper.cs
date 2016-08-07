@@ -131,7 +131,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
 
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
-                feed = HtmlHelper.RemoveXmlLvl(feed);
+                feed = XmlHelper.RemoveXmlLvl(feed);
                 feed = feed.Replace("content:encoded", "content");
 
                 var channel = XmlHelper.Deserialize<Channel>(feed);
