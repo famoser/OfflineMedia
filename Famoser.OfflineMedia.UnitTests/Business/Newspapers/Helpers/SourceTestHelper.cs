@@ -12,23 +12,19 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
 {
     public class SourceTestHelper : SingletonBase<SourceTestHelper>
     {
-        public async Task<List<SourceEntity>> GetSourceConfigs()
+        public async Task<List<SourceModel>> GetSourceConfigs()
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/Sources.json"));
             var json = await FileIO.ReadTextAsync(file);
-            return JsonConvert.DeserializeObject<List<SourceEntity>>(json);
+            return JsonConvert.DeserializeObject<List<SourceModel>>(json);
         }
         public async Task<List<SourceModel>> GetSourceConfigModels()
         {
-            var res = new List<SourceModel>();
-            var entities = await GetSourceConfigs();
-            foreach (var sourceEntity in entities)
+            var res = await GetSourceConfigs();
+            foreach (var source in res)
             {
-                var source = EntityModelConverter.Convert(sourceEntity);
-                foreach (var feedEntity in sourceEntity.Feeds)
+                foreach (var feed in source.Feeds)
                 {
-                    var feed = EntityModelConverter.Convert(feedEntity, source, true);
-                    source.AllFeeds.Add(feed);
                     source.ActiveFeeds.Add(feed);
                 }
                 res.Add(source);

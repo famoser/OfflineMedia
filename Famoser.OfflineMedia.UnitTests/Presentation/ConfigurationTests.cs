@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Data.Entities.Storage.Settings;
 using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using Famoser.OfflineMedia.Data.Enums;
@@ -34,11 +36,11 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
         {
             StorageFile file1 = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/Sources.json"));
             var json1 = await FileIO.ReadTextAsync(file1);
-            var entities1 = JsonConvert.DeserializeObject<List<SourceEntity>>(json1);
+            var entities1 = JsonConvert.DeserializeObject<List<SourceModel>>(json1);
 
             StorageFile file2 = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration/Sources_min.json"));
             var json2 = await FileIO.ReadTextAsync(file2);
-            var entities2 = JsonConvert.DeserializeObject<List<SourceEntity>>(json2);
+            var entities2 = JsonConvert.DeserializeObject<List<SourceModel>>(json2);
 
             Assert.IsTrue(entities1.Count == entities2.Count);
             for (int i = 0; i < entities1.Count; i++)
@@ -84,7 +86,7 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             }
         }
 
-        private void CheckFeedEntityListsEqual(List<FeedEntity> list1, List<FeedEntity> list2)
+        private void CheckFeedEntityListsEqual(ObservableCollection<FeedModel> list1, ObservableCollection<FeedModel> list2)
         {
             if (list1 == null && list2 == null)
                 return;
@@ -95,7 +97,6 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             {
                 Assert.IsTrue(list1[i].Name == list2[i].Name);
                 Assert.IsTrue(list1[i].Url == list2[i].Url);
-                CheckFeedEntityListsEqual(list1[i].Feeds, list2[i].Feeds);
             }
         }
 

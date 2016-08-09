@@ -8,6 +8,7 @@ using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers;
 using Famoser.OfflineMedia.UnitTests.Helpers;
@@ -160,8 +161,9 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
 
                 var msh = ArticleHelper.GetMediaSource(source.Source, SimpleIoc.Default.GetInstance<IThemeRepository>());
                 var sqs = SimpleIoc.Default.GetInstance<ISqliteService>();
+                var ids = SimpleIoc.Default.GetInstance<IImageDownloadService>();
                 var newArticles = await msh.EvaluateFeed(feed);
-                await FeedHelper.SaveFeed(feed, newArticles, sqs);
+                await SaveHelper.SaveFeed(feed, newArticles, sqs, ids);
 
                 foreach (var articleModel in newArticles)
                 {
@@ -171,9 +173,9 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     };
                     articleModel.Feed = feed;
 
-                    await ArticleHelper.SaveArticle(articleModel, sqs);
-                    await ArticleHelper.SaveArticleLeadImage(articleModel, sqs, true);
-                    await ArticleHelper.SaveArticleContent(articleModel, sqs, true);
+                    await SaveHelper.SaveArticle(articleModel, sqs);
+                    await SaveHelper.SaveArticleLeadImage(articleModel, sqs, true);
+                    await SaveHelper.SaveArticleContent(articleModel, sqs, true);
 
 
                     assertHelper.TestFeedArticleProperties(articleModel, articleLogEntry);

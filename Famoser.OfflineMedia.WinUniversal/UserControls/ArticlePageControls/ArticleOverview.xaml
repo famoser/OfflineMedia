@@ -18,10 +18,10 @@
             <Paragraph>written by
                 <Bold>
                     <Run Text="{Binding Article.Author}" />
-                </Bold> , published in
+                </Bold>, published in
                 <Bold>
                     <Run Text="{Binding Article.Feed.Source.Name}" />
-                </Bold> | 
+                </Bold> |
                 <Bold>
                     <Run Text="{Binding TotalWords}" />
                 </Bold> words, published at

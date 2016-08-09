@@ -235,12 +235,10 @@
     <Compile Include="Entities\Database\Relations\ThemeArticleRelations.cs" />
     <Compile Include="Entities\Database\ThemeEntity.cs" />
     <Compile Include="Entities\Storage\Base\StorageEntityBase.cs" />
-    <Compile Include="Entities\Storage\Sources\FeedEntity.cs" />
     <Compile Include="Entities\Storage\Sources\SourceCacheEntity.cs" />
     <Compile Include="Entities\Storage\Settings\SettingCacheEntity.cs" />
     <Compile Include="Entities\Storage\Settings\SettingCacheItemEntity.cs" />
     <Compile Include="Entities\Storage\Settings\SettingEntity.cs" />
-    <Compile Include="Entities\Storage\Sources\SourceEntity.cs" />
     <Compile Include="Enums\SettingKey.cs" />
     <Compile Include="Enums\SettingValueType.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
