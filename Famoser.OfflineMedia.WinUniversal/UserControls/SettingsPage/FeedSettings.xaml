@@ -17,7 +17,7 @@
 
     <ListView
         Style="{StaticResource FeedListViewStyle}"
-        ItemsSource="{Binding AllFeeds}"
+        ItemsSource="{Binding Feeds}"
         ItemTemplate="{StaticResource FeedDataTemplate}" 
         ItemContainerStyle="{StaticResource ItemContainerStyle}" >
         <ListView.ItemsPanel>

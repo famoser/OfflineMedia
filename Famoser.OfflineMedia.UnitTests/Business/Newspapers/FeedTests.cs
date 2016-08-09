@@ -25,7 +25,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
             //act
             foreach (var sourceModel in sourceModels)
             {
-                foreach (var feedModel in sourceModel.AllFeeds)
+                foreach (var feedModel in sourceModel.Feeds)
                 {
                     var resp = await service.DownloadAsync(feedModel.GetLogicUri());
                     if (!resp.IsRequestSuccessfull)

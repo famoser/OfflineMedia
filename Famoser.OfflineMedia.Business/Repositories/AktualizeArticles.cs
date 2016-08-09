@@ -68,7 +68,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     if (media != null)
                     {
                         var articles = await media.EvaluateFeed(model);
-                        await SaveHelper.SaveFeed(model, articles, _sqliteService);
+                        await SaveHelper.SaveFeed(model, articles, _sqliteService, _imageDownloadService);
                         _imageDownloadService.Download(model);
                     }
 

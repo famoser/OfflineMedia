@@ -157,9 +157,9 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             else
             {
                 await DispatcherHelper.UIDispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
-                if (after != null)
-                    await after().ConfigureAwait(false);
             }
+            if (after != null)
+                await after().ConfigureAwait(false);
         }
 
         public async Task<bool> OpenInBrowser(Uri url)

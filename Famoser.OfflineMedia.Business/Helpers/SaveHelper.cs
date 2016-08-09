@@ -6,6 +6,7 @@ using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Entities.Database;
 using Famoser.OfflineMedia.Data.Entities.Database.Contents;
 using Famoser.OfflineMedia.Data.Entities.Database.Relations;
@@ -163,7 +164,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 }
         }
 
-        public static async Task SaveFeed(FeedModel model, List<ArticleModel> newArticles, ISqliteService service)
+        public static async Task SaveFeed(FeedModel model, List<ArticleModel> newArticles, ISqliteService service, IImageDownloadService imageDownloadService)
         {
             var stringGuid = model.Guid.ToString();
             var feedEntries = await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0);
@@ -172,13 +173,15 @@ namespace Famoser.OfflineMedia.Business.Helpers
             for (int index = 0; index < newArticles.Count; index++)
             {
                 var articleModel = newArticles[index];
+                articleModel.Feed = model;
+
                 var oldOne = oldArticles.FirstOrDefault(s => s.PublicUri == articleModel.PublicUri);
                 if (oldOne == null)
                 {
                     var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.PublicUri == s.Url);
                     if (oldFromDatabase != null)
                     {
-                        var article = await LoadHelper.LoadForFeed(oldFromDatabase.ArticleId, service);
+                        var article = await LoadHelper.LoadForFeed(oldFromDatabase.ArticleId, model, service, imageDownloadService);
                         model.AllArticles.Add(article);
                         feedEntries.Remove(oldFromDatabase);
                         oldFromDatabase.Index = index;

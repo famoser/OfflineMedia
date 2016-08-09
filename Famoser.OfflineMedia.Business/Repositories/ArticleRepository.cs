@@ -88,7 +88,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         return;
 
                     var jsonAssets = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.SourcesConfiguration).Description);
-                    var feeds = JsonConvert.DeserializeObject<List<SourceEntity>>(jsonAssets);
+                    var feeds = JsonConvert.DeserializeObject<List<SourceModel>>(jsonAssets);
                     var recovered = false;
                     try
                     {
@@ -109,9 +109,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     }
 
                     var feedsToLoad = new List<FeedModel>();
-                    foreach (var sourceEntity in feeds)
+                    foreach (var source in feeds)
                     {
-                        var source = EntityModelConverter.Convert(sourceEntity);
                         if (!_sourceCacheEntity.IsEnabledDictionary.ContainsKey(source.Guid))
                         {
                             _sourceCacheEntity.IsEnabledDictionary[source.Guid] = false;
@@ -119,17 +118,17 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         }
 
                         SourceManager.AddSource(source, _sourceCacheEntity.IsEnabledDictionary[source.Guid]);
-                        foreach (var feedEntity in sourceEntity.Feeds)
+                        foreach (var feed in source.Feeds)
                         {
-                            if (!_sourceCacheEntity.IsEnabledDictionary.ContainsKey(feedEntity.Guid))
+                            feed.Source = source;
+
+                            if (!_sourceCacheEntity.IsEnabledDictionary.ContainsKey(feed.Guid))
                             {
-                                _sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid] = false;
+                                _sourceCacheEntity.IsEnabledDictionary[feed.Guid] = false;
                                 recovered = false;
                             }
-
-                            var feed = EntityModelConverter.Convert(feedEntity, source, _sourceCacheEntity.IsEnabledDictionary[feedEntity.Guid]);
+                            
                             SourceManager.AddFeed(feed, source, _sourceCacheEntity.IsEnabledDictionary[feed.Guid]);
-
                             if (_sourceCacheEntity.IsEnabledDictionary[feed.Guid])
                                 feedsToLoad.Add(feed);
                         }
@@ -161,7 +160,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                     foreach (var feedArticleRelationEntity in relations)
                     {
-                        var article = await LoadHelper.LoadForFeed(feedArticleRelationEntity.ArticleId, _sqliteService);
+                        var article = await LoadHelper.LoadForFeed(feedArticleRelationEntity.ArticleId, feed, _sqliteService, _imageDownloadService);
                         feed.AllArticles.Add(article);
                     }
                 }

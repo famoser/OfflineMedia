@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Models;
+using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
@@ -13,7 +14,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
 {
     public class LoadHelper
     {
-        public static async Task<ArticleModel> LoadForFeed(int id, ISqliteService sqliteService, IImageDownloadService imageDownloadService)
+        public static async Task<ArticleModel> LoadForFeed(int id, FeedModel feed, ISqliteService sqliteService, IImageDownloadService imageDownloadService)
         {
             var arRepo = new GenericRepository<ArticleModel, ArticleEntity>(sqliteService);
             var imgRepo = new GenericRepository<ImageContentModel, ImageContentEntity>(sqliteService);
@@ -28,6 +29,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
                 if (art.LeadImage?.LoadingState < LoadingState.Loaded)
                     imageDownloadService.Download(art);
             }
+            art.Feed = feed;
             return art;
         }
     }

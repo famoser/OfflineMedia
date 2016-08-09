@@ -42,29 +42,5 @@ namespace Famoser.OfflineMedia.Business.Helpers
             model.Value = entity.Value;
             model.IsImmutable = entity.IsImmutable;
         }
-
-        public static SourceModel Convert(SourceEntity sourceEntity)
-        {
-            return new SourceModel()
-            {
-                Guid = sourceEntity.Guid,
-                Name = sourceEntity.Name,
-                Abbreviation = sourceEntity.Abbreviation,
-                LogicBaseUrl = sourceEntity.LogicBaseUrl,
-                PublicBaseUrl = sourceEntity.PublicBaseUrl,
-                Source = sourceEntity.Source
-            };
-        }
-
-        public static FeedModel Convert(FeedEntity feedEntity, SourceModel source, bool isActive)
-        {
-            return new FeedModel()
-            {
-                Guid = feedEntity.Guid,
-                Name = feedEntity.Name,
-                Source = source,
-                Url = feedEntity.Url
-            };
-        }
     }
 }

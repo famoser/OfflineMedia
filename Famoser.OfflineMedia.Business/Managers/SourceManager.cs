@@ -22,7 +22,6 @@ namespace Famoser.OfflineMedia.Business.Managers
         public static void AddFeed(FeedModel fm, SourceModel source, bool isActive = false)
         {
             fm.Source = source;
-            fm.Source.AllFeeds.Add(fm);
             if (isActive)
                 fm.Source.ActiveFeeds.Add(fm);
             fm.IsActive = isActive;

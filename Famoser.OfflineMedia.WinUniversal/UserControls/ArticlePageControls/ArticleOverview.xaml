@@ -14,21 +14,25 @@
         <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" TextWrapping="Wrap"  />
         <Border Style="{ThemeResource FamoserSpacer}" />
 
-        <RichTextBlock HorizontalAlignment="Center" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+        <RichTextBlock HorizontalAlignment="Left" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
+            <Paragraph>written by
+                <Bold>
+                    <Run Text="{Binding Article.Author}" />
+                </Bold>, published in
+                <Bold>
+                    <Run Text="{Binding Article.Feed.Source.Name}" />
+                </Bold>
+            </Paragraph>
             <Paragraph>
-                <Run Text="Author: " />
-                <Run Text="{Binding Article.Author}" />
-                <Run Text=" - " />
-                <Run Text="Source: " />
-                <Run Text="{Binding Article.Feed.Source.Name}" />
-                <Run Text=" - " />
-                <Run Text="Published: " />
-                <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
-                <Run Text=" - " />
-                <Run Text="Words: " />
-                <Run Text="{Binding TotalWords}" />
+                <Bold>
+                    <Run Text="{Binding TotalWords}" />
+                </Bold> words, published at
+                <Bold>
+                    <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                </Bold>
             </Paragraph>
         </RichTextBlock>
+
         <Border Style="{ThemeResource FamoserSpacer}" />
     </StackPanel>
 </UserControl>

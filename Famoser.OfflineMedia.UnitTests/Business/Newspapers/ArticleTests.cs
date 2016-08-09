@@ -134,7 +134,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
                     Content = "Testing " + source.Name
                 };
 
-                var feeds = new ConcurrentStack<FeedModel>(source.AllFeeds);
+                var feeds = new ConcurrentStack<FeedModel>(source.Feeds);
                 var tasks = new List<Task>();
                 for (int i = 0; i < _maxThreads; i++)
                 {

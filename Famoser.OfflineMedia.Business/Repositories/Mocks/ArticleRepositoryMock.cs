@@ -65,9 +65,9 @@ namespace Famoser.OfflineMedia.Business.Repositories.Mocks
                 }
             };
             sm.ActiveFeeds.Add(fm);
-            sm.AllFeeds.Add(fm);
-            sm.AllFeeds.Add(fm2);
-            sm.AllFeeds.Add(fm2);
+            sm.Feeds.Add(fm);
+            sm.Feeds.Add(fm2);
+            sm.Feeds.Add(fm2);
 
             _sources.Add(sm);
             _sources.Add(sm);
