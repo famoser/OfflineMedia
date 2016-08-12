@@ -115,7 +115,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                     }
                     else
                     {
-                        if (na.body[i].text != "Mehr zum Thema")
+                        if (!na.body[i].text.StartsWith("Mehr zum Thema"))
                         {
                             var content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(starttag + na.body[i].text + endtag);
                             if (content != null && content.Count > 0)

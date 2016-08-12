@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Helpers.Text;
@@ -33,10 +34,19 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 
             var title = "";
             var subTitle = "";
+            string author = null;
             if (title.Contains(":"))
             {
                 title = nfa.Title.Substring(0, nfa.Title.IndexOf(":", StringComparison.Ordinal));
                 subTitle = nfa.Title.Substring(nfa.Title.IndexOf(":", StringComparison.Ordinal) + 2);
+                if (subTitle.Contains("<li>"))
+                {
+                    author = subTitle.Substring(subTitle.IndexOf("<li>", StringComparison.Ordinal));
+                    author = Regex.Replace(author, "<(\\/)*([a-zA-Z])+>", "");
+                    author = author.Replace("Von", "");
+                    author = author.Replace("von", "").Trim();
+                    subTitle = subTitle.Substring(0, subTitle.IndexOf("<li>", StringComparison.Ordinal));
+                }
             }
             else
             {
@@ -55,8 +65,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
                 link = link.Replace("#ref=rss", "");
             var a = ConstructArticleModel(feedModel);
             a.Title = title;
-            a.SubTitle = subTitle;
+            a.SubTitle = subTitle.Trim();
             a.Teaser = nfa.Description;
+            a.Author = author;
             a.PublishDateTime = DateTime.Parse(nfa.PubDate);
             a.PublicUri = nfa.Link;
             a.LogicUri = link;
@@ -103,8 +114,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
             */
             if (html.Contains("<strong>© SPIEGEL ONLINE 2016</strong>"))
             {
-                html = html.Substring(0,
-                    html.IndexOf("<strong>© SPIEGEL ONLINE 2016</strong>", StringComparison.Ordinal));
+                html = html.Substring(0, html.IndexOf("<strong>© SPIEGEL ONLINE 2016</strong>", StringComparison.Ordinal));
             }
             while (html.Contains("<div class=\"adition\""))
             {
@@ -170,8 +180,14 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                 var content = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) != "obfuscated" && d.GetAttributeValue("class", null) != "einestages-forum-info").ToArray();
                 var encryptedContent = articleColumn.Descendants("p").Where(d => d.GetAttributeValue("class", null) == "obfuscated").ToArray();
 
-                var authorBox =articleColumn.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
-                var authorP = authorBox.FirstOrDefault()?.Descendants("p");
+                if (string.IsNullOrEmpty(articleModel.Author))
+                {
+                    var authorBox = articleColumn.Descendants("div").Where(d => d.GetAttributeValue("class", null) == "asset-box asset-author-box");
+                    var authorP = authorBox.FirstOrDefault()?.Descendants("p");
+
+                    var author = authorP?.FirstOrDefault()?.Descendants("b").FirstOrDefault();
+                    articleModel.Author = author?.InnerText;
+                }
 
                 if (content != null && content.Any())
                 {
@@ -180,9 +196,6 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     {
                         Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(CleanHtml(html))
                     });
-
-                    var author = authorP?.FirstOrDefault()?.Descendants("b").FirstOrDefault();
-                    articleModel.Author = author?.InnerText;
                 }
 
                 if (encryptedContent != null && encryptedContent.Any())
