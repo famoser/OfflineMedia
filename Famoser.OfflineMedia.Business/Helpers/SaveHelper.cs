@@ -170,6 +170,7 @@ namespace Famoser.OfflineMedia.Business.Helpers
             var feedEntries = await service.GetByCondition<FeedArticleRelationEntity>(d => d.FeedGuid == stringGuid, null, false, 0, 0);
             var oldArticles = new List<ArticleModel>(model.AllArticles);
 
+
             for (int index = 0; index < newArticles.Count; index++)
             {
                 var articleModel = newArticles[index];
@@ -182,17 +183,20 @@ namespace Famoser.OfflineMedia.Business.Helpers
                     if (oldFromDatabase != null)
                     {
                         var article = await LoadHelper.LoadForFeed(oldFromDatabase.ArticleId, model, service, imageDownloadService);
-                        model.AllArticles.Add(article);
                         feedEntries.Remove(oldFromDatabase);
                         oldFromDatabase.Index = index;
                         await service.Update(oldFromDatabase);
+
+                        if (model.AllArticles.Count > index)
+                            model.AllArticles[index] = article;
+                        else
+                            model.AllArticles.Add(article);
                     }
                     else
                     {
                         await SaveArticle(articleModel, service);
                         await SaveArticleLeadImage(articleModel, service, true);
                         await SaveArticleContent(articleModel, service, true);
-                        model.AllArticles.Add(articleModel);
 
                         var fe = new FeedArticleRelationEntity()
                         {
@@ -202,11 +206,19 @@ namespace Famoser.OfflineMedia.Business.Helpers
                             Index = index
                         };
                         await service.Add(fe);
+
+                        if (model.AllArticles.Count > index)
+                            model.AllArticles[index] = articleModel;
+                        else
+                            model.AllArticles.Add(articleModel);
                     }
                 }
                 else
                 {
-                    model.AllArticles.Add(oldOne);
+                    if (model.AllArticles.Count > index)
+                        model.AllArticles[index] = oldOne;
+                    else
+                        model.AllArticles.Add(oldOne);
 
                     var oldFromDatabase = feedEntries.FirstOrDefault(s => articleModel.PublicUri == s.Url);
                     if (oldFromDatabase != null)

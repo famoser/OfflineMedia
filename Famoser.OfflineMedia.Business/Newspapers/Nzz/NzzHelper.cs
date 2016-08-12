@@ -82,11 +82,11 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                 foreach (var paragraphModel in newContent)
                                 {
                                     var ntm = new TextModel()
-                                        {
-                                            Children = paragraphModel.Children,
-                                            TextType = TextType.Cursive
-                                        };
-                                    paragraphModel.Children = new List<TextModel> {ntm};
+                                    {
+                                        Children = paragraphModel.Children,
+                                        TextType = TextType.Cursive
+                                    };
+                                    paragraphModel.Children = new List<TextModel> { ntm };
                                 }
                                 if (!string.IsNullOrWhiteSpace(nzzBox.title))
                                     newContent.Insert(0, new ParagraphModel()
@@ -216,8 +216,26 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
             {
                 var article = await DownloadAsync(articleModel);
                 article = article.Replace("[[]]", "[]");
-                var a = JsonConvert.DeserializeObject<NzzArticle>(article);
-                return await ArticleToArticleModel(a, articleModel);
+                NzzArticle a = null;
+                try
+                {
+                    a = JsonConvert.DeserializeObject<NzzArticle>(article);
+                }
+                catch (Exception)
+                {
+                    article = article.Replace(",\"publicationDateTime\":\"Invalid date\"", "");
+                    try
+                    {
+                        a = JsonConvert.DeserializeObject<NzzArticle>(article);
+                    }
+                    catch
+                    {
+                        // no more fail safes
+                    }
+                }
+                if (a != null)
+                    return await ArticleToArticleModel(a, articleModel);
+                return false;
             });
         }
     }
