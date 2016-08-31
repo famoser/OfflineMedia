@@ -43,7 +43,6 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
 
             // Create design time view services and models
             SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
             SimpleIoc.Default.Register<IStorageService>(() => new StorageService());
             
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
@@ -52,9 +51,11 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IHistoryNavigationService, HistoryNavigationServiceMock>();
+                SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
             }
             else
             {
+                SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
                 SimpleIoc.Default.Register<IHistoryNavigationService>(NavigationHelper.CreateNavigationService);
             }
         }

@@ -22,7 +22,10 @@
         </RichTextBlock>
         <Border Style="{ThemeResource FamoserSpacer}" />
         <Grid Background="{ThemeResource TextBackground}">
-            <TextBlock Text="Related Articles" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+            <StackPanel>
+                <TextBlock Text="Related Articles" Style="{ThemeResource FamoserHeaderTextBlock}"  />
+                <TextBlock Text="(coming soon)" FontStyle="Italic" Foreground="Gray" Style="{ThemeResource FamoserBodyTextBlock}"  />
+            </StackPanel>
         </Grid>
         <userControls:ArticleList DataContext="{Binding Article.RelatedArticles}" />
     </StackPanel>

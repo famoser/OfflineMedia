@@ -24,7 +24,8 @@ Politik: /department/sz.2.236
  [truncated]{"navigation":[{"data":[{"title":"Startseite","url":"sdeapp://department/0","icon":"http://api.sueddeutsche.de/assets/images/navigation/home.png","left":1},{"title":"Nachrichtenticker","url":"sdeapp://scanner/0","icon":"http://
  
  
- 
+https://idl.sueddeutsche.de/szdigital/public/demoIssue?productId=sz
+https://idl.sueddeutsche.de/szdigital/public/issue/preview?productId=szm&issueId=2016-32&targetVersion=latest
 
 faz
 	- app started nicht im bluestacks player

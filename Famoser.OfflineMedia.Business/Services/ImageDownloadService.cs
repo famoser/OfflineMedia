@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
@@ -35,7 +36,7 @@ namespace Famoser.OfflineMedia.Business.Services
 
         private static readonly ConcurrentQueue<ImageContentModel> PriorityImages = new ConcurrentQueue<ImageContentModel>();
         private static readonly ConcurrentQueue<ImageContentModel> SecondaryImages = new ConcurrentQueue<ImageContentModel>();
-        private static readonly ConcurrentBag<Task> ActiveTasks = new ConcurrentBag<Task>();
+        private static List<Task> _activeTasks = new List<Task>();
 
         private const int MaxActiveTasks = 5;
 
@@ -92,10 +93,11 @@ namespace Famoser.OfflineMedia.Business.Services
         {
             if (PriorityImages.Any() || SecondaryImages.Any())
             {
+                _activeTasks = _activeTasks.Where(m => m.Status <= TaskStatus.Running).ToList();
                 //might lead to too much tasks in concurrent setups, but does not really matter in this case
-                for (int i = ActiveTasks.Count; i < MaxActiveTasks; i = ActiveTasks.Count)
+                for (int i = _activeTasks.Count; i < MaxActiveTasks; i = _activeTasks.Count)
                 {
-                    ActiveTasks.Add(DownloadImagesTask());
+                    _activeTasks.Add(DownloadImagesTask());
                 }
             }
         }
@@ -104,35 +106,57 @@ namespace Famoser.OfflineMedia.Business.Services
         {
             try
             {
-                ImageContentModel model;
-                while (PriorityImages.TryDequeue(out model))
+                var found = false;
+                while (true)
                 {
-                    try
+                    ImageContentModel model;
+                    while (PriorityImages.TryDequeue(out model))
                     {
-                        var model1 = model;
-                        _platformCodeService.CheckBeginInvokeOnUi(() =>
-                        {
-                            model1.LoadingState = LoadingState.Loading;
-                        });
-
-                        var img = await _platformCodeService.DownloadResizeImage(new Uri(model.Url), _maxHeight, _maxWidth).ConfigureAwait(false);
-
-                        _platformCodeService.CheckBeginInvokeOnUi(() =>
-                        {
-                            model1.Image = img;
-                            model1.LoadingState = LoadingState.Loaded;
-                        }, async () => { await _genericRepository.SaveAsyc(model1); });
+                        await DownloadImagesTask(model);
+                        found = true;
                     }
-                    catch (Exception ex)
+                    if (SecondaryImages.TryDequeue(out model))
                     {
-                        model.LoadingState = LoadingState.LoadingFailed;
-                        await _genericRepository.SaveAsyc(model);
-                        LogHelper.Instance.LogException(ex);
+                        await DownloadImagesTask(model);
+                        found = true;
                     }
+                    if (!found)
+                        break;
+
+                    found = false;
                 }
             }
             catch (Exception ex)
             {
+                LogHelper.Instance.LogException(ex);
+            }
+        }
+
+        private async Task DownloadImagesTask(ImageContentModel model)
+        {
+            try
+            {
+                if (model.LoadingState != LoadingState.New)
+                    return;
+
+                var model1 = model;
+                _platformCodeService.CheckBeginInvokeOnUi(() =>
+                {
+                    model1.LoadingState = LoadingState.Loading;
+                });
+
+                var img = await _platformCodeService.DownloadResizeImage(new Uri(model.Url), _maxHeight, _maxWidth).ConfigureAwait(false);
+
+                _platformCodeService.CheckBeginInvokeOnUi(() =>
+                {
+                    model1.Image = img;
+                    model1.LoadingState = LoadingState.Loaded;
+                }, async () => { await _genericRepository.SaveAsyc(model1); });
+            }
+            catch (Exception ex)
+            {
+                model.LoadingState = LoadingState.LoadingFailed;
+                await _genericRepository.SaveAsyc(model);
                 LogHelper.Instance.LogException(ex);
             }
         }
