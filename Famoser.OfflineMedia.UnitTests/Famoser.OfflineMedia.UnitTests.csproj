@@ -132,6 +132,7 @@
     <Compile Include="Helpers\IocHelper.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Models\LogEntry.cs" />
+    <Compile Include="Local\PlatformCodeService.cs" />
     <Compile Include="Presentation\ConfigurationTests.cs" />
     <Compile Include="Presentation\ImageResizeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
