@@ -195,6 +195,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\square-01.svg" />
+    <Content Include="Assets\Images\square_coloured-01.svg" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
