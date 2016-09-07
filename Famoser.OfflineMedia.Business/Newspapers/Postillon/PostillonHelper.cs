@@ -44,8 +44,12 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 if (titlenode != null)
                     a.Title = titlenode.GetAttributeValue("title", null);
                 else
-                {
                     return null;
+
+                if (a.Title.Contains(":"))
+                {
+                    a.SubTitle = a.Title.Substring(a.Title.IndexOf(":", StringComparison.Ordinal) + 1).Trim();
+                    a.Title = a.Title.Substring(0, a.Title.IndexOf(":", StringComparison.Ordinal));
                 }
 
                 a.DownloadDateTime = DateTime.Now;

@@ -23,6 +23,7 @@ using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Famoser.OfflineMedia.View.ViewModels
