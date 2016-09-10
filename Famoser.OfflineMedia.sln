@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable", "Portable", "{E5CC83CC-D113-4751-AE3A-2D07D8C3B804}"
 EndProject
@@ -225,8 +225,8 @@ Global
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|Mixed Platforms.Build.0 = Release|x86
-		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x64.ActiveCfg = Release|Any CPU
-		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x64.Build.0 = Release|Any CPU
+		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x64.ActiveCfg = Release|x64
+		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x64.Build.0 = Release|x64
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x86.ActiveCfg = Release|x86
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Release|x86.Build.0 = Release|x86
 		{CCCB6BC7-83B4-4342-A5AD-C8F23CB4D0B0}.Test|Any CPU.ActiveCfg = Test|Any CPU

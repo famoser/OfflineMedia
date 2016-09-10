@@ -1,0 +1,2 @@
+MainPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\x64\Release\Upload\Famoser.OfflineMedia.WinUniversal_2016.1.4.0_x64.appx
+SymbolPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\AppPackages\Famoser.OfflineMedia.WinUniversal_2016.1.4.0\Famoser.OfflineMedia.WinUniversal_2016.1.4.0_x64.appxsym
