@@ -5,9 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Famoser.OfflineMedia.WinUniversal.UserControls"
+    xmlns:visibility="using:Famoser.FrameworkEssentials.UniversalWindows.Converters.Visibility"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding MainPageViewModel, Source={StaticResource Locator}}">
+    
+    <Page.Resources>
+        <visibility:ListToVisibilityConverter x:Name="ListToVisibilityConverter" />
+    </Page.Resources>
 
     <Page.Transitions>
         <TransitionCollection>
@@ -26,7 +31,12 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}" Style="{StaticResource PivotStyle}">
+        <Grid Grid.Row="1" Style="{StaticResource ArticlePageContentGrid}">
+            <StackPanel Style="{StaticResource ArticlePageInnerContentStackPanelMobile}"></StackPanel>
+            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="in den einstellungen können quellen abonniert werden :)" Style="{StaticResource FamoserBodyTextBlock}" />
+        </Grid>
+
+        <Pivot Opacity="0" Grid.Row="1" ItemsSource="{Binding Sources}" Visibility="{Binding Sources, Converter={StaticResource ListToVisibilityConverter}}" Style="{StaticResource PivotStyle}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Abbreviation}" />
