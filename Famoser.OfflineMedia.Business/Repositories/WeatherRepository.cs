@@ -13,6 +13,7 @@ using Famoser.OfflineMedia.Business.Models.WeatherModel;
 using Famoser.OfflineMedia.Business.Newspapers.OpenWeatherMap;
 using Famoser.OfflineMedia.Business.Repositories.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.Data.Enums;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
@@ -21,15 +22,17 @@ namespace Famoser.OfflineMedia.Business.Repositories
 {
     public class WeatherRepository : BaseRepository, IWeatherRepository
     {
-        private IStorageService _storageService;
-        private ISettingsRepository _settingsRepository;
+        private readonly IStorageService _storageService;
+        private readonly ISettingsRepository _settingsRepository;
+        private readonly IPermissionsService _permissionsService;
         private Dictionary<string, string> _weatherFontMapping;
-        private static string _apiUrl = "http://api.openweathermap.org/data/2.5/forecast?appid=3b2b694b8ac5add8b400dc24e563fd50&q={city}&lang=de";
+        private static readonly string _apiUrl = "http://api.openweathermap.org/data/2.5/forecast?appid=3b2b694b8ac5add8b400dc24e563fd50&q={city}&lang=de";
 
-        public WeatherRepository(IStorageService storageService, ISettingsRepository settingsRepository)
+        public WeatherRepository(IStorageService storageService, ISettingsRepository settingsRepository, IPermissionsService permissionsService)
         {
             _storageService = storageService;
             _settingsRepository = settingsRepository;
+            _permissionsService = permissionsService;
         }
 
         private Uri GetApiUrl(Forecast forecast)
@@ -119,16 +122,19 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
-                foreach (var forecast in ForecastManager.GetForecasts())
+                if (await _permissionsService.CanDownload())
                 {
-                    Uri url = GetApiUrl(forecast);
-                    var service = new HttpService();
-                    var feedresult = await service.DownloadAsync(url);
-                    if (feedresult.IsRequestSuccessfull)
-                        OpenWeatherMapHelper.EvaluateFeed(await feedresult.GetResponseAsStringAsync(),
-                            _weatherFontMapping, forecast);
+                    foreach (var forecast in ForecastManager.GetForecasts())
+                    {
+                        Uri url = GetApiUrl(forecast);
+                        var service = new HttpService();
+                        var feedresult = await service.DownloadAsync(url);
+                        if (feedresult.IsRequestSuccessfull)
+                            OpenWeatherMapHelper.EvaluateFeed(await feedresult.GetResponseAsStringAsync(),
+                                _weatherFontMapping, forecast);
+                    }
+                    await SaveForecastsAsync();
                 }
-                await SaveForecastsAsync();
                 return true;
             });
         }

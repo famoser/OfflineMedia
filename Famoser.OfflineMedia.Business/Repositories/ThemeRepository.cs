@@ -15,7 +15,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
     public class ThemeRepository : BaseRepository, IThemeRepository
     {
         private readonly GenericRepository<ThemeModel, ThemeEntity> _themeGenericRepository;
-        private ISqliteService _sqliteService;
+        private readonly ISqliteService _sqliteService;
 
         public ThemeRepository(ISqliteService sqliteService)
         {
@@ -25,7 +25,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         }
 
         private bool _isInitialized;
-        private AsyncLock _asyncLock = new AsyncLock();
+        private readonly AsyncLock _asyncLock = new AsyncLock();
         private Task Initialize()
         {
             return ExecuteSafe(async () =>

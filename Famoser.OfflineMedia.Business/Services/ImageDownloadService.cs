@@ -18,15 +18,15 @@ namespace Famoser.OfflineMedia.Business.Services
     public class ImageDownloadService : IImageDownloadService
     {
         private readonly IPlatformCodeService _platformCodeService;
-        private readonly ISqliteService _sqliteService;
+        private readonly IPermissionsService _permissionsService;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _genericRepository;
         private readonly int _maxWidth;
         private readonly int _maxHeight;
 
-        public ImageDownloadService(IPlatformCodeService platformCodeService, ISqliteService sqliteService)
+        public ImageDownloadService(IPlatformCodeService platformCodeService, ISqliteService sqliteService, IPermissionsService permissionsService)
         {
             _platformCodeService = platformCodeService;
-            _sqliteService = sqliteService;
+            _permissionsService = permissionsService;
 
             _maxHeight = _platformCodeService.DeviceHeight();
             _maxWidth = _platformCodeService.DeviceWidth();
@@ -136,6 +136,9 @@ namespace Famoser.OfflineMedia.Business.Services
         {
             try
             {
+                if (!await _permissionsService.CanDownloadImages())
+                    return;
+
                 if (model.LoadingState != LoadingState.New)
                     return;
 

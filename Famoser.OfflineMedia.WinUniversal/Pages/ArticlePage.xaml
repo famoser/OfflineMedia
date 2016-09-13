@@ -60,7 +60,7 @@
 
                 <PivotItem>
                     <PivotItem.Header>
-                        <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="more" />
+                        <ContentControl Style="{StaticResource FamoserPivotHeader}" Content="mehr" />
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid Style="{StaticResource ArticlePageContentGrid}">

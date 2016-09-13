@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Platform\Mock\PlatformCodeServiceMock.cs" />
     <Compile Include="Platform\NavigationHelper.cs" />
+    <Compile Include="Platform\PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\Mock\HistoryNavigationServiceMock.cs" />
     <Compile Include="Platform\PlatformCodeService.cs" />

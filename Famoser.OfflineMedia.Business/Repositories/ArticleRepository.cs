@@ -38,6 +38,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         private readonly ISqliteService _sqliteService;
         private readonly IThemeRepository _themeRepository;
         private readonly IImageDownloadService _imageDownloadService;
+        private readonly IPermissionsService _permissionsService;
 
         private readonly GenericRepository<ArticleModel, ArticleEntity> _articleGenericRepository;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _imageContentGenericRepository;
@@ -45,7 +46,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         private readonly GenericRepository<GalleryContentModel, GalleryContentEntity> _galleryContentGenericRepository;
 
 #pragma warning disable 4014
-        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IThemeRepository themeRepository, IImageDownloadService imageDownloadService)
+        public ArticleRepository(ISettingsRepository settingsRepository, IProgressService progressService, IStorageService storageService, ISqliteService sqliteService, IThemeRepository themeRepository, IImageDownloadService imageDownloadService, IPermissionsService permissionsService)
         {
             _settingsRepository = settingsRepository;
             _progressService = progressService;
@@ -53,6 +54,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             _sqliteService = sqliteService;
             _themeRepository = themeRepository;
             _imageDownloadService = imageDownloadService;
+            _permissionsService = permissionsService;
 
             _articleGenericRepository = new GenericRepository<ArticleModel, ArticleEntity>(_sqliteService);
             _imageContentGenericRepository = new GenericRepository<ImageContentModel, ImageContentEntity>(_sqliteService);

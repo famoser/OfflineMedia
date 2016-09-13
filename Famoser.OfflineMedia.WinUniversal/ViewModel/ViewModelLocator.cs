@@ -47,6 +47,7 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
             
             SimpleIoc.Default.Register<ISQLitePlatform, SQLitePlatformWinRT>();
             SimpleIoc.Default.Register<ISqliteServiceSettingsProvider, SqliteServiceSettingsProvider>();
+            SimpleIoc.Default.Register<IPermissionsService, PermissionService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

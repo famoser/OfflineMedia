@@ -20,6 +20,9 @@ namespace Famoser.OfflineMedia.Business.Repositories
             {
                 await Initialize();
 
+                if (!await _permissionsService.CanDownload())
+                    return;
+
                 var queue = new ConcurrentQueue<FeedModel>();
                 foreach (var activeSource in SourceManager.GetActiveSources())
                     foreach (var activeFeed in activeSource.ActiveFeeds)
@@ -28,32 +31,39 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 var setting = await _settingsRepository.GetSettingByKeyAsync(SettingKey.ConcurrentThreads);
                 var threadNumber = setting is IntSettingModel ? ((IntSettingModel)setting).IntValue : 5;
 
-                _progressService.ConfigurePercentageProgress(queue.Count);
                 var threads = new List<Task>();
-                for (int i = 0; i < threadNumber; i++)
+
+                if (await _permissionsService.CanDownloadFeeds())
                 {
-                    threads.Add(DoFeedQueue(queue));
-                }
-
-                await Task.WhenAll(threads.ToArray());
-                threads.Clear();
-
-                var stack = new ConcurrentStack<ArticleModel>();
-                foreach (var activeSource in SourceManager.GetActiveSources())
-                    foreach (var activeFeed in activeSource.ActiveFeeds)
+                    _progressService.ConfigurePercentageProgress(queue.Count);
+                    for (int i = 0; i < threadNumber; i++)
                     {
-                        var news = activeFeed.AllArticles.Where(a => a.LoadingState < LoadingState.Loaded).ToArray();
-                        if (news.Length > 0)
-                            stack.PushRange(news);
+                        threads.Add(DoFeedQueue(queue));
+                    }
+                    await Task.WhenAll(threads.ToArray());
+                    threads.Clear();
+                }
+                
+                if (await _permissionsService.CanDownloadArticles())
+                {
+                    var stack = new ConcurrentStack<ArticleModel>();
+                    foreach (var activeSource in SourceManager.GetActiveSources())
+                        foreach (var activeFeed in activeSource.ActiveFeeds)
+                        {
+                            var news = activeFeed.AllArticles.Where(a => a.LoadingState < LoadingState.Loaded).ToArray();
+                            if (news.Length > 0)
+                                stack.PushRange(news);
+                        }
+
+                    _progressService.ConfigurePercentageProgress(stack.Count);
+                    for (int i = 0; i < threadNumber; i++)
+                    {
+                        threads.Add(DoArticleStack(stack));
                     }
 
-                _progressService.ConfigurePercentageProgress(stack.Count);
-                for (int i = 0; i < threadNumber; i++)
-                {
-                    threads.Add(DoArticleStack(stack));
+                    await Task.WhenAll(threads.ToArray());
+                    threads.Clear();
                 }
-
-                await Task.WhenAll(threads.ToArray());
             });
         }
 
@@ -67,10 +77,13 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     var media = ArticleHelper.GetMediaSource(model, _themeRepository);
                     if (media != null)
                     {
-                        var articles = await media.EvaluateFeed(model);
-                        if (articles != null)
-                            await SaveHelper.SaveFeed(model, articles, _sqliteService, _imageDownloadService);
-                        _imageDownloadService.Download(model);
+                        if (await _permissionsService.CanDownloadFeeds())
+                        {
+                            var articles = await media.EvaluateFeed(model);
+                            if (articles != null)
+                                await SaveHelper.SaveFeed(model, articles, _sqliteService, _imageDownloadService);
+                            _imageDownloadService.Download(model);
+                        }
                     }
 
                     if (incrementProgress)
@@ -88,18 +101,21 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 {
                     model.LoadingState = LoadingState.Loading;
                     var media = ArticleHelper.GetMediaSource(model, _themeRepository);
-                    if (media != null && await media.EvaluateArticle(model))
+                    if (await _permissionsService.CanDownloadFeeds())
                     {
-                        model.LoadingState = LoadingState.Loaded;
-                        await SaveHelper.SaveArticle(model, _sqliteService);
-                        await SaveHelper.SaveArticleLeadImage(model, _sqliteService);
-                        await SaveHelper.SaveArticleContent(model, _sqliteService);
-                        _imageDownloadService.Download(model);
-                    }
-                    else
-                    {
-                        model.LoadingState = LoadingState.LoadingFailed;
-                        await SaveHelper.SaveArticle(model, _sqliteService);
+                        if (media != null)
+                        {
+                            model.LoadingState = LoadingState.Loaded;
+                            await SaveHelper.SaveArticle(model, _sqliteService);
+                            await SaveHelper.SaveArticleLeadImage(model, _sqliteService);
+                            await SaveHelper.SaveArticleContent(model, _sqliteService);
+                            _imageDownloadService.Download(model);
+                        }
+                        else
+                        {
+                            model.LoadingState = LoadingState.LoadingFailed;
+                            await SaveHelper.SaveArticle(model, _sqliteService);
+                        }
                     }
 
                     if (incrementProgress)

@@ -326,6 +326,7 @@
     <Compile Include="Enums\Models\WeatherLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Interfaces\IImageDownloadService.cs" />
+    <Compile Include="Services\Interfaces\IPermissionsService.cs" />
     <Compile Include="Services\Interfaces\IPlatformCodeService.cs" />
     <Compile Include="Newspapers\BaseMediaSourceHelper.cs" />
     <Compile Include="Newspapers\Bild\Models\Article\ChildNode.cs" />

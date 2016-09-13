@@ -31,12 +31,12 @@
         </Grid.RowDefinitions>
         <userControls:ProgressBar Grid.Row="0" />
 
-        <Grid Grid.Row="1" Style="{StaticResource ArticlePageContentGrid}">
+        <Grid Grid.Row="1" Style="{StaticResource ArticlePageContentGrid}" >
             <StackPanel Style="{StaticResource ArticlePageInnerContentStackPanelMobile}"></StackPanel>
             <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="in den einstellungen können quellen abonniert werden :)" Style="{StaticResource FamoserBodyTextBlock}" />
         </Grid>
 
-        <Pivot Opacity="0" Grid.Row="1" ItemsSource="{Binding Sources}" Visibility="{Binding Sources, Converter={StaticResource ListToVisibilityConverter}}" Style="{StaticResource PivotStyle}">
+        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}" Style="{StaticResource PivotStyle}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Abbreviation}" />
