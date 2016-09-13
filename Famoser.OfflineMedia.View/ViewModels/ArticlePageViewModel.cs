@@ -37,6 +37,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _makeFontSmallerCommand = new RelayCommand(MakeFontSmaller, () => CanMakeFontSmaller);
             _favoriteCommand = new RelayCommand(Favorite);
             _openInBrowserCommand = new RelayCommand(OpenInBrowser, () => CanOpenInBrowser);
+            _shareCommand = new RelayCommand(Share);
             _reloadArticleCommand = new RelayCommand(ReloadArticle, () => CanReloadArticle);
 
             _goToStartCommand = new RelayCommand(GoToStart, () => CanGoToStart);
@@ -516,6 +517,16 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private void OpenInBrowser()
         {
             _platformCodeService.OpenInBrowser(new Uri(Article.PublicUri));
+        }
+        #endregion
+
+        #region Share Button
+        private readonly RelayCommand _shareCommand;
+        public ICommand ShareCommand => _shareCommand;
+        
+        private void Share()
+        {
+            _platformCodeService.Share(new Uri(Article.PublicUri), Article.Title, Article.SubTitle);
         }
         #endregion
 

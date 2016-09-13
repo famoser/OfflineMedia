@@ -81,6 +81,7 @@
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="reload" Icon="Refresh" Command="{Binding ReloadArticleCommand}" />
                 <AppBarButton Label="open in browser" Icon="World" Command="{Binding OpenInBrowserCommand}" />
+                <AppBarButton Label="share" Icon="World" Command="{Binding ShareCommand}" />
             </CommandBar.SecondaryCommands>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="font" Icon="Font" Visibility="{Binding DisplayState, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=0}" >
@@ -89,7 +90,7 @@
                             <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Segoe UI (sans-serif)" Text="Segoe UI (sans-serif)"/>
                             <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Helvetica (sans-serif)" Text="Helvetica (sans-serif)" />
                             <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Times New Roman (serif)" Text="Times New Roman (serif)" />
-                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Arial (serif)" Text="Arial (serif)" />
+                            <MenuFlyoutItem Command="{Binding ChooseFontCommand}" CommandParameter="Georgia (serif)" Text="Georgia (serif)" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

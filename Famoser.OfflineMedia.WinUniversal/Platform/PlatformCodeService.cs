@@ -2,6 +2,8 @@
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.ApplicationModel.SocialInfo;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -165,6 +167,20 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         public async Task<bool> OpenInBrowser(Uri url)
         {
             return await Launcher.LaunchUriAsync(url);
+        }
+
+        public Task<bool> Share(Uri articleUri, string title, string description)
+        {
+            var item = new SocialFeedSharedItem();
+            item.Content.Message = description;
+            item.Content.Title = title;
+            item.Content.TargetUri = articleUri;
+            item.TargetUri = articleUri;
+            item.OriginalSource = articleUri;
+            //todo: share
+
+
+
         }
 
         public int DeviceWidth()

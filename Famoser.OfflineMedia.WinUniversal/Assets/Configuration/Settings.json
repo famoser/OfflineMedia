@@ -19,7 +19,7 @@
     "Value": "true",
     "SettingValueType": 2,
     "Name": "Schriftart",
-    "PossibleValues": [ "Segoe UI (sans-serif)", "Helvetica (sans-serif)", "Times New Roman (serif)", "Arial (serif)" ]
+    "PossibleValues": [ "Segoe UI (sans-serif)", "Helvetica (sans-serif)", "Times New Roman (serif)", "Georgia (serif)" ]
   },
   {
     "Guid": "7d8ef372-b6e5-45e0-aa6b-870adcd30387",

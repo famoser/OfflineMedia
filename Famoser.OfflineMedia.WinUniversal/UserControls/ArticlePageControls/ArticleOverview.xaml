@@ -9,7 +9,6 @@
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
     <StackPanel>
-
         <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" TextWrapping="Wrap" />
         <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" Visibility="{Binding Article.SubTitle, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap"  />
         <Border Style="{ThemeResource FamoserSpacer}" />
