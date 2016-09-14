@@ -35,6 +35,11 @@
                     <ScrollViewer Style="{StaticResource FamoserScrollViewer}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Background="{ThemeResource TextBackground}">
                             <settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />
+                            <Border Style="{StaticResource FamoserSpacer}" />
+                            <TextBlock Style="{ThemeResource FamoserDefaultTextBoxDescriptionTextBlock}" Text="Einstellung bei mobiler Verbindung" />
+                            <CheckBox x:Name="ArticleDownloadCheckBox" Margin="10,0" Click="ArticleDownloadClicked" Content="Artikel herunterladen (niedrige Bandbreite)" />
+                            <CheckBox x:Name="ImageDownloadCheckBox" Margin="10,0" Click="ImageDownloadClicked" Content="Bilder herunterladen (hohe Bandbreite)" />
+                            <Border Style="{StaticResource FamoserSpacer}" />
                             <Button Margin="5" Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="reset application" Command="{Binding ResetApplicationCommand}" />
                             <TextBlock Margin="10,10">
                                 <Run Text="created with &#x2661; by " />

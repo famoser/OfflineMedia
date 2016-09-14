@@ -57,7 +57,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Compact">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="neu laden" Icon="Refresh" Command="{Binding RefreshCommand}" />
                 <AppBarButton Label="einstellen" Icon="Setting" Command="{Binding OpenSettingsCommand}"/>
