@@ -87,6 +87,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 str = str.Replace("\n\n", "</p><p>");
                 str = "<p>" + str + "</p>";
 
+                am.Content.Clear();
                 am.Content.Add(new TextContentModel()
                 {
                     Content = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(str)
@@ -159,6 +160,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 var span = dateNode?.Descendants("span").FirstOrDefault();
                 articleModel.PublishDateTime = ParseDateTime(span?.InnerText);
 
+                articleModel.Themes.Clear();
                 await AddThemesAsync(articleModel, new[] { "Satire" });
                 if (articlenode != null)
                 {
@@ -168,6 +170,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Postillon
                 else
                 {
                     //happens; sometimes server resonds with service not available (probably some sort of DDOS protection)
+                    articleModel.Content.Clear();
                     articleModel.Content.Add(TextHelper.TextToTextModel("Der Artikel konnte nicht heruntergeladen werden"));
                     articleModel.DownloadDateTime = DateTime.Now;
                     return true;

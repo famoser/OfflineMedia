@@ -64,6 +64,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
 
         private async Task<bool> ArticleToArticleModel(SternArticle na, ArticleModel am)
         {
+            am.Content.Clear();
             var p = HtmlConverter.CreateOnce(am.Feed.Source.PublicBaseUrl).HtmlToParagraph(GetHtml(na.content));
             if (p != null && p.Any())
                 am.Content.Add(new TextContentModel()
@@ -80,7 +81,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
             if (string.IsNullOrWhiteSpace(am.Author))
                 am.Author = am.Feed.Source.Name;
 
-
+            am.Themes.Clear();
             await AddThemesAsync(am);
 
             return true;

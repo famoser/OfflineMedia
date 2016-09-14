@@ -65,6 +65,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 if (string.IsNullOrEmpty(a.Author))
                     a.Author = feedModel.Source.Name;
 
+                a.Content.Clear();
                 var p = HtmlConverter.CreateOnce(feedModel.Source.PublicBaseUrl).HtmlToParagraph(nfa.text);
                 if (p != null && p.Any())
                     a.Content.Add(new TextContentModel()
@@ -76,6 +77,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
 
                 a.AfterSaveFunc = async () =>
                 {
+                    a.Themes.Clear();
                     await AddThemesAsync(a, new[] { nfa.category_for_site?.title });
                 };
 

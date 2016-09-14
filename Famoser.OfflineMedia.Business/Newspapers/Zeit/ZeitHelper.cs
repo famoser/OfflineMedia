@@ -121,6 +121,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 a.SubTitle = feedArticle.Block.Supertitle;
                 a.Teaser = feedArticle.Block.Description ?? feedArticle.Block.Text;
                 a.Author = feedArticle.Block.Author.Any() ? feedArticle.Block._Author.Trim() : "Zeit";
+                a.Content.Clear();
                 a.Content.Add(TextHelper.TextToTextModel(feedArticle.Block.Text));
 
                 DateTime dateTime;
@@ -144,6 +145,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
 
                 a.AfterSaveFunc = async () =>
                 {
+                    a.Themes.Clear();
                     await AddThemesAsync(a, new[] { feedArticle.Block.Ressort, feedArticle.Block.Genre });
                 };
 
@@ -191,6 +193,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 a.SubTitle = feedArticle.Supertitle;
                 a.Teaser = feedArticle.Description ?? feedArticle.Text;
                 a.Author = feedArticle.Author?.Display_name ?? (feedArticle._Author?.Trim() ?? "Zeit");
+                a.Content.Clear();
                 a.Content.Add(TextHelper.TextToTextModel(feedArticle.Text));
 
                 DateTime dateTime;
@@ -214,6 +217,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
 
                 a.AfterSaveFunc = async () =>
                 {
+                    a.Themes.Clear();
                     await AddThemesAsync(a, new[] { feedArticle.Ressort });
                 };
 

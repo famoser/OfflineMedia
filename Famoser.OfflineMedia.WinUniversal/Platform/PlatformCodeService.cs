@@ -2,8 +2,10 @@
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.ApplicationModel.SocialInfo;
+using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -17,6 +19,7 @@ using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Threading;
 
+#pragma warning disable 1998
 namespace Famoser.OfflineMedia.WinUniversal.Platform
 {
     public class PlatformCodeService : IPlatformCodeService
@@ -169,18 +172,23 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             return await Launcher.LaunchUriAsync(url);
         }
 
-        public Task<bool> Share(Uri articleUri, string title, string description)
+        public async Task<bool> Share(Uri articleUri, string title, string description)
         {
-            var item = new SocialFeedSharedItem();
-            item.Content.Message = description;
-            item.Content.Title = title;
-            item.Content.TargetUri = articleUri;
-            item.TargetUri = articleUri;
-            item.OriginalSource = articleUri;
-            //todo: share
+            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += (dtm, drea) => DoShare(dtm, drea, articleUri, title, description);
 
+            DataTransferManager.ShowShareUI();
+            return true;
+        }
 
-
+        private void DoShare(DataTransferManager sender, DataRequestedEventArgs args, Uri articleUri, string title, string description)
+        {
+            DataRequest request = args.Request;
+            
+            request.Data.Properties.Title = "Share";
+            request.Data.Properties.Description = "Teile den Artikel";
+            request.Data.SetText(title + "\n\n" + description);
+            request.Data.SetWebLink(articleUri);
         }
 
         public int DeviceWidth()

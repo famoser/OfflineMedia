@@ -1,2 +1,1 @@
-﻿minify settings.json
-implement share
+﻿implement share

@@ -40,6 +40,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
             articlefeeditem category = na.FirstOrDefault(a => a.type == "metadata");
             if (category != null)
             {
+                am.Themes.Clear();
                 await AddThemesAsync(am, new[] { category.section });
 
                 var auth = category.author as string;
@@ -51,6 +52,9 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Blick
                 am.Author = am.Feed.Source.Name;
             
             articlefeeditem body = na.FirstOrDefault(a => a.type == "body");
+
+            //clear content
+            am.Content.Clear();
             if (body != null)
             {
                 var htmlbody = body.items.Where(b => b.type == "text").ToList();

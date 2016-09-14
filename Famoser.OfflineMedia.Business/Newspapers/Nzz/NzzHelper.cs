@@ -50,7 +50,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
         {
             return ExecuteSafe(async () =>
             {
-
+                am.Content.Clear();
                 for (int i = 0; i < na.body.Length; i++)
                 {
                     if (na.body[i].style == "h4")
@@ -152,6 +152,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                 if (!string.IsNullOrEmpty(na.leadText))
                     am.Teaser = na.leadText;
 
+                am.Themes.Clear();
                 await AddThemesAsync(am, na.departments);
 
                 return true;

@@ -27,6 +27,11 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform.Mock
             return true;
         }
 
+        public async Task<bool> Share(Uri articleUri, string title, string description)
+        {
+            return true;
+        }
+
         public int DeviceWidth()
         {
             return (int)ResolutionHelper.WidthOfDevice;

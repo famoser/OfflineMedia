@@ -127,7 +127,10 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private void ArticleOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "LoadingState")
+            {
                 _reloadArticleCommand.RaiseCanExecuteChanged();
+                InitializeSpritz();
+            }
         }
 
 

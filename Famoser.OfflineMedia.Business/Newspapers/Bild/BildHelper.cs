@@ -97,6 +97,10 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Bild
                     return false;
                 }
 
+                //clear content
+                articleModel.Content.Clear();
+                articleModel.Themes.Clear();
+
                 if (rootObj.text != null)
                 {
                     foreach (var text in rootObj.text)

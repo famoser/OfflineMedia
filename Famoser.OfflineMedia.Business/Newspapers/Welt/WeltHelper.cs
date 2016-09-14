@@ -58,6 +58,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                 if (children.Enclosure != null)
                     a.LeadImage = new ImageContentModel() { Url = children.Enclosure.Url };
 
+                a.Themes.Clear();
                 a.AfterSaveFunc = () => AddThemesAsync(a, new[] { children.Category });
 
                 return a;
@@ -122,6 +123,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
                body = body.Replace("<body.content>", "");
                body = body.Replace("</body.content>", "");
 
+               articleModel.Content.Clear();
                articleModel.Content.Add(new TextContentModel()
                {
                    Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph(body)

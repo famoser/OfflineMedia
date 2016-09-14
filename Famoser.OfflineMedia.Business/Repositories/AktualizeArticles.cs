@@ -101,10 +101,12 @@ namespace Famoser.OfflineMedia.Business.Repositories
                 {
                     model.LoadingState = LoadingState.Loading;
                     var media = ArticleHelper.GetMediaSource(model, _themeRepository);
-                    if (await _permissionsService.CanDownloadFeeds())
+                    if (await _permissionsService.CanDownloadArticles())
                     {
                         if (media != null)
                         {
+                            await media.EvaluateArticle(model);
+
                             model.LoadingState = LoadingState.Loaded;
                             await SaveHelper.SaveArticle(model, _sqliteService);
                             await SaveHelper.SaveArticleLeadImage(model, _sqliteService);
@@ -127,6 +129,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         public async Task ActualizeArticleAsync(ArticleModel am)
         {
             var stack = new ConcurrentStack<ArticleModel>();
+            stack.Push(am);
             await DoArticleStack(stack);
         }
     }

@@ -44,6 +44,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 
                 var paragraphs = HtmlConverter.CreateOnce(fcm.Source.PublicBaseUrl).HtmlToParagraph(nfa.text);
 
+                a.Content.Clear();
                 if (paragraphs != null && paragraphs.Count > 0)
                     a.Content.Add(
                         new TextContentModel()
@@ -79,6 +80,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                         TextHelper.TextToTextModel(
                             "Dieser Artikel enthält eine Bildergallerie. Besuche die Webseite, um den Inhalt korrekt darzustellen"));
                 }
+                a.Themes.Clear();
                 if (nfa.category != null)
                     a.AfterSaveFunc = async () =>
                     {

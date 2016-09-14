@@ -122,6 +122,7 @@
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\ByteToBitmapConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\ByteToVisibilityConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticlePageConverter\IntToVisibilityConverter.cs" />
+    <Compile Include="DisplayHelper\Converter\ArticlePageConverter\LoadingStateToTextConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeToDateConverter.cs" />
     <Compile Include="DisplayHelper\Converter\DateTime\DateTimeConverter.cs" />
     <Compile Include="DisplayHelper\Converter\ArticleListConverter\IsReadConverter.cs" />

@@ -5,16 +5,24 @@
     xmlns:local="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:articlePageConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter"
     mc:Ignorable="d"
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
 
+    <UserControl.Resources>
+        <articlePageConverter:LoadingStateToTextConverter x:Key="LoadingStateToTextConverter" />
+    </UserControl.Resources>
+    
     <StackPanel>
         <TextBlock Text="{Binding Article.Title}" Style="{ThemeResource FamoserTitleTextBlock}" TextWrapping="Wrap" />
         <TextBlock Text="{Binding Article.SubTitle}" Style="{ThemeResource FamoserSubTitleTextBlock}" Visibility="{Binding Article.SubTitle, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap"  />
         <Border Style="{ThemeResource FamoserSpacer}" />
 
         <RichTextBlock HorizontalAlignment="Left" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
-            <Paragraph>written by
+            <Paragraph>
+                <Bold>
+                    <Run Text="{Binding Article.LoadingState, Converter={StaticResource LoadingStateToTextConverter}}" />
+                </Bold> | written by
                 <Bold>
                     <Run Text="{Binding Article.Author}" />
                 </Bold>, published in
@@ -27,6 +35,7 @@
                 <Bold>
                     <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
                 </Bold>
+                
             </Paragraph>
         </RichTextBlock>
 

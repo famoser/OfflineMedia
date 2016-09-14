@@ -72,6 +72,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
             a.PublicUri = nfa.Link;
             a.LogicUri = link;
 
+            a.Themes.Clear();
             a.AfterSaveFunc = async () => await AddThemesAsync(a, new[] {nfa.Category});
 
             var imagEndings = new[] {"img", "png", "giv", "jpg", "jpeg"};
@@ -189,6 +190,7 @@ Deutschland zog anschließend sogar auf 7:2 davon, musste danach aber immer wied
                     articleModel.Author = author?.InnerText;
                 }
 
+                articleModel.Content.Clear();
                 if (content != null && content.Any())
                 {
                     var html = content.Aggregate("", (current, htmlNode) => current + htmlNode.OuterHtml);

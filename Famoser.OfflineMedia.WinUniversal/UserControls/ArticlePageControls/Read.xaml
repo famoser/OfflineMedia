@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dependecyProperties="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties"
     xmlns:articlePageControls="using:Famoser.OfflineMedia.WinUniversal.UserControls.ArticlePageControls"
+    xmlns:articlePageConverter="using:Famoser.OfflineMedia.WinUniversal.DisplayHelper.Converter.ArticlePageConverter"
     mc:Ignorable="d"
     d:DataContext="{Binding ArticlePageViewModel, Source={StaticResource Locator}}">
     
@@ -40,6 +41,7 @@
             <TextBlock Style="{StaticResource FamoserBodyTextBlock}" FontSize="{Binding FontSize, Converter={StaticResource LeadFontSizeConverter}}" Text="{Binding Article.Teaser}" />
             <Border Style="{ThemeResource FamoserSpacer}" />
         </StackPanel>
+
 
         <RichTextBlock HorizontalAlignment="Center" Style="{StaticResource FamoserRichTextBlock}" dependecyProperties:Extensions.CustomContent="{Binding Article.Content}" dependecyProperties:Extensions.CustomFontFamily="{Binding FontFamily}" dependecyProperties:Extensions.CustomFontSize="{Binding FontSize}" />
     </StackPanel>
