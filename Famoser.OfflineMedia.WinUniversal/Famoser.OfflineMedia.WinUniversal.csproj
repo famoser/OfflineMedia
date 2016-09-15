@@ -110,7 +110,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Fonts\owfont-regular.ttf" />
-    <Content Include="ToDo.txt" />
     <None Include="Famoser.OfflineMedia.WinUniversal_StoreKey.pfx" />
     <None Include="Famoser.OfflineMedia.WinUniversal_TemporaryKey.pfx" />
     <None Include="project.json" />
