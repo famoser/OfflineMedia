@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
+using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Threading;
 
@@ -180,6 +181,11 @@ namespace Famoser.OfflineMedia.UnitTests.Local
             return await Launcher.LaunchUriAsync(url);
         }
 
+        public Task<bool> Share(Uri articleUri, string title, string description)
+        {
+            throw new NotImplementedException();
+        }
+
         public int DeviceWidth()
         {
             return (int)ResolutionHelper.WidthOfDevice;
@@ -208,6 +214,26 @@ namespace Famoser.OfflineMedia.UnitTests.Local
         public void ExitApplication()
         {
             Application.Current.Exit();
+        }
+
+        public ConnectionType GetConnectionType()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetLocalSetting(string settingKey, object fallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLocalSetting(string settingKey, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearLocalSettings()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ulong> GetFileSizes()

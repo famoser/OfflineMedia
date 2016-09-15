@@ -14,27 +14,6 @@ namespace Famoser.OfflineMedia.WinUniversal.Pages
         public SettingsPage()
         {
             this.InitializeComponent();
-            Initialize();
-        }
-
-        private async void Initialize()
-        {
-            ArticleDownloadCheckBox.IsChecked = await PermissionService.GetArticleDownloadOnMobileConnection();
-            ImageDownloadCheckBox.IsChecked = await PermissionService.GetImageDownloadOnMobileConnection();
-        }
-
-        private async void ArticleDownloadClicked(object sender, RoutedEventArgs e)
-        {
-            var cb = sender as CheckBox;
-            if (cb != null)
-                await PermissionService.SetArticleDownloadOnMobileConnection(cb.IsChecked.HasValue && cb.IsChecked.Value);
-        }
-
-        private async void ImageDownloadClicked(object sender, RoutedEventArgs e)
-        {
-            var cb = sender as CheckBox;
-            if (cb != null)
-                await PermissionService.SetImageDownloadOnMobileConnection(cb.IsChecked.HasValue && cb.IsChecked.Value);
         }
     }
 }

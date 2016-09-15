@@ -23,5 +23,6 @@ namespace Famoser.OfflineMedia.Business.Services.Interfaces
 
         object GetLocalSetting(string settingKey, object fallback);
         void SetLocalSetting(string settingKey, object value);
+        void ClearLocalSettings();
     }
 }

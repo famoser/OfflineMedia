@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
+using Famoser.FrameworkEssentials.View.Interfaces;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
@@ -17,7 +20,7 @@ using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminatePr
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : ViewModelBase, INavigationBackNotifier
     {
         private readonly IProgressService _progressService;
         private readonly IArticleRepository _articleRepository;
@@ -43,21 +46,26 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _selectArticleCommand = new RelayCommand<ArticleModel>(SelectArticle);
             _selectFeedCommand = new RelayCommand<FeedModel>(SelectFeed);
 
+            _permissionsService.PermissionsChanged += PermissionsServiceOnPermissionsChanged;
+
             Sources = _articleRepository.GetActiveSources();
 
             if (!IsInDesignMode)
+            {
                 Initialize();
+            }
         }
 
+        private async void PermissionsServiceOnPermissionsChanged(object sender, EventArgs eventArgs)
+        {
+            _canRefresh = await _permissionsService.CanDownload();
+            _refreshCommand.RaiseCanExecuteChanged();
+        }
 
-        private bool _canRefresh;
         private async void Initialize()
         {
             _canRefresh = await _permissionsService.CanDownload();
             _refreshCommand.RaiseCanExecuteChanged();
-
-            if (_refreshCommand.CanExecute(null))
-                _refreshCommand.Execute(null);
         }
 
         public ObservableCollection<SourceModel> Sources { get; }
@@ -105,12 +113,20 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private readonly LoadingRelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
+        private bool _canRefresh;
         private async Task Refresh()
         {
-            await _articleRepository.ActualizeAllArticlesAsync();
+            _canRefresh = await _permissionsService.CanDownload();
+            _refreshCommand.RaiseCanExecuteChanged();
+            if (_canRefresh)
+                await _articleRepository.ActualizeAllArticlesAsync();
         }
 
         #endregion
 
+        public void HandleNavigationBack(object message)
+        {
+            _refreshCommand.RaiseCanExecuteChanged();
+        }
     }
 }

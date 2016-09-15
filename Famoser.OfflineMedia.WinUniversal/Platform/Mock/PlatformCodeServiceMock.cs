@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
+using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 
 #pragma warning disable 1998
@@ -50,6 +51,26 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform.Mock
         public void ExitApplication()
         {
 
+        }
+
+        public ConnectionType GetConnectionType()
+        {
+            return ConnectionType.Wlan;
+        }
+
+        public object GetLocalSetting(string settingKey, object fallback)
+        {
+            return true;
+        }
+
+        public void SetLocalSetting(string settingKey, object value)
+        {
+
+        }
+
+        public void ClearLocalSettings()
+        {
+            
         }
     }
 }

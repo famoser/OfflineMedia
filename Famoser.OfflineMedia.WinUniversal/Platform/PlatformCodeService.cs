@@ -3,8 +3,6 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel.DataTransfer.ShareTarget;
-using Windows.ApplicationModel.SocialInfo;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Networking.Connectivity;
@@ -189,7 +187,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             
             request.Data.Properties.Title = "Share";
             request.Data.Properties.Description = "Teile den Artikel";
-            request.Data.SetText(title + "\n\n" + description);
+            request.Data.SetText(title + "\n" + description);
             request.Data.SetWebLink(articleUri);
         }
 
@@ -237,13 +235,18 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         {
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(settingKey))
                 ApplicationData.Current.LocalSettings.Values[settingKey] = fallback;
-
+             
             return ApplicationData.Current.LocalSettings.Values[settingKey];
         }
 
         public void SetLocalSetting(string settingKey, object value)
         {
             ApplicationData.Current.LocalSettings.Values[settingKey] = value;
+        }
+
+        public void ClearLocalSettings()
+        {
+            ApplicationData.Current.LocalSettings.Values.Clear();
         }
 
         public async Task<ulong> GetFileSizes()

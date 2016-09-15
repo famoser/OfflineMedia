@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Views;
-using Nito.AsyncEx;
 
-namespace Famoser.OfflineMedia.WinUniversal.Platform
+namespace Famoser.OfflineMedia.View.Services
 {
     public class PermissionService : IPermissionsService
     {
@@ -20,7 +15,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             _platformCodeService = platformCodeService;
             _dialogService = dialogService;
         }
-        
+
         private const string AskedAtMobileConnectionKey = "AskedAtMobileConnection";
 
         private string GenerateSettingKey(ConnectionType connectionType, DownloadContentType downloadContentType)
@@ -65,42 +60,53 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             if (conntype == ConnectionType.None)
                 return false;
 
-            if (conntype == ConnectionType.Wlan)
+            if (conntype == ConnectionType.Mobile)
             {
                 if (!(bool)_platformCodeService.GetLocalSetting(AskedAtMobileConnectionKey, false))
                 {
-                    await _dialogService.ShowMessage("Sie sind über das Mobilfunktnetz online, der Download wurde automatisch angehalten. Sie können diese Option in den Einstellungen wieder deaktivieren", "Datenverbindung");
+                    _platformCodeService.SetLocalSetting(AskedAtMobileConnectionKey, true);
+                    await _dialogService.ShowMessage("Sie sind über das Mobilfunktnetz online, der Download wurde daher automatisch angehalten. Sie können diese Option in den Einstellungen wieder deaktivieren", "Datenverbindung");
                 }
 
+                if (!(bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any), false))
+                    return false;
                 return (bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), false);
-
             }
             if (conntype == ConnectionType.Wlan)
+            {
+                if (!(bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any), true))
+                    return false;
                 return (bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), true);
-
+            }
             return false;
         }
 
         public void SetPermission(ConnectionType conntype, DownloadContentType type, bool val)
         {
-            _platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), val);
+            _platformCodeService.SetLocalSetting(GenerateSettingKey(conntype, type), val);
+            PermissionsChanged?.Invoke(this, EventArgs.Empty);
         }
-        
+
+        public bool GetPermission(ConnectionType conntype, DownloadContentType type, bool fallback)
+        {
+            return (bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), fallback);
+        }
+
         public Task<bool> CanDownload()
         {
             return CanDownloadAsync(DownloadContentType.Any);
         }
-        
+
         public Task<bool> CanDownloadFeeds()
         {
             return CanDownloadAsync(DownloadContentType.Feed);
         }
-        
+
         public Task<bool> CanDownloadArticles()
         {
             return CanDownloadAsync(DownloadContentType.Feed);
         }
-        
+
         public Task<bool> CanDownloadImages()
         {
             return CanDownloadAsync(DownloadContentType.Image);
@@ -111,5 +117,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         {
             _downloadBlocked = value;
         }
+
+        public event EventHandler PermissionsChanged;
     }
 }

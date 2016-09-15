@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
+using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
@@ -19,14 +20,16 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly IPlatformCodeService _platformCodeService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IArticleRepository _articleRepository;
+        private IPermissionsService _permissionsService;
         private readonly IProgressService _progressService;
 
-        public SettingsPageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IProgressService progressService, IPlatformCodeService platformCodeService)
+        public SettingsPageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IProgressService progressService, IPlatformCodeService platformCodeService, IPermissionsService permissionsService)
         {
             _settingsRepository = settingsRepository;
             _articleRepository = articleRepository;
             _progressService = progressService;
             _platformCodeService = platformCodeService;
+            _permissionsService = permissionsService;
 
             Sources = _articleRepository.GetAllSources();
             Settings = _settingsRepository.GetEditSettings();
@@ -94,5 +97,28 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _platformCodeService.ExitApplication();
         }
         #endregion
+
+        public bool NormalDownloadImages
+        {
+            get { return _permissionsService.GetPermission(ConnectionType.Wlan, DownloadContentType.Image, true); }
+            set { _permissionsService.SetPermission(ConnectionType.Wlan, DownloadContentType.Image, value); }
+        }
+
+        public bool MobileDownloadAny
+        {
+            get { return _permissionsService.GetPermission(ConnectionType.Mobile, DownloadContentType.Any, false); }
+            set
+            {
+                _permissionsService.SetPermission(ConnectionType.Mobile, DownloadContentType.Any, value);
+                _permissionsService.SetPermission(ConnectionType.Mobile, DownloadContentType.Article, value);
+                _permissionsService.SetPermission(ConnectionType.Mobile, DownloadContentType.Feed, value);
+            }
+        }
+
+        public bool MobileDownloadImages
+        {
+            get { return _permissionsService.GetPermission(ConnectionType.Mobile, DownloadContentType.Image, false); }
+            set { _permissionsService.SetPermission(ConnectionType.Mobile, DownloadContentType.Image, value); }
+        }
     }
 }
