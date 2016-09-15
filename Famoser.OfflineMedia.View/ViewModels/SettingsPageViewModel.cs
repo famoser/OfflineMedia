@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
@@ -27,38 +30,37 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             Sources = _articleRepository.GetAllSources();
             Settings = _settingsRepository.GetEditSettings();
+            foreach (var baseSettingModel in Settings)
+                baseSettingModel.PropertyChanged += BaseSettingModelOnPropertyChanged;
 
-            _saveCommand = new LoadingRelayCommand(Save);
-            _switchFeedStatusCommand = new LoadingRelayCommand<FeedModel>(SwitchFeedStatus);
-            _switchSourceStatusCommand = new LoadingRelayCommand<SourceModel>(SwitchSourceStatus);
-            _resetApplicationCommand = new LoadingRelayCommand(ResetApplication);
+
+            _saveCommand = new LoadingRelayCommand(Save, () => _anythingChanged, true);
+            _switchFeedStatusCommand = new LoadingRelayCommand<FeedModel>(SwitchFeedStatus, f => true, true);
+            _switchSourceStatusCommand = new LoadingRelayCommand<SourceModel>(SwitchSourceStatus, f => true, true);
+            _resetApplicationCommand = new LoadingRelayCommand(ResetApplication, () => true, true);
         }
 
-        private ObservableCollection<BaseSettingModel> _settings;
-        public ObservableCollection<BaseSettingModel> Settings
+        private void BaseSettingModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            get { return _settings; }
-            set { Set(ref _settings, value); }
+            _anythingChanged = true;
+            _saveCommand.RaiseCanExecuteChanged();
         }
 
-        private ObservableCollection<SourceModel> _sources;
-        public ObservableCollection<SourceModel> Sources
-        {
-            get { return _sources; }
-            set { Set(ref _sources, value); }
-        }
+        private bool _anythingChanged;
 
+        public ObservableCollection<BaseSettingModel> Settings { get; }
+
+        public ObservableCollection<SourceModel> Sources { get; }
 
         #region save
         private readonly LoadingRelayCommand _saveCommand;
         public ICommand SaveCommand => _saveCommand;
 
-        private async void Save()
+        private async Task Save()
         {
-            using (_saveCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.SavingSettings))
-            {
-                await _settingsRepository.SaveSettingsAsync();
-            }
+            await _settingsRepository.SaveSettingsAsync();
+            _anythingChanged = false;
+            _saveCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -66,12 +68,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly LoadingRelayCommand<SourceModel> _switchSourceStatusCommand;
         public ICommand SwitchSourceStatusCommand => _switchSourceStatusCommand;
 
-        private async void SwitchSourceStatus(SourceModel fm)
+        private async Task SwitchSourceStatus(SourceModel fm)
         {
-            using (_switchSourceStatusCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.SavingSourceSetting))
-            {
-                await _articleRepository.SwitchSourceActiveStateAsync(fm);
-            }
+            await _articleRepository.SwitchSourceActiveStateAsync(fm);
         }
         #endregion
 
@@ -79,12 +78,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly LoadingRelayCommand<FeedModel> _switchFeedStatusCommand;
         public ICommand SwitchFeedStatusCommand => _switchFeedStatusCommand;
 
-        private async void SwitchFeedStatus(FeedModel fm)
+        private async Task SwitchFeedStatus(FeedModel fm)
         {
-            using (_switchFeedStatusCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.SavingFeedSetting))
-            {
-                await _articleRepository.SwitchFeedActiveStateAsync(fm);
-            }
+            await _articleRepository.SwitchFeedActiveStateAsync(fm);
         }
         #endregion
 
@@ -92,12 +88,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly LoadingRelayCommand _resetApplicationCommand;
         public ICommand ResetApplicationCommand => _resetApplicationCommand;
 
-        private async void ResetApplication()
+        private async Task ResetApplication()
         {
-            using (_resetApplicationCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.ResettingApplication))
-            {
-                await _settingsRepository.ResetApplicationAsync();
-            }
+            await _settingsRepository.ResetApplicationAsync();
             _platformCodeService.ExitApplication();
         }
         #endregion

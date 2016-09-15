@@ -11,7 +11,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -30,10 +30,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -2188,7 +2187,7 @@
           }
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -2217,7 +2216,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -2236,10 +2235,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -4474,7 +4472,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -4503,7 +4501,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -4522,10 +4520,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -6799,7 +6796,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -6828,7 +6825,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -6847,10 +6844,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -9094,7 +9090,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -9123,7 +9119,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -9142,10 +9138,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -11428,7 +11423,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -11457,7 +11452,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -11476,10 +11471,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -13723,7 +13717,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -13752,7 +13746,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -13771,10 +13765,9 @@
           "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials.View/1.2.2": {
+      "Famoser.FrameworkEssentials.View/1.3.1": {
         "dependencies": {
-          "Famoser.FrameworkEssentials": "2.6.3",
-          "MvvmLightLibs": "5.3.0"
+          "Famoser.FrameworkEssentials": "2.7.4"
         },
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.View.dll": {}
@@ -16057,7 +16050,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WindowsAppStudio.Uwp/1.5.1": {
+      "WindowsAppStudio.Uwp/1.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
         },
@@ -16090,11 +16083,11 @@
         "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.pdb"
       ]
     },
-    "Famoser.FrameworkEssentials/2.7.3": {
-      "sha512": "VqwiALNBghoHpHu2YIr/zrKH0qbKDRvc+6ZYwBLlWkvgzjOS+fFGcdoR1+u1eAy03gvquYAkpckbPdWCCjWEXw==",
+    "Famoser.FrameworkEssentials/2.7.4": {
+      "sha512": "59Ai/Xw98omqIL0joRE8qiTg1h0POCQRGRsPMvj8dvyNl5qgd1d9eipHlvhGZpAmsoB/BDF0ZFX2i9JNwxuCzg==",
       "type": "package",
       "files": [
-        "Famoser.FrameworkEssentials.2.7.3.nupkg.sha512",
+        "Famoser.FrameworkEssentials.2.7.4.nupkg.sha512",
         "Famoser.FrameworkEssentials.nuspec",
         "lib/Famoser.FrameworkEssentials.dll",
         "lib/dotnet/Famoser.FrameworkEssentials.dll",
@@ -16113,11 +16106,11 @@
         "lib/uap10.0/Famoser.FrameworkEssentials.UniversalWindows.dll"
       ]
     },
-    "Famoser.FrameworkEssentials.View/1.2.2": {
-      "sha512": "hl1n7SbCFifbzkYvol7tfZEld5q9bR+mjc2K1qjcQmnzNQ3h4KTZE7e9Gf6F4FreELmH8Hazks/LOAcvf02wCQ==",
+    "Famoser.FrameworkEssentials.View/1.3.1": {
+      "sha512": "YWbSopG8nOBg4XNWkGBtRf7A+mnIhZvfAKKoRkNCHnn26356Vai5N9P0+gqwdR2o3dch/gtLO64dsvTfNj8oBQ==",
       "type": "package",
       "files": [
-        "Famoser.FrameworkEssentials.View.1.2.2.nupkg.sha512",
+        "Famoser.FrameworkEssentials.View.1.3.1.nupkg.sha512",
         "Famoser.FrameworkEssentials.View.nuspec",
         "lib/Famoser.FrameworkEssentials.View.dll",
         "lib/dotnet/Famoser.FrameworkEssentials.View.dll",
@@ -16136,7 +16129,7 @@
       ]
     },
     "HtmlAgilityPack/1.4.9.5": {
-      "sha512": "i5di/J7GO4y2kx/hhVzctPrBI8G2cefWZDMDU/FdOUD3iVkiidN1q1NDZ0FvqrhB28LSaYaM4Z0hs86Tnp0IzA==",
+      "sha512": "iKBDxJHESRCIRbmgLKVkNM86LIX52jf6wsVQdbSsLpPUG9oSnAD1Pz8IHjJT+dQ3TWJEu4WYZvbdlixdmWKMVw==",
       "type": "package",
       "files": [
         "HAPIcon.png",
@@ -22596,11 +22589,11 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "WindowsAppStudio.Uwp/1.5.1": {
-      "sha512": "H167I4aZkWCtdDMRMLJTWkdvecTjHiV0AzgMnV+tBvJphpBpBq3+4mIspoFyJSYIuvwTAI5X+a5SKSA2dcpbmQ==",
+    "WindowsAppStudio.Uwp/1.5.3": {
+      "sha512": "Pe+LnYiA8uB1axFUNpNAPLdV2o/QTZFBYbRXv8JUouVfFRwEKnAULQN5nIJbYhUEvIPsI63jA9UwY7m4D95wRw==",
       "type": "package",
       "files": [
-        "WindowsAppStudio.Uwp.1.5.1.nupkg.sha512",
+        "WindowsAppStudio.Uwp.1.5.3.nupkg.sha512",
         "WindowsAppStudio.Uwp.nuspec",
         "lib/uap10.0/AppStudio.Uwp.dll",
         "lib/uap10.0/AppStudio.Uwp.pri",
@@ -23111,9 +23104,9 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Famoser.FrameworkEssentials >= 2.7.3",
+      "Famoser.FrameworkEssentials >= 2.7.4",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
-      "Famoser.FrameworkEssentials.View >= 1.2.2",
+      "Famoser.FrameworkEssentials.View >= 1.3.1",
       "Famoser.SqliteWrapper >= 1.1.5",
       "HtmlAgilityPack >= 1.4.9.5",
       "Microsoft.Bcl >= 1.1.10",
@@ -23124,7 +23117,7 @@
       "Newtonsoft.Json >= 9.0.1",
       "SQLite.Net-PCL >= 3.1.1",
       "WinRTXamlToolkit.UWP >= 2.0.0",
-      "WindowsAppStudio.Uwp >= 1.5.1"
+      "WindowsAppStudio.Uwp >= 1.5.3"
     ],
     "UAP,Version=v10.0": []
   }

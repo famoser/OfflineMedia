@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Services.Interfaces;
@@ -6,6 +7,7 @@ using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Famoser.OfflineMedia.Business.Services.Interfaces;
 using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -21,35 +23,44 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly IArticleRepository _articleRepository;
         private ISettingsRepository _settingsRepository;
         private IDialogService _dialogService;
+        private IPermissionsService _permissionsService;
         private const int MaxArticlesPerFeed = 5;
 
         private readonly IHistoryNavigationService _historyNavigationService;
 
-        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, IHistoryNavigationService historyNavigationService, IDialogService dialogService)
+        public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, IHistoryNavigationService historyNavigationService, IDialogService dialogService, IPermissionsService permissionsService)
         {
             _progressService = progressService;
             _articleRepository = articleRepository;
             _settingsRepository = settingsRepository;
             _historyNavigationService = historyNavigationService;
             _dialogService = dialogService;
+            _permissionsService = permissionsService;
 
             _openSettingsCommand = new RelayCommand(OpenSettings);
             _openInfoCommand = new RelayCommand(OpenInfo);
-            _refreshCommand = new LoadingRelayCommand(Refresh);
+            _refreshCommand = new LoadingRelayCommand(Refresh, () => _canRefresh, true);
             _selectArticleCommand = new RelayCommand<ArticleModel>(SelectArticle);
             _selectFeedCommand = new RelayCommand<FeedModel>(SelectFeed);
 
             Sources = _articleRepository.GetActiveSources();
+
             if (!IsInDesignMode)
-                Refresh();
+                Initialize();
         }
 
-        private ObservableCollection<SourceModel> _sources;
-        public ObservableCollection<SourceModel> Sources
+
+        private bool _canRefresh;
+        private async void Initialize()
         {
-            get { return _sources; }
-            set { Set(ref _sources, value); }
+            _canRefresh = await _permissionsService.CanDownload();
+            _refreshCommand.RaiseCanExecuteChanged();
+
+            if (_refreshCommand.CanExecute(null))
+                _refreshCommand.Execute(null);
         }
+
+        public ObservableCollection<SourceModel> Sources { get; }
 
         private readonly RelayCommand<ArticleModel> _selectArticleCommand;
         public ICommand SelectArticleCommand => _selectArticleCommand;
@@ -94,14 +105,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private readonly LoadingRelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
-        private async void Refresh()
+        private async Task Refresh()
         {
-            using (_refreshCommand.GetProgressDisposable(_progressService, IndeterminateProgressKey.RefreshingArticles))
-            {
-                TimerHelper.Instance.Stop("Actualizing Articles", this);
-                await _articleRepository.ActualizeAllArticlesAsync();
-                var res = TimerHelper.Instance.GetAnalytics;
-            }
+            await _articleRepository.ActualizeAllArticlesAsync();
         }
 
         #endregion

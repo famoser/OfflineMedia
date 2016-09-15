@@ -11,7 +11,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -2147,7 +2147,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -4363,7 +4363,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -6618,7 +6618,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -8843,7 +8843,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -11107,7 +11107,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -13332,7 +13332,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.3": {
+      "Famoser.FrameworkEssentials/2.7.4": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -15600,11 +15600,11 @@
         "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.pdb"
       ]
     },
-    "Famoser.FrameworkEssentials/2.7.3": {
-      "sha512": "VqwiALNBghoHpHu2YIr/zrKH0qbKDRvc+6ZYwBLlWkvgzjOS+fFGcdoR1+u1eAy03gvquYAkpckbPdWCCjWEXw==",
+    "Famoser.FrameworkEssentials/2.7.4": {
+      "sha512": "59Ai/Xw98omqIL0joRE8qiTg1h0POCQRGRsPMvj8dvyNl5qgd1d9eipHlvhGZpAmsoB/BDF0ZFX2i9JNwxuCzg==",
       "type": "package",
       "files": [
-        "Famoser.FrameworkEssentials.2.7.3.nupkg.sha512",
+        "Famoser.FrameworkEssentials.2.7.4.nupkg.sha512",
         "Famoser.FrameworkEssentials.nuspec",
         "lib/Famoser.FrameworkEssentials.dll",
         "lib/dotnet/Famoser.FrameworkEssentials.dll",
@@ -21884,7 +21884,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Famoser.FrameworkEssentials >= 2.7.3",
+      "Famoser.FrameworkEssentials >= 2.7.4",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
       "Famoser.SqliteWrapper >= 1.1.5",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",

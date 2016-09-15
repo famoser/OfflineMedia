@@ -13,6 +13,6 @@ namespace Famoser.OfflineMedia.Business.Services.Interfaces
         Task<bool> CanDownloadArticles();
         Task<bool> CanDownloadImages();
 
-        void OverrideDownloadPermission(bool value);
+        void BlockDownloadPermission(bool value);
     }
 }

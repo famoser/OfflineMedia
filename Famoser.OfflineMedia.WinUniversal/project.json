@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "Famoser.FrameworkEssentials": "2.7.3",
+    "Famoser.FrameworkEssentials": "2.7.4",
     "Famoser.FrameworkEssentials.UniversalWindows": "1.2.1",
-    "Famoser.FrameworkEssentials.View": "1.2.2",
+    "Famoser.FrameworkEssentials.View": "1.3.1",
     "Famoser.SqliteWrapper": "1.1.5",
     "HtmlAgilityPack": "1.4.9.5",
     "Microsoft.Bcl": "1.1.10",
@@ -12,7 +12,7 @@
     "MvvmLight": "5.3.0",
     "Newtonsoft.Json": "9.0.1",
     "SQLite.Net-PCL": "3.1.1",
-    "WindowsAppStudio.Uwp": "1.5.1",
+    "WindowsAppStudio.Uwp": "1.5.3",
     "WinRTXamlToolkit.UWP": "2.0.0"
   },
   "frameworks": {

@@ -272,9 +272,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\ConnectionType.cs" />
     <Compile Include="Enums\DisplayState.cs" />
     <Compile Include="Enums\IndeterminateProgressKey.cs" />
     <Compile Include="Enums\PageKeys.cs" />
+    <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SpritzHelper.cs" />
     <Compile Include="ViewModels\ArticlePageViewModel.cs" />
@@ -287,11 +289,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.FrameworkEssentials.2.7.3\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
+      <HintPath>..\packages\Famoser.FrameworkEssentials.2.7.4\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Famoser.FrameworkEssentials.View, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.FrameworkEssentials.View.1.2.2\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.View.dll</HintPath>
+      <HintPath>..\packages\Famoser.FrameworkEssentials.View.1.3.1\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.View.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

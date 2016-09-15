@@ -7,6 +7,7 @@ using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.ApplicationModel.SocialInfo;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.FrameworkEssentials.UniversalWindows.Helpers;
+using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Threading;
 
@@ -219,6 +221,29 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         public void ExitApplication()
         {
             Application.Current.Exit();
+        }
+
+        public ConnectionType GetConnectionType()
+        {
+            ConnectionProfile profile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (profile == null)
+                return ConnectionType.None;
+
+            return profile.IsWwanConnectionProfile ? ConnectionType.Mobile : ConnectionType.Wlan;
+        }
+
+        public object GetLocalSetting(string settingKey, object fallback)
+        {
+            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(settingKey))
+                ApplicationData.Current.LocalSettings.Values[settingKey] = fallback;
+
+            return ApplicationData.Current.LocalSettings.Values[settingKey];
+        }
+
+        public void SetLocalSetting(string settingKey, object value)
+        {
+            ApplicationData.Current.LocalSettings.Values[settingKey] = value;
         }
 
         public async Task<ulong> GetFileSizes()
