@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Famoser.OfflineMedia.WinUniversal.Pages;
+using Famoser.Telemetry.UniversalWindows;
 using GalaSoft.MvvmLight.Threading;
 
 namespace Famoser.OfflineMedia.WinUniversal
@@ -24,6 +25,8 @@ namespace Famoser.OfflineMedia.WinUniversal
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
+            FamoserTelemetry.Initialize("https://api.telemetry.famoser.ch/1.0/submit", "58ffcfcc-a910-44ed-afd4-fc22b30c4266");
         }
 
         /// <summary>

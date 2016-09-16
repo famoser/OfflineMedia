@@ -55,6 +55,17 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.5": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -2258,6 +2269,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.5": {
@@ -4543,6 +4565,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.5": {
@@ -6869,6 +6902,17 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.5": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -9161,6 +9205,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.5": {
@@ -11496,6 +11551,17 @@
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
         }
       },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        }
+      },
       "HtmlAgilityPack/1.4.9.5": {
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -13788,6 +13854,17 @@
         },
         "runtime": {
           "lib/dotnet/Famoser.SqliteWrapper.dll": {}
+        }
+      },
+      "Famoser.Telemetry.UniversalWindows/1.0.0": {
+        "dependencies": {
+          "Famoser.FrameworkEssentials": "2.6.4"
+        },
+        "compile": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
       "HtmlAgilityPack/1.4.9.5": {
@@ -16126,6 +16203,15 @@
         "lib/Famoser.SqliteWrapper.dll",
         "lib/dotnet/Famoser.SqliteWrapper.dll",
         "lib/portable-net45+win8+wpa81+wp8/Famoser.SqliteWrapper.dll"
+      ]
+    },
+    "Famoser.Telemetry.UniversalWindows/1.0.0": {
+      "sha512": "yqDI9EQJvbWmZswTMuYR4h89dZTytFZuxwKP/hO2hDZ2zlS1sB5dZ7yNNN4NuALf/AT2uQ+Mi+3NmYVgLBWWBw==",
+      "type": "package",
+      "files": [
+        "Famoser.Telemetry.UniversalWindows.1.0.0.nupkg.sha512",
+        "Famoser.Telemetry.UniversalWindows.nuspec",
+        "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll"
       ]
     },
     "HtmlAgilityPack/1.4.9.5": {
@@ -23108,6 +23194,7 @@
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
       "Famoser.FrameworkEssentials.View >= 1.3.1",
       "Famoser.SqliteWrapper >= 1.1.5",
+      "Famoser.Telemetry.UniversalWindows >= 1.0.0",
       "HtmlAgilityPack >= 1.4.9.5",
       "Microsoft.Bcl >= 1.1.10",
       "Microsoft.Bcl.Build >= 1.0.21",
