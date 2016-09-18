@@ -1,1 +1,1 @@
-D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\AppPackages\Famoser.OfflineMedia.WinUniversal_2016.1.8.0\Famoser.OfflineMedia.WinUniversal_2016.1.8.0_x86_x64_arm.appxbundle
+D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\AppPackages\Famoser.OfflineMedia.WinUniversal_2016.1.9.0\Famoser.OfflineMedia.WinUniversal_2016.1.9.0_x86_x64_arm.appxbundle
