@@ -130,7 +130,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                                 _sourceCacheEntity.IsEnabledDictionary[feed.Guid] = false;
                                 recovered = false;
                             }
-                            
+
                             SourceManager.AddFeed(feed, source, _sourceCacheEntity.IsEnabledDictionary[feed.Guid]);
                             if (_sourceCacheEntity.IsEnabledDictionary[feed.Guid])
                                 feedsToLoad.Add(feed);
@@ -182,7 +182,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
             {
                 _imageDownloadService.Download(am);
 
-                if (am.LoadingState != LoadingState.Loading)
+                if (am.LoadingState == LoadingState.Loaded)
                 {
                     if (am.Content.Any())
                         return true;
@@ -238,6 +238,11 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     }
 
                     _themeRepository.LoadArticleThemesAsync(am);
+                }
+                else if (am.LoadingState == LoadingState.New)
+                {
+                    if (await _permissionsService.CanDownloadArticles())
+                        await ActualizeArticleAsync(am);
                 }
 
                 return true;
