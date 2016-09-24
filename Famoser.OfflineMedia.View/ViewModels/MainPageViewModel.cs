@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Famoser.FrameworkEssentials.DebugTools;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.FrameworkEssentials.View.Interfaces;
@@ -16,28 +14,21 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;
+using IProgressService = Famoser.OfflineMedia.Business.Services.Interfaces.IProgressService;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MainPageViewModel : ViewModelBase, INavigationBackNotifier
     {
-        private readonly IProgressService _progressService;
         private readonly IArticleRepository _articleRepository;
-        private ISettingsRepository _settingsRepository;
-        private IDialogService _dialogService;
-        private IPermissionsService _permissionsService;
-        private const int MaxArticlesPerFeed = 5;
+        private readonly IPermissionsService _permissionsService;
 
         private readonly IHistoryNavigationService _historyNavigationService;
 
         public MainPageViewModel(IProgressService progressService, IArticleRepository articleRepository, ISettingsRepository settingsRepository, IHistoryNavigationService historyNavigationService, IDialogService dialogService, IPermissionsService permissionsService)
         {
-            _progressService = progressService;
             _articleRepository = articleRepository;
-            _settingsRepository = settingsRepository;
             _historyNavigationService = historyNavigationService;
-            _dialogService = dialogService;
             _permissionsService = permissionsService;
 
             _openSettingsCommand = new RelayCommand(OpenSettings);
@@ -66,6 +57,9 @@ namespace Famoser.OfflineMedia.View.ViewModels
         {
             _canRefresh = await _permissionsService.CanDownload();
             _refreshCommand.RaiseCanExecuteChanged();
+
+            if (_refreshCommand.CanExecute(null))
+                _refreshCommand.Execute(null);
         }
 
         public ObservableCollection<SourceModel> Sources { get; }

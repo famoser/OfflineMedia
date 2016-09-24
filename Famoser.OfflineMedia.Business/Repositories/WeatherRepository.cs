@@ -52,11 +52,11 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
+                if (_isInitialized)
+                    return;
+
                 using (await _initializeAsyncLock.LockAsync())
                 {
-                    if (_isInitialized)
-                        return;
-
                     var fontJson = await _storageService.GetAssetTextFileAsync(ReflectionHelper.GetAttributeOfEnum<DescriptionAttribute, FileKeys>(FileKeys.WeatherFontInformations).Description);
                     _weatherFontMapping = JsonConvert.DeserializeObject<Dictionary<string, string>>(fontJson);
 
@@ -122,6 +122,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
         {
             return ExecuteSafe(async () =>
             {
+                await Initialize();
                 if (await _permissionsService.CanDownload())
                 {
                     foreach (var forecast in ForecastManager.GetForecasts())

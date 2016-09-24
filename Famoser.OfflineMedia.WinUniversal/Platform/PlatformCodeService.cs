@@ -172,10 +172,10 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             return await Launcher.LaunchUriAsync(url);
         }
 
-        public async Task<bool> Share(Uri articleUri, string title, string description)
+        public async Task<bool> Share(Uri articleUri, string title, string subTitle)
         {
             var dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested += (dtm, drea) => DoShare(dtm, drea, articleUri, title, description);
+            dataTransferManager.DataRequested += (dtm, drea) => DoShare(dtm, drea, articleUri, title, subTitle);
 
             DataTransferManager.ShowShareUI();
             return true;

@@ -28,7 +28,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform.Mock
             return true;
         }
 
-        public async Task<bool> Share(Uri articleUri, string title, string description)
+        public async Task<bool> Share(Uri articleUri, string title, string subTitle)
         {
             return true;
         }

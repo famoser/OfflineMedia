@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Models;
@@ -11,7 +9,6 @@ using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight;
-using IndeterminateProgressKey = Famoser.OfflineMedia.View.Enums.IndeterminateProgressKey;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {
@@ -20,14 +17,12 @@ namespace Famoser.OfflineMedia.View.ViewModels
         private readonly IPlatformCodeService _platformCodeService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IArticleRepository _articleRepository;
-        private IPermissionsService _permissionsService;
-        private readonly IProgressService _progressService;
+        private readonly IPermissionsService _permissionsService;
 
-        public SettingsPageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IProgressService progressService, IPlatformCodeService platformCodeService, IPermissionsService permissionsService)
+        public SettingsPageViewModel(ISettingsRepository settingsRepository, IArticleRepository articleRepository, IPlatformCodeService platformCodeService, IPermissionsService permissionsService)
         {
             _settingsRepository = settingsRepository;
             _articleRepository = articleRepository;
-            _progressService = progressService;
             _platformCodeService = platformCodeService;
             _permissionsService = permissionsService;
 

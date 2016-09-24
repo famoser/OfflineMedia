@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
+using Famoser.OfflineMedia.Business.Enums;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
@@ -20,13 +21,15 @@ namespace Famoser.OfflineMedia.Business.Services
         private readonly IPlatformCodeService _platformCodeService;
         private readonly IPermissionsService _permissionsService;
         private readonly GenericRepository<ImageContentModel, ImageContentEntity> _genericRepository;
+        private readonly IProgressService _progressService;
         private readonly int _maxWidth;
         private readonly int _maxHeight;
 
-        public ImageDownloadService(IPlatformCodeService platformCodeService, ISqliteService sqliteService, IPermissionsService permissionsService)
+        public ImageDownloadService(IPlatformCodeService platformCodeService, ISqliteService sqliteService, IPermissionsService permissionsService, IProgressService progressService)
         {
             _platformCodeService = platformCodeService;
             _permissionsService = permissionsService;
+            _progressService = progressService;
 
             _maxHeight = _platformCodeService.DeviceHeight();
             _maxWidth = _platformCodeService.DeviceWidth();
@@ -42,18 +45,20 @@ namespace Famoser.OfflineMedia.Business.Services
 
         public void Download(ImageContentModel imageContentModel, bool priority = false)
         {
-            if (imageContentModel.LoadingState < LoadingState.Loaded)
+            if (imageContentModel.LoadingState < LoadingState.Loaded) 
                 if (priority)
                 {
                     if (!PriorityImages.Contains(imageContentModel))
                     {
                         PriorityImages.Enqueue(imageContentModel);
+                        _progressService.IncreaseMaxValue(ProgressType.Image, 1);
                         StartThreadIfNecessary();
                     }
                 }
                 else if (!SecondaryImages.Contains(imageContentModel))
                 {
                     SecondaryImages.Enqueue(imageContentModel);
+                    _progressService.IncreaseMaxValue(ProgressType.Image, 1);
                     StartThreadIfNecessary();
                 }
         }
@@ -106,6 +111,7 @@ namespace Famoser.OfflineMedia.Business.Services
         {
             try
             {
+                _progressService.Start(ProgressType.Image, PriorityImages.Count + SecondaryImages.Count);
                 var found = false;
                 while (true)
                 {
@@ -113,11 +119,13 @@ namespace Famoser.OfflineMedia.Business.Services
                     while (PriorityImages.TryDequeue(out model))
                     {
                         await DownloadImagesTask(model);
+                        _progressService.Incremenent(ProgressType.Image);
                         found = true;
                     }
                     if (SecondaryImages.TryDequeue(out model))
                     {
                         await DownloadImagesTask(model);
+                        _progressService.Incremenent(ProgressType.Image);
                         found = true;
                     }
                     if (!found)
@@ -125,6 +133,7 @@ namespace Famoser.OfflineMedia.Business.Services
 
                     found = false;
                 }
+                _progressService.Stop(ProgressType.Image);
             }
             catch (Exception ex)
             {

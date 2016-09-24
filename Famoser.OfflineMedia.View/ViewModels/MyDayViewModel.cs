@@ -5,21 +5,17 @@ using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Models.WeatherModel;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
-using Famoser.OfflineMedia.View.Enums;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {
     public class MyDayViewModel : ViewModelBase
     {
         private readonly IWeatherRepository _weatherRepository;
-        private readonly IProgressService _progressService;
 
         public MyDayViewModel(IWeatherRepository weatherRepository, IProgressService progressService)
         {
             _weatherRepository = weatherRepository;
-            _progressService = progressService;
 
             _refreshCommand = new LoadingRelayCommand(Refresh);
 

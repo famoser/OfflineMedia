@@ -181,7 +181,7 @@ namespace Famoser.OfflineMedia.UnitTests.Local
             return await Launcher.LaunchUriAsync(url);
         }
 
-        public Task<bool> Share(Uri articleUri, string title, string description)
+        public Task<bool> Share(Uri articleUri, string title, string subTitle)
         {
             throw new NotImplementedException();
         }

@@ -12,18 +12,16 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using Famoser.FrameworkEssentials.Services;
-using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
 using Famoser.OfflineMedia.Business.Services;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
+using Famoser.OfflineMedia.View.Services;
 using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Famoser.OfflineMedia.View.ViewModels
@@ -65,6 +63,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
             SimpleIoc.Default.Register<ArticlePageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<MyDayViewModel>();
+            SimpleIoc.Default.Register<ProgressViewModel>(true);
         }
 
         public MainPageViewModel MainPageViewModel => ServiceLocator.Current.GetInstance<MainPageViewModel>();
@@ -77,7 +76,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         public MyDayViewModel MyDayViewModel => ServiceLocator.Current.GetInstance<MyDayViewModel>();
 
-        public ProgressService ProgressService => ServiceLocator.Current.GetInstance<IProgressService>() as ProgressService;
+        public ProgressViewModel ProgressViewModel => ServiceLocator.Current.GetInstance<ProgressViewModel>();
 
         public static void Cleanup()
         {

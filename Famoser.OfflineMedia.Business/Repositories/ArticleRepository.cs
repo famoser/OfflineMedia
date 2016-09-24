@@ -27,6 +27,7 @@ using Famoser.SqliteWrapper.Repositories;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
+using IProgressService = Famoser.OfflineMedia.Business.Services.Interfaces.IProgressService;
 
 namespace Famoser.OfflineMedia.Business.Repositories
 {

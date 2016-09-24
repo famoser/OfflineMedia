@@ -11,7 +11,7 @@ namespace Famoser.OfflineMedia.Business.Services.Interfaces
         void CheckBeginInvokeOnUi(Action action, Func<Task> after = null);
 
         Task<bool> OpenInBrowser(Uri url);
-        Task<bool> Share(Uri articleUri, string title, string description);
+        Task<bool> Share(Uri articleUri, string title, string subTitle);
 
         int DeviceWidth();
         int DeviceHeight();

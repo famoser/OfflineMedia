@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Height="4"
-    DataContext="{Binding ProgressService, Source={StaticResource Locator}}">
+    DataContext="{Binding ProgressViewModel, Source={StaticResource Locator}}">
 
-    <ProgressBar IsIndeterminate="False" Visibility="{Binding AnyProgressActive, Converter={StaticResource BoolToVisibilityConverter}}" Value="{Binding PercentageProgressActiveValue, Mode=TwoWay}" Maximum="{Binding PercentageProgressMaxValue}" Height="4" />
+    <ProgressBar Visibility="{Binding ActiveProgress, Converter={StaticResource ReferenceToVisibilityConverter}}" IsIndeterminate="{Binding ActiveProgress.IsIndeterminate}" Value="{Binding ActiveProgress.ActiveValue}" Maximum="{Binding ActiveProgress.MaxValue}" Height="4" />
 
 </UserControl>

@@ -279,10 +279,12 @@
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SpritzHelper.cs" />
+    <Compile Include="Services\ProgressService.cs" />
     <Compile Include="ViewModels\ArticlePageViewModel.cs" />
     <Compile Include="ViewModels\FeedPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MyDayViewModel.cs" />
+    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModelLocator.cs" />
     <Compile Include="Enums\SpritzState.cs" />

@@ -266,6 +266,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\ProgressType.cs" />
     <Compile Include="Enums\Settings\ConnectionType.cs" />
     <Compile Include="Enums\FileKeys.cs" />
     <Compile Include="Enums\Models\ContentTextType.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Helpers\SaveHelper.cs" />
     <Compile Include="Managers\ForecastManager.cs" />
     <Compile Include="Models\Base\BaseInfoModel.cs" />
+    <Compile Include="Models\Progress\ProgressModel.cs" />
     <Compile Include="Models\WeatherModel\WeatherCacheModel.cs" />
     <Compile Include="Newspapers\Zeit\Models\Reference.cs" />
     <Compile Include="Repositories\Mocks\ArticleRepositoryMock.cs" />
@@ -394,6 +396,7 @@
     <Compile Include="Newspapers\ZwanzigMin\Models\channel.cs" />
     <Compile Include="Newspapers\ZwanzigMin\Models\item.cs" />
     <Compile Include="Newspapers\ZwanzigMin\ZwanzigMinHelper.cs" />
+    <Compile Include="Services\Interfaces\IProgressService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

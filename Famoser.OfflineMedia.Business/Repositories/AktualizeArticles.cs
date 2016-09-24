@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums;
 using Famoser.OfflineMedia.Business.Enums.Models;
 using Famoser.OfflineMedia.Business.Helpers;
 using Famoser.OfflineMedia.Business.Managers;
@@ -35,12 +36,13 @@ namespace Famoser.OfflineMedia.Business.Repositories
 
                 if (await _permissionsService.CanDownloadFeeds())
                 {
-                    _progressService.ConfigurePercentageProgress(queue.Count);
+                    _progressService.Start(ProgressType.Feed, queue.Count);
                     for (int i = 0; i < threadNumber; i++)
                     {
                         threads.Add(DoFeedQueue(queue));
                     }
                     await Task.WhenAll(threads.ToArray());
+                    _progressService.Stop(ProgressType.Feed);
                     threads.Clear();
                 }
                 
@@ -55,13 +57,13 @@ namespace Famoser.OfflineMedia.Business.Repositories
                                 stack.PushRange(news);
                         }
 
-                    _progressService.ConfigurePercentageProgress(stack.Count);
+                    _progressService.Start(ProgressType.Article, stack.Count);
                     for (int i = 0; i < threadNumber; i++)
                     {
                         threads.Add(DoArticleStack(stack));
                     }
-
                     await Task.WhenAll(threads.ToArray());
+                    _progressService.Stop(ProgressType.Article);
                     threads.Clear();
                 }
             });
@@ -87,7 +89,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     }
 
                     if (incrementProgress)
-                        _progressService.IncrementPercentageProgress();
+                        _progressService.Incremenent(ProgressType.Feed);
                 }
             });
         }
@@ -121,7 +123,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                     }
 
                     if (incrementProgress)
-                        _progressService.IncrementPercentageProgress();
+                        _progressService.Incremenent(ProgressType.Article);
                 }
             });
         }
