@@ -1,5 +1,5 @@
-MainPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\ARM\Release\Upload\Famoser.OfflineMedia.WinUniversal_2016.1.8.0_ARM.appx
-SymbolPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\AppPackages\Famoser.OfflineMedia.WinUniversal_2016.1.8.0\Famoser.OfflineMedia.WinUniversal_2016.1.8.0_ARM.appxsym
+MainPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\ARM\Release\Upload\Famoser.OfflineMedia.WinUniversal_2016.1.9.0_ARM.appx
+SymbolPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\AppPackages\Famoser.OfflineMedia.WinUniversal_2016.1.9.0\Famoser.OfflineMedia.WinUniversal_2016.1.9.0_ARM.appxsym
 ResourcePack=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\_scale-100.appx
 ResourcePack=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\_scale-125.appx
 ResourcePack=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\_scale-150.appx

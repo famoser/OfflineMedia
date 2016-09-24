@@ -19,10 +19,7 @@
         <Border Style="{ThemeResource FamoserSpacer}" />
 
         <RichTextBlock HorizontalAlignment="Left" Opacity="0.6" Style="{StaticResource FamoserBodyRichTextBlock}">
-            <Paragraph>
-                <Bold>
-                    <Run Text="{Binding Article.LoadingState, Converter={StaticResource LoadingStateToTextConverter}}" />
-                </Bold> | written by
+            <Paragraph>written by
                 <Bold>
                     <Run Text="{Binding Article.Author}" />
                 </Bold>, published in
@@ -34,8 +31,11 @@
                 </Bold> words, published at
                 <Bold>
                     <Run Text="{Binding Article.PublishDateTime, Converter={StaticResource DateTimeConverter}}" />
+                </Bold> | 
+                <Bold>
+                    <Run Text="{Binding Article.LoadingState, Converter={StaticResource LoadingStateToTextConverter}}" />
                 </Bold>
-                
+
             </Paragraph>
         </RichTextBlock>
 
