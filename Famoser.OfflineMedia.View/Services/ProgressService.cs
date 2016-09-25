@@ -23,6 +23,7 @@ namespace Famoser.OfflineMedia.View.Services
                 _progressModels[type] = new ProgressModel(type, maxValue);
             else
                 _progressModels[type].OverwriteMaxValue(maxValue);
+            ActiveProgressChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void IncreaseMaxValue(ProgressType type, int amount)
