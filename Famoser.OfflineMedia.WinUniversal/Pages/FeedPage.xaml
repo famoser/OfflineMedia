@@ -20,13 +20,8 @@
     </Page.Transitions>
 
     <Grid Style="{StaticResource RootGrid}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <userControls:ProgressBar Grid.Row="0" />
-        <TextBlock Grid.Row="1" Text="{Binding Feed.Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
-        <ScrollViewer x:Name="FeedScrollViewer" Grid.Row="1" Style="{StaticResource FamoserScrollViewer}">
+        <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" VerticalAlignment="Top" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
+        <ScrollViewer x:Name="FeedScrollViewer" Style="{StaticResource FamoserScrollViewer}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="71" />
@@ -37,5 +32,6 @@
                 </Grid>
             </Grid>
         </ScrollViewer>
+        <userControls:ProgressBar VerticalAlignment="Top" />
     </Grid>
 </Page>

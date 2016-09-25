@@ -21,13 +21,7 @@
     </Page.Transitions>
 
     <Grid Style="{StaticResource RootGrid}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <userControls:ProgressBar Grid.Row="0" />
-
-        <Pivot Grid.Row="1" SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource FamoserPivot}">
+        <Pivot SelectedIndex="{Binding DisplayStateIndex, Mode=TwoWay}" Style="{StaticResource FamoserPivot}">
             <Pivot.Items>
                 <PivotItem>
                     <PivotItem.Header>
@@ -74,6 +68,7 @@
                 </PivotItem>
             </Pivot.Items>
         </Pivot>
+        <userControls:ProgressBar VerticalAlignment="Top" />
     </Grid>
 
     <Page.BottomAppBar>

@@ -25,13 +25,7 @@
     </Page.Transitions>
 
     <Grid Style="{StaticResource RootGrid}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <userControls:ProgressBar Grid.Row="0" />
-
-        <Grid Grid.Row="1" Style="{StaticResource ArticlePageContentGrid}">
+        <Grid Style="{StaticResource ArticlePageContentGrid}">
             <StackPanel Style="{StaticResource ArticlePageInnerContentStackPanelMobile}" />
             <TextBlock VerticalAlignment="Center" TextAlignment="Center"  Style="{StaticResource FamoserBodyTextBlock}" >
                 <Run Text="abonnieren Sie gewünsche Quellen in den Einstellungen (unten rechts)" />
@@ -40,7 +34,7 @@
                 </TextBlock>
            </Grid>
 
-        <Pivot Grid.Row="1" ItemsSource="{Binding Sources}" Style="{StaticResource PivotStyle}">
+        <Pivot ItemsSource="{Binding Sources}" Style="{StaticResource PivotStyle}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Abbreviation}" />
@@ -54,6 +48,7 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
+        <userControls:ProgressBar VerticalAlignment="Top" />
     </Grid>
 
     <Page.BottomAppBar>
