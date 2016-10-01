@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 using GalaSoft.MvvmLight.Views;
+using Nito.AsyncEx;
 
 namespace Famoser.OfflineMedia.View.Services
 {
@@ -51,40 +52,60 @@ namespace Famoser.OfflineMedia.View.Services
             return res;
         }
 
+        private DateTime _lastTimeRequested;
+        private bool _lastResult;
+        private AsyncLock _asyncLock = new AsyncLock();
         private async Task<bool> CanDownloadAsync(DownloadContentType type)
         {
             if (_downloadBlocked)
-                return false;
-
-            var conntype = _platformCodeService.GetConnectionType();
-            if (conntype == ConnectionType.None)
-                return false;
-
-            if (conntype == ConnectionType.Mobile)
+                _lastResult = false;
+            else if (_lastTimeRequested - DateTime.Now < TimeSpan.FromSeconds(10))
+                return _lastResult;
+            else
             {
-                if (!(bool)_platformCodeService.GetLocalSetting(AskedAtMobileConnectionKey, false))
+                var conntype = _platformCodeService.GetConnectionType();
+                if (conntype == ConnectionType.None)
+                    _lastResult = false;
+                else if (conntype == ConnectionType.Mobile)
                 {
-                    _platformCodeService.SetLocalSetting(AskedAtMobileConnectionKey, true);
-                    await _dialogService.ShowMessage("Sie sind über das Mobilfunktnetz online, der Download wurde daher automatisch angehalten. Sie können diese Option in den Einstellungen wieder deaktivieren", "Datenverbindung");
-                }
+                    if (!(bool) _platformCodeService.GetLocalSetting(AskedAtMobileConnectionKey, false))
+                    {
+                        _platformCodeService.SetLocalSetting(AskedAtMobileConnectionKey, true);
+                        await _dialogService.ShowMessage(
+                            "Sie sind über das Mobilfunktnetz online, der Download wurde daher automatisch angehalten. Sie können diese Option in den Einstellungen wieder deaktivieren",
+                            "Datenverbindung");
+                    }
 
-                if (!(bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any), false))
-                    return false;
-                return (bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), false);
+                    if (
+                        !(bool)
+                            _platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any),
+                                false))
+                        _lastResult = false;
+                    _lastResult = (bool) _platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), false);
+                }
+                else if (conntype == ConnectionType.Wlan)
+                {
+                    if (
+                        !(bool)
+                            _platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any),
+                                true))
+                        _lastResult = false;
+                    _lastResult = (bool) _platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), true);
+                }
+                else
+                {
+                    _lastResult = false;
+                }
             }
-            if (conntype == ConnectionType.Wlan)
-            {
-                if (!(bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, DownloadContentType.Any), true))
-                    return false;
-                return (bool)_platformCodeService.GetLocalSetting(GenerateSettingKey(conntype, type), true);
-            }
-            return false;
+            _lastTimeRequested = DateTime.Now;
+            return _lastResult;
         }
 
         public void SetPermission(ConnectionType conntype, DownloadContentType type, bool val)
         {
             _platformCodeService.SetLocalSetting(GenerateSettingKey(conntype, type), val);
             PermissionsChanged?.Invoke(this, EventArgs.Empty);
+            _lastTimeRequested = DateTime.MinValue;
         }
 
         public bool GetPermission(ConnectionType conntype, DownloadContentType type, bool fallback)
