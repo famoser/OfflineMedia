@@ -5,9 +5,11 @@ using System.Windows.Input;
 using Famoser.FrameworkEssentials.View.Commands;
 using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Business.Models.Configuration;
 using Famoser.OfflineMedia.Business.Models.Configuration.Base;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
+using Famoser.OfflineMedia.Data.Enums;
 using GalaSoft.MvvmLight;
 
 namespace Famoser.OfflineMedia.View.ViewModels
@@ -36,12 +38,23 @@ namespace Famoser.OfflineMedia.View.ViewModels
             _switchFeedStatusCommand = new LoadingRelayCommand<FeedModel>(SwitchFeedStatus, f => true, true);
             _switchSourceStatusCommand = new LoadingRelayCommand<SourceModel>(SwitchSourceStatus, f => true, true);
             _resetApplicationCommand = new LoadingRelayCommand(ResetApplication, () => true, true);
+
+            if (!IsInDesignMode)
+                InitializeSettingsAsync();
         }
 
         private void BaseSettingModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             _anythingChanged = true;
             _saveCommand.RaiseCanExecuteChanged();
+        }
+
+        private IntSettingModel _concurrentThreadsSettingModel;
+        private async void InitializeSettingsAsync()
+        {
+            var model = (IntSettingModel) await _settingsRepository.GetSettingByKeyAsync(SettingKey.ConcurrentThreads);
+            ConcurrentThreadCount = model.Value;
+            _concurrentThreadsSettingModel = model;
         }
 
         private bool _anythingChanged;
@@ -114,6 +127,36 @@ namespace Famoser.OfflineMedia.View.ViewModels
         {
             get { return _permissionsService.GetPermission(ConnectionType.Mobile, DownloadContentType.Image, false); }
             set { _permissionsService.SetPermission(ConnectionType.Mobile, DownloadContentType.Image, value); }
+        }
+
+        private string _concurrentThreadCount = "5";
+        public string ConcurrentThreadCount
+        {
+            get { return _concurrentThreadCount; }
+            set
+            {
+                if (Set(ref _concurrentThreadCount, value))
+                    TrySetConcurrentThread();
+            }
+        }
+
+        private async void TrySetConcurrentThread()
+        {
+            int val;
+            if (int.TryParse(ConcurrentThreadCount, out val))
+            {
+                //"firewall"
+                if (val < 1 || val > 10)
+                {
+                    ConcurrentThreadCount = "5";
+                    return;
+                }
+                if (_concurrentThreadsSettingModel != null)
+                {
+                    _concurrentThreadsSettingModel.IntValue = val;
+                    await _settingsRepository.SaveSettingsAsync();
+                }
+            }
         }
     }
 }

@@ -29,13 +29,16 @@
                 <PivotItem.Content>
                     <ScrollViewer Style="{StaticResource FamoserScrollViewer}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Background="{ThemeResource TextBackground}">
-                            <settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />
+                            <!--<settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />-->
                             <Border Style="{StaticResource FamoserSpacer}" />
                             <TextBlock Style="{ThemeResource FamoserDefaultTextBoxDescriptionTextBlock}" Text="Einstellung bei normaler Verbindung" />
                             <CheckBox IsChecked="{Binding NormalDownloadImages, Mode=TwoWay}" Margin="10,0" Content="Bilder herunterladen (hoher Datenverbrauch)" />
                             <TextBlock Style="{ThemeResource FamoserDefaultTextBoxDescriptionTextBlock}" Text="Einstellung bei mobiler Verbindung" />
                             <CheckBox IsChecked="{Binding MobileDownloadAny, Mode=TwoWay}" Margin="10,0" Content="Verbindung zulassen" />
                             <CheckBox IsChecked="{Binding MobileDownloadImages, Mode=TwoWay}" Margin="10,0" Content="Bilder herunterladen (hoher Datenverbrauch)" />
+                            <Border Style="{StaticResource FamoserSpacer}" />
+                            <TextBlock Style="{ThemeResource FamoserDefaultTextBoxDescriptionTextBlock}" Text="Anzahl gleichzeitiger Downloads (1-10)" />
+                            <TextBox Text="{Binding ConcurrentThreadCount, Mode=TwoWay}" Margin="10,0" InputScope="Number"  />
                             <Border Style="{StaticResource FamoserSpacer}" />
                             <Button Margin="5" Style="{ThemeResource FamoserDefaultButton}" HorizontalAlignment="Stretch" Content="reset application" Command="{Binding ResetApplicationCommand}" />
                             <TextBlock Margin="10,10">

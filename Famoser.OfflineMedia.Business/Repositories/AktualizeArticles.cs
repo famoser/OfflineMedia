@@ -56,6 +56,8 @@ namespace Famoser.OfflineMedia.Business.Repositories
                             if (news.Length > 0)
                                 stack.PushRange(news);
                         }
+                    //reverse stack so 
+                    stack = new ConcurrentStack<ArticleModel>(stack.Reverse());
 
                     _progressService.Start(ProgressType.Article, stack.Count);
                     for (int i = 0; i < threadNumber; i++)

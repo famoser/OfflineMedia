@@ -59,7 +59,7 @@ namespace Famoser.OfflineMedia.View.Services
         {
             if (_downloadBlocked)
                 _lastResult = false;
-            else if (_lastTimeRequested - DateTime.Now < TimeSpan.FromSeconds(10))
+            else if (_lastTimeRequested - DateTime.Now > TimeSpan.FromSeconds(10))
                 return _lastResult;
             else
             {
