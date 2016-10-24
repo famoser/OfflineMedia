@@ -181,19 +181,19 @@ namespace Famoser.OfflineMedia.UnitTests.Local
             return await Launcher.LaunchUriAsync(url);
         }
 
-        public Task<bool> Share(Uri articleUri, string title, string subTitle)
+        public async Task<bool> Share(Uri articleUri, string title, string subTitle)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public int DeviceWidth()
         {
-            return (int)ResolutionHelper.WidthOfDevice;
+            return 400;
         }
 
         public int DeviceHeight()
         {
-            return (int)ResolutionHelper.HeightOfDevice;
+            return 800;
         }
 
         public async Task<bool> DeleteDatabaseFile()
@@ -218,22 +218,22 @@ namespace Famoser.OfflineMedia.UnitTests.Local
 
         public ConnectionType GetConnectionType()
         {
-            throw new NotImplementedException();
+            return ConnectionType.Wlan;
         }
 
         public object GetLocalSetting(string settingKey, object fallback)
         {
-            throw new NotImplementedException();
+            return fallback;
         }
 
         public void SetLocalSetting(string settingKey, object value)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void ClearLocalSettings()
         {
-            throw new NotImplementedException();
+
         }
 
         public async Task<ulong> GetFileSizes()

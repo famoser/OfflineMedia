@@ -25,8 +25,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers
     {
         private static int _maxThreads = 15;
 
-        [ClassInitialize]
-        public static void Initialize(TestContext context)
+        [TestInitialize]
+        public void Initialize()
         {
             IocHelper.InitializeContainer();
         }

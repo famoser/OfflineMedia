@@ -9,6 +9,7 @@ using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels.TextModels;
+using Famoser.OfflineMedia.Business.Newspapers.Blick.Models;
 using Famoser.OfflineMedia.Business.Newspapers.Nzz.Models;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Newtonsoft.Json;
@@ -65,11 +66,13 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                         {
                             if (nzzBox.type == "image")
                             {
-                                am.Content.Add(new ImageContentModel()
-                                {
-                                    Url = nzzBox.path,
-                                    Text = TextHelper.TextToTextModel(nzzBox.caption)
-                                });
+                                var uri = ParseImageUri(nzzBox.path);
+                                if (uri != null)
+                                    am.Content.Add(new ImageContentModel()
+                                    {
+                                        Url = uri,
+                                        Text = TextHelper.TextToTextModel(nzzBox.caption)
+                                    });
                             }
                             else if (nzzBox.type == "video" || nzzBox.type == "html")
                             {
@@ -106,8 +109,6 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                                     {
                                         Content = newContent
                                     });
-                                else
-                                    "wat".ToString();
                             }
                             else
                                 LogHelper.Instance.LogInfo("nzz content type not found: " + nzzBox.mimeType, this);
@@ -165,26 +166,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
             {
                 try
                 {
-                    var img = new ImageContentModel()
+                    var uri = ParseImageUri(li.path);
+                    if (uri != null)
                     {
-                        Text = new TextContentModel()
+                        return new ImageContentModel()
                         {
-                            Content = HtmlConverter.CreateOnce(feedModel.Source.PublicBaseUrl).HtmlToParagraph(li.caption)
-                        }
-                    };
-                    if (li.path.Contains("http://nzz-img.s3.amazonaws.com/"))
-                    {
-                        var uri = li.path.Substring(li.path.IndexOf("http://nzz-img.s3.amazonaws.com/", StringComparison.Ordinal));
-                        if (!uri.Contains("height"))
-                            img.Url = uri;
+                            Text = new TextContentModel()
+                            {
+                                Content = HtmlConverter.CreateOnce(feedModel.Source.PublicBaseUrl).HtmlToParagraph(li.caption)
+                            },
+                            Url = uri
+                        };
                     }
-                    else
-                    {
-                        var uri = li.path.Replace("%width%", "640").Replace("%height%", "360")
-                            .Replace("%format%", "text");
-                        img.Url = uri;
-                    }
-                    return img;
                 }
                 catch (Exception ex)
                 {
@@ -193,6 +186,13 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Nzz
                 }
             }
             return null;
+        }
+
+        private string ParseImageUri(string origin)
+        {
+            if (origin.Contains("http://nzz-img.s3.amazonaws.com/"))
+                return origin.Substring(origin.IndexOf("http://nzz-img.s3.amazonaws.com/", StringComparison.Ordinal));
+            return origin.Replace("%width%", "640").Replace("%height%", "360").Replace("%format%", "text");
         }
 
         public NzzHelper(IThemeRepository themeRepository) : base(themeRepository)
