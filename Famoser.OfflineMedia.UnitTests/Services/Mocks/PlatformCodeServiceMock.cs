@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Famoser.OfflineMedia.Business.Enums.Settings;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
 
 #pragma warning disable 1998
@@ -22,6 +23,11 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
             return true;
         }
 
+        public Task<bool> Share(Uri articleUri, string title, string subTitle)
+        {
+            throw new NotImplementedException();
+        }
+
         public int DeviceWidth()
         {
             throw new NotImplementedException();
@@ -38,6 +44,26 @@ namespace Famoser.OfflineMedia.UnitTests.Services.Mocks
         }
 
         public void ExitApplication()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ConnectionType GetConnectionType()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetLocalSetting(string settingKey, object fallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLocalSetting(string settingKey, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearLocalSettings()
         {
             throw new NotImplementedException();
         }

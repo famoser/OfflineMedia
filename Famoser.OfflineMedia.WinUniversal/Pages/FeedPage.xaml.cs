@@ -36,7 +36,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Pages
             if (propertyChangedEventArgs.PropertyName == "Feed")
             {
                 FeedScrollViewer.ChangeView(0, 0, 1); //this does not work all the time
-                FeedScrollViewer.ScrollToVerticalOffset(0);
+                FeedScrollViewer.ChangeView(null, 0,null);
             }
         }
     }

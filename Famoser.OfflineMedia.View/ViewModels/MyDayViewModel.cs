@@ -21,7 +21,10 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
             Forecasts = _weatherRepository.GetForecasts();
             if (!IsInDesignMode)
-                Refresh();
+            {
+                if (_refreshCommand.CanExecute(null))
+                    _refreshCommand.Execute(null);
+            }
         }
 
         private ObservableCollection<Forecast> _forecasts;
