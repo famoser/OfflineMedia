@@ -19,8 +19,12 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
 {
     public class IocHelper
     {
+        private static bool _isIntialized;
         public static void InitializeContainer()
         {
+            if (_isIntialized)
+                return;
+            _isIntialized = true;
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             // services

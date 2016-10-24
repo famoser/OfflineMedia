@@ -103,6 +103,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Welt
            {
                var article = await DownloadAsync(articleModel);
                var head = XmlHelper.GetSingleNode(article, "body.head");
+               if (head == null)
+                   return false;
                var author = XmlHelper.GetSingleNode(head, "byline");
                if (author != null)
                {
