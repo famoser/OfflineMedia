@@ -237,7 +237,7 @@ namespace Famoser.OfflineMedia.Business.Repositories
                         }
                     }
 
-                    _themeRepository.LoadArticleThemesAsync(am);
+                    await _themeRepository.LoadArticleThemesAsync(am);
                 }
                 else if (am.LoadingState == LoadingState.New)
                 {
