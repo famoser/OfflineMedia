@@ -107,7 +107,7 @@ namespace Famoser.OfflineMedia.View.ViewModels
 
         private readonly LoadingRelayCommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand;
-        private bool _canRefresh;
+        private bool _canRefresh; //todo: fix bad behaviour. If RaiseExecuteChanged is raised, nothing is happening
         private async Task Refresh()
         {
             _canRefresh = await _permissionsService.CanDownload();
