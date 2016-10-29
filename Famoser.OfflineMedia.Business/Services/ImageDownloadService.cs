@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Enums;
@@ -39,7 +40,7 @@ namespace Famoser.OfflineMedia.Business.Services
 
         private static readonly ConcurrentQueue<ImageContentModel> PriorityImages = new ConcurrentQueue<ImageContentModel>();
         private static readonly ConcurrentQueue<ImageContentModel> SecondaryImages = new ConcurrentQueue<ImageContentModel>();
-        private static List<Task> _activeTasks = new List<Task>();
+        private static List<ConfiguredTaskAwaitable> _activeTasks = new List<ConfiguredTaskAwaitable>();
 
         private const int MaxActiveTasks = 5;
 
@@ -98,11 +99,11 @@ namespace Famoser.OfflineMedia.Business.Services
         {
             if (PriorityImages.Any() || SecondaryImages.Any())
             {
-                _activeTasks = _activeTasks.Where(m => m.Status <= TaskStatus.Running).ToList();
+                _activeTasks = _activeTasks.Where(m => !m.GetAwaiter().IsCompleted).ToList();
                 //might lead to too much tasks in concurrent setups, but does not really matter in this case
                 for (int i = _activeTasks.Count; i < MaxActiveTasks; i = _activeTasks.Count)
                 {
-                    _activeTasks.Add(DownloadImagesTask());
+                    _activeTasks.Add(DownloadImagesTask().ConfigureAwait(false));
                 }
             }
         }

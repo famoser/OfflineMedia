@@ -124,6 +124,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
             });
         }
 
+        private readonly HttpClient _httpClient = new HttpClient();
         public Task<byte[]> DownloadResizeImage(Uri url, double height, double width)
         {
             return Task.Run(async () =>
@@ -132,15 +133,10 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
                 {
                     try
                     {
-                        using (var client = new HttpClient())
+                        using (var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                         {
-                            using (
-                                HttpResponseMessage response =
-                                    await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
-                            {
-                                IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
-                                return await ResizeImageAsync(streamToReadFrom.AsStream(), height, width);
-                            }
+                            IBuffer streamToReadFrom = await response.Content.ReadAsBufferAsync();
+                            return await ResizeImageAsync(streamToReadFrom.AsStream(), height, width);
                         }
                     }
                     catch (Exception ex)
@@ -184,7 +180,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         private void DoShare(DataTransferManager sender, DataRequestedEventArgs args, Uri articleUri, string title, string description)
         {
             DataRequest request = args.Request;
-            
+
             request.Data.Properties.Title = "Share";
             request.Data.Properties.Description = "Teile den Artikel";
             request.Data.SetText(title + "\n" + description);
@@ -235,7 +231,7 @@ namespace Famoser.OfflineMedia.WinUniversal.Platform
         {
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(settingKey))
                 ApplicationData.Current.LocalSettings.Values[settingKey] = fallback;
-             
+
             return ApplicationData.Current.LocalSettings.Values[settingKey];
         }
 

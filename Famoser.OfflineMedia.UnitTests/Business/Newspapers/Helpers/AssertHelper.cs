@@ -241,7 +241,7 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                     {
                         var pars = new Uri(textModel.Text);
                     }
-                    catch (Exception ex)
+                    catch //i do not care about the exact exception
                     {
                         entry.LogEntries.Add(new LogEntry()
                         {

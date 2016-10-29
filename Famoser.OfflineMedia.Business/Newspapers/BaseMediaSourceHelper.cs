@@ -33,14 +33,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers
             return DownloadAsync(model.GetLogicUri());
         }
 
-        private HttpService _httpServiceCache;
+        private static readonly HttpService HttpServiceCache = new HttpService(null, false);
         protected virtual async Task<string> DownloadAsync(Uri url)
         {
-            if (_httpServiceCache == null)
-                _httpServiceCache = new HttpService(null, false);
-            var response = await _httpServiceCache.DownloadAsync(url);
-            if (response != null)
-                return await response.GetResponseAsStringAsync();
+            using (var response = await HttpServiceCache.DownloadAsync(url))
+            {
+                if (response != null)
+                    return await response.GetResponseAsStringAsync();
+            }
             return null;
         }
 

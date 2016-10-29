@@ -88,8 +88,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Spiegel
 
             return a;
         }
-
-
+        
         private string CleanHtml(string html)
         {
             /* clean this html:

@@ -27,12 +27,12 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             var bytesOrigin = await ps.DownloadResizeImage(new Uri("http://www.spiegel.de/images/image-1028227-hppano-lqbn.jpg"), 10000, 10000);
 
             //assert
+            Assert.IsTrue(image.Length == bytesOrigin.Length);
+
             //expected
-            //Assert.IsTrue(image.Length == bytesOrigin.Length); //--FAILS--
             //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
             //real
             Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
-            Assert.IsTrue(image.Length > bytesOrigin.Length); //idk why, gotta read up on streams
         }
 
         private const string TestFile = "image-1028227-hppano-lqbn.jpg";
@@ -53,12 +53,12 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
             var byteSmall = await ps.ResizeImageAsync(stream, 200, 200);
 
             //assert
+            Assert.IsTrue(stream.Length == bytesOrigin.Length);
+
             //expected
-            //Assert.IsTrue(image.Length == bytesOrigin.Length); //--FAILS--
             //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
             //real
             Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
-            Assert.IsTrue(imageBytes.Length > bytesOrigin.Length);//idk why, gotta read up on streams
         }
 
         [TestMethod]

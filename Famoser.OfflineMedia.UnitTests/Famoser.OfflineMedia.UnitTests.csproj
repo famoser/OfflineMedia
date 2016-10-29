@@ -16,8 +16,10 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Famoser.OfflineMedia.UnitTests_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>
+    </PackageCertificateKeyFile>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">14.0</UnitTestPlatformVersion>
+    <PackageCertificateThumbprint>2042EBA0F027A933188FD3BB97D56213B036B6A4</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -111,6 +113,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="project.json" />
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
+    </SDKReference>
     <SDKReference Include="MSTestFramework.Universal, Version=$(UnitTestPlatformVersion)" />
     <SDKReference Include="SQLite.UWP.2015, Version=3.13.0">
       <Name>SQLite for Universal Windows Platform</Name>
@@ -132,12 +140,13 @@
     <Compile Include="Helpers\IocHelper.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Models\LogEntry.cs" />
+    <Compile Include="Local\PermissionService.cs" />
     <Compile Include="Local\PlatformCodeService.cs" />
+    <Compile Include="Local\ProgressionService.cs" />
     <Compile Include="Presentation\ConfigurationTests.cs" />
     <Compile Include="Presentation\ImageResizeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Mocks\HistoryNavigationServiceMock.cs" />
-    <Compile Include="Services\Mocks\PlatformCodeServiceMock.cs" />
     <Compile Include="Services\Mocks\SqliteServiceSettingsProvider.cs" />
     <Compile Include="Services\Mocks\StorageServiceMock.cs" />
     <Compile Include="UnitTestApp.xaml.cs">
@@ -154,7 +163,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Famoser.OfflineMedia.UnitTests_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Tests\image-1028227-hppano-lqbn.jpg" />

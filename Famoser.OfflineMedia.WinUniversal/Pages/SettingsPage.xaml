@@ -29,7 +29,7 @@
                 <PivotItem.Content>
                     <ScrollViewer Style="{StaticResource FamoserScrollViewer}" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Background="{ThemeResource TextBackground}">
-                            <!--<settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />-->
+                            <settingsPage:SourceSettings Margin="0,0,0,10" DataContext="{Binding }" />
                             <Border Style="{StaticResource FamoserSpacer}" />
                             <TextBlock Style="{ThemeResource FamoserDefaultTextBoxDescriptionTextBlock}" Text="Einstellung bei normaler Verbindung" />
                             <CheckBox IsChecked="{Binding NormalDownloadImages, Mode=TwoWay}" Margin="10,0" Content="Bilder herunterladen (hoher Datenverbrauch)" />

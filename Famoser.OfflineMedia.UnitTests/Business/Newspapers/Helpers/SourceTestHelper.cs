@@ -26,8 +26,8 @@ namespace Famoser.OfflineMedia.UnitTests.Business.Newspapers.Helpers
                 foreach (var feed in source.Feeds)
                 {
                     source.ActiveFeeds.Add(feed);
+                    feed.Source = source;
                 }
-                res.Add(source);
             }
             return res;
         }

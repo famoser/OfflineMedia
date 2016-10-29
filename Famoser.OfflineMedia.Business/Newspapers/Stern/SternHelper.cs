@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Famoser.FrameworkEssentials.Logging;
 using Famoser.OfflineMedia.Business.Helpers.Text;
 using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Business.Models.NewsModel;
@@ -169,16 +170,18 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Stern
                 }
                 catch (Exception ex)
                 {
-                    articleModel.Content.Add(new TextContentModel()
-                    {
-                        Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>Content cannot be displayed (invalid json content)</p>")
-                    });
-                    articleModel.Author = "Stern";
-
-                    await AddThemesAsync(articleModel);
-
-                    return true;
+                    //fallback below
+                    LogHelper.Instance.LogException(ex);
                 }
+                articleModel.Content.Add(new TextContentModel()
+                {
+                    Content = HtmlConverter.CreateOnce(articleModel.Feed.Source.PublicBaseUrl).HtmlToParagraph("<p>Content cannot be displayed (invalid json content)</p>")
+                });
+                articleModel.Author = "Stern";
+
+                await AddThemesAsync(articleModel);
+
+                return true;
             });
         }
 

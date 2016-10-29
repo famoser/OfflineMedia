@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Famoser.OfflineMedia.Business.Models;
 using Famoser.OfflineMedia.Data.Entities.Storage.Sources;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
         
         private void button1_Click(object sender, EventArgs e)
         {
-            var sourceModel = JsonConvert.DeserializeObject<List<SourceEntity>>(jsonInput.Text);
+            var sourceModel = JsonConvert.DeserializeObject<List<SourceModel>>(jsonInput.Text);
 
             foreach (var sourceConfigurationModel in sourceModel)
             {
@@ -44,7 +45,7 @@ namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
                         var a = menuItem.Descendants("a").FirstOrDefault();
                         if (a != null)
                         {
-                            var feedModel = new FeedEntity()
+                            var feedModel = new FeedModel()
                             {
                                 Url = sourceConfigurationModel.LogicBaseUrl + "api" + a.GetAttributeValue("href", null),
                                 Name = a.InnerText,

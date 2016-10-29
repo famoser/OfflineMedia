@@ -11,7 +11,7 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
     /// <summary>
     /// Not completely thread safe implementation of a logger, but enough for unit tests
     /// </summary>
-    public class Logger : IDisposable
+    public sealed class Logger : IDisposable
     {
         private readonly string _identifier;
         public Logger(string identifier)
@@ -105,12 +105,25 @@ namespace Famoser.OfflineMedia.UnitTests.Helpers
             File.WriteAllLines(Path.Combine(folder, baseFileName + "_faillures (" + faillures.Count + ").txt"), faillures);
         }
 
+        private bool _isDisposed;
+        private void Dispose(bool dispose)
+        {
+            if (!_isDisposed)
+            {
+                if (dispose)
+                {
+                    _safeLogs = _logs;
+                    _hasEntryWithFaillure = _hasEntryWithFaillure || HasEntryWithFaillure();
+                    _logs = new ConcurrentBag<LogEntry>();
+                    SafeLog(false);
+                }
+            }
+            _isDisposed = true;
+        }
+
         public void Dispose()
         {
-            _safeLogs = _logs;
-            _hasEntryWithFaillure = _hasEntryWithFaillure || HasEntryWithFaillure();
-            _logs = new ConcurrentBag<LogEntry>();
-            SafeLog(false);
+            Dispose(true);
         }
     }
 }
