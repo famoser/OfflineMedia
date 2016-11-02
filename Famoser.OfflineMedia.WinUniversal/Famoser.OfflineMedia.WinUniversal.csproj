@@ -16,13 +16,12 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Famoser.OfflineMedia.WinUniversal_StoreKey.pfx</PackageCertificateKeyFile>
     <HockeyAppResourceId>5ff8abc27bf546b69adc0a9e0dfec12c</HockeyAppResourceId>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>2042EBA0F027A933188FD3BB97D56213B036B6A4</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>33EBA8F45E4936B8070C8864E93A8E1553016532</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -111,6 +110,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Fonts\owfont-regular.ttf" />
+    <None Include="Famoser.OfflineMedia.WinUniversal_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
