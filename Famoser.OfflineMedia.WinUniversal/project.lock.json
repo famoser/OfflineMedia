@@ -11,7 +11,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -2183,12 +2183,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -2201,7 +2206,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -4453,12 +4458,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -4471,7 +4481,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -6762,12 +6772,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -6780,7 +6795,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -9041,12 +9056,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -9059,7 +9079,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -11359,12 +11379,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -11377,7 +11402,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -13638,12 +13663,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     },
@@ -13656,7 +13686,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "Famoser.FrameworkEssentials/2.7.5": {
+      "Famoser.FrameworkEssentials/2.7.6": {
         "compile": {
           "lib/dotnet/Famoser.FrameworkEssentials.dll": {}
         },
@@ -15956,12 +15986,17 @@
           "lib/uap10.0/AppStudio.Uwp.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/2.0.0": {
+      "WinRTXamlToolkit/2.3.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
         "runtime": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
+        }
+      },
+      "WinRTXamlToolkit.UWP/2.3.0": {
+        "dependencies": {
+          "WinRTXamlToolkit": "2.3.0"
         }
       }
     }
@@ -15978,11 +16013,11 @@
         "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.pdb"
       ]
     },
-    "Famoser.FrameworkEssentials/2.7.5": {
-      "sha512": "DXeMtCBdH2V0ZHCTZvo+Y7f9uKkdYqctuj0AGk8zrv1NkiDi+umAT8TVb7Rd2wlbF88TVqBZfBehoKGOhD968w==",
+    "Famoser.FrameworkEssentials/2.7.6": {
+      "sha512": "DOl6w1T44Iytw+0FYnyjSuTijDgkJvDExJlcmBlyw5bJ2RaO7C9fIiTiAWHVAlB8U49RcE4cW3n9yu8KY3LkHQ==",
       "type": "package",
       "files": [
-        "Famoser.FrameworkEssentials.2.7.5.nupkg.sha512",
+        "Famoser.FrameworkEssentials.2.7.6.nupkg.sha512",
         "Famoser.FrameworkEssentials.nuspec",
         "lib/Famoser.FrameworkEssentials.dll",
         "lib/dotnet/Famoser.FrameworkEssentials.dll",
@@ -22363,12 +22398,12 @@
         "lib/uap10.0/AppStudio.Uwp/Themes/Generic.xbf"
       ]
     },
-    "WinRTXamlToolkit.UWP/2.0.0": {
-      "sha512": "aO7uISAWUNJojXOf36YpruZz1YPIC8l/vH5q5diPNaRpR8VuYRCOMw3tHq8VzaGj64w/a22bwVSon5elHAsj4Q==",
+    "WinRTXamlToolkit/2.3.0": {
+      "sha512": "xwc0GmuZlbwrCFhBcsEjTzURsRQ+d0wI8N+qPOIY+dpJuT31hRtaxo6zNINCDaSbM7/9KdYIESWdMqC4VE/NyQ==",
       "type": "package",
       "files": [
-        "WinRTXamlToolkit.UWP.2.0.0.nupkg.sha512",
-        "WinRTXamlToolkit.UWP.nuspec",
+        "WinRTXamlToolkit.2.3.0.nupkg.sha512",
+        "WinRTXamlToolkit.nuspec",
         "lib/uap10.0/WinRTXamlToolkit.dll",
         "lib/uap10.0/WinRTXamlToolkit.pri",
         "lib/uap10.0/WinRTXamlToolkit/Async/_._",
@@ -22451,7 +22486,7 @@
         "lib/uap10.0/WinRTXamlToolkit/Interactivity/_._",
         "lib/uap10.0/WinRTXamlToolkit/Licensing/_._",
         "lib/uap10.0/WinRTXamlToolkit/Net/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Properties/WinRTXamlToolkit.UWP.rd.xml",
+        "lib/uap10.0/WinRTXamlToolkit/Properties/WinRTXamlToolkit.rd.xml",
         "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xaml",
         "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xbf",
         "lib/uap10.0/WinRTXamlToolkit/Tools/_._",
@@ -22834,11 +22869,19 @@
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Themes/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/intermediatexaml/_._"
       ]
+    },
+    "WinRTXamlToolkit.UWP/2.3.0": {
+      "sha512": "eXm0xK37hHhF2PzYRenCrvaPKrM/gfu3ODMVe7EH4rNyzQwkwDnue6hY0smd2hiC9ZwNeLTgPzT1A0mdcJkTMA==",
+      "type": "package",
+      "files": [
+        "WinRTXamlToolkit.UWP.2.3.0.nupkg.sha512",
+        "WinRTXamlToolkit.UWP.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Famoser.FrameworkEssentials >= 2.7.5",
+      "Famoser.FrameworkEssentials >= 2.7.6",
       "Famoser.FrameworkEssentials.UniversalWindows >= 1.2.1",
       "Famoser.FrameworkEssentials.View >= 1.3.1",
       "Famoser.SqliteWrapper >= 1.1.5",
@@ -22848,7 +22891,7 @@
       "MvvmLight >= 5.3.0",
       "Newtonsoft.Json >= 9.0.1",
       "SQLite.Net-PCL >= 3.1.1",
-      "WinRTXamlToolkit.UWP >= 2.0.0",
+      "WinRTXamlToolkit.UWP >= 2.3.0",
       "WindowsAppStudio.Uwp >= 1.5.3"
     ],
     "UAP,Version=v10.0": []
