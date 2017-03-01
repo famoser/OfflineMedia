@@ -400,8 +400,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Famoser.FrameworkEssentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Famoser.FrameworkEssentials.2.7.5\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Famoser.FrameworkEssentials.2.7.6\lib\portable-net45+win8+wpa81+wp8\Famoser.FrameworkEssentials.dll</HintPath>
     </Reference>
     <Reference Include="Famoser.SqliteWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Famoser.SqliteWrapper.1.1.5\lib\portable-net45+win8+wpa81+wp8\Famoser.SqliteWrapper.dll</HintPath>
