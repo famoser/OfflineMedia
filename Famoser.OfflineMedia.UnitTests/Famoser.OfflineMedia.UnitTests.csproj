@@ -165,7 +165,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Tests\image-1028227-hppano-lqbn.jpg" />
+    <Content Include="Assets\Tests\untitled.png" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

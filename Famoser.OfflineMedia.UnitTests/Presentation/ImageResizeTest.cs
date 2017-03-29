@@ -16,66 +16,23 @@ namespace Famoser.OfflineMedia.UnitTests.Presentation
         {
             //arrange
             var service = new HttpService();
-            var imageResponse = await service.DownloadAsync(new Uri("http://www.spiegel.de/images/image-1028227-hppano-lqbn.jpg"));
+            var imageResponse = await service.DownloadAsync(new Uri(TestImage));
             var image = await imageResponse.GetResponseAsByteArrayAsync();
 
             var ps = new PlatformCodeService();
             //act
             //resize
-            var byteSmall = await ps.DownloadResizeImage(new Uri("http://www.spiegel.de/images/image-1028227-hppano-lqbn.jpg"), 200, 200);
+            var byteSmall = await ps.DownloadResizeImage(new Uri(TestImage), 200, 200);
             //do not resize
-            var bytesOrigin = await ps.DownloadResizeImage(new Uri("http://www.spiegel.de/images/image-1028227-hppano-lqbn.jpg"), 10000, 10000);
+            var bytesOrigin = await ps.DownloadResizeImage(new Uri(TestImage), 10000, 10000);
 
             //assert
             Assert.IsTrue(image.Length == bytesOrigin.Length);
 
             //expected
-            //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
-            //real
-            Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
+            Assert.IsTrue(image.Length > byteSmall.Length);
         }
 
-        private const string TestFile = "image-1028227-hppano-lqbn.jpg";
-        [TestMethod]
-        public async Task ReadAndConvertImage()
-        {
-            //arrange
-            var ss = new StorageService();
-            var imageBytes = await ss.GetAssetFileAsync("Assets/Tests/" + TestFile);
-            var stream = new MemoryStream(imageBytes);
-
-            var ps = new PlatformCodeService();
-
-            //act
-            //do not resize
-            var bytesOrigin = await ps.ResizeImageAsync(stream, 10000, 10000);
-            //resize
-            var byteSmall = await ps.ResizeImageAsync(stream, 200, 200);
-
-            //assert
-            Assert.IsTrue(stream.Length == bytesOrigin.Length);
-
-            //expected
-            //Assert.IsTrue(image.Length > byteSmall.Length); //--FAILS--
-            //real
-            Assert.IsNull(byteSmall); //because of the exception occured in FlushAsync
-        }
-
-        [TestMethod]
-        public async Task DownloadOrReadImage()
-        {
-            //arrange
-            var ss = new StorageService();
-            var service = new HttpService();
-
-            //act
-            var imageBytes = await ss.GetAssetFileAsync("Assets/Tests/" + TestFile);
-            var imageResponse = await service.DownloadAsync(new Uri("http://www.spiegel.de/images/image-1028227-hppano-lqbn.jpg"));
-            var imageBytes2 = await imageResponse.GetResponseAsByteArrayAsync();
-
-            //assert
-            //expected
-            Assert.IsTrue(imageBytes2.Length == imageBytes.Length);
-        }
+        private const string TestImage = "http://cdn3.spiegel.de/images/image-1123606-860_poster_16x9-lxpq-1123606.jpg";
     }
 }
