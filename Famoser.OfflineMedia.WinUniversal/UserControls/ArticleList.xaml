@@ -34,7 +34,6 @@
                     <TextBlock Grid.Row="1" TextTrimming="WordEllipsis" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
                 </Grid>
             </Grid>
-
         </DataTemplate>
     </UserControl.Resources>
 

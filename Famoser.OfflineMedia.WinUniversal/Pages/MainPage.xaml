@@ -43,7 +43,7 @@
             <Pivot.ItemTemplate>
                 <DataTemplate>
                     <Grid Style="{StaticResource PivotContentStyle}">
-                        <userControls:FeedList DataContext="{Binding }" />
+                        <userControls:FeedList Margin="5,0,8,0" DataContext="{Binding }" />
                     </Grid>
                 </DataTemplate>
             </Pivot.ItemTemplate>

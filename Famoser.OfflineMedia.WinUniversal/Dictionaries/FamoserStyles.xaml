@@ -60,10 +60,9 @@
     </Style>
 
     <Style x:Key="FamoserBigHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">
-        <Setter Property="FontSize" Value="70" />
-        <Setter Property="LineHeight" Value="56" />
+        <Setter Property="FontSize" Value="40" />
         <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="Margin" Value="0,0,0,-22" />
+        <Setter Property="Margin" Value="5" />
     </Style>
 
     <Style x:Key="FamoserSubHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource FamoserTextBlock}">

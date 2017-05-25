@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="Dictionaries/Converters.xaml" />
                 <ResourceDictionary Source="Dictionaries/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Color x:Key="TextBackgroundColor">#FFFFFF</Color>
+            <Color x:Key="TextBackgroundColor">#FBFBFB</Color>
             <Thickness x:Key="PivotItemMargin">0</Thickness>
 
             <SolidColorBrush x:Key="TextBackground" Color="{ThemeResource TextBackgroundColor}" />

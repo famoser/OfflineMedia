@@ -53,7 +53,7 @@ namespace Famoser.OfflineMedia.WinUniversal.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IHistoryNavigationService, HistoryNavigationServiceMock>();
-                SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeService>();
+                SimpleIoc.Default.Register<IPlatformCodeService, PlatformCodeServiceMock>();
             }
             else
             {
