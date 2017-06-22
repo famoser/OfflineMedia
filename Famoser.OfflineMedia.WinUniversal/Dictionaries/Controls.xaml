@@ -7,7 +7,7 @@
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="IsItemClickEnabled" Value="True" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource Background}"/>
     </Style>
 
     <Style TargetType="ListView" x:Key="FeedListViewStyle">
@@ -283,7 +283,7 @@
                                           VerticalScrollMode="Disabled"
                                           VerticalContentAlignment="Stretch"
                                           ZoomMode="Disabled"
-                                          Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                                          Background="{ThemeResource Background}">
                                 <PivotPanel x:Name="Panel"
                                             VerticalAlignment="Stretch">
                                     <Grid x:Name="PivotLayoutElement">
@@ -377,11 +377,11 @@
     </Style>
 
     <Style TargetType="Pivot" x:Key="PivotStyle" BasedOn="{StaticResource FamoserPivot}">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource Background}" />
     </Style>
 
     <Style TargetType="Grid" x:Key="PivotContentStyle">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource Background}" />
     </Style>
 
     <Style TargetType="ItemsWrapGrid" x:Key="ItemsWrapGrid" >
@@ -410,12 +410,12 @@
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewArticleStyle">
         <Setter Property="DesiredWidth" Value="320" />
-        <Setter Property="ItemHeight" Value="140" />
+        <Setter Property="ItemHeight" Value="250" />
     </Style>
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewFeedStyle">
         <Setter Property="DesiredWidth" Value="800" />
-        <Setter Property="ItemHeight" Value="640" />
+        <Setter Property="ItemHeight" Value="1080" />
     </Style>
 
 </ResourceDictionary>

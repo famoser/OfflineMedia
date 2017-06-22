@@ -10,7 +10,7 @@
     </Style>
 
     <Style x:Key="FamoserAccentScrollViewer" TargetType="ScrollViewer" BasedOn="{StaticResource FamoserScrollViewer}">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource Background}" />
     </Style>
   
     

@@ -19,15 +19,15 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Style="{StaticResource RootGrid}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="0,0,0,10">
-        <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" VerticalAlignment="Top" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
+    <Grid Style="{StaticResource RootGrid}" Background="{ThemeResource Background}" Margin="0,0,0,10">
+        <TextBlock Text="{Binding Feed.Name, Mode=OneWay}" VerticalAlignment="Top" Foreground="{ThemeResource TextForeground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
         <ScrollViewer x:Name="FeedScrollViewer" Style="{StaticResource FamoserScrollViewer}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="1" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                <Grid Grid.Row="1" Background="{ThemeResource Background}">
                     <userControls:ArticleList Margin="5,0,8,0" DataContext="{Binding Feed.AllArticles}" />
                 </Grid>
             </Grid>

@@ -12,8 +12,11 @@
     <UserControl.Resources>
         <DataTemplate x:Key="FeedDataTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Name, Mode=OneWay}" Foreground="{ThemeResource TextBackground}" Style="{ThemeResource FamoserBigHeaderTextBlock}"  />
-                <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                <TextBlock Margin="0,0,0,0" Foreground="{ThemeResource TextForeground}" Style="{ThemeResource FamoserBigHeaderTextBlock}" >
+                    <Run Text="{Binding Name, Mode=OneWay}" />
+                </TextBlock>
+                <Border BorderBrush="{ThemeResource TextForeground}" BorderThickness="0,2,0,0" Width="80" HorizontalAlignment="Left" Margin="0"></Border>
+                <Grid Margin="0,5,0,0" Background="{ThemeResource Background}">
                     <userControls:ArticleList DataContext="{Binding ActiveArticles}" />
                 </Grid>
             </StackPanel>

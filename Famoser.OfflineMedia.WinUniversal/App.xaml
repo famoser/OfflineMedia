@@ -15,11 +15,13 @@
                 <ResourceDictionary Source="Dictionaries/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Color x:Key="TextBackgroundColor">#FBFBFB</Color>
+            <Color x:Key="BackgroundColor">#EFEFEF</Color>
             <Thickness x:Key="PivotItemMargin">0</Thickness>
 
             <SolidColorBrush x:Key="TextBackground" Color="{ThemeResource TextBackgroundColor}" />
             <SolidColorBrush x:Key="TextForeground" Color="#1C1C1C" />
             <SolidColorBrush x:Key="PivotHeaderBackground" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="Background" Color="{ThemeResource BackgroundColor}" />
 
             <!--<SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#CDFFFFFF" />-->
@@ -31,7 +33,7 @@
             <Style x:Key="FamoserPivotHeader" TargetType="ContentControl">
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontWeight" Value="ExtraLight" />
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+                <Setter Property="Background" Value="{ThemeResource Background}" />
             </Style>
 
             <Style x:Key="RootGrid" TargetType="Grid">

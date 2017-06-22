@@ -10,11 +10,11 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ArticleDataTemplate">
-            <Grid Background="{ThemeResource TextBackground}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
+            <Grid Margin="0,0,0,5" Background="{ThemeResource TextBackground}" Opacity="{Binding IsRead, Converter={StaticResource IsReadConverter}}">
                 <Grid VerticalAlignment="Top" Visibility="{Binding LeadImage, Converter={StaticResource ByteToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Image VerticalAlignment="Stretch" Stretch="UniformToFill" Source="{Binding LeadImage.Image, Converter={StaticResource ByteToBitmapConverter}}" />
                     <TextBlock Grid.Row="1" VerticalAlignment="Center" FontSize="16" LineHeight="20" Style="{StaticResource FamoserArticleTextBlock}" TextTrimming="WordEllipsis" MaxLines="3" >
@@ -22,16 +22,20 @@
                         <Run Text="{Binding SubTitle}" />
                     </TextBlock>
                 </Grid>
-                <Grid VerticalAlignment="Top" Visibility="{Binding LeadImage, Converter={StaticResource ByteToVisibilityConverter}, ConverterParameter=invert}">
+                <Grid VerticalAlignment="Stretch" Visibility="{Binding LeadImage, Converter={StaticResource ByteToVisibilityConverter}, ConverterParameter=invert}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Style="{StaticResource FamoserArticleTextBlock}" TextTrimming="WordEllipsis" MaxLines="3" >
-                        <Bold><Run Text="{Binding Title}" /></Bold>
+                    <TextBlock Grid.Row="1" Style="{StaticResource FamoserBigArticleTextBlock}" TextTrimming="WordEllipsis">
+                        <Bold>
+                            <Run Text="{Binding Title}" />
+                        </Bold>
                         <Run Text="{Binding SubTitle}" />
                     </TextBlock>
-                    <TextBlock Grid.Row="1" TextTrimming="WordEllipsis" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
+                    <TextBlock Grid.Row="2" TextTrimming="WordEllipsis" Visibility="{Binding Teaser, Converter={StaticResource ReferenceToVisibilityConverter}}" Style="{StaticResource FamoserBodyTextBlock}" Text="{Binding Teaser}" />
                 </Grid>
             </Grid>
         </DataTemplate>
