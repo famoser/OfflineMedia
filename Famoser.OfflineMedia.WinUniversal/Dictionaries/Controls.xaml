@@ -415,7 +415,7 @@
 
     <Style TargetType="controls:ResponsiveGridView" x:Key="ResponsiveGridViewFeedStyle">
         <Setter Property="DesiredWidth" Value="800" />
-        <Setter Property="ItemHeight" Value="1080" />
+        <Setter Property="ItemHeight" Value="1075" />
     </Style>
 
 </ResourceDictionary>
