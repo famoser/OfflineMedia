@@ -150,6 +150,10 @@ namespace Famoser.OfflineMedia.WinUniversal.DisplayHelper.DependecyProperties
 
         private static Span RenderTextContent(TextModel text)
         {
+            if (string.IsNullOrEmpty(text?.Text))
+            {
+                return null;
+            }
             if (text.TextType == TextType.Bold)
             {
                 var span = new Bold();
