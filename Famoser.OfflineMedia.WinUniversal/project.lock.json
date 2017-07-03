@@ -71,7 +71,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -2710,7 +2710,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -5379,7 +5379,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -8087,7 +8087,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -10765,7 +10765,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -13482,7 +13482,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -16160,7 +16160,7 @@
           "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll": {}
         }
       },
-      "HtmlAgilityPack/1.4.9.5": {
+      "HtmlAgilityPack/1.5.0": {
         "type": "package",
         "compile": {
           "lib/NetCore45/HtmlAgilityPack.dll": {}
@@ -18880,14 +18880,13 @@
         "lib/uap10.0/Famoser.Telemetry.UniversalWindows.dll"
       ]
     },
-    "HtmlAgilityPack/1.4.9.5": {
-      "sha512": "iKBDxJHESRCIRbmgLKVkNM86LIX52jf6wsVQdbSsLpPUG9oSnAD1Pz8IHjJT+dQ3TWJEu4WYZvbdlixdmWKMVw==",
+    "HtmlAgilityPack/1.5.0": {
+      "sha512": "vuU4JyMdZJ5l/oepOIZIsd4AYy7grMUb1sygS5VkI2IHCmov9dPgGI1i6wB5ko2SSqnlP2m2KSEgHrrbVLrr3g==",
       "type": "package",
-      "path": "htmlagilitypack/1.4.9.5",
+      "path": "htmlagilitypack/1.5.0",
       "files": [
-        "HAPIcon.png",
-        "HtmlAgilityPack.1.4.9.5.nupkg.sha512",
-        "HtmlAgilityPack.nuspec",
+        "htmlagilitypack.1.5.0.nupkg.sha512",
+        "htmlagilitypack.nuspec",
         "lib/Net20/HtmlAgilityPack.dll",
         "lib/Net20/HtmlAgilityPack.pdb",
         "lib/Net20/HtmlAgilityPack.xml",
@@ -18904,6 +18903,10 @@
         "lib/NetCore45/HtmlAgilityPack.pdb",
         "lib/NetCore45/HtmlAgilityPack.pri",
         "lib/NetCore45/HtmlAgilityPack.xml",
+        "lib/netstandard1.3/HtmlAgilityPack.dll",
+        "lib/netstandard1.3/HtmlAgilityPack.pdb",
+        "lib/netstandard1.6/HtmlAgilityPack.dll",
+        "lib/netstandard1.6/HtmlAgilityPack.pdb",
         "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
         "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
@@ -28414,7 +28417,7 @@
       "Famoser.FrameworkEssentials.View >= 1.3.1",
       "Famoser.SqliteWrapper >= 1.1.5",
       "Famoser.Telemetry.UniversalWindows >= 1.0.0",
-      "HtmlAgilityPack >= 1.4.9.5",
+      "HtmlAgilityPack >= 1.5.0",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.3.3",
       "MvvmLight >= 5.3.0",
       "Newtonsoft.Json >= 10.0.3",
@@ -28456,7 +28459,7 @@
       "Famoser.FrameworkEssentials.View": "1.3.1",
       "Famoser.SqliteWrapper": "1.1.5",
       "Famoser.Telemetry.UniversalWindows": "1.0.0",
-      "HtmlAgilityPack": "1.4.9.5",
+      "HtmlAgilityPack": "1.5.0",
       "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
       "MvvmLight": "5.3.0",
       "Newtonsoft.Json": "10.0.3",
