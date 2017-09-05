@@ -163,30 +163,34 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Tamedia
                 if (feed == null) return articlelist;
 
                 Feed f = JsonConvert.DeserializeObject<Feed>(feed);
-                if (f.category != null && f.category.page_elements != null)
-                    foreach (var page in f.category.page_elements)
-                    {
-                        foreach (var article in page.articles)
-                        {
-                            var am = FeedToArticleModel(article, feedModel);
-                            if (am != null)
-                                articlelist.Add(am);
-                        }
-                    }
-                if (f.list != null && f.list.page_elements != null)
-                    foreach (var page in f.list.page_elements)
-                    {
-                        foreach (var article in page.articles)
-                        {
-                            var am = FeedToArticleModel(article, feedModel);
-                            if (am != null)
-                                articlelist.Add(am);
-                        }
-                    }
-
+                EvaluateFeed(f?.category?.page_elements, feedModel, articlelist);
+                EvaluateFeed(f?.list?.page_elements, feedModel, articlelist);
+                
                 return articlelist;
-
             });
+        }
+
+        private void EvaluateFeed(List<PageElement> pageElements, FeedModel feedModel, List<ArticleModel> articleList)
+        {
+            if (pageElements == null)
+            {
+                return;
+            }
+            foreach (var page in pageElements)
+            {
+                if (page.articles != null)
+                {
+                    foreach (var article in page.articles)
+                    {
+                        var am = FeedToArticleModel(article, feedModel);
+                        if (am != null)
+                        {
+                            articleList.Add(am);
+                        }
+                    }
+                }
+            }
+
         }
 
         public override Task<bool> EvaluateArticle(ArticleModel articleModel)
