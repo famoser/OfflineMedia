@@ -21,69 +21,14 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
         public Form1()
         {
             InitializeComponent();
-            //fix to use IE 11
-            TryConfigureWebControl();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
             var sourceModels = JsonConvert.DeserializeObject<List<SourceModel>>(inputTextBox.Text);
-
-
             EvaluateSources(new Stack<SourceModel>(sourceModels), new Queue<SourceModel>());
-
         }
-
-
-        private static void TryConfigureWebControl()
-        {
-            var appName = Process.GetCurrentProcess().ProcessName + ".exe";
-            var ieval = 11000;
-
-            RegistryKey regKey = null;
-            try
-            {
-                regKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
-
-                //If the path is not correct or 
-                //If user't have priviledges to access registry 
-                if (regKey == null)
-                {
-                    throw new Exception("failed setting WebControl to IE11");
-                }
-
-                string findAppKey = Convert.ToString(regKey.GetValue(appName));
-
-                //Check if key is already present 
-                if (findAppKey == "" + ieval)
-                {
-                    //already set
-                    return;
-                }
-
-                //If key is not present or different from desired, add/modify the key , key value 
-                regKey.SetValue(appName, ieval, RegistryValueKind.DWord);
-
-                //check for the key after adding 
-                findAppKey = Convert.ToString(regKey.GetValue(appName));
-
-                if (findAppKey == "" + ieval)
-                {
-                    throw new Exception("please restart the application; all is fine :) (set the WebControl to IE11)");
-                }
-                throw new Exception("failed setting WebControl to IE11; current value is  " + ieval);
-            }
-            catch (Exception ex)
-            {
-                //throw new Exception("failed setting WebControl to IE11: " + ex.ToString());
-            }
-            finally
-            {
-                //Close the Registry 
-                regKey?.Close();
-            }
-        }
-
+        
 
         private void EvaluateSources(Stack<SourceModel> input, Queue<SourceModel> output)
         {
@@ -97,9 +42,17 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
             output.Enqueue(first);
 
             //browser.Navigate(new Uri(first.LogicBaseUrl));
-            browser.Navigate(new Uri("http://webdbg.com/ua.aspx"));
-            browser.DocumentCompleted += delegate
+            browser.ScriptErrorsSuppressed = true;
+            var text = browser.DocumentText;
+            //the text does not contain the rendered html, only the retrieved one!
+            browser.Navigate(new Uri(first.LogicBaseUrl));
+
+            browser.DocumentTitleChanged += delegate
             {
+                if (!browser.DocumentText.Contains("leftMenu"))
+                {
+                    return;
+                }
                 RefreshLinks(browser.DocumentText, first);
                 EvaluateSources(input, output);
             };

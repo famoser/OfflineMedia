@@ -91,8 +91,10 @@
             this.browser.Location = new System.Drawing.Point(13, 548);
             this.browser.MinimumSize = new System.Drawing.Size(20, 20);
             this.browser.Name = "browser";
+            this.browser.ScriptErrorsSuppressed = true;
             this.browser.Size = new System.Drawing.Size(932, 250);
             this.browser.TabIndex = 12;
+            this.browser.Url = new System.Uri("http://google.com", System.UriKind.Absolute);
             // 
             // Form1
             // 
