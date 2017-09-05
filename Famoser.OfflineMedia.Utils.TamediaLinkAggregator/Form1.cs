@@ -58,5 +58,15 @@ namespace Famoser.OfflineMedia.Utils.TamediaLinkAggregator
             }
             jsonOutput.Text = JsonConvert.SerializeObject(sourceModel, Formatting.Indented);
         }
+
+        private void jsonOutput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void resultJson_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

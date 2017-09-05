@@ -40,17 +40,19 @@
             // 
             // jsonInput
             // 
-            this.jsonInput.Location = new System.Drawing.Point(12, 31);
+            this.jsonInput.Location = new System.Drawing.Point(16, 38);
+            this.jsonInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.jsonInput.Name = "jsonInput";
-            this.jsonInput.Size = new System.Drawing.Size(338, 160);
+            this.jsonInput.Size = new System.Drawing.Size(449, 196);
             this.jsonInput.TabIndex = 0;
             this.jsonInput.Text = resources.GetString("jsonInput.Text");
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(356, 189);
+            this.button1.Location = new System.Drawing.Point(475, 233);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 45);
+            this.button1.Size = new System.Drawing.Size(100, 55);
             this.button1.TabIndex = 1;
             this.button1.Text = "generate JSON";
             this.button1.UseVisualStyleBackColor = true;
@@ -58,52 +60,59 @@
             // 
             // jsonOutput
             // 
-            this.jsonOutput.Location = new System.Drawing.Point(437, 31);
+            this.jsonOutput.Location = new System.Drawing.Point(583, 38);
+            this.jsonOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.jsonOutput.Name = "jsonOutput";
-            this.jsonOutput.Size = new System.Drawing.Size(436, 415);
+            this.jsonOutput.Size = new System.Drawing.Size(580, 510);
             this.jsonOutput.TabIndex = 2;
             this.jsonOutput.Text = "";
+            this.jsonOutput.TextChanged += new System.EventHandler(this.jsonOutput_TextChanged);
             // 
             // json
             // 
             this.json.AutoSize = true;
-            this.json.Location = new System.Drawing.Point(12, 15);
+            this.json.Location = new System.Drawing.Point(16, 18);
+            this.json.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.json.Name = "json";
-            this.json.Size = new System.Drawing.Size(26, 13);
+            this.json.Size = new System.Drawing.Size(34, 17);
             this.json.TabIndex = 5;
             this.json.Text = "json";
             // 
             // resultJson
             // 
             this.resultJson.AutoSize = true;
-            this.resultJson.Location = new System.Drawing.Point(435, 15);
+            this.resultJson.Location = new System.Drawing.Point(580, 18);
+            this.resultJson.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.resultJson.Name = "resultJson";
-            this.resultJson.Size = new System.Drawing.Size(61, 13);
+            this.resultJson.Size = new System.Drawing.Size(81, 17);
             this.resultJson.TabIndex = 6;
             this.resultJson.Text = "json Output";
+            this.resultJson.Click += new System.EventHandler(this.resultJson_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 205);
+            this.label1.Location = new System.Drawing.Point(12, 252);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.Size = new System.Drawing.Size(34, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = "html";
             // 
             // htmlInput
             // 
-            this.htmlInput.Location = new System.Drawing.Point(12, 221);
+            this.htmlInput.Location = new System.Drawing.Point(16, 272);
+            this.htmlInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.htmlInput.Name = "htmlInput";
-            this.htmlInput.Size = new System.Drawing.Size(338, 225);
+            this.htmlInput.Size = new System.Drawing.Size(449, 276);
             this.htmlInput.TabIndex = 7;
             this.htmlInput.Text = "";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(885, 455);
+            this.ClientSize = new System.Drawing.Size(1180, 560);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.htmlInput);
             this.Controls.Add(this.resultJson);
@@ -111,6 +120,7 @@
             this.Controls.Add(this.jsonOutput);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.jsonInput);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
