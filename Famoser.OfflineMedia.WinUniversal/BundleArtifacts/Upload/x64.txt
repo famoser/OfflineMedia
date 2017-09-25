@@ -1,2 +1,2 @@
-MainPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\x64\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.3.24.0_x64.appx
-SymbolPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\x64\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.3.24.0\Famoser.OfflineMedia.WinUniversal_2017.3.24.0_x64.appxsym
+MainPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\x64\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.4.25.0_x64.appx
+SymbolPackage=D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\x64\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.4.25.0\Famoser.OfflineMedia.WinUniversal_2017.4.25.0_x64.appxsym
