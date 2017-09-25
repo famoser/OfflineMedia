@@ -30,7 +30,8 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
                 var feed = await DownloadAsync(feedModel);
 
                 var articlelist = new List<ArticleModel>();
-                if (feed == null) return articlelist;
+                if (feed == null)
+                    return articlelist;
 
                 feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
                 feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
@@ -59,7 +60,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit
             try
             {
                 var hrefPattern = "[^\"]";
-                var clusters = XmlHelper.GetNodes(xml, "reference");
+                var clusters = XmlHelper.GetNodes(xml, "block");
                 if (!clusters.Any())
                     return false;
 

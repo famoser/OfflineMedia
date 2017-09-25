@@ -6,6 +6,13 @@
         ZwanzigMin = 2,
         Blick = 3,
         BlickAmAbend = 4,
+        Postillon = 5,
+        Stern = 6,
+        Spiegel = 7,
+        Zeit = 8,
+        Bild = 9,
+        Welt = 10,
+        //tamedia MUST be between 20 and 40
         BaslerZeitung = 20,
         BernerZeitung = 21,
         DerBund = 22,
@@ -18,12 +25,6 @@
         ZuericherUnterlaender = 29,
         BernerOeberlaender = 30,
         ThunerTagblatt = 31,
-        LangenthalerTagblatt = 32,
-        Postillon = 5,
-        Stern = 6,
-        Spiegel = 7,
-        Zeit = 8,
-        Bild = 9,
-        Welt = 10
+        LangenthalerTagblatt = 32
     }
 }

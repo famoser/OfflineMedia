@@ -278,11 +278,6 @@
     "PublicBaseUrl": "http://bazonline.ch/",
     "Feeds": [
       {
-        "Guid": "48258d7f-f297-40a3-84f5-873b1ec4abb7",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
         "Guid": "8d3f5780-f3db-4f45-ab5c-8d565901c9d4",
         "Name": "Basel",
         "Url": "categories/551a653aab5c37387f000efc"
@@ -303,14 +298,14 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "9c54e40b-243b-4e16-98af-b1f7f91772f6",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
-      },
-      {
         "Guid": "59265058-f2a5-43d6-a016-9229a044598d",
         "Name": "Kultur",
         "Url": "categories/551a6538ab5c37387f000ebc"
+      },
+      {
+        "Guid": "9c54e40b-243b-4e16-98af-b1f7f91772f6",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
       },
       {
         "Guid": "3cb48f8f-08ec-440b-9697-9cf41703c25e",
@@ -323,14 +318,14 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
-        "Guid": "ef27d892-50a6-4d54-9441-94a516bcb6d8",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
-      },
-      {
         "Guid": "49e48e47-b98e-496e-a425-159a077a4ca1",
         "Name": "Auto",
         "Url": "categories/551a6538ab5c37387f000ebe"
+      },
+      {
+        "Guid": "ef27d892-50a6-4d54-9441-94a516bcb6d8",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
       },
       {
         "Guid": "595d4b68-5306-4ce1-83dd-7564d9098f1d",
@@ -353,9 +348,9 @@
     "PublicBaseUrl": "http://bernerzeitung.ch/",
     "Feeds": [
       {
-        "Guid": "dcea01c4-0207-4fb8-803d-2256554f71a2",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
+        "Guid": "99392ffd-cc76-49b1-82de-37b7023d9364",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
       },
       {
         "Guid": "bd1b9aca-4234-4c23-96a5-3983a1c845a1",
@@ -378,11 +373,6 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "99392ffd-cc76-49b1-82de-37b7023d9364",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
-      },
-      {
         "Guid": "1e22113a-f3b6-4471-810c-d677849b9f99",
         "Name": "Kultur",
         "Url": "categories/551a6538ab5c37387f000ebc"
@@ -398,9 +388,9 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
-        "Guid": "13ee5cab-ad53-4683-84a4-de5d85a72d22",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
+        "Guid": "e1e60d9c-9271-4fbb-8f7b-c540dec31d8e",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
       },
       {
         "Guid": "eb4a07bf-0d1d-48bf-aa9b-e93cecfdaeb6",
@@ -413,9 +403,19 @@
         "Url": "categories/551a6538ab5c37387f000eb9"
       },
       {
+        "Guid": "13ee5cab-ad53-4683-84a4-de5d85a72d22",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
+      },
+      {
         "Guid": "0b474b9a-678f-40ac-a10e-b076e54fac2e",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "13820605-1aa8-4423-9242-1571b8470919",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
       }
     ]
   },
@@ -428,11 +428,6 @@
     "PublicBaseUrl": "http://derbund.ch/",
     "Feeds": [
       {
-        "Guid": "623b86c3-f8e6-4c5e-9e97-bb208ac5cb71",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
         "Guid": "a61d9364-a2ef-41ac-aaec-6b62dfb4ff50",
         "Name": "Bern",
         "Url": "categories/551a653bab5c37387f000f1d"
@@ -443,14 +438,14 @@
         "Url": "categories/551a6538ab5c37387f000eb5"
       },
       {
-        "Guid": "9433043b-75cb-4b45-be93-75b22ab401ef",
-        "Name": "Schweiz",
-        "Url": "categories/551a6538ab5c37387f000eb4"
-      },
-      {
         "Guid": "540933e8-62e0-4dd9-8a4b-86e1d253b214",
         "Name": "Wirtschaft",
         "Url": "categories/551a6538ab5c37387f000eb6"
+      },
+      {
+        "Guid": "9433043b-75cb-4b45-be93-75b22ab401ef",
+        "Name": "Schweiz",
+        "Url": "categories/551a6538ab5c37387f000eb4"
       },
       {
         "Guid": "06d752f0-3896-46df-b998-5702c6ff691a",
@@ -473,6 +468,11 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
+        "Guid": "6e865d30-1875-45cf-b356-ded7ba57a6d5",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
+      },
+      {
         "Guid": "9e2f07e9-68f9-4b37-955b-4bb48785ba58",
         "Name": "Digital",
         "Url": "categories/551a6538ab5c37387f000eb8"
@@ -491,6 +491,11 @@
         "Guid": "6e0da368-17ed-4f62-8093-3fe90c797e30",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "7abe96f0-92bb-428e-87aa-2ee102cb6533",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
       }
     ]
   },
@@ -503,24 +508,29 @@
     "PublicBaseUrl": "http://tagesanzeiger.ch/",
     "Feeds": [
       {
-        "Guid": "40ab0838-4089-4ece-b41c-c2161aad3239",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
+        "Guid": "e45b3e49-3ed5-4b27-a5a7-e9b2f8e7ffd4",
+        "Name": "Zuerich",
+        "Url": "categories/551a6538ab5c37387f000eb3"
+      },
+      {
+        "Guid": "30cea81a-d9da-4f8c-ba81-dcc9d0972aa9",
+        "Name": "Zueritipp",
+        "Url": "categories/584fb69fab5c374de6000001"
       },
       {
         "Guid": "fcd461bb-15bf-4b59-ac72-1a5fb7dd1777",
         "Name": "Schweiz",
-        "Url": "categories/551a6538ab5c37387f000eb3"
+        "Url": "categories/551a6538ab5c37387f000eb4"
       },
       {
-        "Guid": "9c737a61-acd1-44e8-a810-b30dac8ffa6d",
-        "Name": "Zürich",
-        "Url": "categories/551a6538ab5c37387f000eb3"
-      },
-      {
-        "Guid": "4291ca43-98fb-427e-9914-bb608db377a3",
-        "Name": "International",
+        "Guid": "ae7658b5-c676-4809-a89a-ee4e8ddd334f",
+        "Name": "Ausland",
         "Url": "categories/551a6538ab5c37387f000eb5"
+      },
+      {
+        "Guid": "ee28fbb1-f14f-456d-847f-b7c4b2cb41fe",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
       },
       {
         "Guid": "4f0a012a-bb05-471e-b7fa-d3374a0453f7",
@@ -528,29 +538,14 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "e4bce5b8-ffad-4778-9a6b-b8b376ebcd3c",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
-      },
-      {
         "Guid": "a2c05140-d501-4b63-8a00-d439ae11c19e",
         "Name": "Kultur",
         "Url": "categories/551a6538ab5c37387f000ebc"
       },
       {
-        "Guid": "7f721848-e5e1-40e1-8559-8ef60ba85a46",
-        "Name": "Panorama",
-        "Url": "categories/551a6538ab5c37387f000eb7"
-      },
-      {
-        "Guid": "eab89e76-62b6-40d9-8c4b-337b95ca753a",
-        "Name": "Leben",
-        "Url": "categories/551a6538ab5c37387f000ebd"
-      },
-      {
-        "Guid": "303c2f75-5966-435e-a45a-e37742b7c54b",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
+        "Guid": "e4bce5b8-ffad-4778-9a6b-b8b376ebcd3c",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
       },
       {
         "Guid": "126cb0d1-04d0-4070-a850-e1aecebb3bad",
@@ -558,14 +553,44 @@
         "Url": "categories/551a6538ab5c37387f000ebe"
       },
       {
+        "Guid": "7f721848-e5e1-40e1-8559-8ef60ba85a46",
+        "Name": "Panorama",
+        "Url": "categories/551a6538ab5c37387f000eb7"
+      },
+      {
         "Guid": "61a2d83d-92d4-47af-b399-ad994bd183b1",
         "Name": "Wissen",
         "Url": "categories/551a6538ab5c37387f000eb9"
       },
       {
+        "Guid": "303c2f75-5966-435e-a45a-e37742b7c54b",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
+      },
+      {
+        "Guid": "eab89e76-62b6-40d9-8c4b-337b95ca753a",
+        "Name": "Leben",
+        "Url": "categories/551a6538ab5c37387f000ebd"
+      },
+      {
         "Guid": "3bc583fd-e1bd-4afd-b0a3-7dfeed27eec7",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "eed39221-7fc0-432f-a07d-08d0bd37467c",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
+      },
+      {
+        "Guid": "687c461e-b4bc-4a02-b34c-c2ef644bca16",
+        "Name": "Longform",
+        "Url": "categories/551a6580ab5c37387f001851"
+      },
+      {
+        "Guid": "b2d5a717-e36d-4b1f-936d-63f6ab9b56aa",
+        "Name": "Collectionuebersicht",
+        "Url": "categories/551a6593ab5c37387f001abe"
       }
     ]
   },
@@ -983,13 +1008,8 @@
     "PublicBaseUrl": "http://24heures.ch/",
     "Feeds": [
       {
-        "Guid": "a1adf518-f490-4496-ba60-7dd8ba3a5b85",
-        "Name": "Accueil",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
-        "Guid": "14b7cbcb-6cca-4563-afc7-d353f5865ebf",
-        "Name": "Vaud & Régions",
+        "Guid": "448fa526-061d-404d-a8ec-97fd0f14a2b4",
+        "Name": "Vaud-et-Régions-VQH",
         "Url": "categories/551a654bab5c37387f00115f"
       },
       {
@@ -1013,13 +1033,8 @@
         "Url": "categories/551a653cab5c37387f000f37"
       },
       {
-        "Guid": "9ca59a6e-3338-47bf-bdd9-b2b0c17a3206",
-        "Name": "Culture",
-        "Url": "categories/551a655cab5c37387f0013c1"
-      },
-      {
-        "Guid": "22071c5b-3f6e-4f35-b22d-23119028894d",
-        "Name": "Vivre",
+        "Guid": "7bd2d554-dbeb-4104-97c7-c7480effaf1d",
+        "Name": "Société/Vivre",
         "Url": "categories/551a6572ab5c37387f0016b9"
       },
       {
@@ -1028,19 +1043,28 @@
         "Url": "categories/551a6576ab5c37387f001726"
       },
       {
+        "Guid": "96c0fb16-b1eb-4728-8e09-deb791fdc711",
+        "Name": "Culture/Loisirs",
+        "Url": "categories/551a655cab5c37387f0013c1"
+      },
+      {
         "Guid": "90091640-1eab-44ae-a59d-32dbd1a1e7f9",
         "Name": "People",
         "Url": "categories/551a655cab5c37387f0013c2"
       },
       {
-        "Guid": "471d76f1-89db-4b6f-824d-3dcf74137e0c",
-        "Name": "Savoirs",
+        "Guid": "a518acb3-4b9e-46e5-9eba-faa9029c2ae5",
+        "Name": "Savoirs/Santé",
         "Url": "categories/551a655aab5c37387f001379"
       },
       {
-        "Guid": "038c207c-2b99-43c1-a06d-40d500bc21b6",
-        "Name": "Auto",
+        "Guid": "6ea34dc2-b853-4739-85ac-3e6fd0b52f35",
+        "Name": "Auto-moto",
         "Url": "categories/551a657fab5c37387f00182d"
+      },
+      {
+        "Guid": "d45a2788-0af3-45d1-b128-73c1b0f266a4",
+        "Url": "categories/56ecce6bab5c373271000001"
       }
     ]
   },
@@ -1053,24 +1077,9 @@
     "PublicBaseUrl": "http://lematin.ch/",
     "Feeds": [
       {
-        "Guid": "ddcb897f-95e8-44b6-887e-c7f33f1285ff",
-        "Name": "Accueil",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
-        "Guid": "16bea112-d7bb-49ee-a350-d05671fc963c",
-        "Name": "Faits Divers",
-        "Url": "categories/551a658aab5c37387f001984"
-      },
-      {
-        "Guid": "5718c851-6a4a-43cf-9325-c84e3059a2e4",
-        "Name": "People",
-        "Url": "categories/551a655cab5c37387f0013c2"
-      },
-      {
-        "Guid": "9cfdc1d7-eee5-4dbb-b462-7c294241d583",
-        "Name": "Sports",
-        "Url": "categories/551a653cab5c37387f000f37"
+        "Guid": "2c630e54-1bde-49bf-be88-776e93f18d5e",
+        "Name": "Horoscope",
+        "Url": "categories/51500dddca9ac26a89000722"
       },
       {
         "Guid": "26e450d0-1185-4618-bb3d-374d73ea0c74",
@@ -1078,13 +1087,28 @@
         "Url": "categories/551a655cab5c37387f0013c5"
       },
       {
+        "Guid": "9cfdc1d7-eee5-4dbb-b462-7c294241d583",
+        "Name": "Sports",
+        "Url": "categories/551a653cab5c37387f000f37"
+      },
+      {
+        "Guid": "68146f06-2036-49a5-a1a3-7c454b3cb896",
+        "Name": "Faits Divers - LM",
+        "Url": "categories/551a658aab5c37387f001984"
+      },
+      {
         "Guid": "ce753d8a-8f7b-496b-ba6d-e03882798541",
         "Name": "Monde",
         "Url": "categories/551a655cab5c37387f0013c3"
       },
       {
-        "Guid": "e7ea2ce3-a95f-4efc-9f8f-01c501b7fb7a",
-        "Name": "Loisirs",
+        "Guid": "5718c851-6a4a-43cf-9325-c84e3059a2e4",
+        "Name": "People",
+        "Url": "categories/551a655cab5c37387f0013c2"
+      },
+      {
+        "Guid": "98e35845-4b4d-4f56-9989-8afd535d4293",
+        "Name": "Culture/Loisirs",
         "Url": "categories/551a655cab5c37387f0013c1"
       },
       {
@@ -1093,23 +1117,23 @@
         "Url": "categories/551a6581ab5c37387f001874"
       },
       {
-        "Guid": "7e8de801-5b22-44c2-a0d1-907290b27aa7",
-        "Name": "High-Tech",
-        "Url": "categories/551a6576ab5c37387f001726"
-      },
-      {
         "Guid": "2f9c45ef-2fe8-4607-b8bb-b70d82673370",
         "Name": "Économie",
         "Url": "categories/551a6548ab5c37387f0010f9"
       },
       {
-        "Guid": "6206c7b9-b0fb-4287-b905-de3dd19ae6b2",
-        "Name": "Auto",
+        "Guid": "7e8de801-5b22-44c2-a0d1-907290b27aa7",
+        "Name": "High-Tech",
+        "Url": "categories/551a6576ab5c37387f001726"
+      },
+      {
+        "Guid": "f65b77f1-7ad8-4928-a743-ac7b4833058a",
+        "Name": "Auto-moto",
         "Url": "categories/551a657fab5c37387f00182d"
       },
       {
-        "Guid": "3487b792-14cc-46ea-a38e-0c6ef79cc646",
-        "Name": "Savoir",
+        "Guid": "6ce252fc-f26e-436a-9432-c0922b0624f9",
+        "Name": "Savoirs/Santé",
         "Url": "categories/551a655aab5c37387f001379"
       }
     ]
@@ -1123,13 +1147,8 @@
     "PublicBaseUrl": "http://tdg.ch/",
     "Feeds": [
       {
-        "Guid": "160dce96-7611-4f7e-81d4-bb89bb0ce9a4",
-        "Name": "Accueil",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
-        "Guid": "9164a2f8-4a65-47b1-9c84-d70c1709454b",
-        "Name": "Genève",
+        "Guid": "0affb9a2-f325-4fc1-b23e-2b6ee509fcbd",
+        "Name": "Genève - TDG",
         "Url": "categories/551a655cab5c37387f0013c4"
       },
       {
@@ -1153,24 +1172,9 @@
         "Url": "categories/551a653cab5c37387f000f37"
       },
       {
-        "Guid": "d1bf3690-dac5-4106-9f17-162ca98fd84d",
-        "Name": "Culture",
+        "Guid": "96c214f6-1314-4085-abb9-a1821d7f5106",
+        "Name": "Culture/Loisirs",
         "Url": "categories/551a655cab5c37387f0013c1"
-      },
-      {
-        "Guid": "a63c6964-69f3-4f5f-8b7c-c903514b08c8",
-        "Name": "Grand format",
-        "Url": "categories/5524ed78ab5c37d01b000001"
-      },
-      {
-        "Guid": "87622673-b00c-4147-a2ac-89faa8e2dc42",
-        "Name": "Vivre",
-        "Url": "categories/551a6572ab5c37387f0016b9"
-      },
-      {
-        "Guid": "3a50e3ad-3e1c-437d-8458-ea95d628e0fe",
-        "Name": "High-Tech",
-        "Url": "categories/551a6576ab5c37387f001726"
       },
       {
         "Guid": "6dd80513-d357-4635-bd24-e25faafa1148",
@@ -1178,14 +1182,34 @@
         "Url": "categories/551a655cab5c37387f0013c2"
       },
       {
-        "Guid": "9c7573aa-32c8-4578-af27-7053fc6f3c31",
-        "Name": "Savoir",
+        "Guid": "6654b848-6704-47cd-9e51-f14d5a524276",
+        "Name": "Société/Vivre",
+        "Url": "categories/551a6572ab5c37387f0016b9"
+      },
+      {
+        "Guid": "e4baf517-16bc-43b8-9860-689745f225a7",
+        "Name": "Auto-moto",
+        "Url": "categories/551a657fab5c37387f00182d"
+      },
+      {
+        "Guid": "3a50e3ad-3e1c-437d-8458-ea95d628e0fe",
+        "Name": "High-Tech",
+        "Url": "categories/551a6576ab5c37387f001726"
+      },
+      {
+        "Guid": "3add404d-8f8f-40ff-9dff-dab44247395f",
+        "Name": "Savoirs/Santé",
         "Url": "categories/551a655aab5c37387f001379"
       },
       {
-        "Guid": "2cefa882-0bf3-4572-838c-3a661b4b2ddb",
-        "Name": "Auto",
-        "Url": "categories/551a657fab5c37387f00182d"
+        "Guid": "d4e4b286-39b1-49bc-876b-04276f6ce48c",
+        "Name": "Leswebdocs",
+        "Url": "categories/5524ed78ab5c37d01b000001"
+      },
+      {
+        "Guid": "823745f1-786f-4dfe-8809-f3c2d431cf62",
+        "Name": "Concours",
+        "Url": "categories/551a658aab5c37387f001992"
       }
     ]
   },
@@ -1193,15 +1217,10 @@
     "Guid": "a7bf9565-9a3a-4a7f-a218-3375f4cb9187",
     "Name": "Zürichsee-Zeitung",
     "Abbreviation": "ZsZ",
+    "Source": 27,
     "LogicBaseUrl": "http://mobile2.zsz.ch/api/",
     "PublicBaseUrl": "http://zsz.ch/",
-    "Source": 27,
     "Feeds": [
-      {
-        "Guid": "a3fc7853-3bcf-4ad9-90a3-7e8319de2217",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
       {
         "Guid": "296e0118-d9cc-47ed-b749-dce5c9b4ded0",
         "Name": "Meilen",
@@ -1243,13 +1262,13 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "9bc9e0ab-994b-404e-9dc5-6df133a084ba",
-        "Name": "Blogs/Leben",
-        "Url": "categories/551a6568ab5c37387f00154e"
+        "Guid": "e614bb8f-ee99-4679-8f4b-9a555ca4c426",
+        "Name": "Panorama",
+        "Url": "categories/551a6538ab5c37387f000eb7"
       },
       {
-        "Guid": "2fe568d2-7c0f-4d5b-b850-0476a8a5bc5b",
-        "Name": "Marktplatz",
+        "Guid": "30fd78bf-d6d8-4739-996d-e58a2eb395ca",
+        "Name": "Marktplatz ZRZ",
         "Url": "categories/551a6595ab5c37387f001af5"
       }
     ]
@@ -1258,15 +1277,10 @@
     "Guid": "c88b1332-eb8b-4612-9496-ad12a80bd376",
     "Name": "Der Landbote",
     "Abbreviation": "Landbote",
+    "Source": 28,
     "LogicBaseUrl": "http://mobile2.landbote.ch/api/",
     "PublicBaseUrl": "http://landbote.ch/",
-    "Source": 28,
     "Feeds": [
-      {
-        "Guid": "f63ca835-20fa-49f6-83e9-3e408201c66e",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
       {
         "Guid": "f9553118-4c82-49c1-b441-97fa0ff16598",
         "Name": "Winterthur",
@@ -1303,13 +1317,13 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "412e1db2-02c0-4102-a886-b7307b4f9760",
-        "Name": "Blogs/Leben",
-        "Url": "categories/551a6568ab5c37387f00154e"
+        "Guid": "5bcfafbf-e5c2-4700-a115-93c16f8a50b5",
+        "Name": "Panorama",
+        "Url": "categories/551a6538ab5c37387f000eb7"
       },
       {
-        "Guid": "acebc678-e0a1-47b3-b858-f525b1272928",
-        "Name": "Marktplatz",
+        "Guid": "493e28b2-3c4d-4733-84e2-1ebe88bae429",
+        "Name": "Marktplatz ZRZ",
         "Url": "categories/551a6595ab5c37387f001af5"
       }
     ]
@@ -1318,24 +1332,14 @@
     "Guid": "5ad9fb9b-0715-4516-ab18-f0eb5c2031d5",
     "Name": "Züricher Unterländer",
     "Abbreviation": "ZU",
+    "Source": 29,
     "LogicBaseUrl": "http://mobile2.zuonline.ch/api/",
     "PublicBaseUrl": "http://zuonline.ch/",
-    "Source": 29,
     "Feeds": [
       {
-        "Guid": "6d1c4bc2-8c58-4813-b7bf-1ebdf49b213c",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
-        "Guid": "aaeadc76-9803-4834-89b7-5dcfe561c571",
-        "Name": "Bülach",
-        "Url": "categories/551a6591ab5c37387f001a7f"
-      },
-      {
-        "Guid": "2d611f5d-2bda-4e00-b9b7-b45cfd373de5",
-        "Name": "Dielsdorf",
-        "Url": "categories/551a6591ab5c37387f001a81"
+        "Guid": "21af7fe8-683e-4aac-8c42-5313f1eda72a",
+        "Name": "ZU Bezirk-Region",
+        "Url": "categories/56ea7e25ab5c377d40000001"
       },
       {
         "Guid": "f6ca8ea8-3645-46cd-b259-4d5a5cd03a4e",
@@ -1363,13 +1367,13 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "f488bab9-d7ed-4f1f-ac9a-6c1e413880f8",
-        "Name": "Blogs/Leben",
-        "Url": "categories/551a6568ab5c37387f00154e"
+        "Guid": "3ec9bbb4-dd9a-4573-8192-acb15dd89dd0",
+        "Name": "Panorama",
+        "Url": "categories/551a6538ab5c37387f000eb7"
       },
       {
-        "Guid": "34f84c0f-5555-40a0-83fe-8af84d54941b",
-        "Name": "Marktplatz",
+        "Guid": "cc907352-1417-4ac9-806d-4e4bb37a4290",
+        "Name": "Marktplatz ZRZ",
         "Url": "categories/551a6595ab5c37387f001af5"
       }
     ]
@@ -1378,24 +1382,14 @@
     "Guid": "176eb077-55ba-418b-94d0-e64bfc51c720",
     "Name": "Berner Oberländer",
     "Abbreviation": "Oberländer",
+    "Source": 30,
     "LogicBaseUrl": "http://mobile2.berneroberlaender.ch/api/",
     "PublicBaseUrl": "http://berneroberlaender.ch/",
-    "Source": 30,
     "Feeds": [
       {
-        "Guid": "b2bab0a1-1e93-400b-8416-ef8daead7cf0",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
-      },
-      {
-        "Guid": "5dbdd042-4ad0-4e50-bce9-2cdb3084048e",
-        "Name": "Schweiz",
-        "Url": "categories/551a6538ab5c37387f000eb4"
-      },
-      {
-        "Guid": "36d85890-3ec6-4da3-b749-4625e0e520b9",
-        "Name": "Region",
-        "Url": "categories/558d5aba87da8b2fb9000b21"
+        "Guid": "d83a57b9-9af5-48fd-b73e-04ba3a0928f8",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
       },
       {
         "Guid": "8678db1c-86d8-4c39-ad1f-3077bddcad13",
@@ -1403,29 +1397,9 @@
         "Url": "categories/558d5aba87da8b2fb9000b21"
       },
       {
-        "Guid": "8e73ae14-d3ec-426a-bed3-daf35fd276b6",
-        "Name": "Thun",
-        "Url": "categories/558d5aba87da8b2fb9000b20"
-      },
-      {
-        "Guid": "137cd332-ef90-4327-bfa2-56808cda9e6b",
-        "Name": "Bern",
-        "Url": "categories/551a653aab5c37387f000f05"
-      },
-      {
-        "Guid": "093a86e8-e883-447e-9f61-eeb9463a9a17",
-        "Name": "Emmental",
-        "Url": "categories/558d5aba87da8b2fb9000b22"
-      },
-      {
-        "Guid": "95446888-3353-465b-8c46-cb2bb16c4068",
-        "Name": "Oberaargau",
-        "Url": "categories/558d5aba87da8b2fb9000b23"
-      },
-      {
-        "Guid": "f742ee42-cdf1-42a2-8405-1a4027f57dd2",
-        "Name": "Kanton Bern",
-        "Url": "categories/551a654aab5c37387f00113d"
+        "Guid": "5dbdd042-4ad0-4e50-bce9-2cdb3084048e",
+        "Name": "Schweiz",
+        "Url": "categories/551a6538ab5c37387f000eb4"
       },
       {
         "Guid": "8b1a205b-6319-4739-a398-da9ba3338552",
@@ -1438,9 +1412,9 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "d83a57b9-9af5-48fd-b73e-04ba3a0928f8",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
+        "Guid": "2bfe7c59-eae6-4e48-b17b-53298feb4c5f",
+        "Name": "Kultur",
+        "Url": "categories/551a6538ab5c37387f000ebc"
       },
       {
         "Guid": "abd4e1a8-bc46-48e5-a6b0-c6af97ca685e",
@@ -1453,9 +1427,9 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
-        "Guid": "2bfe7c59-eae6-4e48-b17b-53298feb4c5f",
-        "Name": "Kultur",
-        "Url": "categories/551a6538ab5c37387f000ebc"
+        "Guid": "7a9e29ca-6f2d-4839-b26e-04a4ff5c791c",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
       },
       {
         "Guid": "738a6dd0-9790-48ab-9292-def38008c9d0",
@@ -1463,19 +1437,24 @@
         "Url": "categories/551a6538ab5c37387f000ebe"
       },
       {
-        "Guid": "cebc1ae0-430f-4462-a143-0663b7c0c4da",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
-      },
-      {
         "Guid": "f72a609d-1104-4846-b322-895d1f900d20",
         "Name": "Wissen",
         "Url": "categories/551a6538ab5c37387f000eb9"
       },
       {
+        "Guid": "cebc1ae0-430f-4462-a143-0663b7c0c4da",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
+      },
+      {
         "Guid": "78501ded-16c1-464f-9376-5713f08517bb",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "7605310e-2896-4d23-a2b4-734167e9fa08",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
       }
     ]
   },
@@ -1483,54 +1462,24 @@
     "Guid": "ec5e06b9-14a4-4829-abda-0f26ed342278",
     "Name": "Thuner Tagblatt",
     "Abbreviation": "Thuner",
+    "Source": 31,
     "LogicBaseUrl": "http://mobile2.thunertagblatt.ch/api/",
     "PublicBaseUrl": "http://thunertagblatt.ch/",
-    "Source": 31,
     "Feeds": [
       {
-        "Guid": "731bcb4d-3066-4ee9-ab22-b86d226b45a4",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
+        "Guid": "62bd0278-b82d-42c2-a261-17fc884f05ad",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "20120035-2291-4fdb-9885-23431cc426d0",
+        "Name": "Thun+Oberland",
+        "Url": "categories/558d5aba87da8b2fb9000b1e"
       },
       {
         "Guid": "d8c97ec5-e4fb-42b7-93fe-663d031f3ffd",
         "Name": "Schweiz",
         "Url": "categories/551a6538ab5c37387f000eb4"
-      },
-      {
-        "Guid": "c6e924ca-644d-4cb0-8576-d6fa0532ecb3",
-        "Name": "Region",
-        "Url": "categories/558d5aba87da8b2fb9000b1e"
-      },
-      {
-        "Guid": "288e719d-3625-4678-b4a6-1f3ee87e6d55",
-        "Name": "Thun",
-        "Url": "categories/558d5aba87da8b2fb9000b20"
-      },
-      {
-        "Guid": "661bd15a-3671-4bae-9474-1859ee92c1e3",
-        "Name": "Oberland",
-        "Url": "categories/558d5aba87da8b2fb9000b21"
-      },
-      {
-        "Guid": "2c9d473e-eecb-46fc-aeb0-fef494fa51d0",
-        "Name": "Bern",
-        "Url": "categories/551a653aab5c37387f000f05"
-      },
-      {
-        "Guid": "c74bbdc8-e3a6-4a17-a727-ebf262e549ff",
-        "Name": "Emmental",
-        "Url": "categories/558d5aba87da8b2fb9000b22"
-      },
-      {
-        "Guid": "c6022d6f-8482-4022-9732-f690820f97f4",
-        "Name": "Oberaargau",
-        "Url": "categories/558d5aba87da8b2fb9000b23"
-      },
-      {
-        "Guid": "5a8d92b3-03df-4752-bf40-17d3ade58c46",
-        "Name": "Kanton Bern",
-        "Url": "categories/551a653aab5c37387f000f05"
       },
       {
         "Guid": "dc748920-b38a-4326-b26c-320c50b2118b",
@@ -1543,9 +1492,9 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "62bd0278-b82d-42c2-a261-17fc884f05ad",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
+        "Guid": "f29707fe-280b-413a-b5e3-b977d9865cd4",
+        "Name": "Kultur",
+        "Url": "categories/551a6538ab5c37387f000ebc"
       },
       {
         "Guid": "f46bf701-2669-4fac-863d-2e47f5d2ad26",
@@ -1558,9 +1507,9 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
-        "Guid": "f29707fe-280b-413a-b5e3-b977d9865cd4",
-        "Name": "Kultur",
-        "Url": "categories/551a6538ab5c37387f000ebc"
+        "Guid": "d19d501f-cb4a-4dfc-88f7-216422601eb4",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
       },
       {
         "Guid": "805a3218-1fe6-4d05-8d0e-a5672358aeef",
@@ -1568,19 +1517,24 @@
         "Url": "categories/551a6538ab5c37387f000ebe"
       },
       {
-        "Guid": "32e49559-b8ef-46bd-99a9-26a9bce2f241",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
-      },
-      {
         "Guid": "7295ddba-d8e6-47c2-984d-74e8488eeba6",
         "Name": "Wissen",
         "Url": "categories/551a6538ab5c37387f000eb9"
       },
       {
+        "Guid": "32e49559-b8ef-46bd-99a9-26a9bce2f241",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
+      },
+      {
         "Guid": "5ad1d906-daf0-4c49-abd5-8dbb2697a23d",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "39cfc4e1-d63e-4049-bb30-8bbd880daa94",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
       }
     ]
   },
@@ -1588,54 +1542,24 @@
     "Guid": "a72fc9cf-d825-4b33-8a55-ee4cee3ddbbd",
     "Name": "Langenthaler Tagblatt",
     "Abbreviation": "Langenthaler",
+    "Source": 32,
     "LogicBaseUrl": "http://mobile2.langenthalertagblatt.ch/api/",
     "PublicBaseUrl": "http://langenthalertagblatt.ch/",
-    "Source": 32,
     "Feeds": [
       {
-        "Guid": "c8423681-3ce5-491e-977c-345534dcf932",
-        "Name": "Front",
-        "Url": "lists/newest?to=9999999999"
+        "Guid": "3ee33a5d-b6fb-4e95-af82-41e7b4d2a577",
+        "Name": "Sport",
+        "Url": "categories/551a6538ab5c37387f000ebb"
+      },
+      {
+        "Guid": "f6640518-86ac-4e7b-a85a-2292ff428b5d",
+        "Name": "Oberaargau+Emmental",
+        "Url": "categories/558d5aba87da8b2fb9000b1d"
       },
       {
         "Guid": "ec57756a-be82-4c66-9160-56fac24f6dd4",
         "Name": "Schweiz",
         "Url": "categories/551a6538ab5c37387f000eb4"
-      },
-      {
-        "Guid": "8417d1fc-83ed-49e6-9f1d-6461b69cdb96",
-        "Name": "Region",
-        "Url": "categories/558d5aba87da8b2fb9000b1d"
-      },
-      {
-        "Guid": "25edd14e-2061-42fc-8d4e-eac7483ac71b",
-        "Name": "Oberaargau",
-        "Url": "categories/558d5aba87da8b2fb9000b23"
-      },
-      {
-        "Guid": "faa77fdf-d320-469c-8fc7-b5b99c145a2f",
-        "Name": "Emmental",
-        "Url": "categories/558d5aba87da8b2fb9000b22"
-      },
-      {
-        "Guid": "41df7ce0-a4a7-4768-88a8-bca0d724a415",
-        "Name": "Bern",
-        "Url": "categories/551a653aab5c37387f000f05"
-      },
-      {
-        "Guid": "fd538112-65af-42c4-8384-6fece4b1f151",
-        "Name": "Thun",
-        "Url": "categories/558d5aba87da8b2fb9000b20"
-      },
-      {
-        "Guid": "e543f382-a089-4dd6-afac-9bc8469f7752",
-        "Name": "Oberland",
-        "Url": "categories/558d5aba87da8b2fb9000b21"
-      },
-      {
-        "Guid": "96715794-7647-4ee1-99f7-cb780e948726",
-        "Name": "Kanton Bern",
-        "Url": "categories/551a654aab5c37387f00113d"
       },
       {
         "Guid": "0e2f860b-48b0-48fb-8558-a8be403e08a4",
@@ -1648,9 +1572,9 @@
         "Url": "categories/551a6538ab5c37387f000eb6"
       },
       {
-        "Guid": "3ee33a5d-b6fb-4e95-af82-41e7b4d2a577",
-        "Name": "Sport",
-        "Url": "categories/551a6538ab5c37387f000ebb"
+        "Guid": "863abd33-5770-4eee-a061-2ffa1e4d9924",
+        "Name": "Kultur",
+        "Url": "categories/551a6538ab5c37387f000ebc"
       },
       {
         "Guid": "2d64b9cf-6331-4da3-8f28-cb6b137e8ad1",
@@ -1663,9 +1587,9 @@
         "Url": "categories/551a6538ab5c37387f000ebd"
       },
       {
-        "Guid": "863abd33-5770-4eee-a061-2ffa1e4d9924",
-        "Name": "Kultur",
-        "Url": "categories/551a6538ab5c37387f000ebc"
+        "Guid": "cb19233a-424f-4383-8354-57b9d0f3fefb",
+        "Name": "Reisen",
+        "Url": "categories/5718d78eab5c371225000001"
       },
       {
         "Guid": "8e1cbee3-2c11-4e37-8ada-6c6103980020",
@@ -1673,19 +1597,24 @@
         "Url": "categories/551a6538ab5c37387f000ebe"
       },
       {
-        "Guid": "a751cb0c-0de6-4159-9b70-86c6081457ec",
-        "Name": "Digital",
-        "Url": "categories/551a6538ab5c37387f000eb8"
-      },
-      {
         "Guid": "363e7e1d-9828-416e-a238-b4ca41caae4d",
         "Name": "Wissen",
         "Url": "categories/551a6538ab5c37387f000eb9"
       },
       {
+        "Guid": "a751cb0c-0de6-4159-9b70-86c6081457ec",
+        "Name": "Digital",
+        "Url": "categories/551a6538ab5c37387f000eb8"
+      },
+      {
         "Guid": "811e5f0d-1ff4-4a06-b3b9-c09cc5af6498",
         "Name": "Blogs",
         "Url": "categories/551a6568ab5c37387f00154e"
+      },
+      {
+        "Guid": "93ed68cf-8bde-4403-9ceb-564d56ac5f21",
+        "Name": "SonntagsZeitung",
+        "Url": "categories/57f4e81bab5c371812000001"
       }
     ]
   }

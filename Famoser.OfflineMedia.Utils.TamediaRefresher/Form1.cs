@@ -1,17 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Famoser.OfflineMedia.Business.Models;
-using HtmlAgilityPack;
-using Microsoft.Win32;
+using Famoser.FrameworkEssentials.Services;
+using Famoser.OfflineMedia.Utils.TamediaRefresher.Models.JsonEntities;
+using Famoser.OfflineMedia.Utils.TamediaRefresher.Models.TamediaNavigation;
 using Newtonsoft.Json;
 
 namespace Famoser.OfflineMedia.Utils.TamediaRefresher
@@ -23,76 +18,113 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
             InitializeComponent();
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private async void startButton_Click(object sender, EventArgs e)
         {
-            var sourceModels = JsonConvert.DeserializeObject<List<SourceModel>>(inputTextBox.Text);
-            EvaluateSources(new Stack<SourceModel>(sourceModels), new Queue<SourceModel>());
-        }
-        
+            var sourceModels = JsonConvert.DeserializeObject<List<SourceEntity>>(inputTextBox.Text);
 
-        private void EvaluateSources(Stack<SourceModel> input, Queue<SourceModel> output)
-        {
-            if (!input.Any())
+            var stack = new ConcurrentStack<SourceEntity>(sourceModels);
+
+            var maxThreads = 10;
+            var tasks = new Task[maxThreads];
+            for (int i = 0; i < maxThreads; i++)
             {
-                outputTextBox.Text = JsonConvert.SerializeObject(output, Formatting.Indented);
-                return;
+                tasks[i] = EvaluateSources(stack);
             }
 
-            var first = input.Pop();
-            output.Enqueue(first);
+            await Task.WhenAll(tasks);
 
-            //browser.Navigate(new Uri(first.LogicBaseUrl));
-            browser.ScriptErrorsSuppressed = true;
-            var text = browser.DocumentText;
-            //the text does not contain the rendered html, only the retrieved one!
-            browser.Navigate(new Uri(first.LogicBaseUrl));
-
-            browser.DocumentTitleChanged += delegate
-            {
-                if (!browser.DocumentText.Contains("leftMenu"))
+            outputTextBox.Text = JsonConvert.SerializeObject(
+                sourceModels,
+                Formatting.Indented,
+                new JsonSerializerSettings
                 {
-                    return;
+                    NullValueHandling = NullValueHandling.Ignore
                 }
-                RefreshLinks(browser.DocumentText, first);
-                EvaluateSources(input, output);
-            };
+            );
         }
 
-        private void RefreshLinks(string html, SourceModel source)
+
+        private async Task EvaluateSources(ConcurrentStack<SourceEntity> input)
         {
-            var doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
-
-            List<HtmlNode> menu = doc.DocumentNode
-                .DescendantsAndSelf("aside")
-                .Where(
-                    o => o.GetAttributeValue("id", null) == "leftMenu"
-                )
-                .ToList();
-
-            if (menu.Count == 1)
+            try
             {
-                var menuItems = menu.First().Descendants("li")
-                    .Where(
-                        o => o.GetAttributeValue("class", null) == "category"
-                    )
-                    .ToList();
 
-                foreach (var menuItem in menuItems)
+                while (input.TryPop(out var source))
                 {
-                    var a = menuItem.Descendants("a").FirstOrDefault();
-                    if (a != null)
+                    if ((int)source.Source >= 20 && (int)source.Source <= 40)
                     {
-                        var feedModel = new FeedModel()
+                        //tamedia sources
+                        var httpService = new HttpService();
+                        var resp = await httpService.DownloadAsync(new Uri(source.LogicBaseUrl + "navigations?client=webapp"));
+                        var json = await resp.GetResponseAsStringAsync();
+
+                        var model = TamediaNavigation.FromJson(json);
+                        var existing = source.Feeds.ToList();
+                        var newList = new List<FeedEntity>();
+                        foreach (var navigation in model.Navigations)
                         {
-                            Url = source.LogicBaseUrl + "api" + a.GetAttributeValue("href", null),
-                            Name = a.InnerText,
-                            Guid = Guid.NewGuid()
-                        };
-                        source.Feeds.Add(feedModel);
+                            if (navigation.CategoryPreview != null)
+                            {
+                                var found = FindAndRemove(existing, navigation.CategoryPreview.Name) ?? new FeedEntity()
+                                {
+                                    Guid = Guid.NewGuid(),
+                                    Name = navigation.CategoryPreview.Name
+                                };
+
+                                //correct category
+                                found.Url = "categories/" + navigation.CategoryPreview.Id;
+                                newList.Add(found);
+                            }
+                        }
+
+                        //skip adding of front because currently it cannot be processed
+                        if (false)
+                        {
+                            //add / correct special front navigation
+                            var front = FindAndRemove(existing, "Front") ?? new FeedEntity()
+                            {
+                                Guid = Guid.NewGuid(),
+                                Name = "Front"
+                            };
+
+                            //correct category
+                            front.Url = "fronts/mobile";
+                            newList.Insert(0, front);
+                        }
+
+                        //to output
+                        source.Feeds.Clear();
+                        foreach (var feedEntity in newList)
+                        {
+                            source.Feeds.Add(feedEntity);
+                        }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+
+        private FeedEntity FindAndRemove(List<FeedEntity> feeds, string name)
+        {
+            //find existing
+            FeedEntity found = null;
+            foreach (var feedEntity in feeds)
+            {
+                if (feedEntity.Name == name)
+                {
+                    //winrar
+                    found = feedEntity;
+                }
+            }
+            if (found != null)
+            {
+                feeds.Remove(found);
+            }
+            return found;
         }
     }
 }

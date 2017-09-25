@@ -6,10 +6,7 @@ namespace Famoser.OfflineMedia.Business.Newspapers.Zeit.Models
     [XmlRoot(ElementName = "feed")]
     public class Feed
     {
-        [XmlElement(ElementName = "cluster")]
-        public List<Cluster> Cluster { get; set; }
-
-        [XmlElement(ElementName = "reference")]
+        [XmlElement(ElementName = "block")]
         public List<Reference> References { get; set; }
     }
 }

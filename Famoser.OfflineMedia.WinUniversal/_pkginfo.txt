@@ -1,1 +1,1 @@
-D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\ARM\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.3.23.0\Famoser.OfflineMedia.WinUniversal_2017.3.23.0_x86_x64_arm.appxbundle
+D:\Repos\OfflineMedia\Famoser.OfflineMedia.WinUniversal\bin\ARM\Release\Upload\Famoser.OfflineMedia.WinUniversal_2017.3.24.0\Famoser.OfflineMedia.WinUniversal_2017.3.24.0_x86_x64_arm.appxbundle
