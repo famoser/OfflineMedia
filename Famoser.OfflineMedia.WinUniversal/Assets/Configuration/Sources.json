@@ -84,83 +84,153 @@
     "Name": "20 Minuten",
     "Abbreviation": "20Min",
     "Source": 2,
-    "LogicBaseUrl": "http://feeds.20min-tv.ch/mobile/",
+    "LogicBaseUrl": "http://api.20min.ch/feed",
     "PublicBaseUrl": "http://20min.ch/",
     "Feeds": [
       {
-        "Guid": "f91bf083-86ed-451c-8275-a011479e6a54",
-        "Name": "Frontfeed",
-        "Url": "frontfeed_gzip.xml"
-      },
-      {
         "Guid": "4890bc7b-47c1-4126-abb7-40c226baa514",
         "Name": "Schweiz",
-        "Url": "Schweiz_gzip.xml"
-      },
-      {
-        "Guid": "78810dae-994a-478a-9123-ced616a3a1e2",
-        "Name": "Ausland",
-        "Url": "Ausland_gzip.xml"
-      },
-      {
-        "Guid": "126ed59e-ac7b-454f-bdc9-fcead5222937",
-        "Name": "Panorama",
-        "Url": "Panorama_gzip.xml"
-      },
-      {
-        "Guid": "33c08ce1-018c-4c10-83b5-c121509b1be3",
-        "Name": "Wirtschaft",
-        "Url": "Wirtschaft_gzip.xml"
-      },
-      {
-        "Guid": "e7b0c543-3cf7-46e4-843f-ee5dd7f433ac",
-        "Name": "Sport",
-        "Url": "Sport_gzip.xml"
-      },
-      {
-        "Guid": "2aafffce-c322-4048-ae3e-c1aff89c4ee2",
-        "Name": "People",
-        "Url": "People_gzip.xml"
-      },
-      {
-        "Guid": "05be44f8-c674-465e-8af2-7bc5cd2e50d7",
-        "Name": "Entertainment",
-        "Url": "Entertainment_gzip.xml"
-      },
-      {
-        "Guid": "09cec34a-874f-41ba-ad53-170912d9bf48",
-        "Name": "Digital",
-        "Url": "Digital_gzip.xml"
-      },
-      {
-        "Guid": "4adcee2e-ca29-43de-80cb-b25d7f422b15",
-        "Name": "Wissen",
-        "Url": "Wissen_gzip.xml"
-      },
-      {
-        "Guid": "33b3dcb8-aa85-450e-ba70-7c7461d942df",
-        "Name": "Basel",
-        "Url": "Basel_gzip.xml"
+        "Url": "/view/63?key=CUSTOMERKEY&lang=de"
       },
       {
         "Guid": "64a223e5-680c-4883-9762-44da536690e4",
         "Name": "Zürich",
-        "Url": "Zuerich_gzip.xml"
+        "Url": "/view/439?key=CUSTOMERKEY&lang=de"
       },
       {
         "Guid": "55125737-b49f-44ac-a7f9-f119b8fd99ab",
         "Name": "Bern",
-        "Url": "Bern_gzip.xml"
+        "Url": "/view/441?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "33b3dcb8-aa85-450e-ba70-7c7461d942df",
+        "Name": "Basel",
+        "Url": "/view/443?key=CUSTOMERKEY&lang=de"
       },
       {
         "Guid": "42510516-8d32-49bf-afbd-64ad84be44c3",
         "Name": "Zentralschweiz",
-        "Url": "Zentralschweiz_gzip.xml"
+        "Url": "/view/447?key=CUSTOMERKEY&lang=de"
       },
       {
         "Guid": "13728010-3ea5-4053-8a47-b34dd48eeac1",
         "Name": "Ostschweiz",
-        "Url": "Ostschweiz_gzip.xml"
+        "Url": "/view/449?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "78810dae-994a-478a-9123-ced616a3a1e2",
+        "Name": "Ausland",
+        "Url": "/view/129?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "47b9aa6f-a430-4cb7-b4c9-9f1c9335a1d5",
+        "Name": "Energy Challenge",
+        "Url": "/view/959?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "126ed59e-ac7b-454f-bdc9-fcead5222937",
+        "Name": "Panorama",
+        "Url": "/view/131?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "33c08ce1-018c-4c10-83b5-c121509b1be3",
+        "Name": "Wirtschaft",
+        "Url": "/view/15?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "9832d2ca-3cf1-4a81-a8e6-1398242aa456",
+        "Name": "Fitness",
+        "Url": "/view/710?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "e36cdb06-b18f-414c-bdd9-7ac55836a584",
+        "Name": "Sula rennt",
+        "Url": "/view/1082?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "4acf1b0f-5e89-4790-bee5-401caa4fda2c",
+        "Name": "Fitness Challenge",
+        "Url": "/view/1085?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "5c367fe3-066c-4376-96ee-c843566da02a",
+        "Name": "Rezepte",
+        "Url": "/view/1070?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "cc8c6b97-7452-4a85-86ec-26b223bf5dca",
+        "Name": "Living",
+        "Url": "/view/967?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "e7b0c543-3cf7-46e4-843f-ee5dd7f433ac",
+        "Name": "Sport",
+        "Url": "/view/67?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "09cec34a-874f-41ba-ad53-170912d9bf48",
+        "Name": "Digital",
+        "Url": "/view/69?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "4ea21682-80eb-4296-b2b5-a0b9575c692c",
+        "Name": "Lifestyle",
+        "Url": "/view/133?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "2aafffce-c322-4048-ae3e-c1aff89c4ee2",
+        "Name": "People",
+        "Url": "/view/83?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "f132416c-6ca4-4bec-a9c6-daa9b9406cce",
+        "Name": "Community",
+        "Url": "/view/73?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "d2a8d25a-4ba5-4657-8006-d590256ad4a1",
+        "Name": "Viral Countdown",
+        "Url": "/view/586?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "48c684d2-5db9-4846-a7fa-4fe8ac21cc6e",
+        "Name": "Reisen",
+        "Url": "/view/337?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "4adcee2e-ca29-43de-80cb-b25d7f422b15",
+        "Name": "Wissen",
+        "Url": "/view/77?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "f522d015-e559-4be0-bd5c-37e6ec90fb4c",
+        "Name": "Longform",
+        "Url": "/view/940?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "6b24bb09-15a0-4720-8b77-8b21c999c086",
+        "Name": "Wettbewerbe",
+        "Url": "/view/91?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "2a2435e3-2de2-436c-a138-cd8b3fd6e86c",
+        "Name": "Auto",
+        "Url": "/view/71?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "8239a04b-9b95-45a5-8459-1bae5ceeb139",
+        "Name": "Games",
+        "Url": "/view/117?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "e02786f6-ade5-4826-a7be-fbaaa8dd125a",
+        "Name": "Herz & Sex",
+        "Url": "/view/55?key=CUSTOMERKEY&lang=de"
+      },
+      {
+        "Guid": "61c3f81b-7ea6-4993-826b-80727484781d",
+        "Name": "Paid Post",
+        "Url": "/view/676?key=CUSTOMERKEY&lang=de"
       }
     ]
   },
@@ -1011,6 +1081,11 @@
         "Guid": "448fa526-061d-404d-a8ec-97fd0f14a2b4",
         "Name": "Vaud-et-Régions-VQH",
         "Url": "categories/551a654bab5c37387f00115f"
+      },
+      {
+        "Guid": "56e7991a-459b-4ca6-a584-25c2a1dcc558",
+        "Name": "Fête des Vignerons",
+        "Url": "categories/59ba6bf1ab5c374351000001"
       },
       {
         "Guid": "50c2d520-2278-4907-9e13-6d173969ccf6",

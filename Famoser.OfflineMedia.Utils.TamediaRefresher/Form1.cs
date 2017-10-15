@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Famoser.FrameworkEssentials.Services;
+using Famoser.OfflineMedia.Business.Models;
+using Famoser.OfflineMedia.Data.Enums;
 using Famoser.OfflineMedia.Utils.TamediaRefresher.Models.JsonEntities;
 using Famoser.OfflineMedia.Utils.TamediaRefresher.Models.TamediaNavigation;
+using Famoser.OfflineMedia.Utils.TamediaRefresher.Models.TwentyMinSitemap;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Famoser.OfflineMedia.Utils.TamediaRefresher
 {
@@ -16,7 +23,19 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
         public Form1()
         {
             InitializeComponent();
+
+            ReadOutSourcesJson();
         }
+
+        private void ReadOutSourcesJson()
+        {
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Assets\Sources.json");
+            var json = File.ReadAllText(path);
+            var beautifulJson = JToken.Parse(json).ToString(Formatting.Indented);
+            inputTextBox.Text = beautifulJson;
+        }
+
+        private const string TwentyMinCustomerKey = "276925d8d98cd956d43cd659051232f7";
 
         private async void startButton_Click(object sender, EventArgs e)
         {
@@ -43,6 +62,7 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
             );
         }
 
+        private readonly HttpService _httpService = new HttpService();
 
         private async Task EvaluateSources(ConcurrentStack<SourceEntity> input)
         {
@@ -54,8 +74,7 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
                     if ((int)source.Source >= 20 && (int)source.Source <= 40)
                     {
                         //tamedia sources
-                        var httpService = new HttpService();
-                        var resp = await httpService.DownloadAsync(new Uri(source.LogicBaseUrl + "navigations?client=webapp"));
+                        var resp = await _httpService.DownloadAsync(new Uri(source.LogicBaseUrl + "navigations?client=webapp"));
                         var json = await resp.GetResponseAsStringAsync();
 
                         var model = TamediaNavigation.FromJson(json);
@@ -97,6 +116,37 @@ namespace Famoser.OfflineMedia.Utils.TamediaRefresher
                         foreach (var feedEntity in newList)
                         {
                             source.Feeds.Add(feedEntity);
+                        }
+                    }
+                    else if (source.Source == Sources.ZwanzigMin)
+                    {
+                        var resp = await _httpService.DownloadAsync(new Uri("http://api.20min.ch/feed/sitemap?&key=" + TwentyMinCustomerKey + "&json&host=m.20min.ch&lang=de"));
+                        var json = await resp.GetResponseAsStringAsync();
+
+                        var feedDic = new Dictionary<string, FeedEntity>();
+                        foreach (var sourceFeed in source.Feeds)
+                        {
+                            feedDic.Add(sourceFeed.Name, sourceFeed);
+                        }
+
+                        source.Feeds.Clear();
+                        source.LogicBaseUrl = "http://api.20min.ch/feed";
+                        var logicLength = source.LogicBaseUrl.Length;
+
+                        var model = GettingStarted.FromJson(json);
+                        foreach (var contentItem in model.Content.Items.Item.Where(c => !string.IsNullOrEmpty(c.Category) && c.Type == "view"))
+                        {
+                            FeedEntity item = null;
+                            if (feedDic.ContainsKey(contentItem.Category))
+                            {
+                                item = feedDic[contentItem.Category];
+                            }
+                            else
+                            {
+                                item = new FeedEntity { Name = contentItem.Category, Guid = Guid.NewGuid() };
+                            }
+                            item.Url = contentItem.FeedFullContentUrl.Substring(logicLength).Replace(TwentyMinCustomerKey, "CUSTOMERKEY");
+                            source.Feeds.Add(item);
                         }
                     }
                 }

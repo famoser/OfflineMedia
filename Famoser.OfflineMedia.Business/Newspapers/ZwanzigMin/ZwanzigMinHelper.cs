@@ -11,6 +11,7 @@ using Famoser.OfflineMedia.Business.Models.NewsModel;
 using Famoser.OfflineMedia.Business.Models.NewsModel.ContentModels;
 using Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin.Models;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
+using Nito.AsyncEx;
 
 namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 {
@@ -20,38 +21,26 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
         {
         }
 
-        private bool CanConvert(item nfa)
+        private ArticleModel FeedToArticleModel(Item nfa, FeedModel fcm)
         {
-            return nfa.link != null;
-        }
-
-        private ArticleModel FeedToArticleModel(item nfa, FeedModel fcm)
-        {
-            if (nfa == null || nfa.link.Contains("tilllate")) return null;
+            if (nfa == null || nfa.Text == null) return null;
 
             return ExecuteSafe(() =>
             {
-                /*
-                 * <text>
-                        <![CDATA[
-                            <!--{{nxpliveticker('57833145ab5c371ee8000001')}}--> 
-                        ]]>
-                    </text>
-                */
-
                 var a = ConstructArticleModel(fcm);
-                nfa.text = "<p>" + nfa.text.Replace("\n\n", "</p><p>") + "</p>";
+                var text = "<p>" + nfa.Text.Replace("\n\n", "</p><p>") + "</p>";
 
-                var paragraphs = HtmlConverter.CreateOnce(fcm.Source.PublicBaseUrl).HtmlToParagraph(nfa.text);
+                var paragraphs = HtmlConverter.CreateOnce(fcm.Source.PublicBaseUrl).HtmlToParagraph(text);
 
                 a.Content.Clear();
+
                 if (paragraphs != null && paragraphs.Count > 0)
                     a.Content.Add(
                         new TextContentModel()
                         {
                             Content = paragraphs
                         });
-                else if (nfa.text.Contains("{{nxpliveticker("))
+                else if (text.Contains("{{nxpliveticker("))
                     a.Content.Add(
                         TextHelper.TextToTextModel(
                             "Dieser Artikel enthält einen Liveticker. Besuche die Webseite um den Inhalt korrekt darzustellen"));
@@ -62,15 +51,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
 
                 a.LeadImage = new ImageContentModel()
                 {
-                    Url = nfa.pic_bigstory,
-                    Text = TextHelper.TextToTextModel(nfa.topelement_description)
+                    Url = nfa.PicBigstory
                 };
-                a.PublicUri = nfa.link;
-                a.PublishDateTime = DateTime.Parse(nfa.pubDate);
-                a.SubTitle = nfa.oberzeile;
-                a.Teaser = nfa.lead;
-                a.Title = nfa.title;
-                a.Author = string.IsNullOrEmpty(nfa.author) ? "20 Minuten" : nfa.author;
+                a.PublicUri = nfa.Link;
+                a.PublishDateTime = DateTime.Parse(nfa.PubDate);
+                a.SubTitle = nfa.Oberzeile;
+                a.Teaser = nfa.Lead;
+                a.Title = nfa.Title;
+                a.Author = string.IsNullOrEmpty(nfa.Author) ? "20 Minuten" : nfa.Author;
 
                 if (string.IsNullOrWhiteSpace(a.SubTitle) && a.Title == "Die Bilder des Tages")
                 {
@@ -81,10 +69,14 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
                             "Dieser Artikel enthält eine Bildergallerie. Besuche die Webseite, um den Inhalt korrekt darzustellen"));
                 }
                 a.Themes.Clear();
-                if (nfa.category != null)
+
+                if (nfa.Tags != null)
                     a.AfterSaveFunc = async () =>
                     {
-                        await AddThemesAsync(a, new[] { nfa.category });
+                        foreach (var category in nfa.Tags)
+                        {
+                            await AddThemesAsync(a, new[] { category.Name });
+                        }
                     };
                 else
                     a.AfterSaveFunc = async () =>
@@ -98,39 +90,62 @@ namespace Famoser.OfflineMedia.Business.Newspapers.ZwanzigMin
             });
         }
 
+        private readonly AsyncLock _customerKeyAsyncLock = new AsyncLock();
+        private async Task GetCustomerKey()
+        {
+            using (await _customerKeyAsyncLock.LockAsync())
+            {
+                //return early if already executed
+                if (CustomerKey != null)
+                    return;
+
+                //download js
+                var rjs = await DownloadAsync(new Uri("http://m.20min.ch/webapp/js/twenty_min.js"));
+                //find customer key
+                var appKeyStart = "APPKEY:\"";
+                var index = rjs.IndexOf(appKeyStart, StringComparison.Ordinal);
+                if (index > 0)
+                {
+                    var appKeyStartIndex = index + appKeyStart.Length;
+                    var endIndex = rjs.IndexOf("\"", appKeyStartIndex, StringComparison.Ordinal);
+                    CustomerKey = rjs.Substring(appKeyStartIndex, endIndex - appKeyStartIndex);
+                }
+                else
+                {
+                    //fallback, manually read out
+                    CustomerKey = "276925d8d98cd956d43cd659051232f7";
+                }
+            }
+        }
+
+        private static string CustomerKey = null;
         public override Task<List<ArticleModel>> EvaluateFeed(FeedModel feedModel)
         {
             return ExecuteSafe(async () =>
             {
+                //find customer key first
+                if (CustomerKey == null)
+                {
+                    await GetCustomerKey();
+                }
+
                 var articlelist = new List<ArticleModel>();
-                var feed = await DownloadAsync(feedModel);
-                if (feed == null)
+                var json = await DownloadAsync(new Uri(feedModel.Source.LogicBaseUrl + feedModel.Url.Replace("CUSTOMERKEY", CustomerKey)));
+                if (json == null)
                     return articlelist;
 
-                //removes old header of xml
-                feed = feed.Substring(feed.IndexOf(">", StringComparison.Ordinal));
-                feed = feed.Substring(feed.IndexOf("<", StringComparison.Ordinal));
-                feed = XmlHelper.RemoveXmlLvl(feed);
-                feed = XmlHelper.RemoveXmlLvl(feed);
-                feed = XmlHelper.AddXmlHeaderNode(feed, "channel");
+                var feed = GettingStarted.FromJson(json);
 
-                var serializer = new XmlSerializer(typeof(channel));
-                TextReader reader = new StringReader(feed);
-
-                var channel = (channel)serializer.Deserialize(reader);
-                if (channel == null)
+                if (feed == null)
                     LogHelper.Instance.Log(LogLevel.Error,
                         "ZwanzigMinHelper.EvaluateFeed  20 min channel is null after deserialisation", this);
                 else
                 {
-                    foreach (var item in channel.item)
+                    foreach (var item in feed.Content.Items.Item)
                     {
-                        if (CanConvert(item))
-                        {
-                            var model = FeedToArticleModel(item, feedModel);
-                            if (model != null)
-                                articlelist.Add(model);
-                        }
+                        var model = FeedToArticleModel(item, feedModel);
+                        if (model != null)
+                            articlelist.Add(model);
                     }
                 }
 

@@ -393,8 +393,7 @@
     <Compile Include="Newspapers\Zeit\Models\Image.cs" />
     <Compile Include="Newspapers\Zeit\Models\Region.cs" />
     <Compile Include="Newspapers\Zeit\ZeitHelper.cs" />
-    <Compile Include="Newspapers\ZwanzigMin\Models\channel.cs" />
-    <Compile Include="Newspapers\ZwanzigMin\Models\item.cs" />
+    <Compile Include="Newspapers\ZwanzigMin\Models\JsonModels.cs" />
     <Compile Include="Newspapers\ZwanzigMin\ZwanzigMinHelper.cs" />
     <Compile Include="Services\Interfaces\IProgressService.cs" />
   </ItemGroup>

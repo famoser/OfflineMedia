@@ -79,6 +79,7 @@
     <Compile Include="Models\JsonEntities\SourceEntity.cs" />
     <Compile Include="Models\TamediaFront\TamediaFront.cs" />
     <Compile Include="Models\TamediaNavigation\TamediaNavigation.cs" />
+    <Compile Include="Models\TwentyMinSitemap\TwentyMinSitemap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -93,6 +94,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="..\Famoser.OfflineMedia.WinUniversal\Assets\Configuration\Sources.json">
+      <Link>Assets\Sources.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

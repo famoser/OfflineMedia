@@ -12,9 +12,9 @@ namespace Famoser.OfflineMedia.Business.Enums
         SourcesUserConfiguration,
         [Description("weather_cache.V1")]
         WeatherCache,
-        [Description("Assets/Configuration/Settings_min.json")]
+        [Description("Assets/Configuration/Settings.json")]
         SettingsConfiguration,
-        [Description("Assets/Configuration/Sources_min.json")]
+        [Description("Assets/Configuration/Sources.json")]
         SourcesConfiguration,
         [Description("Assets/Configuration/WeatherFontMapping.json")]
         WeatherFontInformations
