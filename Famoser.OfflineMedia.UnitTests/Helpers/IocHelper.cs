@@ -1,4 +1,5 @@
-﻿using Famoser.FrameworkEssentials.Services.Interfaces;
+﻿using CommonServiceLocator;
+using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
@@ -10,7 +11,6 @@ using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 

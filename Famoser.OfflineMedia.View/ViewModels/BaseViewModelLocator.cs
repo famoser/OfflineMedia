@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CommonServiceLocator;
 using Famoser.OfflineMedia.Business.Repositories;
 using Famoser.OfflineMedia.Business.Repositories.Interfaces;
 using Famoser.OfflineMedia.Business.Repositories.Mocks;
@@ -22,7 +23,6 @@ using Famoser.SqliteWrapper.Services;
 using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Famoser.OfflineMedia.View.ViewModels
 {

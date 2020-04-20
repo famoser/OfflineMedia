@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CommonServiceLocator;
 using Famoser.FrameworkEssentials.Services.Interfaces;
 using Famoser.FrameworkEssentials.UniversalWindows.Platform;
 using Famoser.OfflineMedia.Business.Services.Interfaces;
@@ -23,7 +24,6 @@ using Famoser.SqliteWrapper.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
 using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 
